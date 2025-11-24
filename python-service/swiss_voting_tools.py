@@ -202,6 +202,63 @@ def build_dataset() -> Dict:
     return ds
 
 
+# --- API Wrapper Functions ---
+def get_upcoming_initiatives() -> List[Dict]:
+    """Get all upcoming Volksinitiative votes with details."""
+    vids = discover_upcoming_volksinitiative_votes()
+    initiatives = []
+    for vid in vids:
+        vote_data = parse_vote_page(vid)
+        if vote_data:
+            initiatives.append(vote_data)
+    return initiatives
+
+
+def get_vote_by_id(vote_id: str) -> Dict:
+    """Get detailed information for a specific vote."""
+    return parse_vote_page(vote_id)
+
+
+def get_brochure_text(vote_id: str, lang: str = 'de') -> str:
+    """Get brochure text for a vote (placeholder - returns PDF URL)."""
+    vote = parse_vote_page(vote_id)
+    if not vote:
+        return ""
+
+    # Return structured info since we don't extract PDF text yet
+    parts = []
+    if vote.get('offizieller_titel'):
+        parts.append(f"Titel: {vote['offizieller_titel']}")
+    if vote.get('schlagwort'):
+        parts.append(f"Schlagwort: {vote['schlagwort']}")
+    if vote.get('abstimmungsbuechlein_pdf'):
+        parts.append(f"Abstimmungsbüchlein: {vote['abstimmungsbuechlein_pdf']}")
+    if vote.get('position_bundesrat'):
+        parts.append(f"Position Bundesrat: {vote['position_bundesrat']}")
+
+    return "\n".join(parts)
+
+
+def search_votes_by_keyword(keyword: str) -> List[Dict]:
+    """Search votes by keyword (simple text matching)."""
+    all_votes = get_upcoming_initiatives()
+    results = []
+
+    keyword_lower = keyword.lower()
+    for vote in all_votes:
+        # Search in title, schlagwort, and offizieller_titel
+        searchable_text = " ".join([
+            vote.get('title_de', ''),
+            vote.get('schlagwort', ''),
+            vote.get('offizieller_titel', '')
+        ]).lower()
+
+        if keyword_lower in searchable_text:
+            results.append(vote)
+
+    return results
+
+
 # --- Step 4: Save to JSON ---
 if __name__ == "__main__":
     data = build_dataset()
