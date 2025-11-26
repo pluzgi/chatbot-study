@@ -1,0 +1,155 @@
+{
+  "_comment": "English (reference language)",
+  "landing": {
+    "title": "Swiss Ballot Assistant",
+    "description": "Help us understand how citizens interact with AI systems.",
+    "start": "Start Study"
+  },
+  "chat": {
+    "title": "Swiss Ballot Assistant",
+    "subtitle": "Powered by Apertus - Swiss AI",
+    "placeholder": "Ask a question...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "minQuestions": "Please ask at least 2 questions ({{count}}/2)"
+  },
+  "donation": {
+    "title": "Data Donation Decision",
+    "description": "Your decision helps us build trustworthy AI.",
+    "accept": "Donate Data",
+    "decline": "Don't Donate"
+  },
+  "dnl": {
+    "title": "AI Transparency & Privacy",
+    "intro": "Here's what you should know about the Swiss Apertus model:",
+    "provenance": "Provenance",
+    "provenanceValue": "CSCS Supercomputer (Lugano)",
+    "ingredients": "Ingredients",
+    "ingredientsValue": "Public voting data, Wikipedia",
+    "protection": "Protection",
+    "protectionValue": "Anti-memorization, no PII",
+    "compliance": "Compliance",
+    "complianceValue": "FADP & EU AI Act compliant",
+    "freshness": "Freshness",
+    "freshnessValue": "Data until September 2025"
+  },
+  "dashboard": {
+    "title": "Your Privacy Settings",
+    "placeholder": "Select an option...",
+    "scope": {
+      "label": "What data to share",
+      "topics": "Only topics I asked about (e.g., \"climate policy\")",
+      "full": "Full anonymized conversations"
+    },
+    "purpose": {
+      "label": "How data will be used",
+      "academic": "Academic research only",
+      "commercial": "Academic research and commercial use"
+    },
+    "storage": {
+      "label": "Where data is stored",
+      "swiss": "Swiss servers only (CSCS Lugano)",
+      "eu": "EU servers allowed",
+      "noPreference": "No preference"
+    },
+    "retention": {
+      "label": "How long to keep data",
+      "1month": "1 month",
+      "3months": "3 months",
+      "6months": "6 months",
+      "1year": "1 year",
+      "indefinite": "Indefinitely"
+    },
+    "revocability": "You can change these settings in your dashboard anytime.",
+    "validationError": "Please configure all privacy settings"
+  },
+  "survey": {
+    "title": "Final Questions",
+    "likert": {
+      "disagree": "1 = Strongly disagree",
+      "agree": "7 = Strongly agree"
+    },
+    "section": {
+      "transparency": "System Transparency",
+      "control": "Your Control",
+      "trust": "Trust",
+      "attentionCheck": "Attention Check",
+      "demographics": "Demographics",
+      "optional": "Optional Questions"
+    },
+    "transparency": {
+      "q1": "I understood where the Apertus model was developed and hosted",
+      "q2": "I knew what data the Apertus model was trained on",
+      "q3": "The information about data privacy was clear",
+      "q4": "I felt well-informed about how my data would be used"
+    },
+    "control": {
+      "q1": "I had control over what happens to my data",
+      "q2": "I could choose how my data would be used",
+      "q3": "I felt I had meaningful choices about data donation",
+      "q4": "I could configure the donation to match my preferences"
+    },
+    "trust": {
+      "q1": "I trust this chatbot system",
+      "q2": "I trust that my data would be handled responsibly"
+    },
+    "attentionCheck": {
+      "question": "The Apertus model powering this chatbot was developed in:",
+      "switzerland": "Switzerland",
+      "usa": "United States",
+      "china": "China",
+      "dontknow": "I don't know"
+    },
+    "demographics": {
+      "placeholder": "Select an option...",
+      "preferNotSay": "Prefer not to say",
+      "age": {
+        "label": "Age",
+        "18-24": "18-24",
+        "25-34": "25-34",
+        "35-44": "35-44",
+        "45-54": "45-54",
+        "55-64": "55-64",
+        "65+": "65+"
+      },
+      "gender": {
+        "label": "Gender",
+        "female": "Female",
+        "male": "Male",
+        "nonBinary": "Non-binary",
+        "other": "Other"
+      },
+      "education": {
+        "label": "Education",
+        "highSchool": "High school",
+        "vocational": "Vocational training",
+        "bachelor": "Bachelor's degree",
+        "master": "Master's degree",
+        "doctorate": "Doctorate"
+      },
+      "voting": {
+        "question": "Are you eligible to vote in Swiss federal elections?",
+        "yes": "Yes",
+        "no": "No",
+        "prefer-not-say": "Prefer not to say"
+      }
+    },
+    "optional": {
+      "swissServer": "How important was it to you that the Apertus model is hosted on Swiss servers?",
+      "comments": "Additional comments",
+      "commentsPlaceholder": "Share any additional thoughts or feedback..."
+    },
+    "validationError": "Please answer all required questions before submitting",
+    "submissionError": "Failed to submit survey. Please try again.",
+    "submitting": "Submitting...",
+    "submit": "Submit"
+  },
+  "debrief": {
+    "title": "Thank You!",
+    "important": "Important",
+    "simulationNote": "Your data donation was simulated. No data was stored.",
+    "purpose": "This study investigates trust in AI systems.",
+    "contact": "Contact",
+    "close": "Close"
+  }
+}
