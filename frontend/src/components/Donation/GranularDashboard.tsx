@@ -80,7 +80,7 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
         </select>
       </div>
 
-      <div className="bg-red-50 border border-red-200 p-4 rounded text-sm">
+      <div className="bg-green-50 border border-green-200 p-4 rounded text-sm">
         {t('dashboard.revocability')}
       </div>
     </div>
