@@ -28,14 +28,26 @@ class ExperimentService {
     }[condition];
   }
 
-  async createParticipant(lang = 'de') {
+  async checkDuplicateParticipation(fingerprint) {
+    const result = await pool.query(
+      `SELECT id FROM participants
+       WHERE fingerprint = $1
+       AND created_at > NOW() - INTERVAL '7 days'
+       LIMIT 1`,
+      [fingerprint]
+    );
+
+    return result.rows.length > 0;
+  }
+
+  async createParticipant(lang = 'de', fingerprint = null) {
     const sessionId = uuidv4();
     const condition = await this.assignCondition();
 
     const result = await pool.query(
-      `INSERT INTO participants (id, session_id, condition, language, created_at)
-       VALUES ($1, $2, $3, $4, NOW()) RETURNING *`,
-      [uuidv4(), sessionId, condition, lang]
+      `INSERT INTO participants (id, session_id, condition, language, fingerprint, created_at)
+       VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *`,
+      [uuidv4(), sessionId, condition, lang, fingerprint]
     );
 
     return {

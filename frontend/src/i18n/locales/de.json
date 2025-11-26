@@ -14,32 +14,45 @@
     "minQuestions": "Please ask at least 2 questions ({{count}}/2)"
   },
   "donation": {
-    "title": "Data Donation Decision",
-    "description": "Your decision helps us build trustworthy AI.",
+    "title": "Help Improve the Apertus Model",
+    "baselineText": "We would like to use your anonymized questions to improve the Apertus model. Your data will be handled securely and used only for research and model development.",
+    "baselineHelp": "Donating your questions helps train better AI models.",
     "accept": "Donate Data",
-    "decline": "Don't Donate"
+    "decline": "Don't Donate",
+    "confirmDonate": {
+      "title": "Thank You!",
+      "message": "Your contribution will help improve the Apertus model.",
+      "nextStep": "Next: Please answer a few questions about your experience.",
+      "button": "Continue to Survey →"
+    },
+    "confirmDecline": {
+      "title": "Choice Recorded",
+      "message": "Thank you for considering this request.",
+      "nextStep": "Next: Please answer a few questions about your experience.",
+      "button": "Continue to Survey →"
+    }
   },
   "dnl": {
     "title": "AI Transparency & Privacy",
     "intro": "Here's what you should know about the Swiss Apertus model:",
-    "provenance": "Provenance",
-    "provenanceValue": "CSCS Supercomputer (Lugano)",
-    "ingredients": "Ingredients",
-    "ingredientsValue": "Public voting data, Wikipedia",
-    "protection": "Protection",
-    "protectionValue": "Anti-memorization, no PII",
-    "compliance": "Compliance",
-    "complianceValue": "FADP & EU AI Act compliant",
-    "freshness": "Freshness",
-    "freshnessValue": "Data until September 2025"
+    "provenance": "Swiss-Made",
+    "provenanceValue": "Built by EPFL, ETH Zurich & CSCS in Switzerland",
+    "ingredients": "Training Data",
+    "ingredientsValue": "Only publicly available data from 1,000+ languages & sources",
+    "protection": "Privacy Protection",
+    "protectionValue": "Personal data removed before training; respects opt-outs",
+    "compliance": "Legal Compliance",
+    "complianceValue": "Follows Swiss privacy & copyright laws, EU AI Act standards",
+    "freshness": "Multilingual & Current",
+    "freshnessValue": "Includes Swiss German & Romansh; data through January 2025"
   },
   "dashboard": {
-    "title": "Your Privacy Settings",
+    "title": "Configure Your Data Donation",
     "placeholder": "Select an option...",
     "scope": {
       "label": "What data to share",
       "topics": "Only topics I asked about (e.g., \"climate policy\")",
-      "full": "Full anonymized conversations"
+      "full": "Full anonymized conversations (your exact questions with all identifying info removed)"
     },
     "purpose": {
       "label": "How data will be used",
@@ -48,7 +61,7 @@
     },
     "storage": {
       "label": "Where data is stored",
-      "swiss": "Swiss servers only (CSCS Lugano)",
+      "swiss": "Swiss servers only",
       "eu": "EU servers allowed",
       "noPreference": "No preference"
     },
@@ -65,46 +78,83 @@
   },
   "survey": {
     "title": "Final Questions",
+    "subtitle": "Please answer the following questions about your experience",
+    "progress": {
+      "question": "Question"
+    },
     "likert": {
-      "disagree": "1 = Strongly disagree",
-      "agree": "7 = Strongly agree"
+      "disagree": "Strongly disagree",
+      "agree": "Strongly agree",
+      "notImportant": "Not at all important",
+      "veryImportant": "Extremely important"
     },
     "section": {
-      "transparency": "System Transparency",
-      "control": "Your Control",
-      "trust": "Trust",
-      "attentionCheck": "Attention Check",
-      "demographics": "Demographics",
-      "optional": "Optional Questions"
+      "finalQuestion": "Our last question"
+    },
+    "universal": {
+      "infoQuality1": "The information provided about data donation was clear",
+      "infoQuality2": "I had enough information to make an informed decision",
+      "attentionCheck": {
+        "question": "This chatbot helps users with questions about:",
+        "placeholder": "Select topic...",
+        "voting": "Swiss ballot initiatives",
+        "tax": "Swiss tax regulations",
+        "immigration": "Swiss immigration law",
+        "dontremember": "I don't remember"
+      }
     },
     "transparency": {
-      "q1": "I understood where the Apertus model was developed and hosted",
-      "q2": "I knew what data the Apertus model was trained on",
-      "q3": "The information about data privacy was clear",
-      "q4": "I felt well-informed about how my data would be used"
+      "q1": "I understood where the Apertus model has been developed",
+      "q2": "I know what data the Apertus model was trained on",
+      "q3": "The transparency information about the model was helpful",
+      "q4": "I understood the privacy protections in place"
     },
     "control": {
       "q1": "I had control over what happens to my data",
       "q2": "I could choose how my data would be used",
-      "q3": "I felt I had meaningful choices about data donation",
-      "q4": "I could configure the donation to match my preferences"
+      "q3": "I had meaningful options for data donation",
+      "q4": "The privacy settings gave me the flexibility I wanted"
     },
     "trust": {
-      "q1": "I trust this chatbot system",
+      "q1": "I trust the Apertus model",
       "q2": "I trust that my data would be handled responsibly"
     },
-    "attentionCheck": {
-      "question": "The Apertus model powering this chatbot was developed in:",
-      "switzerland": "Switzerland",
-      "usa": "United States",
-      "china": "China",
-      "dontknow": "I don't know"
+    "modelKnowledge": {
+      "provenance": {
+        "question": "The Apertus model powering this chatbot was developed in:",
+        "placeholder": "Select country...",
+        "switzerland": "Switzerland",
+        "usa": "United States",
+        "china": "China",
+        "dontknow": "I don't know"
+      }
+    },
+    "privacyUnderstanding": {
+      "scope": {
+        "question": "When thinking about the exact questions you type into the chatbot, which statement comes closest to your view?",
+        "placeholder": "Select option...",
+        "summariesOnly": "Only general summaries should be used (e.g., \"100 people asked about taxes\"), not my exact questions",
+        "exactAnonymized": "My exact questions can be used, as long as they are made fully anonymous and cannot be traced back to me",
+        "exactNoProtection": "My exact questions can be used without any special privacy protection",
+        "notSure": "Not sure"
+      },
+      "purpose": {
+        "question": "Who should be allowed to use your anonymized data for training?",
+        "subInstruction": "Please select the most permissive option you are comfortable with.",
+        "placeholder": "Select option...",
+        "noOne": "No one should be allowed to use my anonymized data",
+        "swissNonprofitOnly": "ONLY the Swiss non-profit association that develops the chatbot",
+        "swissNonprofitAndResearchers": "The Swiss non-profit association AND Swiss public researchers (e.g., EPFL/ETH)",
+        "anyAcademic": "Any academic or non-profit researcher (Swiss or international)",
+        "anyoneCommercial": "Anyone (including commercial use)",
+        "notSure": "Not sure"
+      }
     },
     "demographics": {
-      "placeholder": "Select an option...",
       "preferNotSay": "Prefer not to say",
       "age": {
-        "label": "Age",
+        "question": "What is your age?",
+        "placeholder": "Select age range...",
         "18-24": "18-24",
         "25-34": "25-34",
         "35-44": "35-44",
@@ -113,42 +163,66 @@
         "65+": "65+"
       },
       "gender": {
-        "label": "Gender",
+        "question": "What is your gender?",
+        "placeholder": "Select gender...",
         "female": "Female",
         "male": "Male",
         "nonBinary": "Non-binary",
         "other": "Other"
       },
+      "language": {
+        "question": "What is your primary language?",
+        "placeholder": "Select language...",
+        "english": "English",
+        "french": "French",
+        "german": "German / Swiss German",
+        "italian": "Italian",
+        "romansh": "Romansh",
+        "other": "Other"
+      },
       "education": {
-        "label": "Education",
-        "highSchool": "High school",
-        "vocational": "Vocational training",
-        "bachelor": "Bachelor's degree",
-        "master": "Master's degree",
-        "doctorate": "Doctorate"
+        "question": "What is your highest level of education?",
+        "placeholder": "Select education level...",
+        "mandatory": "Mandatory schooling",
+        "matura": "Matura / Baccalaureate",
+        "vocational": "Vocational training (Berufslehre)",
+        "higherVocational": "Higher vocational education",
+        "appliedSciences": "University of Applied Sciences",
+        "university": "University (Bachelor/Master/PhD)"
       },
       "voting": {
         "question": "Are you eligible to vote in Swiss federal elections?",
+        "placeholder": "Select option...",
         "yes": "Yes",
-        "no": "No",
-        "prefer-not-say": "Prefer not to say"
+        "no": "No"
       }
     },
     "optional": {
-      "swissServer": "How important was it to you that the Apertus model is hosted on Swiss servers?",
+      "optional": "Optional",
+      "swissServer": "How important is it to you that the Apertus model is hosted on Swiss servers? (Optional)",
       "comments": "Additional comments",
       "commentsPlaceholder": "Share any additional thoughts or feedback..."
     },
     "validationError": "Please answer all required questions before submitting",
     "submissionError": "Failed to submit survey. Please try again.",
     "submitting": "Submitting...",
-    "submit": "Submit"
+    "submit": "Submit",
+    "transition": {
+      "title": "Almost done!",
+      "message": "Finally, just a few questions about yourself..."
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Next"
+    }
   },
   "debrief": {
     "title": "Thank You!",
     "important": "Important",
     "simulationNote": "Your data donation was simulated. No data was stored.",
     "purpose": "This study investigates trust in AI systems.",
+    "participationNote": "Please Note",
+    "participationMessage": "To maintain research validity, please participate only once. Your contribution is valuable!",
     "contact": "Contact",
     "close": "Close"
   }

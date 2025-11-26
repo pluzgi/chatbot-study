@@ -16,6 +16,14 @@ const Debriefing: React.FC = () => {
 
         <div className="space-y-4 mb-6">
           <p>{t('debrief.purpose')}</p>
+
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 my-4">
+            <p className="font-semibold text-gray-900">{t('debrief.participationNote')}</p>
+            <p className="text-sm text-gray-700 mt-2">
+              {t('debrief.participationMessage')}
+            </p>
+          </div>
+
           <p className="text-sm text-gray-600">
             {t('debrief.contact')}: sabine.wildemann@example.com
           </p>

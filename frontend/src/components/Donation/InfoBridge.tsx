@@ -8,7 +8,7 @@ const InfoBridge: React.FC<Props> = ({ onContinue }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-xl w-full p-8">
-        <div className="space-y-4 mb-8 text-gray-700 text-base">
+        <div className="space-y-4 mb-8 text-gray-900 text-lg leading-relaxed">
           <p>
             This chatbot is powered by <strong>Apertus</strong>, a Swiss open-source AI model.
           </p>
