@@ -23,15 +23,15 @@ router.post('/initialize', async (req, res) => {
     const { language } = req.body;
     const fingerprint = generateFingerprint(req);
 
-    // Check for duplicate participation (within last 7 days)
-    const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
+    // DISABLED FOR TESTING - Check for duplicate participation (within last 7 days)
+    // const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
 
-    if (existingParticipation) {
-      return res.status(409).json({
-        error: 'already_participated',
-        message: 'You have already participated in this study recently.'
-      });
-    }
+    // if (existingParticipation) {
+    //   return res.status(409).json({
+    //     error: 'already_participated',
+    //     message: 'You have already participated in this study recently.'
+    //   });
+    // }
 
     // Create new participant with fingerprint
     const { participant, config } = await experimentService.createParticipant(language, fingerprint);
@@ -45,6 +45,23 @@ router.post('/initialize', async (req, res) => {
   } catch (error) {
     console.error('Init error:', error);
     res.status(500).json({ error: 'Failed to initialize' });
+  }
+});
+
+router.post('/baseline', async (req, res) => {
+  try {
+    const { participantId, techComfort, privacyConcern } = req.body;
+
+    if (!participantId || techComfort === undefined || privacyConcern === undefined) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    await experimentService.recordBaseline(participantId, techComfort, privacyConcern);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Baseline error:', error);
+    res.status(500).json({ error: 'Failed to record baseline' });
   }
 });
 

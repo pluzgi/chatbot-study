@@ -20,10 +20,10 @@ CREATE TABLE donation_decisions (
     id UUID PRIMARY KEY,
     participant_id UUID REFERENCES participants(id),
     decision VARCHAR(20) NOT NULL CHECK (decision IN ('donate', 'decline')),
-    condition VARCHAR(10) NOT NULL,
+    condition VARCHAR(10) NOT NULL CHECK (condition IN ('A', 'B', 'C', 'D')),
     transparency_level VARCHAR(10) NOT NULL,
     control_level VARCHAR(10) NOT NULL,
-    configuration JSONB DEFAULT '{}'::jsonb,
+    config JSONB DEFAULT NULL,
     decision_timestamp TIMESTAMP DEFAULT NOW()
 );
 
@@ -43,6 +43,7 @@ CREATE INDEX idx_participants_condition ON participants(condition);
 CREATE INDEX idx_participants_language ON participants(language);
 CREATE INDEX idx_donation_decisions_participant ON donation_decisions(participant_id);
 CREATE INDEX idx_donation_decisions_condition ON donation_decisions(condition);
+CREATE INDEX idx_donation_config ON donation_decisions USING GIN (config);
 CREATE INDEX idx_post_task_measures_participant ON post_task_measures(participant_id);
 
 -- Comments for documentation
@@ -51,4 +52,4 @@ COMMENT ON TABLE donation_decisions IS 'Records donation decisions made by parti
 COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses';
 
 COMMENT ON COLUMN participants.condition IS 'Experimental condition: A (low/low), B (high/low), C (low/high), D (high/high)';
-COMMENT ON COLUMN donation_decisions.configuration IS 'JSON configuration of the donation interface shown to participant';
+COMMENT ON COLUMN donation_decisions.config IS 'Dashboard configuration (NULL for A/B or decline, JSON for C/D donate): {"scope":"full"|"topics","purpose":"academic"|"commercial","storage":"swiss"|"eu"|"no-preference","retention":"1month"|"3months"|"6months"|"1year"|"indefinite"}';

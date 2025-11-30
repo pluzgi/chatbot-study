@@ -15,6 +15,8 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = useState<'donate' | 'decline' | null>(null);
 
+  console.log('[DonationModal] Rendered with config:', config);
+
   const handleDonate = () => {
     // Validate if dashboard is shown (Conditions C or D)
     if (config.showDashboard) {
@@ -69,7 +71,7 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
 
             <button
               onClick={handleContinue}
-              className="bg-[#DC143C] text-white px-10 py-4 rounded-lg font-semibold text-lg hover:bg-[#B01030] transition"
+              className="bg-[#FF0000] text-white px-10 py-4 rounded-lg font-semibold text-lg hover:bg-[#CC0000] transition"
             >
               {t('donation.confirmDonate.button')}
             </button>
@@ -92,9 +94,14 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
 
             {/* Show DNL if high transparency (Condition B or D) */}
             {config.showDNL && (
-              <div className="mb-6">
-                <DataNutritionLabel />
-              </div>
+              <>
+                <p className="text-lg text-black text-center mb-6 leading-relaxed">
+                  {t('donation.dnlIntro')}
+                </p>
+                <div className="mb-6">
+                  <DataNutritionLabel />
+                </div>
+              </>
             )}
 
             {/* Show Dashboard if high control (Condition C or D) */}
@@ -115,7 +122,7 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
             <div className="flex gap-4 mt-8">
               <button
                 onClick={handleDonate}
-                className="flex-1 bg-[#DC143C] text-white py-4 rounded-lg font-semibold text-lg hover:bg-[#B01030] transition"
+                className="flex-1 bg-[#FF0000] text-white py-4 rounded-lg font-semibold text-lg hover:bg-[#CC0000] transition"
               >
                 {t('donation.accept')}
               </button>

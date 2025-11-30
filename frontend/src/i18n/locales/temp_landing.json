@@ -1,0 +1,28 @@
+  "landing": {
+    "title": "Help Improve AI for Swiss Democracy",
+    "subtitle": "Participate in university research about AI chatbots and data sharing",
+    "fact1": "8-10 minutes",
+    "fact2": "Completely anonymous",
+    "fact3": "For academic research only",
+    "youWill": "You Will:",
+    "step1": "Try a voting-info chatbot",
+    "step2": "Make a simulated decision",
+    "step3": "Answer a few questions",
+    "requirements": "Requirements:",
+    "req1": "18+ years old",
+    "req2": "Can vote in Switzerland",
+    "startButton": "Start Survey",
+    "declineButton": "Not Interested",
+    "contact": "Questions? Contact:",
+    "email": "hello@ailights.org",
+    "consentModal": {
+      "title": "Before You Begin",
+      "text": "By starting this survey, you confirm:",
+      "age": "I am 18 years or older",
+      "vote": "I can vote in Swiss federal elections",
+      "voluntary": "I participate voluntarily",
+      "confirm": "I Consent",
+      "back": "Go Back"
+    },
+    "declineMessage": "Thank you for your consideration."
+  },

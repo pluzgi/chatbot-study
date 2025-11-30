@@ -5,25 +5,25 @@ const LanguageSelector: React.FC = () => {
   const { i18n } = useTranslation();
 
   const languages = [
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'it', name: 'Italiano', flag: '🇮🇹' },
-    { code: 'en', name: 'English', flag: '🇬🇧' }
+    { code: 'de', label: 'DE' },
+    { code: 'fr', label: 'FR' },
+    { code: 'it', label: 'IT' },
+    { code: 'en', label: 'EN' }
   ];
 
   return (
-    <div className="flex gap-2 flex-wrap justify-center">
+    <div className="flex gap-2">
       {languages.map(lang => (
         <button
           key={lang.code}
           onClick={() => i18n.changeLanguage(lang.code)}
-          className={`px-4 py-2 rounded-lg font-medium transition ${
+          className={`px-3 py-1.5 text-xs font-medium rounded transition ${
             i18n.language === lang.code
-              ? 'bg-[#DC143C] text-white'
-              : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+              ? 'bg-gray-900 text-white'
+              : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
           }`}
         >
-          {lang.flag} {lang.name}
+          {lang.label}
         </button>
       ))}
     </div>

@@ -16,4 +16,17 @@ router.post('/decision', async (req, res) => {
   }
 });
 
+router.post('/post-measures', async (req, res) => {
+  try {
+    const { participantId, measures } = req.body;
+
+    await experimentService.recordPostMeasures(participantId, measures);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Post-measures error:', error);
+    res.status(500).json({ error: 'Failed to record survey' });
+  }
+});
+
 export default router;

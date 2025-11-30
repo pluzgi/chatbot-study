@@ -13,7 +13,7 @@ const MessageBubble: React.FC<Props> = ({ message }) => {
       <div
         className={`max-w-[70%] rounded-lg px-4 py-2 ${
           isUser
-            ? 'bg-[#DC143C] text-white'
+            ? 'bg-[#FF0000] text-white'
             : 'bg-gray-200 text-gray-900'
         }`}
       >
