@@ -56,17 +56,75 @@ class ExperimentService {
     };
   }
 
-  async recordDonation(participantId, decision, configuration = {}) {
+  async recordDonation(participantId, decision, dashboardConfig = null) {
     const p = await pool.query('SELECT condition FROM participants WHERE id = $1', [participantId]);
     const condition = p.rows[0].condition;
     const config = this.getConditionConfig(condition);
 
+    // Config is NULL for:
+    // - Conditions A & B (no dashboard)
+    // - Any decline decision
+    // Config is JSON object for:
+    // - Conditions C & D when user donates (contains dashboard selections)
+    const configValue = dashboardConfig ? JSON.stringify(dashboardConfig) : null;
+
     await pool.query(
       `INSERT INTO donation_decisions (id, participant_id, decision, condition,
-       transparency_level, control_level, configuration, decision_timestamp)
+       transparency_level, control_level, config, decision_timestamp)
        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
       [uuidv4(), participantId, decision, condition, config.transparency,
-       config.control, JSON.stringify(configuration)]
+       config.control, configValue]
+    );
+  }
+
+  async recordBaseline(participantId, techComfort, privacyConcern) {
+    await pool.query(
+      `UPDATE participants
+       SET tech_comfort = $1, baseline_privacy_concern = $2
+       WHERE id = $3`,
+      [techComfort, privacyConcern, participantId]
+    );
+  }
+
+  async recordPostMeasures(participantId, measures) {
+    await pool.query(
+      `INSERT INTO post_task_measures (
+        id, participant_id,
+        clarity1, clarity2, clarity3, clarity4,
+        control1, control2, control3, control4,
+        risk_privacy, risk_misuse, risk_companies, risk_trust, risk_security,
+        agency1, agency2, agency3,
+        trust1, trust2,
+        acceptable_use_nonprofit, acceptable_use_swiss_uni, acceptable_use_intl_uni,
+        acceptable_use_swiss_company, acceptable_use_intl_company, acceptable_use_none,
+        attention_check,
+        age, gender, gender_other, primary_language, education,
+        open_feedback
+      ) VALUES (
+        $1, $2,
+        $3, $4, $5, $6,
+        $7, $8, $9, $10,
+        $11, $12, $13, $14, $15,
+        $16, $17, $18,
+        $19, $20,
+        $21, $22, $23, $24, $25, $26,
+        $27,
+        $28, $29, $30, $31, $32,
+        $33
+      )`,
+      [
+        uuidv4(), participantId,
+        measures.clarity1, measures.clarity2, measures.clarity3, measures.clarity4,
+        measures.control1, measures.control2, measures.control3, measures.control4,
+        measures.riskPrivacy, measures.riskMisuse, measures.riskCompanies, measures.riskTrust, measures.riskSecurity,
+        measures.agency1, measures.agency2, measures.agency3,
+        measures.trust1, measures.trust2,
+        measures.acceptableUseNonprofit, measures.acceptableUseSwissUni, measures.acceptableUseIntlUni,
+        measures.acceptableUseSwissCompany, measures.acceptableUseIntlCompany, measures.acceptableUseNone,
+        measures.attentionCheck,
+        measures.age, measures.gender, measures.genderOther, measures.primaryLanguage, measures.education,
+        measures.openFeedback
+      ]
     );
   }
 }

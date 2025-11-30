@@ -1,133 +1,8 @@
-/*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-COMPLETE SURVEY QUESTION LIST
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-UNIVERSAL QUESTIONS (All Conditions A/B/C/D):
-
-Q1. I trust the Apertus model (Likert 1-7: Strongly disagree → Strongly agree)
-Q2. I trust that my data would be handled responsibly (Likert 1-7: Strongly disagree → Strongly agree)
-Q3. The information provided about data donation was clear (Likert 1-7: Strongly disagree → Strongly agree)
-Q4. I had enough information to make an informed decision (Likert 1-7: Strongly disagree → Strongly agree)
-Q5. This chatbot helps users with questions about: (Dropdown)
-    Options:
-    - Swiss ballot initiatives ✓ CORRECT
-    - Swiss tax regulations
-    - Swiss immigration law
-    - I don't remember
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CONDITIONAL: TRANSPARENCY (Only Conditions B & D - saw Data Nutrition Label):
-
-Q6. I understood where the Apertus model has been developed (Likert 1-7)
-Q7. I know what data the Apertus model was trained on (Likert 1-7)
-Q8. The transparency information about the model was helpful (Likert 1-7)
-Q9. I understood the privacy protections in place (Likert 1-7)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CONDITIONAL: CONTROL (Only Conditions C & D - saw Granular Dashboard):
-
-Q10. I had control over what happens to my data (Likert 1-7)
-Q11. I could choose how my data would be used (Likert 1-7)
-Q12. I had meaningful options for data donation (Likert 1-7)
-Q13. The privacy settings gave me the flexibility I wanted (Likert 1-7)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PRIVACY PREFERENCES (All Conditions):
-
-Q14. When thinking about the exact questions you type into the chatbot, which statement
-     comes closest to your view? (Dropdown)
-     Options:
-     - Only general summaries should be used (e.g., "100 people asked about taxes"),
-       not my exact questions
-     - My exact questions can be used, as long as they are made fully anonymous and
-       cannot be traced back to me
-     - My exact questions can be used without any special privacy protection
-     - Not sure
-
-Q15. Who should be allowed to use your anonymized data for training? (Dropdown)
-     Sub-instruction: Please select the most permissive option you are comfortable with.
-     Options:
-     - No one should be allowed to use my anonymized data
-     - ONLY the Swiss non-profit association that develops the chatbot
-     - The Swiss non-profit association AND Swiss public researchers (e.g., EPFL/ETH)
-     - Any academic or non-profit researcher (Swiss or international)
-     - Anyone (including commercial use)
-     - Not sure
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[TRANSITION PAGE: "Almost done! Finally, just a few questions about yourself..."]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-DEMOGRAPHICS (All Conditions):
-
-Q16. What is your age? (Dropdown)
-     Options: 18-24, 25-34, 35-44, 45-54, 55-64, 65+, Prefer not to say
-
-Q17. What is your gender? (Dropdown)
-     Options: Female, Male, Non-binary, Other, Prefer not to say
-
-Q18. What is your primary language? (Dropdown)
-     Options: English, French, German / Swiss German, Italian, Romansh, Other
-
-Q19. What is your highest level of education? (Dropdown)
-     Options: Mandatory schooling, Matura / Baccalaureate, Vocational training (Berufslehre),
-     Higher vocational education, University of Applied Sciences,
-     University (Bachelor/Master/PhD), Prefer not to say
-
-Q20. Are you eligible to vote in Swiss federal elections? (Dropdown)
-     Options: Yes, No, Prefer not to say
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OPTIONAL QUESTIONS (All Conditions):
-
-Q21. How important is it to you that the Apertus model is hosted on Swiss servers? (Optional)
-     (Likert 1-7: Not at all important → Extremely important)
-
-Q22. Additional comments (Text area, OPTIONAL)
-     Placeholder: "Share any additional thoughts or feedback..."
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-TOTAL QUESTIONS BY CONDITION:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Condition A (Baseline - No DNL, No Dashboard):
-  - 5 Universal + 2 Privacy + 5 Demographics + 2 Optional = 14 required questions + 2 optional
-
-Condition B (Transparency Only - DNL, No Dashboard):
-  - 5 Universal + 4 Transparency + 2 Privacy + 5 Demographics + 2 Optional = 18 required + 2 optional
-
-Condition C (Control Only - No DNL, Dashboard):
-  - 5 Universal + 4 Control + 2 Privacy + 5 Demographics + 2 Optional = 18 required + 2 optional
-
-Condition D (Both - DNL + Dashboard):
-  - 5 Universal + 4 Transparency + 4 Control + 2 Privacy + 5 Demographics + 2 Optional = 22 required + 2 optional
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CRITICAL DESIGN PRINCIPLES:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. RESEARCH VALIDITY: Only ask about features participants actually saw
-   - Transparency questions (Q6-Q9) → ONLY conditions B & D (who saw DNL)
-   - Control questions (Q10-Q13) → ONLY conditions C & D (who saw Dashboard)
-
-2. TERMINOLOGY CONSISTENCY:
-   - "Swiss ballot initiatives" (not "voting initiatives and referendums")
-   - "Apertus model" (not just "Apertus")
-   - "Transparency information about the model" (not "Data Nutrition Label" - users don't know this term!)
-
-3. TENSE ACCURACY:
-   - Present perfect: "has been developed" (Q6)
-   - Present: "I know" (Q7), "is it" (Q21)
-   - Past: "was trained on" (Q7)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-*/
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '../../services/api';
 import { SurveyData } from '../../types';
+import LikertScale from './LikertScale';
 
 interface Props {
   participantId: string;
@@ -141,83 +16,101 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   const [submitting, setSubmitting] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Determine which sections to show based on condition
-  const sawTransparencyInfo = condition === 'B' || condition === 'D';
-  const hadControlOptions = condition === 'C' || condition === 'D';
-
   // All survey answers
   const [answers, setAnswers] = useState<Partial<SurveyData>>({
-    trust1: null,
-    trust2: null,
-    infoQuality1: null,
-    infoQuality2: null,
-    attentionCheck: null,
-    transparency1: null,
-    transparency2: null,
-    transparency3: null,
-    transparency4: null,
+    // Q3: Clarity (4 items)
+    clarity1: null,
+    clarity2: null,
+    clarity3: null,
+    clarity4: null,
+    // Q4: Control (4 items)
     control1: null,
     control2: null,
     control3: null,
     control4: null,
-    dataScopeUnderstanding: null,
-    dataPurposePreference: null,
+    // Q5: Risk Concerns (5 items)
+    riskPrivacy: null,
+    riskMisuse: null,
+    riskCompanies: null,
+    riskTrust: null,
+    riskSecurity: null,
+    // Q6: Agency (3 items)
+    agency1: null,
+    agency2: null,
+    agency3: null,
+    // Q7: Trust (2 items)
+    trust1: null,
+    trust2: null,
+    // Q8: Acceptable Use (checkboxes)
+    acceptableUseNonprofit: false,
+    acceptableUseSwissUni: false,
+    acceptableUseIntlUni: false,
+    acceptableUseSwissCompany: false,
+    acceptableUseIntlCompany: false,
+    acceptableUseNone: false,
+    // Q9: Attention Check
+    attentionCheck: null,
+    // Q10-Q13: Demographics
     age: null,
     gender: null,
+    genderOther: '',
     primaryLanguage: null,
     education: null,
-    votingEligibility: null,
-    swissServerImportance: null,
-    comments: ''
+    // Q14: Open Feedback
+    openFeedback: ''
   });
 
-  // Build dynamic page structure based on condition
+  // Build dynamic page structure
   const pageStructure = useMemo(() => {
     const pages: Array<{ questionNum: number; type: string; field?: keyof SurveyData }> = [];
-    let questionNum = 1;
+    let questionNum = 3; // Starting from Q3
 
-    // Section 1: Universal questions
-    pages.push({ questionNum: questionNum++, type: 'trust1', field: 'trust1' });
-    pages.push({ questionNum: questionNum++, type: 'trust2', field: 'trust2' });
-    pages.push({ questionNum: questionNum++, type: 'infoQuality1', field: 'infoQuality1' });
-    pages.push({ questionNum: questionNum++, type: 'infoQuality2', field: 'infoQuality2' });
-    pages.push({ questionNum: questionNum++, type: 'attentionCheck', field: 'attentionCheck' });
+    // Q3: Clarity (4 items)
+    pages.push({ questionNum, type: 'clarity-section', field: undefined });
+    questionNum++;
 
-    // Section 2: Transparency (conditional - B & D only)
-    if (sawTransparencyInfo) {
-      pages.push({ questionNum: questionNum++, type: 'transparency1', field: 'transparency1' });
-      pages.push({ questionNum: questionNum++, type: 'transparency2', field: 'transparency2' });
-      pages.push({ questionNum: questionNum++, type: 'transparency3', field: 'transparency3' });
-      pages.push({ questionNum: questionNum++, type: 'transparency4', field: 'transparency4' });
-    }
+    // Q4: Control (4 items)
+    pages.push({ questionNum, type: 'control-section', field: undefined });
+    questionNum++;
 
-    // Section 3: Control (conditional - C & D only)
-    if (hadControlOptions) {
-      pages.push({ questionNum: questionNum++, type: 'control1', field: 'control1' });
-      pages.push({ questionNum: questionNum++, type: 'control2', field: 'control2' });
-      pages.push({ questionNum: questionNum++, type: 'control3', field: 'control3' });
-      pages.push({ questionNum: questionNum++, type: 'control4', field: 'control4' });
-    }
+    // Q5: Risk Concerns (5 items)
+    pages.push({ questionNum, type: 'risk-section', field: undefined });
+    questionNum++;
 
-    // Section 4: Privacy understanding
-    pages.push({ questionNum: questionNum++, type: 'dataScopeUnderstanding', field: 'dataScopeUnderstanding' });
-    pages.push({ questionNum: questionNum++, type: 'dataPurposePreference', field: 'dataPurposePreference' });
+    // Q6: Agency (3 items)
+    pages.push({ questionNum, type: 'agency-section', field: undefined });
+    questionNum++;
+
+    // Q7: Trust (2 items)
+    pages.push({ questionNum, type: 'trust-section', field: undefined });
+    questionNum++;
+
+    // Q8: Acceptable Use (checkboxes)
+    pages.push({ questionNum, type: 'acceptableUse', field: undefined });
+    questionNum++;
+
+    // Q9: Attention Check
+    pages.push({ questionNum, type: 'attentionCheck', field: 'attentionCheck' });
+    questionNum++;
 
     // Transition page
-    pages.push({ questionNum: -1, type: 'transition' });
+    pages.push({ questionNum: -1, type: 'transition', field: undefined });
 
-    // Section 5: Demographics
-    pages.push({ questionNum: questionNum++, type: 'age', field: 'age' });
-    pages.push({ questionNum: questionNum++, type: 'gender', field: 'gender' });
-    pages.push({ questionNum: questionNum++, type: 'primaryLanguage', field: 'primaryLanguage' });
-    pages.push({ questionNum: questionNum++, type: 'education', field: 'education' });
-    pages.push({ questionNum: questionNum++, type: 'votingEligibility', field: 'votingEligibility' });
+    // Q10-Q13: Demographics
+    pages.push({ questionNum, type: 'age', field: 'age' });
+    questionNum++;
+    pages.push({ questionNum, type: 'gender', field: 'gender' });
+    questionNum++;
+    pages.push({ questionNum, type: 'primaryLanguage', field: 'primaryLanguage' });
+    questionNum++;
+    pages.push({ questionNum, type: 'education', field: 'education' });
+    questionNum++;
 
-    // Section 6: Final optional questions
-    pages.push({ questionNum: -1, type: 'final' });
+    // Q14: Open Feedback
+    pages.push({ questionNum, type: 'openFeedback', field: 'openFeedback' });
 
     return pages;
-  }, [sawTransparencyInfo, hadControlOptions]);
+  }, []);
 
   const totalPages = pageStructure.length;
 
@@ -245,15 +138,49 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
 
   const canProceed = () => {
     const currentPageData = pageStructure[currentPage - 1];
+    if (!currentPageData) return false;
 
-    // Transition and final pages can always proceed
-    if (currentPageData.type === 'transition' || currentPageData.type === 'final') {
+    // Transition page can always proceed
+    if (currentPageData.type === 'transition') {
       return true;
     }
 
-    // Check if current question is answered
-    const field = currentPageData.field;
-    return field ? answers[field] !== null && answers[field] !== '' : false;
+    // Open feedback is optional, can always proceed
+    if (currentPageData.type === 'openFeedback') {
+      return true;
+    }
+
+    // Check section-based validations
+    switch (currentPageData.type) {
+      case 'clarity-section':
+        return answers.clarity1 !== null && answers.clarity2 !== null &&
+               answers.clarity3 !== null && answers.clarity4 !== null;
+      case 'control-section':
+        return answers.control1 !== null && answers.control2 !== null &&
+               answers.control3 !== null && answers.control4 !== null;
+      case 'risk-section':
+        return answers.riskPrivacy !== null && answers.riskMisuse !== null &&
+               answers.riskCompanies !== null && answers.riskTrust !== null &&
+               answers.riskSecurity !== null;
+      case 'agency-section':
+        return answers.agency1 !== null && answers.agency2 !== null && answers.agency3 !== null;
+      case 'trust-section':
+        return answers.trust1 !== null && answers.trust2 !== null;
+      case 'acceptableUse':
+        // At least one checkbox must be selected
+        return answers.acceptableUseNonprofit || answers.acceptableUseSwissUni ||
+               answers.acceptableUseIntlUni || answers.acceptableUseSwissCompany ||
+               answers.acceptableUseIntlCompany || answers.acceptableUseNone;
+      case 'attentionCheck':
+      case 'age':
+      case 'gender':
+      case 'primaryLanguage':
+      case 'education':
+        const field = currentPageData.field;
+        return field ? answers[field] !== null && answers[field] !== '' : false;
+      default:
+        return true;
+    }
   };
 
   const handleNext = () => {
@@ -269,38 +196,34 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   };
 
   const isFormComplete = () => {
-    // Universal required fields
-    const universalComplete =
-      answers.trust1 !== null &&
-      answers.trust2 !== null &&
-      answers.infoQuality1 !== null &&
-      answers.infoQuality2 !== null &&
+    return (
+      // Q3: Clarity
+      answers.clarity1 !== null && answers.clarity2 !== null &&
+      answers.clarity3 !== null && answers.clarity4 !== null &&
+      // Q4: Control
+      answers.control1 !== null && answers.control2 !== null &&
+      answers.control3 !== null && answers.control4 !== null &&
+      // Q5: Risk
+      answers.riskPrivacy !== null && answers.riskMisuse !== null &&
+      answers.riskCompanies !== null && answers.riskTrust !== null &&
+      answers.riskSecurity !== null &&
+      // Q6: Agency
+      answers.agency1 !== null && answers.agency2 !== null && answers.agency3 !== null &&
+      // Q7: Trust
+      answers.trust1 !== null && answers.trust2 !== null &&
+      // Q8: Acceptable Use (at least one)
+      (answers.acceptableUseNonprofit || answers.acceptableUseSwissUni ||
+       answers.acceptableUseIntlUni || answers.acceptableUseSwissCompany ||
+       answers.acceptableUseIntlCompany || answers.acceptableUseNone) &&
+      // Q9: Attention Check
       answers.attentionCheck !== null && answers.attentionCheck !== '' &&
-      answers.dataScopeUnderstanding !== null && answers.dataScopeUnderstanding !== '' &&
-      answers.dataPurposePreference !== null && answers.dataPurposePreference !== '' &&
+      // Q10-Q13: Demographics
       answers.age !== null && answers.age !== '' &&
       answers.gender !== null && answers.gender !== '' &&
       answers.primaryLanguage !== null && answers.primaryLanguage !== '' &&
-      answers.education !== null && answers.education !== '' &&
-      answers.votingEligibility !== null && answers.votingEligibility !== '';
-
-    // Conditional transparency fields (only for B & D)
-    const transparencyComplete = !sawTransparencyInfo || (
-      answers.transparency1 !== null &&
-      answers.transparency2 !== null &&
-      answers.transparency3 !== null &&
-      answers.transparency4 !== null
+      answers.education !== null && answers.education !== ''
+      // Q14: Open Feedback is optional
     );
-
-    // Conditional control fields (only for C & D)
-    const controlComplete = !hadControlOptions || (
-      answers.control1 !== null &&
-      answers.control2 !== null &&
-      answers.control3 !== null &&
-      answers.control4 !== null
-    );
-
-    return universalComplete && transparencyComplete && controlComplete;
   };
 
   const handleSubmit = async () => {
@@ -314,28 +237,37 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
 
     try {
       const surveyData: SurveyData = {
+        clarity1: answers.clarity1!,
+        clarity2: answers.clarity2!,
+        clarity3: answers.clarity3!,
+        clarity4: answers.clarity4!,
+        control1: answers.control1!,
+        control2: answers.control2!,
+        control3: answers.control3!,
+        control4: answers.control4!,
+        riskPrivacy: answers.riskPrivacy!,
+        riskMisuse: answers.riskMisuse!,
+        riskCompanies: answers.riskCompanies!,
+        riskTrust: answers.riskTrust!,
+        riskSecurity: answers.riskSecurity!,
+        agency1: answers.agency1!,
+        agency2: answers.agency2!,
+        agency3: answers.agency3!,
         trust1: answers.trust1!,
         trust2: answers.trust2!,
-        infoQuality1: answers.infoQuality1!,
-        infoQuality2: answers.infoQuality2!,
+        acceptableUseNonprofit: answers.acceptableUseNonprofit!,
+        acceptableUseSwissUni: answers.acceptableUseSwissUni!,
+        acceptableUseIntlUni: answers.acceptableUseIntlUni!,
+        acceptableUseSwissCompany: answers.acceptableUseSwissCompany!,
+        acceptableUseIntlCompany: answers.acceptableUseIntlCompany!,
+        acceptableUseNone: answers.acceptableUseNone!,
         attentionCheck: answers.attentionCheck!,
-        transparency1: answers.transparency1 || null,
-        transparency2: answers.transparency2 || null,
-        transparency3: answers.transparency3 || null,
-        transparency4: answers.transparency4 || null,
-        control1: answers.control1 || null,
-        control2: answers.control2 || null,
-        control3: answers.control3 || null,
-        control4: answers.control4 || null,
-        dataScopeUnderstanding: answers.dataScopeUnderstanding!,
-        dataPurposePreference: answers.dataPurposePreference!,
         age: answers.age!,
         gender: answers.gender!,
+        genderOther: answers.genderOther || '',
         primaryLanguage: answers.primaryLanguage!,
         education: answers.education!,
-        votingEligibility: answers.votingEligibility!,
-        swissServerImportance: answers.swissServerImportance || null,
-        comments: answers.comments || ''
+        openFeedback: answers.openFeedback || ''
       };
 
       await api.submitSurvey(participantId, surveyData);
@@ -348,91 +280,337 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
     }
   };
 
-  const LikertQuestion = ({ questionNum, field, label }: { questionNum: number; field: keyof SurveyData; label: string }) => (
-    <div className="text-center">
-      <div className="mb-6 text-sm text-gray-500 font-medium">
-        {t('survey.progress.question')} {questionNum}
-      </div>
-      <h2 className="text-2xl font-medium mb-8 text-gray-900 max-w-2xl mx-auto">{label}</h2>
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex items-center gap-3 justify-center flex-wrap">
-          <span className="text-sm text-gray-600 mr-2 text-right" style={{ minWidth: '140px' }}>
-            {t('survey.likert.disagree')}
-          </span>
-          {[1, 2, 3, 4, 5, 6, 7].map(num => (
-            <button
-              key={num}
-              type="button"
-              onClick={() => updateAnswer(field, num)}
-              className={`w-14 h-14 rounded-full border-2 transition font-bold text-lg ${
-                answers[field] === num
-                  ? 'bg-[#DC143C] text-white border-[#DC143C] scale-110 shadow-lg'
-                  : 'bg-white border-gray-300 hover:border-[#DC143C] hover:scale-105'
-              }`}
-            >
-              {num}
-            </button>
-          ))}
-          <span className="text-sm text-gray-600 ml-2" style={{ minWidth: '140px' }}>
-            {t('survey.likert.agree')}
-          </span>
+  const LikertQuestion = ({ label, field, leftLabel, rightLabel }: {
+    label: string;
+    field: keyof SurveyData;
+    leftLabel: string;
+    rightLabel: string;
+  }) => (
+    <div className="mb-8">
+      <p className="text-base md:text-lg mb-4 text-gray-900 text-left">{label}</p>
+      <LikertScale
+        name={field}
+        value={answers[field] as number | null}
+        onChange={(value) => updateAnswer(field, value)}
+        leftLabel={leftLabel}
+        rightLabel={rightLabel}
+        points={7}
+      />
+    </div>
+  );
+
+  const ClaritySection = ({ questionNum }: { questionNum: number }) => (
+    <div>
+      <div className="mb-12">
+        <p className="text-xs text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+          />
         </div>
+      </div>
+      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
+        {t('survey.clarity.section')}
+      </h2>
+      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.clarity.intro')}</p>
+      <div className="max-w-3xl">
+        <LikertQuestion
+          label={t('survey.clarity.q1')}
+          field="clarity1"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.clarity.q2')}
+          field="clarity2"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.clarity.q3')}
+          field="clarity3"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.clarity.q4')}
+          field="clarity4"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
       </div>
     </div>
   );
 
-  const LikertImportance = ({ questionNum, field, label }: { questionNum: number; field: keyof SurveyData; label: string }) => (
-    <div className="text-center">
-      <div className="mb-6 text-sm text-gray-500 font-medium">
-        {t('survey.progress.question')} {questionNum}
-      </div>
-      <h2 className="text-2xl font-medium mb-8 text-gray-900 max-w-2xl mx-auto">{label}</h2>
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex items-center gap-3 justify-center flex-wrap">
-          <span className="text-sm text-gray-600 mr-2 text-right" style={{ minWidth: '140px' }}>
-            {t('survey.likert.notImportant')}
-          </span>
-          {[1, 2, 3, 4, 5, 6, 7].map(num => (
-            <button
-              key={num}
-              type="button"
-              onClick={() => updateAnswer(field, num)}
-              className={`w-14 h-14 rounded-full border-2 transition font-bold text-lg ${
-                answers[field] === num
-                  ? 'bg-[#DC143C] text-white border-[#DC143C] scale-110 shadow-lg'
-                  : 'bg-white border-gray-300 hover:border-[#DC143C] hover:scale-105'
-              }`}
-            >
-              {num}
-            </button>
-          ))}
-          <span className="text-sm text-gray-600 ml-2" style={{ minWidth: '140px' }}>
-            {t('survey.likert.veryImportant')}
-          </span>
+  const ControlSection = ({ questionNum }: { questionNum: number }) => (
+    <div>
+      <div className="mb-12">
+        <p className="text-xs text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+          />
         </div>
+      </div>
+      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
+        {t('survey.progress.question')} {questionNum}
+      </h2>
+      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.control.intro')}</p>
+      <div className="max-w-3xl">
+        <LikertQuestion
+          label={t('survey.control.q1')}
+          field="control1"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.control.q2')}
+          field="control2"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.control.q3')}
+          field="control3"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.control.q4')}
+          field="control4"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
       </div>
     </div>
   );
 
-  const DropdownQuestion = ({ questionNum, field, label, options, subInstruction }: {
+  const RiskSection = ({ questionNum }: { questionNum: number }) => (
+    <div>
+      <div className="mb-12">
+        <p className="text-xs text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+          />
+        </div>
+      </div>
+      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
+        {t('survey.progress.question')} {questionNum}
+      </h2>
+      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.risk.intro')}</p>
+      <div className="max-w-3xl">
+        <LikertQuestion
+          label={t('survey.risk.privacy')}
+          field="riskPrivacy"
+          leftLabel={t('survey.likert.notConcerned')}
+          rightLabel={t('survey.likert.extremelyConcerned')}
+        />
+        <LikertQuestion
+          label={t('survey.risk.misuse')}
+          field="riskMisuse"
+          leftLabel={t('survey.likert.notConcerned')}
+          rightLabel={t('survey.likert.extremelyConcerned')}
+        />
+        <LikertQuestion
+          label={t('survey.risk.companies')}
+          field="riskCompanies"
+          leftLabel={t('survey.likert.notConcerned')}
+          rightLabel={t('survey.likert.extremelyConcerned')}
+        />
+        <LikertQuestion
+          label={t('survey.risk.trust')}
+          field="riskTrust"
+          leftLabel={t('survey.likert.notConcerned')}
+          rightLabel={t('survey.likert.extremelyConcerned')}
+        />
+        <LikertQuestion
+          label={t('survey.risk.security')}
+          field="riskSecurity"
+          leftLabel={t('survey.likert.notConcerned')}
+          rightLabel={t('survey.likert.extremelyConcerned')}
+        />
+      </div>
+    </div>
+  );
+
+  const AgencySection = ({ questionNum }: { questionNum: number }) => (
+    <div>
+      <div className="mb-12">
+        <p className="text-xs text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+          />
+        </div>
+      </div>
+      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
+        {t('survey.progress.question')} {questionNum}
+      </h2>
+      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.agency.intro')}</p>
+      <div className="max-w-3xl">
+        <LikertQuestion
+          label={t('survey.agency.q1')}
+          field="agency1"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.agency.q2')}
+          field="agency2"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.agency.q3')}
+          field="agency3"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+      </div>
+    </div>
+  );
+
+  const TrustSection = ({ questionNum }: { questionNum: number }) => (
+    <div>
+      <div className="mb-12">
+        <p className="text-xs text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+          />
+        </div>
+      </div>
+      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
+        {t('survey.progress.question')} {questionNum}
+      </h2>
+      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.trust.intro')}</p>
+      <div className="max-w-3xl">
+        <LikertQuestion
+          label={t('survey.trust.q1')}
+          field="trust1"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+        <LikertQuestion
+          label={t('survey.trust.q2')}
+          field="trust2"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
+        />
+      </div>
+    </div>
+  );
+
+  const AcceptableUsePage = ({ questionNum }: { questionNum: number }) => {
+    const handleCheckboxChange = (field: keyof SurveyData, checked: boolean) => {
+      // If "None" is checked, uncheck all others
+      if (field === 'acceptableUseNone' && checked) {
+        setAnswers(prev => ({
+          ...prev,
+          acceptableUseNonprofit: false,
+          acceptableUseSwissUni: false,
+          acceptableUseIntlUni: false,
+          acceptableUseSwissCompany: false,
+          acceptableUseIntlCompany: false,
+          acceptableUseNone: true
+        }));
+      }
+      // If any other checkbox is checked, uncheck "None"
+      else if (field !== 'acceptableUseNone' && checked) {
+        setAnswers(prev => ({
+          ...prev,
+          [field]: checked,
+          acceptableUseNone: false
+        }));
+      }
+      // Normal uncheck
+      else {
+        updateAnswer(field, checked);
+      }
+    };
+
+    return (
+      <div className="max-w-2xl">
+        <div className="mb-12">
+          <p className="text-xs text-gray-400 mb-2">
+            {t('survey.progress.question')} {questionNum}
+          </p>
+          <div className="w-full bg-gray-200 rounded-full h-[3px]">
+            <div
+              className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+              style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+            />
+          </div>
+        </div>
+        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-900 text-left">
+          {t('survey.acceptableUse.question')}
+        </h2>
+        <p className="text-sm text-gray-600 mb-12 italic text-left">
+          {t('survey.acceptableUse.instruction')}
+        </p>
+        <div className="space-y-4">
+          {[
+            { field: 'acceptableUseNonprofit' as keyof SurveyData, label: t('survey.acceptableUse.nonprofit') },
+            { field: 'acceptableUseSwissUni' as keyof SurveyData, label: t('survey.acceptableUse.swissUni') },
+            { field: 'acceptableUseIntlUni' as keyof SurveyData, label: t('survey.acceptableUse.intlUni') },
+            { field: 'acceptableUseSwissCompany' as keyof SurveyData, label: t('survey.acceptableUse.swissCompany') },
+            { field: 'acceptableUseIntlCompany' as keyof SurveyData, label: t('survey.acceptableUse.intlCompany') },
+            { field: 'acceptableUseNone' as keyof SurveyData, label: t('survey.acceptableUse.none') }
+          ].map(({ field, label }) => (
+            <label key={field} className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-[#FF0000] hover:bg-red-50 cursor-pointer transition">
+              <input
+                type="checkbox"
+                checked={answers[field] as boolean || false}
+                onChange={(e) => handleCheckboxChange(field, e.target.checked)}
+                className="mt-1 w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000]"
+              />
+              <span className="text-base text-gray-900">{label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const DropdownQuestion = ({ questionNum, field, label, options }: {
     questionNum: number;
     field: keyof SurveyData;
     label: string;
     options: { value: string; label: string }[];
-    subInstruction?: string;
   }) => (
-    <div className="text-center max-w-2xl mx-auto">
-      <div className="mb-6 text-sm text-gray-500 font-medium">
-        {t('survey.progress.question')} {questionNum}
+    <div className="max-w-2xl">
+      <div className="mb-12">
+        <p className="text-xs text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+          />
+        </div>
       </div>
-      <h2 className="text-2xl font-medium mb-4 text-gray-900">{label}</h2>
-      {subInstruction && (
-        <p className="text-sm text-gray-600 mb-6 italic">{subInstruction}</p>
-      )}
+      <h2 className="text-xl md:text-2xl font-semibold mb-12 text-gray-900 text-left">{label}</h2>
       <select
         value={answers[field] as string || ''}
         onChange={(e) => updateAnswer(field, e.target.value)}
-        className="w-full max-w-md p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DC143C] focus:border-[#DC143C] bg-white mx-auto block"
+        className="w-full max-w-md p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] bg-white block"
       >
         {options.map(opt => (
           <option key={opt.value} value={opt.value} disabled={opt.value === ''}>
@@ -440,6 +618,19 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
           </option>
         ))}
       </select>
+
+      {/* Gender "Other" text field */}
+      {field === 'gender' && answers.gender === 'other' && (
+        <div className="mt-6">
+          <input
+            type="text"
+            value={answers.genderOther || ''}
+            onChange={(e) => updateAnswer('genderOther', e.target.value)}
+            placeholder={t('survey.demographics.gender.otherPlaceholder')}
+            className="w-full max-w-md p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000]"
+          />
+        </div>
+      )}
     </div>
   );
 
@@ -447,58 +638,47 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
     <div className="text-center max-w-2xl mx-auto">
       <div className="text-6xl mb-6">🙏🏻</div>
       <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('survey.transition.title')}</h2>
-      <p className="text-xl text-gray-600">{t('survey.transition.message')}</p>
+      <p className="text-xl text-gray-600 mb-6">{t('survey.transition.message')}</p>
+
+      {/* Simulation Reminder */}
+      <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mt-8">
+        <p className="text-base text-gray-800 leading-relaxed">
+          {t('survey.transition.reminder')}
+        </p>
+      </div>
     </div>
   );
 
-  const FinalPage = () => (
-    <div className="max-w-2xl mx-auto">
-      <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold mb-2 text-gray-900">{t('survey.section.finalQuestion')}</h2>
-      </div>
-
-      {/* Swiss Server Importance */}
-      <div className="mb-8 p-6 bg-white rounded-lg border-2 border-gray-200">
-        <label className="block text-lg font-medium mb-4 text-gray-900 text-center">
-          {t('survey.optional.swissServer')} <span className="text-gray-500 text-sm">({t('survey.optional.optional')})</span>
-        </label>
-        <div className="flex items-center gap-2 justify-center flex-wrap">
-          <span className="text-xs text-gray-600 mr-2 text-right" style={{ minWidth: '120px' }}>
-            {t('survey.likert.notImportant')}
-          </span>
-          {[1, 2, 3, 4, 5, 6, 7].map(num => (
-            <button
-              key={num}
-              type="button"
-              onClick={() => updateAnswer('swissServerImportance', num)}
-              className={`w-12 h-12 rounded-full border-2 transition font-semibold ${
-                answers.swissServerImportance === num
-                  ? 'bg-[#DC143C] text-white border-[#DC143C] scale-110'
-                  : 'bg-white border-gray-300 hover:border-[#DC143C] hover:scale-105'
-              }`}
-            >
-              {num}
-            </button>
-          ))}
-          <span className="text-xs text-gray-600 ml-2" style={{ minWidth: '120px' }}>
-            {t('survey.likert.veryImportant')}
-          </span>
+  const OpenFeedbackPage = ({ questionNum }: { questionNum: number }) => (
+    <div className="max-w-2xl">
+      <div className="mb-12">
+        <p className="text-xs text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+          />
         </div>
       </div>
-
-      {/* Comments */}
-      <div className="p-6 bg-white rounded-lg border-2 border-gray-200">
-        <label className="block text-lg font-medium mb-4 text-gray-900">
-          {t('survey.optional.comments')} <span className="text-gray-500 text-sm">({t('survey.optional.optional')})</span>
-        </label>
-        <textarea
-          value={answers.comments || ''}
-          onChange={(e) => updateAnswer('comments', e.target.value)}
-          rows={4}
-          className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DC143C] focus:border-[#DC143C]"
-          placeholder={t('survey.optional.commentsPlaceholder')}
-        />
-      </div>
+      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-900 text-left">
+        {t('survey.openFeedback.question')}
+      </h2>
+      <p className="text-sm text-gray-600 mb-8 italic text-left">
+        {t('survey.openFeedback.note')}
+      </p>
+      <textarea
+        value={answers.openFeedback || ''}
+        onChange={(e) => updateAnswer('openFeedback', e.target.value.slice(0, 500))}
+        rows={6}
+        maxLength={500}
+        className="w-full p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000]"
+        placeholder={t('survey.openFeedback.placeholder')}
+      />
+      <p className="text-xs text-gray-500 mt-2 text-right">
+        {(answers.openFeedback || '').length}/500 - {t('survey.openFeedback.maxLength')}
+      </p>
     </div>
   );
 
@@ -509,86 +689,34 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
     const { type, questionNum } = currentPageData;
 
     switch (type) {
-      // Section 1: Universal questions
-      case 'trust1':
-        return <LikertQuestion questionNum={questionNum} field="trust1" label={t('survey.trust.q1')} />;
-      case 'trust2':
-        return <LikertQuestion questionNum={questionNum} field="trust2" label={t('survey.trust.q2')} />;
-      case 'infoQuality1':
-        return <LikertQuestion questionNum={questionNum} field="infoQuality1" label={t('survey.universal.infoQuality1')} />;
-      case 'infoQuality2':
-        return <LikertQuestion questionNum={questionNum} field="infoQuality2" label={t('survey.universal.infoQuality2')} />;
+      case 'clarity-section':
+        return <ClaritySection questionNum={questionNum} />;
+      case 'control-section':
+        return <ControlSection questionNum={questionNum} />;
+      case 'risk-section':
+        return <RiskSection questionNum={questionNum} />;
+      case 'agency-section':
+        return <AgencySection questionNum={questionNum} />;
+      case 'trust-section':
+        return <TrustSection questionNum={questionNum} />;
+      case 'acceptableUse':
+        return <AcceptableUsePage questionNum={questionNum} />;
       case 'attentionCheck':
         return <DropdownQuestion
           questionNum={questionNum}
           field="attentionCheck"
-          label={t('survey.universal.attentionCheck.question')}
+          label={t('survey.attentionCheck.question')}
           options={[
-            { value: '', label: t('survey.universal.attentionCheck.placeholder') },
-            { value: 'voting', label: t('survey.universal.attentionCheck.voting') },
-            { value: 'tax', label: t('survey.universal.attentionCheck.tax') },
-            { value: 'immigration', label: t('survey.universal.attentionCheck.immigration') },
-            { value: 'dontremember', label: t('survey.universal.attentionCheck.dontremember') }
+            { value: '', label: t('survey.attentionCheck.placeholder') },
+            { value: 'voting', label: t('survey.attentionCheck.voting') },
+            { value: 'tax', label: t('survey.attentionCheck.tax') },
+            { value: 'immigration', label: t('survey.attentionCheck.immigration') },
+            { value: 'news', label: t('survey.attentionCheck.news') },
+            { value: 'dontremember', label: t('survey.attentionCheck.dontremember') }
           ]}
         />;
-
-      // Section 2: Transparency (conditional)
-      case 'transparency1':
-        return <LikertQuestion questionNum={questionNum} field="transparency1" label={t('survey.transparency.q1')} />;
-      case 'transparency2':
-        return <LikertQuestion questionNum={questionNum} field="transparency2" label={t('survey.transparency.q2')} />;
-      case 'transparency3':
-        return <LikertQuestion questionNum={questionNum} field="transparency3" label={t('survey.transparency.q3')} />;
-      case 'transparency4':
-        return <LikertQuestion questionNum={questionNum} field="transparency4" label={t('survey.transparency.q4')} />;
-
-      // Section 3: Control (conditional)
-      case 'control1':
-        return <LikertQuestion questionNum={questionNum} field="control1" label={t('survey.control.q1')} />;
-      case 'control2':
-        return <LikertQuestion questionNum={questionNum} field="control2" label={t('survey.control.q2')} />;
-      case 'control3':
-        return <LikertQuestion questionNum={questionNum} field="control3" label={t('survey.control.q3')} />;
-      case 'control4':
-        return <LikertQuestion questionNum={questionNum} field="control4" label={t('survey.control.q4')} />;
-
-      // Section 4: Privacy understanding
-      case 'dataScopeUnderstanding':
-        return <DropdownQuestion
-          questionNum={questionNum}
-          field="dataScopeUnderstanding"
-          label={t('survey.privacyUnderstanding.scope.question')}
-          options={[
-            { value: '', label: t('survey.privacyUnderstanding.scope.placeholder') },
-            { value: 'summaries-only', label: t('survey.privacyUnderstanding.scope.summariesOnly') },
-            { value: 'exact-anonymized', label: t('survey.privacyUnderstanding.scope.exactAnonymized') },
-            { value: 'exact-no-protection', label: t('survey.privacyUnderstanding.scope.exactNoProtection') },
-            { value: 'not-sure', label: t('survey.privacyUnderstanding.scope.notSure') }
-          ]}
-        />;
-
-      case 'dataPurposePreference':
-        return <DropdownQuestion
-          questionNum={questionNum}
-          field="dataPurposePreference"
-          label={t('survey.privacyUnderstanding.purpose.question')}
-          subInstruction={t('survey.privacyUnderstanding.purpose.subInstruction')}
-          options={[
-            { value: '', label: t('survey.privacyUnderstanding.purpose.placeholder') },
-            { value: 'no-one', label: t('survey.privacyUnderstanding.purpose.noOne') },
-            { value: 'swiss-nonprofit-only', label: t('survey.privacyUnderstanding.purpose.swissNonprofitOnly') },
-            { value: 'swiss-nonprofit-and-researchers', label: t('survey.privacyUnderstanding.purpose.swissNonprofitAndResearchers') },
-            { value: 'any-academic', label: t('survey.privacyUnderstanding.purpose.anyAcademic') },
-            { value: 'anyone-commercial', label: t('survey.privacyUnderstanding.purpose.anyoneCommercial') },
-            { value: 'not-sure', label: t('survey.privacyUnderstanding.purpose.notSure') }
-          ]}
-        />;
-
-      // Transition
       case 'transition':
         return <TransitionPage />;
-
-      // Section 5: Demographics
       case 'age':
         return <DropdownQuestion
           questionNum={questionNum}
@@ -605,7 +733,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
             { value: 'prefer-not-say', label: t('survey.demographics.preferNotSay') }
           ]}
         />;
-
       case 'gender':
         return <DropdownQuestion
           questionNum={questionNum}
@@ -620,7 +747,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
             { value: 'prefer-not-say', label: t('survey.demographics.preferNotSay') }
           ]}
         />;
-
       case 'primaryLanguage':
         return <DropdownQuestion
           questionNum={questionNum}
@@ -636,7 +762,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
             { value: 'other', label: t('survey.demographics.language.other') }
           ]}
         />;
-
       case 'education':
         return <DropdownQuestion
           questionNum={questionNum}
@@ -653,24 +778,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
             { value: 'prefer-not-say', label: t('survey.demographics.preferNotSay') }
           ]}
         />;
-
-      case 'votingEligibility':
-        return <DropdownQuestion
-          questionNum={questionNum}
-          field="votingEligibility"
-          label={t('survey.demographics.voting.question')}
-          options={[
-            { value: '', label: t('survey.demographics.voting.placeholder') },
-            { value: 'yes', label: t('survey.demographics.voting.yes') },
-            { value: 'no', label: t('survey.demographics.voting.no') },
-            { value: 'prefer-not-say', label: t('survey.demographics.preferNotSay') }
-          ]}
-        />;
-
-      // Section 6: Final optional questions
-      case 'final':
-        return <FinalPage />;
-
+      case 'openFeedback':
+        return <OpenFeedbackPage questionNum={questionNum} />;
       default:
         return null;
     }
@@ -692,43 +801,46 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
 
         {/* Navigation Buttons */}
         <div className="flex gap-4 justify-between items-center mt-12">
-          <button
-            onClick={handleBack}
-            disabled={currentPage === 1 || pageStructure[currentPage - 1]?.type === 'transition'}
-            className={`px-8 py-3 rounded-lg font-semibold transition ${
-              currentPage === 1 || pageStructure[currentPage - 1]?.type === 'transition'
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-gray-300 text-gray-800 hover:bg-gray-400'
-            }`}
-          >
-            ← {t('survey.navigation.back')}
-          </button>
-
-          {currentPage < totalPages ? (
+          {/* Back Button */}
+          {currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition' ? (
             <button
-              onClick={handleNext}
-              disabled={!canProceed()}
-              className={`px-8 py-3 rounded-lg font-semibold transition ${
-                canProceed()
-                  ? 'bg-[#DC143C] text-white hover:bg-[#B01030]'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
+              onClick={handleBack}
+              className="px-8 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition"
             >
-              {t('survey.navigation.next')} →
+              ← {t('survey.navigation.back')}
             </button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={submitting || !isFormComplete()}
-              className={`px-8 py-3 rounded-lg font-semibold transition ${
-                submitting || !isFormComplete()
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-[#DC143C] text-white hover:bg-[#B01030]'
-              }`}
-            >
-              {submitting ? t('survey.submitting') : t('survey.submit')}
-            </button>
+            <div></div>
           )}
+
+          {/* Next/Submit Button */}
+          <div>
+            {currentPage < totalPages ? (
+              <button
+                onClick={handleNext}
+                disabled={!canProceed()}
+                className={`px-8 py-3 rounded-lg font-medium transition ${
+                  canProceed()
+                    ? 'bg-[#FF0000] text-white hover:bg-[#CC0000]'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {t('survey.navigation.next')}
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={submitting || !isFormComplete()}
+                className={`px-8 py-3 rounded-lg font-medium transition ${
+                  submitting || !isFormComplete()
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-[#FF0000] text-white hover:bg-[#CC0000]'
+                }`}
+              >
+                {submitting ? t('survey.submitting') : t('survey.submit')}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

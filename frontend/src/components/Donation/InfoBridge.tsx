@@ -8,21 +8,25 @@ const InfoBridge: React.FC<Props> = ({ onContinue }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-xl w-full p-8">
-        <div className="space-y-4 mb-8 text-gray-900 text-lg leading-relaxed">
+        <p className="text-2xl font-bold mb-6 text-black">
+          Hoi and welcome,
+        </p>
+
+        <div className="space-y-5 mb-8 text-black text-lg leading-relaxed">
           <p>
-            This chatbot is powered by <strong>Apertus</strong>, a Swiss open-source AI model.
+            This chatbot is powered by <strong>Apertus</strong>, the first Swiss open-source artificial intelligence model.
           </p>
           <p>
-            To improve such models, user queries are needed for training.
+            To improve such models, questions from chatbot users are needed for training the data.
           </p>
-          <p className="font-medium">
-            Would you donate your anonymized questions in a real scenario?
+          <p className="font-semibold text-xl">
+            Would you donate your anonymized questions?
           </p>
         </div>
 
         <button
           onClick={onContinue}
-          className="w-full bg-[#DC143C] text-white py-3 rounded-lg font-semibold hover:bg-[#B01030] transition"
+          className="w-full bg-[#FF0000] text-white py-3 rounded-lg font-semibold hover:bg-[#CC0000] transition"
         >
           Learn More
         </button>

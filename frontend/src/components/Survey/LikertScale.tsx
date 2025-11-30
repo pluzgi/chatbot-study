@@ -1,0 +1,61 @@
+import React from 'react';
+
+interface LikertScaleProps {
+  name: string;
+  value: number | null;
+  onChange: (value: number) => void;
+  leftLabel: string;
+  rightLabel: string;
+  points?: number;
+}
+
+const LikertScale: React.FC<LikertScaleProps> = ({
+  name,
+  value,
+  onChange,
+  leftLabel,
+  rightLabel,
+  points = 7
+}) => {
+  const options = Array.from({ length: points }, (_, i) => i + 1);
+
+  return (
+    <div className="w-full">
+      {/* Scale */}
+      <div className="flex items-center justify-between gap-2 mb-2">
+        {options.map((point) => (
+          <label
+            key={point}
+            className="flex flex-col items-center cursor-pointer group"
+          >
+            <input
+              type="radio"
+              name={name}
+              value={point}
+              checked={value === point}
+              onChange={() => onChange(point)}
+              className="sr-only"
+            />
+            <div
+              className={`w-10 h-10 md:w-12 md:h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
+                value === point
+                  ? 'bg-[#FF0000] border-[#FF0000] text-white'
+                  : 'border-gray-300 hover:border-[#FF0000] hover:bg-red-50 text-gray-700'
+              }`}
+            >
+              <span className="text-sm md:text-base font-medium">{point}</span>
+            </div>
+          </label>
+        ))}
+      </div>
+
+      {/* Labels */}
+      <div className="flex items-start justify-between text-xs md:text-sm text-gray-600 mt-2">
+        <span className="text-left max-w-[45%]">{leftLabel}</span>
+        <span className="text-right max-w-[45%]">{rightLabel}</span>
+      </div>
+    </div>
+  );
+};
+
+export default LikertScale;

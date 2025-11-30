@@ -25,41 +25,52 @@ export interface DonationConfig {
 }
 
 export interface SurveyData {
-  // Section 1: Universal questions - Trust (2 items)
-  trust1: number | null;
-  trust2: number | null;
+  // Q3: Clarity (4 items - always shown)
+  clarity1: number | null;  // I understood where the Apertus chatbot was developed
+  clarity2: number | null;  // I knew what information the chatbot was trained on
+  clarity3: number | null;  // The privacy protections were clearly explained
+  clarity4: number | null;  // I had enough information to make my decision
 
-  // General information quality (2 items)
-  infoQuality1: number | null;
-  infoQuality2: number | null;
+  // Q4: Control (4 items - always shown)
+  control1: number | null;  // I had control over what happens to my questions
+  control2: number | null;  // I could choose how my data would be used
+  control3: number | null;  // I had real options for how to donate
+  control4: number | null;  // The process gave me the flexibility I wanted
 
-  // Attention check (1 item)
-  attentionCheck: string | null;
+  // Q5: Risk Concerns (5 items - always shown)
+  riskPrivacy: number | null;     // Privacy: My questions could be traced back to me
+  riskMisuse: number | null;      // Misuse: Data used for things I don't agree with
+  riskCompanies: number | null;   // Companies: Businesses profiting from my data
+  riskTrust: number | null;       // Trust: Not knowing who's behind this
+  riskSecurity: number | null;    // Security: Data could be hacked or stolen
 
-  // Section 2: Transparency manipulation check (4 items - CONDITIONAL: B & D only)
-  transparency1: number | null;
-  transparency2: number | null;
-  transparency3: number | null;
-  transparency4: number | null;
+  // Q6: Agency (3 items - always shown)
+  agency1: number | null;  // I felt in control of my data in this situation
+  agency2: number | null;  // My choices actually mattered for my data
+  agency3: number | null;  // I felt empowered to decide what's right for me
 
-  // Section 3: Control manipulation check (4 items - CONDITIONAL: C & D only)
-  control1: number | null;
-  control2: number | null;
-  control3: number | null;
-  control4: number | null;
+  // Q7: Trust (2 items - always shown)
+  trust1: number | null;  // I trust the Apertus chatbot
+  trust2: number | null;  // I trust my data would be handled responsibly
 
-  // Section 4: Privacy understanding (2 dropdowns)
-  dataScopeUnderstanding: string | null;
-  dataPurposePreference: string | null;
+  // Q8: Acceptable Use (checkboxes - always shown)
+  acceptableUseNonprofit: boolean;     // The Swiss non-profit organization
+  acceptableUseSwissUni: boolean;      // Swiss university researchers
+  acceptableUseIntlUni: boolean;       // International university researchers
+  acceptableUseSwissCompany: boolean;  // Swiss companies
+  acceptableUseIntlCompany: boolean;   // International companies
+  acceptableUseNone: boolean;          // None of these
 
-  // Section 5: Demographics (5 dropdowns)
+  // Q9: Attention Check (single choice - always shown)
+  attentionCheck: string | null;  // voting/tax/immigration/news/dontremember
+
+  // Q10-Q13: Demographics (always shown)
   age: string | null;
   gender: string | null;
+  genderOther: string;  // For "Other" option
   primaryLanguage: string | null;
   education: string | null;
-  votingEligibility: string | null;
 
-  // Section 6: Final questions (optional)
-  swissServerImportance: number | null;
-  comments: string;
+  // Q14: Open Feedback (optional)
+  openFeedback: string;
 }

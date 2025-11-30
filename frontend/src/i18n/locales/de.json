@@ -1,9 +1,59 @@
 {
   "_comment": "PLACEHOLDER - Translate to German after UI is finalized",
   "landing": {
-    "title": "Swiss Ballot Assistant",
-    "description": "Help us understand how citizens interact with AI systems.",
-    "start": "Start Study"
+    "title": "Help Improve AI for Swiss Democracy",
+    "subtitle": "Participate in university research about AI chatbots and data sharing.",
+    "fact1": "Takes about 8-10 minutes",
+    "fact2": "Completely anonymous",
+    "fact3": "For academic research only",
+    "youWill": "What you'll do:",
+    "step1": "Try a voting-info chatbot",
+    "step2": "Make a simulated decision",
+    "step3": "Answer a few questions",
+    "requirements": "Requirements:",
+    "req1": "18+ years old",
+    "req2": "Can vote in Switzerland",
+    "startButton": "Start Survey",
+    "declineButton": "Not Interested",
+    "contact": "Questions? Contact:",
+    "email": "hello@ailights.org",
+    "consentModal": {
+      "title": "Before You Begin",
+      "text": "By starting this survey, you confirm:",
+      "age": "I am 18 years or older",
+      "vote": "I can vote in Swiss federal elections",
+      "voluntary": "I participate voluntarily",
+      "confirm": "I Consent",
+      "back": "Go Back"
+    },
+    "declineMessage": "Thank you for your consideration."
+  },
+  "baseline": {
+    "title": "Before We Start",
+    "subtitle": "Just 2 quick questions about you",
+    "progress": "Question {{current}} of 2",
+    "techComfort": {
+      "question": "I am comfortable using new digital technology (like AI chatbots, new apps, or online tools).",
+      "stronglyDisagree": "Strongly disagree",
+      "disagree": "Disagree",
+      "somewhatDisagree": "Somewhat disagree",
+      "neither": "Neither agree nor disagree",
+      "somewhatAgree": "Somewhat agree",
+      "agree": "Agree",
+      "stronglyAgree": "Strongly agree"
+    },
+    "privacyConcern": {
+      "question": "In general, I am concerned about how my personal information is used online.",
+      "stronglyDisagree": "Strongly disagree",
+      "disagree": "Disagree",
+      "somewhatDisagree": "Somewhat disagree",
+      "neither": "Neither agree nor disagree",
+      "somewhatAgree": "Somewhat agree",
+      "agree": "Agree",
+      "stronglyAgree": "Strongly agree"
+    },
+    "continue": "Continue to Chatbot →",
+    "validationError": "Please answer this question to continue"
   },
   "chat": {
     "title": "Swiss Ballot Assistant",
@@ -15,6 +65,7 @@
   },
   "donation": {
     "title": "Help Improve the Apertus Model",
+    "dnlIntro": "To help you decide, here are key facts about the Apertus model:",
     "baselineText": "We would like to use your anonymized questions to improve the Apertus model. Your data will be handled securely and used only for research and model development.",
     "baselineHelp": "Donating your questions helps train better AI models.",
     "accept": "Donate Data",
@@ -33,8 +84,8 @@
     }
   },
   "dnl": {
-    "title": "AI Transparency & Privacy",
-    "intro": "Here's what you should know about the Swiss Apertus model:",
+    "title": "About the Apertus Model",
+    "intro": "Here's the information you would receive about data handling before making your decision:",
     "provenance": "Swiss-Made",
     "provenanceValue": "Built by EPFL, ETH Zurich & CSCS in Switzerland",
     "ingredients": "Training Data",
@@ -209,7 +260,8 @@
     "submit": "Submit",
     "transition": {
       "title": "Almost done!",
-      "message": "Finally, just a few questions about yourself..."
+      "message": "Finally, just a few questions about yourself...",
+      "reminder": "REMINDER: The data donation was simulated for research purposes. Your chatbot questions were NOT actually stored."
     },
     "navigation": {
       "back": "Back",
@@ -217,13 +269,25 @@
     }
   },
   "debrief": {
-    "title": "Thank You!",
-    "important": "Important",
-    "simulationNote": "Your data donation was simulated. No data was stored.",
-    "purpose": "This study investigates trust in AI systems.",
-    "participationNote": "Please Note",
-    "participationMessage": "To maintain research validity, please participate only once. Your contribution is valuable!",
-    "contact": "Contact",
+    "title": "Thank You for Participating!",
+    "important": "Important Information About This Study",
+    "simulationNote": "Your survey responses will be used for academic research.\n\nHowever, the data donation decision was SIMULATED. Your chatbot questions were NOT actually stored, donated, or used for training. The donation was hypothetical for research purposes only.",
+    "whatWeStudy": "What We're Studying",
+    "studyPurpose": "We're researching how different types of information and choices affect whether Swiss citizens would share their data with AI chatbots for voting information.\n\nYour responses will help design better systems that:",
+    "benefit1": "Protect privacy while improving AI chatbots",
+    "benefit2": "Give people real control over their data",
+    "benefit3": "Build trust in AI tools for democracy",
+    "yourData": "Your Data",
+    "dataNote": "Only your survey answers were recorded (NOT your chatbot questions). All data is anonymous and will only be used for this research at Digital Business University of Applied Sciences.",
+    "withdrawNote": "You can withdraw your data within 7 days by contacting us with this code:",
+    "questions": "Questions?",
+    "researcher": "Researcher: Sabine Wildemann",
+    "studentId": "Student ID: 190297",
+    "email": "Email: hello@ailights.org",
+    "institution": "Institution: Digital Business University of Applied Sciences",
+    "program": "Program: Data Science & Business Analytics",
+    "supervisor": "Supervisor: Prof. Daniel Ambach",
+    "thankYou": "Feel free to contact me if you have any questions!",
     "close": "Close"
   }
 }
