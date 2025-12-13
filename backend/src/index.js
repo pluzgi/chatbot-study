@@ -6,6 +6,7 @@ import { dirname, join } from 'path';
 import chatRoutes from './routes/chat.js';
 import experimentRoutes from './routes/experiment.js';
 import donationRoutes from './routes/donation.js';
+import runMigrations from './config/migrate.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,6 +24,16 @@ app.use('/api/donation', donationRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Backend running on port ${process.env.PORT || 3000}`);
-});
+async function start() {
+  try {
+    await runMigrations();
+    app.listen(process.env.PORT || 3000, () => {
+      console.log(`Backend running on port ${process.env.PORT || 3000}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error.message);
+    process.exit(1);
+  }
+}
+
+start();
