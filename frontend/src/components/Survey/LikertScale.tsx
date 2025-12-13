@@ -22,7 +22,7 @@ const LikertScale: React.FC<LikertScaleProps> = ({
   return (
     <div className="w-full">
       {/* Scale */}
-      <div className="flex items-center justify-between gap-2 mb-2">
+      <div className="flex items-center justify-between gap-1 md:gap-2 mb-4">
         {options.map((point) => (
           <label
             key={point}
@@ -37,22 +37,22 @@ const LikertScale: React.FC<LikertScaleProps> = ({
               className="sr-only"
             />
             <div
-              className={`w-10 h-10 md:w-12 md:h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
+              className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
                 value === point
                   ? 'bg-[#FF0000] border-[#FF0000] text-white'
                   : 'border-gray-300 hover:border-[#FF0000] hover:bg-red-50 text-gray-700'
               }`}
             >
-              <span className="text-sm md:text-base font-medium">{point}</span>
+              <span className="text-base font-medium">{point}</span>
             </div>
           </label>
         ))}
       </div>
 
       {/* Labels */}
-      <div className="flex items-start justify-between text-xs md:text-sm text-gray-600 mt-2">
-        <span className="text-left max-w-[45%]">{leftLabel}</span>
-        <span className="text-right max-w-[45%]">{rightLabel}</span>
+      <div className="flex items-start justify-between text-sm md:text-base text-gray-600 mt-2">
+        <span className="text-left max-w-[45%] leading-relaxed">{leftLabel}</span>
+        <span className="text-right max-w-[45%] leading-relaxed">{rightLabel}</span>
       </div>
     </div>
   );

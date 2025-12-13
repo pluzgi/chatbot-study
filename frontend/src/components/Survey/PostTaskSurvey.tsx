@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '../../services/api';
 import { SurveyData } from '../../types';
@@ -42,12 +42,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
     trust1: null,
     trust2: null,
     // Q8: Acceptable Use (checkboxes)
-    acceptableUseNonprofit: false,
-    acceptableUseSwissUni: false,
-    acceptableUseIntlUni: false,
-    acceptableUseSwissCompany: false,
-    acceptableUseIntlCompany: false,
-    acceptableUseNone: false,
+    acceptableUseImproveChatbot: false,
+    acceptableUseAcademicResearch: false,
+    acceptableUseCommercialProducts: false,
+    acceptableUseNothing: false,
     // Q9: Attention Check
     attentionCheck: null,
     // Q10-Q13: Demographics
@@ -119,24 +117,11 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && canProceed()) {
-        handleNext();
-      } else if (e.key === 'Escape' && currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition') {
-        handleBack();
-      }
-    };
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentPage, answers]);
-
   const updateAnswer = (field: keyof SurveyData, value: any) => {
     setAnswers(prev => ({ ...prev, [field]: value }));
   };
 
-  const canProceed = () => {
+  const canProceed = useCallback(() => {
     const currentPageData = pageStructure[currentPage - 1];
     if (!currentPageData) return false;
 
@@ -168,9 +153,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
         return answers.trust1 !== null && answers.trust2 !== null;
       case 'acceptableUse':
         // At least one checkbox must be selected
-        return answers.acceptableUseNonprofit || answers.acceptableUseSwissUni ||
-               answers.acceptableUseIntlUni || answers.acceptableUseSwissCompany ||
-               answers.acceptableUseIntlCompany || answers.acceptableUseNone;
+        return answers.acceptableUseImproveChatbot || answers.acceptableUseAcademicResearch ||
+               answers.acceptableUseCommercialProducts || answers.acceptableUseNothing;
       case 'attentionCheck':
       case 'age':
       case 'gender':
@@ -181,19 +165,44 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
       default:
         return true;
     }
-  };
+  }, [pageStructure, currentPage, answers]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (canProceed() && currentPage < totalPages) {
       setCurrentPage(prev => prev + 1);
     }
-  };
+  }, [canProceed, currentPage, totalPages]);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     if (currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition') {
       setCurrentPage(prev => prev - 1);
     }
-  };
+  }, [currentPage, pageStructure]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const currentPageData = pageStructure[currentPage - 1];
+    // Don't add Enter key handler for text input pages
+    if (currentPageData?.type === 'openFeedback') {
+      return;
+    }
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Only handle keyboard shortcuts when not focused on an input element
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
+        return;
+      }
+
+      if (e.key === 'Enter' && canProceed()) {
+        handleNext();
+      } else if (e.key === 'Escape' && currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition') {
+        handleBack();
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [currentPage, pageStructure, handleNext, handleBack, canProceed]);
 
   const isFormComplete = () => {
     return (
@@ -212,9 +221,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
       // Q7: Trust
       answers.trust1 !== null && answers.trust2 !== null &&
       // Q8: Acceptable Use (at least one)
-      (answers.acceptableUseNonprofit || answers.acceptableUseSwissUni ||
-       answers.acceptableUseIntlUni || answers.acceptableUseSwissCompany ||
-       answers.acceptableUseIntlCompany || answers.acceptableUseNone) &&
+      (answers.acceptableUseImproveChatbot || answers.acceptableUseAcademicResearch ||
+       answers.acceptableUseCommercialProducts || answers.acceptableUseNothing) &&
       // Q9: Attention Check
       answers.attentionCheck !== null && answers.attentionCheck !== '' &&
       // Q10-Q13: Demographics
@@ -255,12 +263,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
         agency3: answers.agency3!,
         trust1: answers.trust1!,
         trust2: answers.trust2!,
-        acceptableUseNonprofit: answers.acceptableUseNonprofit!,
-        acceptableUseSwissUni: answers.acceptableUseSwissUni!,
-        acceptableUseIntlUni: answers.acceptableUseIntlUni!,
-        acceptableUseSwissCompany: answers.acceptableUseSwissCompany!,
-        acceptableUseIntlCompany: answers.acceptableUseIntlCompany!,
-        acceptableUseNone: answers.acceptableUseNone!,
+        acceptableUseImproveChatbot: answers.acceptableUseImproveChatbot!,
+        acceptableUseAcademicResearch: answers.acceptableUseAcademicResearch!,
+        acceptableUseCommercialProducts: answers.acceptableUseCommercialProducts!,
+        acceptableUseNothing: answers.acceptableUseNothing!,
         attentionCheck: answers.attentionCheck!,
         age: answers.age!,
         gender: answers.gender!,
@@ -286,8 +292,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
     leftLabel: string;
     rightLabel: string;
   }) => (
-    <div className="mb-8">
-      <p className="text-base md:text-lg mb-4 text-gray-900 text-left">{label}</p>
+    <div className="mb-10">
+      <p className="text-lg md:text-xl mb-4 text-gray-900 font-medium text-left leading-relaxed">{label}</p>
       <LikertScale
         name={field}
         value={answers[field] as number | null}
@@ -302,7 +308,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   const ClaritySection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <div className="mb-12">
-        <p className="text-xs text-gray-400 mb-2">
+        <p className="text-sm text-gray-400 mb-2">
           {t('survey.progress.question')} {questionNum}
         </p>
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -312,10 +318,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
-        {t('survey.clarity.section')}
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+        {t('survey.clarity.intro')}
       </h2>
-      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.clarity.intro')}</p>
       <div className="max-w-3xl">
         <LikertQuestion
           label={t('survey.clarity.q1')}
@@ -348,7 +353,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   const ControlSection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <div className="mb-12">
-        <p className="text-xs text-gray-400 mb-2">
+        <p className="text-sm text-gray-400 mb-2">
           {t('survey.progress.question')} {questionNum}
         </p>
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -358,10 +363,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
-        {t('survey.progress.question')} {questionNum}
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+        {t('survey.control.intro')}
       </h2>
-      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.control.intro')}</p>
       <div className="max-w-3xl">
         <LikertQuestion
           label={t('survey.control.q1')}
@@ -394,7 +398,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   const RiskSection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <div className="mb-12">
-        <p className="text-xs text-gray-400 mb-2">
+        <p className="text-sm text-gray-400 mb-2">
           {t('survey.progress.question')} {questionNum}
         </p>
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -404,10 +408,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
-        {t('survey.progress.question')} {questionNum}
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+        {t('survey.risk.intro')}
       </h2>
-      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.risk.intro')}</p>
       <div className="max-w-3xl">
         <LikertQuestion
           label={t('survey.risk.privacy')}
@@ -446,7 +449,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   const AgencySection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <div className="mb-12">
-        <p className="text-xs text-gray-400 mb-2">
+        <p className="text-sm text-gray-400 mb-2">
           {t('survey.progress.question')} {questionNum}
         </p>
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -456,10 +459,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
-        {t('survey.progress.question')} {questionNum}
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+        {t('survey.agency.intro')}
       </h2>
-      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.agency.intro')}</p>
       <div className="max-w-3xl">
         <LikertQuestion
           label={t('survey.agency.q1')}
@@ -486,7 +488,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   const TrustSection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <div className="mb-12">
-        <p className="text-xs text-gray-400 mb-2">
+        <p className="text-sm text-gray-400 mb-2">
           {t('survey.progress.question')} {questionNum}
         </p>
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -496,10 +498,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 text-left">
-        {t('survey.progress.question')} {questionNum}
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+        {t('survey.trust.intro')}
       </h2>
-      <p className="text-base text-gray-600 mb-12 text-left">{t('survey.trust.intro')}</p>
       <div className="max-w-3xl">
         <LikertQuestion
           label={t('survey.trust.q1')}
@@ -519,24 +520,22 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
 
   const AcceptableUsePage = ({ questionNum }: { questionNum: number }) => {
     const handleCheckboxChange = (field: keyof SurveyData, checked: boolean) => {
-      // If "None" is checked, uncheck all others
-      if (field === 'acceptableUseNone' && checked) {
+      // If "Nothing" is checked, uncheck all others
+      if (field === 'acceptableUseNothing' && checked) {
         setAnswers(prev => ({
           ...prev,
-          acceptableUseNonprofit: false,
-          acceptableUseSwissUni: false,
-          acceptableUseIntlUni: false,
-          acceptableUseSwissCompany: false,
-          acceptableUseIntlCompany: false,
-          acceptableUseNone: true
+          acceptableUseImproveChatbot: false,
+          acceptableUseAcademicResearch: false,
+          acceptableUseCommercialProducts: false,
+          acceptableUseNothing: true
         }));
       }
-      // If any other checkbox is checked, uncheck "None"
-      else if (field !== 'acceptableUseNone' && checked) {
+      // If any other checkbox is checked, uncheck "Nothing"
+      else if (field !== 'acceptableUseNothing' && checked) {
         setAnswers(prev => ({
           ...prev,
           [field]: checked,
-          acceptableUseNone: false
+          acceptableUseNothing: false
         }));
       }
       // Normal uncheck
@@ -548,7 +547,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
     return (
       <div className="max-w-2xl">
         <div className="mb-12">
-          <p className="text-xs text-gray-400 mb-2">
+          <p className="text-sm text-gray-400 mb-2">
             {t('survey.progress.question')} {questionNum}
           </p>
           <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -566,14 +565,12 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
         </p>
         <div className="space-y-4">
           {[
-            { field: 'acceptableUseNonprofit' as keyof SurveyData, label: t('survey.acceptableUse.nonprofit') },
-            { field: 'acceptableUseSwissUni' as keyof SurveyData, label: t('survey.acceptableUse.swissUni') },
-            { field: 'acceptableUseIntlUni' as keyof SurveyData, label: t('survey.acceptableUse.intlUni') },
-            { field: 'acceptableUseSwissCompany' as keyof SurveyData, label: t('survey.acceptableUse.swissCompany') },
-            { field: 'acceptableUseIntlCompany' as keyof SurveyData, label: t('survey.acceptableUse.intlCompany') },
-            { field: 'acceptableUseNone' as keyof SurveyData, label: t('survey.acceptableUse.none') }
+            { field: 'acceptableUseImproveChatbot' as keyof SurveyData, label: t('survey.acceptableUse.improveChatbot') },
+            { field: 'acceptableUseAcademicResearch' as keyof SurveyData, label: t('survey.acceptableUse.academicResearch') },
+            { field: 'acceptableUseCommercialProducts' as keyof SurveyData, label: t('survey.acceptableUse.commercialProducts') },
+            { field: 'acceptableUseNothing' as keyof SurveyData, label: t('survey.acceptableUse.nothing') }
           ].map(({ field, label }) => (
-            <label key={field} className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-[#FF0000] hover:bg-red-50 cursor-pointer transition">
+            <label key={field} className="flex items-start gap-3 p-3 md:p-4 border-2 border-gray-200 rounded-lg hover:border-[#FF0000] hover:bg-red-50 cursor-pointer transition min-h-[48px] items-center">
               <input
                 type="checkbox"
                 checked={answers[field] as boolean || false}
@@ -596,7 +593,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   }) => (
     <div className="max-w-2xl">
       <div className="mb-12">
-        <p className="text-xs text-gray-400 mb-2">
+        <p className="text-sm text-gray-400 mb-2">
           {t('survey.progress.question')} {questionNum}
         </p>
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -610,7 +607,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
       <select
         value={answers[field] as string || ''}
         onChange={(e) => updateAnswer(field, e.target.value)}
-        className="w-full max-w-md p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] bg-white block"
+        className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] bg-white block min-h-[48px]"
       >
         {options.map(opt => (
           <option key={opt.value} value={opt.value} disabled={opt.value === ''}>
@@ -627,7 +624,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
             value={answers.genderOther || ''}
             onChange={(e) => updateAnswer('genderOther', e.target.value)}
             placeholder={t('survey.demographics.gender.otherPlaceholder')}
-            className="w-full max-w-md p-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000]"
+            className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] min-h-[48px]"
           />
         </div>
       )}
@@ -652,7 +649,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
   const OpenFeedbackPage = ({ questionNum }: { questionNum: number }) => (
     <div className="max-w-2xl">
       <div className="mb-12">
-        <p className="text-xs text-gray-400 mb-2">
+        <p className="text-sm text-gray-400 mb-2">
           {t('survey.progress.question')} {questionNum}
         </p>
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -673,7 +670,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
         onChange={(e) => updateAnswer('openFeedback', e.target.value.slice(0, 500))}
         rows={6}
         maxLength={500}
-        className="w-full p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000]"
+        className="w-full p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] min-h-[48px]"
         placeholder={t('survey.openFeedback.placeholder')}
       />
       <p className="text-xs text-gray-500 mt-2 text-right">
@@ -787,39 +784,39 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-      <div className="bg-white rounded-lg max-w-4xl w-full p-8 md:p-12 my-8 shadow-lg">
-        <div className="mb-12">
+      <div className="bg-white rounded-lg max-w-4xl w-full p-6 md:p-8 lg:p-12 my-6 md:my-8 shadow-lg">
+        <div className="mb-8 md:mb-12">
           {renderPage()}
         </div>
 
         {/* Validation Error */}
         {validationError && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center text-base">
             {validationError}
           </div>
         )}
 
         {/* Navigation Buttons */}
-        <div className="flex gap-4 justify-between items-center mt-12">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-between items-stretch md:items-center mt-8 md:mt-12">
           {/* Back Button */}
           {currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition' ? (
             <button
               onClick={handleBack}
-              className="px-8 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition"
+              className="w-full md:w-auto px-8 py-4 md:py-3 bg-gray-200 text-gray-700 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-300 transition order-2 md:order-1"
             >
               ← {t('survey.navigation.back')}
             </button>
           ) : (
-            <div></div>
+            <div className="hidden md:block"></div>
           )}
 
           {/* Next/Submit Button */}
-          <div>
+          <div className="w-full md:w-auto order-1 md:order-2">
             {currentPage < totalPages ? (
               <button
                 onClick={handleNext}
                 disabled={!canProceed()}
-                className={`px-8 py-3 rounded-lg font-medium transition ${
+                className={`w-full md:w-auto px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] transition ${
                   canProceed()
                     ? 'bg-[#FF0000] text-white hover:bg-[#CC0000]'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -831,7 +828,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete 
               <button
                 onClick={handleSubmit}
                 disabled={submitting || !isFormComplete()}
-                className={`px-8 py-3 rounded-lg font-medium transition ${
+                className={`w-full md:w-auto px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] transition ${
                   submitting || !isFormComplete()
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-[#FF0000] text-white hover:bg-[#CC0000]'

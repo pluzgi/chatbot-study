@@ -95,8 +95,8 @@ class ExperimentService {
         risk_privacy, risk_misuse, risk_companies, risk_trust, risk_security,
         agency1, agency2, agency3,
         trust1, trust2,
-        acceptable_use_nonprofit, acceptable_use_swiss_uni, acceptable_use_intl_uni,
-        acceptable_use_swiss_company, acceptable_use_intl_company, acceptable_use_none,
+        acceptable_use_improve_chatbot, acceptable_use_academic_research,
+        acceptable_use_commercial_products, acceptable_use_nothing,
         attention_check,
         age, gender, gender_other, primary_language, education,
         open_feedback
@@ -107,10 +107,10 @@ class ExperimentService {
         $11, $12, $13, $14, $15,
         $16, $17, $18,
         $19, $20,
-        $21, $22, $23, $24, $25, $26,
-        $27,
-        $28, $29, $30, $31, $32,
-        $33
+        $21, $22, $23, $24,
+        $25,
+        $26, $27, $28, $29, $30,
+        $31
       )`,
       [
         uuidv4(), participantId,
@@ -119,8 +119,8 @@ class ExperimentService {
         measures.riskPrivacy, measures.riskMisuse, measures.riskCompanies, measures.riskTrust, measures.riskSecurity,
         measures.agency1, measures.agency2, measures.agency3,
         measures.trust1, measures.trust2,
-        measures.acceptableUseNonprofit, measures.acceptableUseSwissUni, measures.acceptableUseIntlUni,
-        measures.acceptableUseSwissCompany, measures.acceptableUseIntlCompany, measures.acceptableUseNone,
+        measures.acceptableUseImproveChatbot, measures.acceptableUseAcademicResearch,
+        measures.acceptableUseCommercialProducts, measures.acceptableUseNothing,
         measures.attentionCheck,
         measures.age, measures.gender, measures.genderOther, measures.primaryLanguage, measures.education,
         measures.openFeedback
