@@ -54,12 +54,10 @@ export interface SurveyData {
   trust2: number | null;  // I trust my data would be handled responsibly
 
   // Q8: Acceptable Use (checkboxes - always shown)
-  acceptableUseNonprofit: boolean;     // The Swiss non-profit organization
-  acceptableUseSwissUni: boolean;      // Swiss university researchers
-  acceptableUseIntlUni: boolean;       // International university researchers
-  acceptableUseSwissCompany: boolean;  // Swiss companies
-  acceptableUseIntlCompany: boolean;   // International companies
-  acceptableUseNone: boolean;          // None of these
+  acceptableUseImproveChatbot: boolean;      // Improving this chatbot
+  acceptableUseAcademicResearch: boolean;    // Academic research
+  acceptableUseCommercialProducts: boolean;  // Commercial products
+  acceptableUseNothing: boolean;             // Nothing
 
   // Q9: Attention Check (single choice - always shown)
   attentionCheck: string | null;  // voting/tax/immigration/news/dontremember

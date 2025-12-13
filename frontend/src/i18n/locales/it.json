@@ -52,8 +52,20 @@
       "agree": "Agree",
       "stronglyAgree": "Strongly agree"
     },
-    "continue": "Continue to Chatbot →",
+    "continue": "Continue →",
     "validationError": "Please answer this question to continue"
+  },
+  "instruction": {
+    "headline": "Try the Chatbot",
+    "text1": "Imagine Swiss researchers have built a chatbot to help citizens get clear, unbiased information about upcoming ballot initiatives.",
+    "text2": "The chatbot uses Apertus, a Swiss open-source large language artificial intelligence model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre.",
+    "text3": "",
+    "task": "Ask the chatbot at least 2 questions about upcoming ballot initiatives.",
+    "examplesLabel": "Examples:",
+    "example1": "What is the Klimafonds Initiative about?",
+    "example2": "Explain the Cash Initiative and the counter-proposal.",
+    "example3": "What is the National Council's position on \"For a fair energy and climate policy\"?",
+    "button": "Start Chatbot"
   },
   "chat": {
     "title": "Swiss Ballot Assistant",
@@ -170,14 +182,38 @@
       "q4": "I understood the privacy protections in place"
     },
     "control": {
-      "q1": "I had control over what happens to my data",
-      "q2": "I could choose how my data would be used",
-      "q3": "I had meaningful options for data donation",
-      "q4": "The privacy settings gave me the flexibility I wanted"
+      "intro": "Please tell us about the choices you had:",
+      "q1": "I had control over what happens to my questions.",
+      "q2": "I could choose how my data would be used.",
+      "q3": "I had real options for how to donate.",
+      "q4": "The process gave me the flexibility I wanted."
+    },
+    "risk": {
+      "intro": "When thinking about donating your questions, how concerned were you about:",
+      "privacy": "My questions could be traced back to me",
+      "misuse": "My data being used for things I don't agree with",
+      "companies": "Companies making money from my data",
+      "trust": "Not knowing who is really behind this",
+      "security": "My data being hacked or stolen"
+    },
+    "agency": {
+      "intro": "Please tell us how you felt about the data donation choice you just made:",
+      "q1": "I felt in control of what would happen to my questions.",
+      "q2": "My choices actually influenced what would happen to my data.",
+      "q3": "I felt able to make the right decision for myself."
     },
     "trust": {
-      "q1": "I trust the Apertus model",
-      "q2": "I trust that my data would be handled responsibly"
+      "intro": "Please indicate your agreement:",
+      "q1": "I believe my data would be safe with this chatbot.",
+      "q2": "I trust the organization behind this chatbot to do the right thing."
+    },
+    "acceptableUse": {
+      "question": "What should donated questions be used for?",
+      "instruction": "Select all that apply",
+      "improveChatbot": "Improving this chatbot",
+      "academicResearch": "Academic research",
+      "commercialProducts": "Commercial products",
+      "nothing": "Nothing"
     },
     "modelKnowledge": {
       "provenance": {
@@ -270,24 +306,15 @@
   },
   "debrief": {
     "title": "Thank You for Participating!",
-    "important": "Important Information About This Study",
-    "simulationNote": "Your survey responses will be used for academic research.\n\nHowever, the data donation decision was SIMULATED. Your chatbot questions were NOT actually stored, donated, or used for training. The donation was hypothetical for research purposes only.",
+    "important": "Important:",
+    "simulationNote": "The data donation was SIMULATED. Your chatbot questions were NOT stored or used. Only your survey answers were recorded anonymously.",
     "whatWeStudy": "What We're Studying",
-    "studyPurpose": "We're researching how different types of information and choices affect whether Swiss citizens would share their data with AI chatbots for voting information.\n\nYour responses will help design better systems that:",
-    "benefit1": "Protect privacy while improving AI chatbots",
-    "benefit2": "Give people real control over their data",
-    "benefit3": "Build trust in AI tools for democracy",
-    "yourData": "Your Data",
-    "dataNote": "Only your survey answers were recorded (NOT your chatbot questions). All data is anonymous and will only be used for this research at Digital Business University of Applied Sciences.",
-    "withdrawNote": "You can withdraw your data within 7 days by contacting us with this code:",
+    "studyPurpose": "We're researching what makes Swiss citizens comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems.",
     "questions": "Questions?",
-    "researcher": "Researcher: Sabine Wildemann",
-    "studentId": "Student ID: 190297",
-    "email": "Email: hello@ailights.org",
+    "contactIntro": "Feel free to contact me:",
+    "researcher": "Sabine Wildemann, hello@ailights.org",
     "institution": "Institution: Digital Business University of Applied Sciences",
-    "program": "Program: Data Science & Business Analytics",
     "supervisor": "Supervisor: Prof. Daniel Ambach",
-    "thankYou": "Feel free to contact me if you have any questions!",
     "close": "Close"
   }
 }

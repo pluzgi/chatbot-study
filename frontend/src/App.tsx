@@ -4,6 +4,7 @@ import { api } from './services/api';
 import { Session } from './types';
 import LanguageSelector from './components/LanguageSelector';
 import ChatInterface from './components/Chat/ChatInterface';
+import ChatbotInstruction from './components/Chat/ChatbotInstruction';
 import InfoBridge from './components/Donation/InfoBridge';
 import DonationModal from './components/Donation/DonationModal';
 import PostTaskSurvey from './components/Survey/PostTaskSurvey';
@@ -11,7 +12,7 @@ import Debriefing from './components/Survey/Debriefing';
 import BaselineSurvey from './components/Survey/BaselineSurvey';
 import './i18n/config';
 
-type Phase = 'landing' | 'baseline' | 'chat' | 'donation' | 'survey' | 'debrief' | 'already-participated';
+type Phase = 'landing' | 'baseline' | 'instruction' | 'chat' | 'donation' | 'survey' | 'debrief' | 'already-participated';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -58,7 +59,7 @@ function App() {
         // Don't block user - data is saved locally in development mode
       }
       // Always continue to next phase
-      setPhase('chat');
+      setPhase('instruction');
     }
   };
 
@@ -94,28 +95,28 @@ function App() {
 
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-        <div className="bg-white rounded-lg max-w-xl w-full p-10 md:p-12 shadow-sm">
+        <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm">
           {/* Language selector - top right, subtle */}
-          <div className="flex justify-end gap-2 mb-8">
+          <div className="flex justify-end gap-2 mb-6 md:mb-8">
             <LanguageSelector />
           </div>
 
           {/* Main content - all left-aligned */}
           <div className="text-left">
             {/* Title */}
-            <h1 className="text-3xl font-semibold mb-4 text-gray-900 leading-tight">
+            <h1 className="text-2xl md:text-[28px] font-semibold mb-4 text-gray-900 leading-tight">
               {t('landing.title')}
             </h1>
 
             {/* Intro */}
-            <p className="text-base text-gray-600 mb-6 leading-relaxed">
+            <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed">
               {t('landing.subtitle')} {t('landing.fact1')}. {t('landing.fact2')}.
             </p>
 
             {/* Steps */}
             <div className="mb-6">
-              <p className="font-semibold text-gray-900 mb-2">{t('landing.youWill')}</p>
-              <ol className="list-decimal pl-5 space-y-2 text-gray-600">
+              <p className="font-semibold text-base md:text-lg text-gray-900 mb-3">{t('landing.youWill')}</p>
+              <ol className="list-decimal pl-5 space-y-3 text-[15px] md:text-base text-gray-600 leading-relaxed">
                 <li>{t('landing.step1')}</li>
                 <li>{t('landing.step2')}</li>
                 <li>{t('landing.step3')}</li>
@@ -123,28 +124,28 @@ function App() {
             </div>
 
             {/* Requirements */}
-            <p className="text-sm text-gray-600 mb-8">
+            <p className="text-sm md:text-[15px] text-gray-600 mb-8 leading-relaxed">
               <span className="font-semibold text-gray-900">{t('landing.requirements')}</span> {t('landing.req1')}, {t('landing.req2')}
             </p>
 
             {/* Action Buttons */}
-            <div className="flex gap-3 mb-8">
+            <div className="flex flex-col md:flex-row gap-3 mb-8">
               <button
                 onClick={() => setShowConsentModal(true)}
-                className="px-6 py-3 bg-[#FF0000] text-white rounded-md font-medium text-sm hover:bg-[#CC0000] transition"
+                className="w-full md:w-auto px-6 py-4 md:py-3 bg-[#FF0000] text-white rounded-md font-medium text-base min-h-[48px] hover:bg-[#CC0000] transition"
               >
                 {t('landing.startButton')}
               </button>
               <button
                 onClick={() => alert(t('landing.declineMessage'))}
-                className="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-sm hover:bg-gray-50 transition"
+                className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
               >
                 {t('landing.declineButton')}
               </button>
             </div>
 
             {/* Contact */}
-            <p className="text-xs text-gray-500">
+            <p className="text-sm text-gray-500">
               {t('landing.contact')} <a href={`mailto:${t('landing.email')}`} className="text-[#FF0000] hover:underline">{t('landing.email')}</a>
             </p>
           </div>
@@ -153,50 +154,50 @@ function App() {
         {/* Consent Modal */}
         {showConsentModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg max-w-md w-full p-8">
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">{t('landing.consentModal.title')}</h2>
-              <p className="text-base text-gray-700 mb-6">{t('landing.consentModal.text')}</p>
+            <div className="bg-white rounded-lg max-w-md w-full p-6 md:p-8">
+              <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-900 leading-tight">{t('landing.consentModal.title')}</h2>
+              <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>
 
               <div className="space-y-4 mb-8">
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center">
                   <input
                     type="checkbox"
                     checked={consentChecks.age}
                     onChange={(e) => setConsentChecks(prev => ({ ...prev, age: e.target.checked }))}
-                    className="mt-1 w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000]"
+                    className="w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000] flex-shrink-0"
                   />
-                  <span className="text-base text-gray-800">{t('landing.consentModal.age')}</span>
+                  <span className="text-base text-gray-800 leading-relaxed">{t('landing.consentModal.age')}</span>
                 </label>
 
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center">
                   <input
                     type="checkbox"
                     checked={consentChecks.vote}
                     onChange={(e) => setConsentChecks(prev => ({ ...prev, vote: e.target.checked }))}
-                    className="mt-1 w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000]"
+                    className="w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000] flex-shrink-0"
                   />
-                  <span className="text-base text-gray-800">{t('landing.consentModal.vote')}</span>
+                  <span className="text-base text-gray-800 leading-relaxed">{t('landing.consentModal.vote')}</span>
                 </label>
 
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center">
                   <input
                     type="checkbox"
                     checked={consentChecks.voluntary}
                     onChange={(e) => setConsentChecks(prev => ({ ...prev, voluntary: e.target.checked }))}
-                    className="mt-1 w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000]"
+                    className="w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000] flex-shrink-0"
                   />
-                  <span className="text-base text-gray-800">{t('landing.consentModal.voluntary')}</span>
+                  <span className="text-base text-gray-800 leading-relaxed">{t('landing.consentModal.voluntary')}</span>
                 </label>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <button
                   onClick={() => {
                     setShowConsentModal(false);
                     startExperiment();
                   }}
                   disabled={!allConsented || loading}
-                  className={`flex-1 px-6 py-3 rounded-lg font-semibold transition ${
+                  className={`w-full md:flex-1 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] transition ${
                     allConsented && !loading
                       ? 'bg-[#FF0000] text-white hover:bg-[#CC0000]'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -206,7 +207,7 @@ function App() {
                 </button>
                 <button
                   onClick={() => setShowConsentModal(false)}
-                  className="flex-1 bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-400 transition"
+                  className="w-full md:flex-1 bg-gray-300 text-gray-800 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition"
                 >
                   {t('landing.consentModal.back')}
                 </button>
@@ -224,6 +225,15 @@ function App() {
       <BaselineSurvey
         participantId={session?.participantId || ''}
         onComplete={handleBaselineComplete}
+      />
+    );
+  }
+
+  // Instruction Phase
+  if (phase === 'instruction') {
+    return (
+      <ChatbotInstruction
+        onContinue={() => setPhase('chat')}
       />
     );
   }

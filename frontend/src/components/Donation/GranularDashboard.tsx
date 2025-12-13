@@ -17,16 +17,16 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
   };
 
   return (
-    <div className="space-y-6 bg-gray-50 p-6 rounded-lg">
-      <h3 className="text-xl font-bold">{t('dashboard.title')}</h3>
+    <div className="space-y-4 md:space-y-6 bg-gray-50 p-4 md:p-6 rounded-lg">
+      <h3 className="text-lg md:text-xl font-bold leading-tight">{t('dashboard.title')}</h3>
 
       {/* Scope */}
       <div>
-        <label className="block font-semibold mb-2">{t('dashboard.scope.label')}</label>
+        <label className="block font-semibold mb-2 text-base">{t('dashboard.scope.label')}</label>
         <select
           value={config.scope || ''}
           onChange={e => update('scope', e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 md:p-2 border rounded text-base min-h-[48px] md:min-h-[40px]"
         >
           <option value="" disabled>{t('dashboard.placeholder')}</option>
           <option value="topics">{t('dashboard.scope.topics')}</option>
@@ -36,11 +36,11 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
 
       {/* Purpose */}
       <div>
-        <label className="block font-semibold mb-2">{t('dashboard.purpose.label')}</label>
+        <label className="block font-semibold mb-2 text-base">{t('dashboard.purpose.label')}</label>
         <select
           value={config.purpose || ''}
           onChange={e => update('purpose', e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 md:p-2 border rounded text-base min-h-[48px] md:min-h-[40px]"
         >
           <option value="" disabled>{t('dashboard.placeholder')}</option>
           <option value="academic">{t('dashboard.purpose.academic')}</option>
@@ -50,11 +50,11 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
 
       {/* Storage Location */}
       <div>
-        <label className="block font-semibold mb-2">{t('dashboard.storage.label')}</label>
+        <label className="block font-semibold mb-2 text-base">{t('dashboard.storage.label')}</label>
         <select
           value={config.storage || ''}
           onChange={e => update('storage', e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 md:p-2 border rounded text-base min-h-[48px] md:min-h-[40px]"
         >
           <option value="" disabled>{t('dashboard.placeholder')}</option>
           <option value="swiss">{t('dashboard.storage.swiss')}</option>
@@ -65,11 +65,11 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
 
       {/* Retention */}
       <div>
-        <label className="block font-semibold mb-2">{t('dashboard.retention.label')}</label>
+        <label className="block font-semibold mb-2 text-base">{t('dashboard.retention.label')}</label>
         <select
           value={config.retention || ''}
           onChange={e => update('retention', e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 md:p-2 border rounded text-base min-h-[48px] md:min-h-[40px]"
         >
           <option value="" disabled>{t('dashboard.placeholder')}</option>
           <option value="1month">{t('dashboard.retention.1month')}</option>
@@ -80,7 +80,7 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
         </select>
       </div>
 
-      <div className="bg-green-50 border border-green-200 p-4 rounded text-sm">
+      <div className="bg-green-50 border border-green-200 p-3 md:p-4 rounded text-base leading-relaxed">
         {t('dashboard.revocability')}
       </div>
     </div>

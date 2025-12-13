@@ -37,20 +37,20 @@ const BaselineSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
-      <div className="bg-white rounded-lg max-w-2xl w-full p-8 md:p-12 shadow-lg">
+      <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
         {/* Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2 text-gray-900">
+        <div className="text-center mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900 leading-tight">
             {t('baseline.title')}
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-base md:text-lg text-gray-600">
             {t('baseline.subtitle')}
           </p>
         </div>
 
         {/* Progress */}
-        <div className="mb-12">
-          <p className="text-xs text-gray-400 mb-2">
+        <div className="mb-8 md:mb-12">
+          <p className="text-sm text-gray-400 mb-2">
             {t('baseline.progress', { current: currentQuestion })}
           </p>
           <div className="w-full bg-gray-200 rounded-full h-[3px]">
@@ -64,7 +64,7 @@ const BaselineSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         {/* Question 1: Tech Comfort */}
         {currentQuestion === 1 && (
           <div>
-            <h2 className="text-xl md:text-2xl font-semibold mb-12 text-gray-900 text-left">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-gray-900 text-left leading-relaxed">
               {t('baseline.techComfort.question')}
             </h2>
 
@@ -85,7 +85,7 @@ const BaselineSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         {/* Question 2: Privacy Concern */}
         {currentQuestion === 2 && (
           <div>
-            <h2 className="text-xl md:text-2xl font-semibold mb-12 text-gray-900 text-left">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-gray-900 text-left leading-relaxed">
               {t('baseline.privacyConcern.question')}
             </h2>
 
@@ -105,16 +105,16 @@ const BaselineSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
         {/* Error Message */}
         {error && (
-          <p className="text-red-600 text-sm mt-4">
+          <p className="text-red-600 text-base mt-4">
             {t('baseline.validationError')}
           </p>
         )}
 
         {/* Continue Button */}
-        <div className="mt-12 flex justify-end">
+        <div className="mt-8 md:mt-12 flex justify-end">
           <button
             onClick={handleContinue}
-            className="bg-[#FF0000] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#CC0000] transition"
+            className="w-full md:w-auto bg-[#FF0000] text-white px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-[#CC0000] transition"
           >
             {currentQuestion === 2 ? t('baseline.continue') : t('survey.navigation.next')}
           </button>
