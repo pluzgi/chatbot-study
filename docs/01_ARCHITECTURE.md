@@ -3,9 +3,9 @@
 ## System Overview
 
 ```
-User (ailights.org/ballot-chat)
+User (chat-study.ailights.org)
            ↓
-    React Frontend (Lovable)
+    React Frontend (Infomaniak Jelastic)
     • Chat interface
     • Donation modal (4 conditions)
     • Multi-language (DE/FR/IT/EN)
@@ -25,11 +25,11 @@ Apertus 8B    Python Microservice   PostgreSQL
 
 ## Technology Stack
 
-**Frontend (Lovable):**
+**Frontend (Infomaniak Jelastic):**
 - React + TypeScript
 - react-i18next (multi-language)
 - TailwindCSS
-- Domain: ailights.org/ballot-chat
+- Domain: chat-study.ailights.org
 
 **Backend (Infomaniak Jelastic):**
 - Node.js + Express
@@ -44,7 +44,7 @@ Apertus 8B    Python Microservice   PostgreSQL
 ## Data Flow
 
 ### User Interaction Flow
-1. User visits ailights.org/ballot-chat
+1. User visits chat-study.ailights.org
 2. System assigns experimental condition (A/B/C/D)
 3. User chats with Apertus about Swiss ballots
 4. After 2+ questions, donation modal appears
@@ -110,3 +110,25 @@ User message
 - ❌ Data sent to Apertus for training
 
 **Debriefing:** Clear message that donation was simulated.
+
+---
+
+## Deployed Infrastructure
+
+### URLs
+
+| Service | URL |
+|---------|-----|
+| Frontend | https://chat-study.ailights.org |
+| Backend API | https://thesis.jcloud-ver-jpe.ik-server.com |
+| Python Service | http://thesis-python.jcloud-ver-jpe.ik-server.com (internal) |
+| Database | 10.101.29.52:5432 (internal) |
+
+### Jelastic Environments
+
+| Environment | Type | Purpose |
+|-------------|------|---------|
+| `chat-study` | Apache PHP | Frontend hosting |
+| `thesis` | Node.js | Backend API |
+| `thesis-python` | Apache PHP | Python microservice |
+| PostgreSQL node | PostgreSQL 16.4 | Database |
