@@ -1,268 +1,172 @@
-# servers/swiss-voting/swiss_voting_tools.py
+# python-service/swiss_voting_tools.py
+"""
+Swiss Voting Tools - Data access for Swiss federal votes.
+Now powered by Swissvotes CSV dataset (with web scraping fallback).
+"""
 
-import requests
+import os
 import time
 import json
-import os
-from bs4 import BeautifulSoup
 from typing import Dict, List
 from datetime import datetime
 
+# Import CSV service
+from swissvotes_csv import (
+    fetch_csv,
+    get_upcoming_votes,
+    get_vote_by_id,
+    search_votes,
+    get_vote_context_for_llm,
+    get_all_upcoming_context_for_llm,
+    row_to_vote_dict
+)
+
 # --- Setup ---
 BASE = "https://swissvotes.ch"
-OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "servers", "swiss-voting", "data")
+OUT_DIR = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 
-# --- Helper Function: Parse Party Recommendations (Parteiparolen) ---
-def parse_parteiparolen(td):
-    """Extract party recommendations like 'Ja: EVP', 'Nein: SVP', etc."""
-    dls = td.find_all("dl", class_="recommendation")
-    parts = []
+# --- API Wrapper Functions (backward compatible) ---
 
-    # Case 1: structured dl/dt/dd layout
-    for dl in dls:
-        last_type = None
-        for elem in dl.find_all(["dt", "dd"]):
-            if elem.name == "dt":
-                last_type = elem.get_text(" ", strip=True)
-            elif elem.name == "dd":
-                party = elem.get_text(" ", strip=True)
-                if last_type:
-                    parts.append(f"{last_type}: {party}")
-
-    # Case 2: Fallback plain-text (no <dl>)
-    if not dls:
-        lines = td.get_text("\n", strip=True).split("\n")
-        for line in lines:
-            if ":" in line:
-                label, parties = line.split(":", 1)
-                for party in [p.strip() for p in parties.split(",") if p.strip()]:
-                    parts.append(f"{label.strip()}: {party}")
-    return parts
+def get_upcoming_initiatives(lang: str = 'de') -> List[Dict]:
+    """
+    Get all upcoming votes with details.
+    Now uses CSV data instead of web scraping.
+    """
+    return get_upcoming_votes(lang)
 
 
-# --- Step 1: Discover all upcoming Volksinitiative votes ---
-def discover_upcoming_volksinitiative_votes() -> List[str]:
-    url = f"{BASE}/votes?page=0"
-    r = requests.get(url, timeout=20)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, "html.parser")
-    ids = []
-    today = datetime.today().date()
-
-    for tr in soup.select("tr"):
-        cols = tr.find_all("td")
-        if not cols or len(cols) < 7:
-            continue
-
-        date_str = cols[1].get_text(strip=True)
-        rechtsform = cols[2].get_text(strip=True)
-        abstimmungsergebnis = cols[4].get_text(strip=True)
-        ja_anteil = cols[5].get_text(strip=True)
-        stimmbeteiligung = cols[6].get_text(strip=True)
-
-        try:
-            vote_date = datetime.strptime(date_str, "%d.%m.%Y").date()
-        except Exception:
-            vote_date = None
-
-        if (
-            rechtsform == "Volksinitiative"
-            and abstimmungsergebnis == ""
-            and ja_anteil == "%"
-            and stimmbeteiligung == "%"
-            and vote_date is not None
-            and vote_date >= today
-        ):
-            details_link = cols[-1].find("a", href=True)
-            if details_link and "/vote/" in details_link["href"]:
-                vid = details_link["href"].split("/vote/")[1]
-                if vid not in ids:
-                    ids.append(vid)
-    return ids
-
-
-# --- Step 2: Parse detailed info for each vote ---
-def parse_vote_page(vote_id: str) -> Dict:
-    url = f"{BASE}/vote/{vote_id}"
-    r = requests.get(url, timeout=20)
-    if r.status_code != 200:
-        return {}
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    result = {
-        "vote_id": vote_id.split(".")[0],
-        "official_number": vote_id,
-        "details_url": url
-    }
-
-    tables = soup.find_all("table")
-    for table in tables:
-        for row in table.find_all("tr"):
-            cells = row.find_all(["th", "td"], recursive=False)
-            if len(cells) != 2:
-                continue
-            if cells[0].name == "th" and ("colspan" in cells[0].attrs or not cells[1].text.strip()):
-                continue
-
-            label = cells[0].get_text(" ", strip=True)
-            td = cells[1]
-            value = td.get_text(" ", strip=True)
-            link = td.find("a", href=True)
-
-            # --- Map official fields ---
-            if label == "Offizieller Titel":
-                result["offizieller_titel"] = value
-            elif label == "Schlagwort":
-                result["schlagwort"] = value
-            elif label == "Abstimmungsdatum":
-                result["abstimmungsdatum"] = value
-            elif label == "Abstimmungsnummer":
-                result["abstimmungsnummer"] = value
-            elif label == "Rechtsform":
-                result["rechtsform"] = value
-            elif label == "Politikbereich":
-                spans = td.find_all("span")
-                if spans:
-                    result["politikbereich"] = "; ".join([s.get_text(" ", strip=True) for s in spans])
-                else:
-                    result["politikbereich"] = value
-            elif label == "Beschreibung Année Politique Suisse":
-                result["beschreibung_annee_politique_suisse_url"] = link["href"] if link else value
-            elif label == "Abstimmungstext":
-                result["abstimmungstext_pdf"] = link["href"] if link else value
-            elif label == "Offizielle Chronologie":
-                result["offizielle_chronologie_url"] = link["href"] if link else value
-            elif label == "Urheber:innen":
-                result["urheberinnen"] = value
-            elif label == "Vorprüfung":
-                result["vorpruefung_pdf"] = link["href"] if link else value
-            elif label == "Unterschriften":
-                result["unterschriften"] = value
-            elif label == "Sammeldauer":
-                result["sammeldauer"] = value
-            elif label == "Zustandekommen":
-                result["zustandekommen_pdf"] = link["href"] if link else value
-            elif label == "Botschaft des Bundesrats":
-                result["botschaft_des_bundesrats_pdf"] = link["href"] if link else value
-            elif label == "Geschäftsnummer":
-                result["geschaeftsnummer"] = value
-            elif label == "Parlamentsberatung":
-                result["parlamentsberatung_url"] = link["href"] if link else value
-            elif label == "Behandlungsdauer Parlament":
-                result["behandlungsdauer_parlament"] = value
-            elif label == "Position des Parlaments":
-                result["position_parlament"] = value
-            elif label == "Position des Nationalrats":
-                result["position_nationalrat"] = value
-            elif label == "Position des Ständerats":
-                result["position_staenderat"] = value
-            elif label == "Offizielles Abstimmungsbüchlein":
-                result["abstimmungsbuechlein_pdf"] = link["href"] if link else value
-            elif label == "Position des Bundesrats":
-                result["position_bundesrat"] = value
-            elif label == "Online-Informationen der Behörden":
-                result["online_informationen_behoerden_url"] = link["href"] if link else value
-            elif label == "Parteiparolen":
-                result["parteiparolen"] = parse_parteiparolen(td)
-            elif label == "Wählendenanteil des Ja-Lagers":
-                link_ja = td.find("a", href=True)
-                result["waehlendenanteil_ja_lager"] = link_ja["href"] if link_ja else value
-            elif label == "Weitere Parolen":
-                result["weitere_parolen"] = parse_parteiparolen(td)
-            elif label == "Abweichende Sektionen":
-                result["abweichende_sektionen"] = parse_parteiparolen(td)
-            elif label == "Kampagnenfinanzierung":
-                link_fin = td.find("a", href=True)
-                result["kampagnenfinanzierung_url"] = link_fin["href"] if link_fin else value
-
-    title_de = soup.find("h1")
-    if title_de:
-        result["title_de"] = title_de.get_text(strip=True)
-
-    return result
-
-
-# --- Step 3: Build full dataset ---
-def build_dataset() -> Dict:
-    vids = discover_upcoming_volksinitiative_votes()
-    ds = {
-        "metadata": {
-            "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "data_version": "1.0",
-            "sources": [BASE, "https://www.admin.ch"]
-        },
-        "federal_initiatives": [],
-        "usage_metrics": {}
-    }
-    for vid in vids:
-        base = parse_vote_page(vid)
-        ds["federal_initiatives"].append(base)
-    return ds
-
-
-# --- API Wrapper Functions ---
-def get_upcoming_initiatives() -> List[Dict]:
-    """Get all upcoming Volksinitiative votes with details."""
-    vids = discover_upcoming_volksinitiative_votes()
-    initiatives = []
-    for vid in vids:
-        vote_data = parse_vote_page(vid)
-        if vote_data:
-            initiatives.append(vote_data)
-    return initiatives
-
-
-def get_vote_by_id(vote_id: str) -> Dict:
+def get_vote_by_id_legacy(vote_id: str, lang: str = 'de') -> Dict:
     """Get detailed information for a specific vote."""
-    return parse_vote_page(vote_id)
+    vote = get_vote_by_id(vote_id, lang)
+    return vote if vote else {}
 
 
 def get_brochure_text(vote_id: str, lang: str = 'de') -> str:
-    """Get brochure text for a vote (placeholder - returns PDF URL)."""
-    vote = parse_vote_page(vote_id)
-    if not vote:
-        return ""
-
-    # Return structured info since we don't extract PDF text yet
-    parts = []
-    if vote.get('offizieller_titel'):
-        parts.append(f"Titel: {vote['offizieller_titel']}")
-    if vote.get('schlagwort'):
-        parts.append(f"Schlagwort: {vote['schlagwort']}")
-    if vote.get('abstimmungsbuechlein_pdf'):
-        parts.append(f"Abstimmungsbüchlein: {vote['abstimmungsbuechlein_pdf']}")
-    if vote.get('position_bundesrat'):
-        parts.append(f"Position Bundesrat: {vote['position_bundesrat']}")
-
-    return "\n".join(parts)
+    """
+    Get comprehensive vote information for chatbot context.
+    Returns rich formatted text for LLM consumption.
+    """
+    return get_vote_context_for_llm(vote_id, lang)
 
 
-def search_votes_by_keyword(keyword: str) -> List[Dict]:
-    """Search votes by keyword (simple text matching)."""
-    all_votes = get_upcoming_initiatives()
+def search_votes_by_keyword(keyword: str, include_historical: bool = False) -> List[Dict]:
+    """
+    Search votes by keyword.
+    Set include_historical=True to search past votes as well.
+    """
+    return search_votes(keyword, include_historical=include_historical)
+
+
+def get_all_upcoming_context(lang: str = 'de') -> str:
+    """Get comprehensive context for all upcoming votes."""
+    return get_all_upcoming_context_for_llm(lang)
+
+
+def get_historical_votes(year: int = None, rechtsform: int = None, lang: str = 'de') -> List[Dict]:
+    """
+    Get historical votes with optional filtering.
+
+    Args:
+        year: Filter by year (e.g., 2024)
+        rechtsform: Filter by type (3=Volksinitiative)
+        lang: Language code
+
+    Returns:
+        List of vote dictionaries
+    """
+    df = fetch_csv()
     results = []
 
-    keyword_lower = keyword.lower()
-    for vote in all_votes:
-        # Search in title, schlagwort, and offizieller_titel
-        searchable_text = " ".join([
-            vote.get('title_de', ''),
-            vote.get('schlagwort', ''),
-            vote.get('offizieller_titel', '')
-        ]).lower()
+    for _, row in df.iterrows():
+        # Parse date
+        try:
+            date = datetime.strptime(str(row.get('datum', '')), '%d.%m.%Y')
+        except:
+            continue
 
-        if keyword_lower in searchable_text:
-            results.append(vote)
+        # Check if it's a past vote (has result)
+        volkja = row.get('volkja', '')
+        if volkja == '' or (hasattr(volkja, '__iter__') and not volkja):
+            continue  # Skip upcoming votes
 
+        # Year filter
+        if year and date.year != year:
+            continue
+
+        # Rechtsform filter
+        if rechtsform:
+            try:
+                if int(float(row.get('rechtsform', 0))) != rechtsform:
+                    continue
+            except:
+                continue
+
+        results.append(row_to_vote_dict(row, lang))
+
+    # Sort by date descending
+    results.sort(key=lambda x: datetime.strptime(x['abstimmungsdatum'], '%d.%m.%Y'), reverse=True)
     return results
 
 
-# --- Step 4: Save to JSON ---
+def refresh_cache(include_pdfs: bool = True):
+    """
+    Force refresh the CSV cache and optionally refresh PDFs.
+
+    Args:
+        include_pdfs: If True, also clears and re-fetches all PDFs (default True)
+    """
+    fetch_csv(force_refresh=True)
+
+    if include_pdfs:
+        from pdf_extractor import clear_pdf_cache
+        clear_pdf_cache()
+        # Re-fetch PDFs for all languages
+        prefetch_upcoming_pdfs('de')
+        prefetch_upcoming_pdfs('fr')
+        prefetch_upcoming_pdfs('it')
+
+
+def prefetch_upcoming_pdfs(lang: str = 'de'):
+    """Pre-fetch and cache all PDFs for upcoming votes."""
+    from pdf_extractor import prefetch_pdfs_for_upcoming
+    upcoming = get_upcoming_initiatives(lang)
+    prefetch_pdfs_for_upcoming(upcoming, lang)
+
+
+def get_pdf_stats():
+    """Get statistics about cached PDFs."""
+    from pdf_extractor import get_cached_pdf_stats
+    return get_cached_pdf_stats()
+
+
+# --- Step 4: Build dataset (for backward compatibility) ---
+def build_dataset() -> Dict:
+    """Build dataset structure (backward compatible)."""
+    initiatives = get_upcoming_initiatives()
+    return {
+        "metadata": {
+            "last_updated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "data_version": "2.0",
+            "data_source": "swissvotes_csv",
+            "sources": [BASE, "https://www.admin.ch"]
+        },
+        "federal_initiatives": initiatives,
+        "usage_metrics": {}
+    }
+
+
+# --- CLI ---
 if __name__ == "__main__":
+    print("Fetching Swiss voting data from CSV...")
     data = build_dataset()
     out = os.path.join(OUT_DIR, "current_initiatives.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    print("✅ Wrote current_initiatives.json")
+    print(f"✅ Wrote {len(data['federal_initiatives'])} upcoming votes to current_initiatives.json")
+
+    # Show upcoming votes
+    print("\n📋 Upcoming votes:")
+    for vote in data['federal_initiatives']:
+        print(f"  - {vote['abstimmungsdatum']}: {vote['title_de']}")

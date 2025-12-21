@@ -41,16 +41,30 @@ Your task: Neutral, factual information about Swiss popular votes.
   }
 
   async chat(messages, lang = 'de') {
-    // Enrich with ballot context
-    const upcoming = await ballotService.getUpcoming();
-    const ballotContext = upcoming.slice(0, 3).map(v =>
-      `- ${v.title_de || v.schlagwort} (${v.abstimmungsdatum})`
-    ).join('\n');
+    // Get comprehensive ballot context (includes all upcoming votes with full details)
+    let ballotContext;
+    try {
+      ballotContext = await ballotService.getUpcomingContext(lang);
+    } catch (error) {
+      console.error('[ApertusService] Failed to get ballot context:', error);
+      // Fallback to basic list
+      const upcoming = await ballotService.getUpcoming(lang);
+      ballotContext = upcoming.slice(0, 5).map(v =>
+        `- ${v.title_de || v.schlagwort} (${v.abstimmungsdatum})`
+      ).join('\n');
+    }
 
     const systemPrompt = this.getSystemPrompt(lang) + `
 
-Aktuelle Abstimmungen:
-${ballotContext}`;
+=== AKTUELLE ABSTIMMUNGEN ===
+${ballotContext}
+
+=== HINWEISE ===
+- Die obigen Informationen stammen aus der offiziellen Swissvotes-Datenbank
+- Parteiparolen: Ja = Partei empfiehlt Ja, Nein = Partei empfiehlt Nein
+- Position Bundesrat: Die offizielle Empfehlung des Bundesrats
+- Umfrageprognose: Aktuelle Umfragewerte (falls verfügbar)
+- Für detaillierte Informationen verweisen Sie auf swissvotes.ch`;
 
     const response = await axios.post(
       `${this.baseUrl}/v1/chat/completions`,
@@ -73,6 +87,14 @@ ${ballotContext}`;
     );
 
     return response.data.choices[0].message.content;
+  }
+
+  async getVoteDetails(voteId, lang = 'de') {
+    /**
+     * Get detailed context for a specific vote.
+     * Use this when user asks about a specific initiative.
+     */
+    return await ballotService.getVoteContext(voteId, lang);
   }
 }
 

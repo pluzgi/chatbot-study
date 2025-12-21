@@ -5,7 +5,7 @@
 1. **Python Microservice** (Swiss Voting Data)
 2. **PostgreSQL Database** (Infomaniak)
 3. **Node.js Backend** (Infomaniak Jelastic)
-4. **Frontend** (Lovable → ailights.org/ballot-chat)
+4. **Frontend** (Infomaniak Jelastic → chat-study.ailights.org)
 
 ---
 
@@ -16,24 +16,56 @@
 ```bash
 # Create Python 3.10+ environment
 # SSH into environment
-ssh user@your-python-node.jelastic.infomaniak.com
+ssh user@thesis-python.jcloud-ver-jpe.ik-server.com
 
 # Upload your code
 git clone your-repo
-cd swiss-voting-tools
+cd python-service
 
 # Install dependencies
-pip install flask flask-cors
-# + any other dependencies from your swiss_voting_tools
+pip install -r requirements.txt
+
+# Set environment variables (add to .bashrc or PM2 ecosystem file)
+export SWISSVOTES_DATA_DIR=/app/data
+export SWISSVOTES_PREFETCH_ON_STARTUP=true
+export SWISSVOTES_CACHE_DAYS=7
 
 # Run
 python swiss_voting_api.py
 
 # Or with PM2 for production
-pip install pm2
 pm2 start swiss_voting_api.py --name swiss-voting
 pm2 save
 ```
+
+### Environment Variables (Python Service)
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SWISSVOTES_DATA_DIR` | `./data` | Directory for cached CSV and PDF data |
+| `SWISSVOTES_PREFETCH_ON_STARTUP` | `false` | Set to `true` to fetch all data on startup |
+| `SWISSVOTES_CACHE_DAYS` | `7` | Days before CSV/PDF cache is refreshed |
+| `SWISSVOTES_CSV_URL` | swissvotes.ch URL | Override CSV source (optional) |
+
+**Setting via PM2 ecosystem file (recommended):**
+
+Create `ecosystem.config.js`:
+```javascript
+module.exports = {
+  apps: [{
+    name: 'swiss-voting',
+    script: 'swiss_voting_api.py',
+    interpreter: 'python3',
+    env: {
+      SWISSVOTES_DATA_DIR: '/app/data',
+      SWISSVOTES_PREFETCH_ON_STARTUP: 'true',
+      SWISSVOTES_CACHE_DAYS: '7'
+    }
+  }]
+};
+```
+
+Then: `pm2 start ecosystem.config.js`
 
 ### Test
 ```bash
@@ -102,7 +134,7 @@ nano .env
 # INFOMANIAK_API_KEY=...
 # PYTHON_SERVICE_URL=http://your-python-node:5000
 # DATABASE_HOST=...
-# FRONTEND_URL=https://ailights.org
+# FRONTEND_URL=https://chat-study.ailights.org
 
 # Run
 node src/index.js
@@ -133,21 +165,153 @@ curl -X POST https://api.ailights.org/api/experiment/initialize \
 
 ---
 
-## 4. Frontend (Lovable)
+## 4. Frontend (Infomaniak Jelastic)
 
-### Configure
+### Environment: chat-study
 
-1. **Go to Lovable dashboard** → Your project
-2. **Settings** → Environment Variables:
-   - `VITE_API_ENDPOINT` = `https://api.ailights.org/api`
-3. **Upload all files** from 03_FRONTEND.md
-4. **Configure routing** for `/ballot-chat` page
+Create Apache PHP environment on Jelastic:
+1. Click **New Environment**
+2. Select **Apache PHP** (e.g., version 2.4.62)
+3. Name: `chat-study`
+4. Region: Switzerland
+5. Create
 
-### Deploy
+### Build Locally
 
-1. **Build** in Lovable
-2. **Deploy** (automatically deploys to ailights.org)
-3. **Test** at https://ailights.org/ballot-chat
+```bash
+cd frontend
+npm install
+npm run build   # Creates dist/ folder
+```
+
+### Environment Variables
+
+Create `frontend/.env.production`:
+```
+VITE_API_ENABLED=true
+VITE_API_ENDPOINT=https://thesis.jcloud-ver-jpe.ik-server.com/api
+```
+
+### Deploy (Manual)
+
+1. Open Jelastic → `chat-study` environment → Config (gear icon on Apache node)
+2. Navigate to `/var/www/webroot/ROOT/`
+3. Delete default `index.php` file
+4. Upload contents of `frontend/dist/` folder (index.html, assets/, vite.svg)
+
+### Configure SPA Routing
+
+Create `.htaccess` in `/var/www/webroot/ROOT/`:
+```apache
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+
+### Configure DNS (Hostpoint)
+
+Add CNAME record pointing to Jelastic:
+- **Name:** `chat-study`
+- **Target:** `chat-study.jcloud-ver-jpe.ik-server.com`
+
+Verify DNS propagation:
+```bash
+nslookup chat-study.ailights.org
+# Should return: chat-study.jcloud-ver-jpe.ik-server.com
+```
+
+### Configure SSL (Let's Encrypt)
+
+**Important:** DNS must be configured and propagated before SSL setup.
+
+1. In Jelastic dashboard, click **Marketplace** (top menu)
+2. Switch to **Add-ons** tab
+3. Search for **Let's Encrypt Free SSL**
+4. Click **Install**
+5. Select environment: `chat-study`
+6. Enter domain: `chat-study.ailights.org`
+7. Confirm installation
+
+The certificate auto-renews every 90 days.
+
+### Test
+
+Visit https://chat-study.ailights.org
+
+---
+
+## 5. Automated Deployment (Git)
+
+### Option A: GitHub Actions (Recommended)
+
+Create `.github/workflows/deploy-frontend.yml`:
+```yaml
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [main]
+    paths: ['frontend/**']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Build
+        working-directory: frontend
+        run: |
+          npm install
+          npm run build
+        env:
+          VITE_API_ENDPOINT: https://thesis.jcloud-ver-jpe.ik-server.com/api
+          VITE_API_ENABLED: true
+
+      - name: Deploy via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: chat-study.jcloud-ver-jpe.ik-server.com
+          username: ${{ secrets.JELASTIC_USER }}
+          key: ${{ secrets.JELASTIC_SSH_KEY }}
+          source: "frontend/dist/*"
+          target: "/var/www/webroot/ROOT/"
+          strip_components: 2
+```
+
+**Required GitHub Secrets:**
+- `JELASTIC_USER`: SSH username for chat-study environment
+- `JELASTIC_SSH_KEY`: SSH private key for authentication
+
+### Option B: Jelastic Git Deployment
+
+1. Create a `deploy` branch with only built files
+2. In Jelastic → `chat-study` → Deployment → Git/SVN
+3. Connect to your GitHub repo, branch `deploy`
+4. Set deployment path to `/var/www/webroot/ROOT/`
+5. Enable auto-deploy on push
+
+**Workflow:**
+```bash
+# After code changes
+cd frontend
+npm run build
+git checkout deploy
+cp -r dist/* .
+git add . && git commit -m "Deploy"
+git push origin deploy
+git checkout main
+```
 
 ---
 
@@ -155,7 +319,7 @@ curl -X POST https://api.ailights.org/api/experiment/initialize \
 
 ### End-to-End Test
 
-- [ ] Visit https://ailights.org/ballot-chat
+- [ ] Visit https://chat-study.ailights.org
 - [ ] Select language (DE/FR/IT/EN)
 - [ ] Click "Start Study"
 - [ ] System assigns condition → Chat appears
@@ -205,7 +369,7 @@ SELECT language, COUNT(*) FROM participants GROUP BY language;
 ## Troubleshooting
 
 ### Issue: CORS errors
-**Fix:** Check `FRONTEND_URL` in backend .env matches https://ailights.org
+**Fix:** Check `FRONTEND_URL` in backend .env matches https://chat-study.ailights.org
 
 ### Issue: Apertus API timeout
 **Fix:** Check `INFOMANIAK_API_KEY` is valid, test with curl
@@ -271,10 +435,10 @@ Before launching study:
 ## Quick Reference
 
 ### URLs
-- Frontend: https://ailights.org/ballot-chat
-- Backend: https://api.ailights.org
-- Python Service: http://internal:5000 (not public)
-- Database: postgresql-node.jelastic.infomaniak.com
+- Frontend: https://chat-study.ailights.org
+- Backend: https://thesis.jcloud-ver-jpe.ik-server.com
+- Python Service: https://thesis-python.jcloud-ver-jpe.ik-server.com (internal)
+- Database: 10.101.29.52:5432 (internal)
 
 ### API Endpoints
 - `POST /api/experiment/initialize` - Start session
@@ -284,16 +448,22 @@ Before launching study:
 
 ### Environment Variables
 
-**Backend:**
+**Backend (.env on thesis environment):**
 ```
-INFOMANIAK_APERTUS_ENDPOINT=https://api.infomaniak.com/apertus
+PORT=3000
+INFOMANIAK_APERTUS_ENDPOINT=https://api.infomaniak.com/2/ai/106600/openai
 INFOMANIAK_API_KEY=your_key
-PYTHON_SERVICE_URL=http://python-node:5000
-DATABASE_HOST=postgresql-node.jelastic.infomaniak.com
-FRONTEND_URL=https://ailights.org
+PYTHON_SERVICE_URL=http://thesis-python.jcloud-ver-jpe.ik-server.com
+DATABASE_HOST=10.101.29.52
+DATABASE_PORT=5432
+DATABASE_NAME=chatbot-study
+DATABASE_USER=webadmin
+DATABASE_PASSWORD=your_password
+FRONTEND_URL=https://chat-study.ailights.org
 ```
 
-**Frontend (Lovable):**
+**Frontend (.env.production):**
 ```
-VITE_API_ENDPOINT=https://api.ailights.org/api
+VITE_API_ENABLED=true
+VITE_API_ENDPOINT=https://thesis.jcloud-ver-jpe.ik-server.com/api
 ```
