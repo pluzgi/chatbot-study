@@ -69,10 +69,10 @@ Then: `pm2 start ecosystem.config.js`
 
 ### Test
 ```bash
-curl http://your-python-node.jelastic.infomaniak.com:5000/health
-# Should return: {"status": "ok"}
+curl http://thesis-python.jcloud-ver-jpe.ik-server.com/health
+# Should return: {"status": "ok", "data_source": "swissvotes_csv"}
 
-curl http://your-python-node.jelastic.infomaniak.com:5000/api/initiatives/upcoming
+curl http://thesis-python.jcloud-ver-jpe.ik-server.com/api/initiatives/upcoming
 # Should return: JSON array of upcoming votes
 ```
 
@@ -132,7 +132,7 @@ nano .env
 # Add:
 # INFOMANIAK_APERTUS_ENDPOINT=...
 # INFOMANIAK_API_KEY=...
-# PYTHON_SERVICE_URL=http://your-python-node:5000
+# PYTHON_SERVICE_URL=http://thesis-python.jcloud-ver-jpe.ik-server.com
 # DATABASE_HOST=...
 # FRONTEND_URL=https://chat-study.ailights.org
 
