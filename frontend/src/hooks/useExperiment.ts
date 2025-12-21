@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Session } from '../types';
 import { api } from '../services/api';
 

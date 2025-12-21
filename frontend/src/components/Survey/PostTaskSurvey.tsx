@@ -10,7 +10,7 @@ interface Props {
   onComplete: () => void;
 }
 
-const PostTaskSurvey: React.FC<Props> = ({ participantId, condition, onComplete }) => {
+const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [submitting, setSubmitting] = useState(false);

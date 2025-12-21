@@ -1,6 +1,6 @@
-# Frontend Implementation (Lovable)
+# Frontend Implementation (Infomaniak Jelastic)
 
-## Domain: ailights.org/ballot-chat
+## Domain: chat-study.ailights.org
 
 ---
 
@@ -43,9 +43,17 @@ src/
 
 ## 2. Configuration
 
-### Environment Variables (Lovable Settings)
+### Environment Variables
+
+**Development (.env):**
 ```
-VITE_API_ENDPOINT=https://your-backend.jelastic.infomaniak.com/api
+VITE_API_ENABLED=false
+```
+
+**Production (.env.production):**
+```
+VITE_API_ENABLED=true
+VITE_API_ENDPOINT=https://thesis.jcloud-ver-jpe.ik-server.com/api
 ```
 
 ### Install Dependencies
@@ -520,7 +528,7 @@ const Debriefing: React.FC = () => {
       </div>
 
       <button
-        onClick={() => window.location.href = 'https://ailights.org'}
+        onClick={() => window.location.href = 'https://chat-study.ailights.org'}
         className="mt-6 w-full bg-blue-600 text-white py-2 rounded"
       >
         {t('debrief.close')}
@@ -702,14 +710,69 @@ export default App;
 
 ---
 
-## 5. Deployment to ailights.org
+## 5. Deployment to chat-study.ailights.org
 
-### In Lovable:
-1. Create new route: `/ballot-chat`
-2. Upload all components
-3. Set environment variable: `VITE_API_ENDPOINT`
-4. Deploy
+### Environment Setup
 
-### Domain configuration:
-- Main site: https://ailights.org (existing)
-- Chat app: https://ailights.org/ballot-chat (new route)
+1. Create Apache PHP environment on Infomaniak Jelastic named `chat-study`
+2. Select Apache PHP 2.4.62 (or similar)
+3. Region: Switzerland
+
+### Build & Deploy
+
+**Step 1: Create production environment file**
+
+Create `frontend/.env.production`:
+```
+VITE_API_ENABLED=true
+VITE_API_ENDPOINT=https://thesis.jcloud-ver-jpe.ik-server.com/api
+```
+
+**Step 2: Build locally**
+```bash
+cd frontend
+npm install
+npm run build   # Creates dist/ folder
+```
+
+**Step 3: Upload to Jelastic**
+1. Open Jelastic → `chat-study` environment → Config (gear icon)
+2. Navigate to `/var/www/webroot/ROOT/`
+3. Delete default `index.php`
+4. Upload contents of `frontend/dist/` folder
+
+**Step 4: Configure SPA routing**
+
+Create `.htaccess` in `/var/www/webroot/ROOT/`:
+```apache
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+
+### DNS Configuration (Hostpoint)
+
+Add CNAME record:
+- **Name:** `chat-study`
+- **Target:** `chat-study.jcloud-ver-jpe.ik-server.com`
+
+### SSL Configuration (Let's Encrypt)
+
+1. In Jelastic dashboard, click **Marketplace** (top menu)
+2. Switch to **Add-ons** tab
+3. Search for **Let's Encrypt Free SSL**
+4. Click **Install**
+5. Select environment: `chat-study`
+6. Enter domain: `chat-study.ailights.org`
+7. Confirm
+
+### Domain Configuration Summary
+
+- Main site: https://ailights.org (Lovable - unchanged)
+- Chat study: https://chat-study.ailights.org (Infomaniak Jelastic)
+- Backend API: https://thesis.jcloud-ver-jpe.ik-server.com

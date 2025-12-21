@@ -7,7 +7,7 @@ interface Props {
   onComplete: (data: { techComfort: number; privacyConcern: number }) => void;
 }
 
-const BaselineSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
+const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
   const { t } = useTranslation();
   const [currentQuestion, setCurrentQuestion] = useState<1 | 2>(1);
   const [techComfort, setTechComfort] = useState<number | null>(null);

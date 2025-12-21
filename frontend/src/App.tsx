@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from './services/api';
 import { Session } from './types';
@@ -27,7 +27,7 @@ function App() {
     vote: false,
     voluntary: false
   });
-  const [baselineData, setBaselineData] = useState<{ techComfort: number; privacyConcern: number } | null>(null);
+  const [_baselineData, setBaselineData] = useState<{ techComfort: number; privacyConcern: number } | null>(null);
 
   const startExperiment = async () => {
     setLoading(true);
