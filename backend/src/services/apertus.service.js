@@ -1,10 +1,14 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
+
 import ballotService from './ballot.service.js';
 
 class ApertusService {
   constructor() {
     this.baseUrl = process.env.INFOMANIAK_APERTUS_ENDPOINT;
     this.apiKey = process.env.INFOMANIAK_API_KEY;
+    console.log('ApertusService using endpoint:', this.baseUrl);
   }
 
   getSystemPrompt(lang) {
@@ -67,7 +71,7 @@ ${ballotContext}
 - Für detaillierte Informationen verweisen Sie auf swissvotes.ch`;
 
     const response = await axios.post(
-      `${this.baseUrl}/v1/chat/completions`,
+      `${this.baseUrl}/chat/completions`,
       {
         model: "apertus-8b-instruct",
         messages: [
