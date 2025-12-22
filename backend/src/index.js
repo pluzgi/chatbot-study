@@ -15,7 +15,24 @@ dotenv.config({ path: join(__dirname, '../.env') });
 
 const app = express();
 
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+// CORS: Allow production frontend + localhost for testing
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:8000',
+  'http://127.0.0.1:8000'
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 app.use('/api/chat', chatRoutes);
