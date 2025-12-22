@@ -55,7 +55,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     primaryLanguage: null,
     education: null,
     // Q14: Open Feedback
-    openFeedback: ''
+    openFeedback: '',
+    // Q15: Email Notification (optional)
+    notifyEmail: ''
   });
 
   // Build dynamic page structure
@@ -106,6 +108,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
     // Q14: Open Feedback
     pages.push({ questionNum, type: 'openFeedback', field: 'openFeedback' });
+    questionNum++;
+
+    // Q15: Email Notification (optional)
+    pages.push({ questionNum, type: 'notifyEmail', field: 'notifyEmail' });
 
     return pages;
   }, []);
@@ -130,8 +136,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       return true;
     }
 
-    // Open feedback is optional, can always proceed
-    if (currentPageData.type === 'openFeedback') {
+    // Open feedback and email notification are optional, can always proceed
+    if (currentPageData.type === 'openFeedback' || currentPageData.type === 'notifyEmail') {
       return true;
     }
 
@@ -183,7 +189,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   useEffect(() => {
     const currentPageData = pageStructure[currentPage - 1];
     // Don't add Enter key handler for text input pages
-    if (currentPageData?.type === 'openFeedback') {
+    if (currentPageData?.type === 'openFeedback' || currentPageData?.type === 'notifyEmail') {
       return;
     }
 
@@ -273,7 +279,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         genderOther: answers.genderOther || '',
         primaryLanguage: answers.primaryLanguage!,
         education: answers.education!,
-        openFeedback: answers.openFeedback || ''
+        openFeedback: answers.openFeedback || '',
+        notifyEmail: answers.notifyEmail || ''
       };
 
       await api.submitSurvey(participantId, surveyData);
@@ -655,7 +662,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         <div className="w-full bg-gray-200 rounded-full h-[3px]">
           <div
             className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
+            style={{ width: `${((questionNum - 2) / 13) * 100}%` }}
           />
         </div>
       </div>
@@ -676,6 +683,36 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       <p className="text-xs text-gray-500 mt-2 text-right">
         {(answers.openFeedback || '').length}/500 - {t('survey.openFeedback.maxLength')}
       </p>
+    </div>
+  );
+
+  const EmailNotificationPage = ({ questionNum }: { questionNum: number }) => (
+    <div className="max-w-2xl">
+      <div className="mb-12">
+        <p className="text-sm text-gray-400 mb-2">
+          {t('survey.progress.question')} {questionNum}
+        </p>
+        <div className="w-full bg-gray-200 rounded-full h-[3px]">
+          <div
+            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
+            style={{ width: `${((questionNum - 2) / 13) * 100}%` }}
+          />
+        </div>
+      </div>
+      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-900 text-left">
+        {t('survey.notifyEmail.question')}
+      </h2>
+      <p className="text-sm text-gray-600 mb-8 italic text-left">
+        {t('survey.notifyEmail.note')}
+      </p>
+      <input
+        type="email"
+        value={answers.notifyEmail || ''}
+        onChange={(e) => updateAnswer('notifyEmail', e.target.value)}
+        maxLength={255}
+        className="w-full max-w-md p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] min-h-[48px]"
+        placeholder={t('survey.notifyEmail.placeholder')}
+      />
     </div>
   );
 
@@ -777,6 +814,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         />;
       case 'openFeedback':
         return <OpenFeedbackPage questionNum={questionNum} />;
+      case 'notifyEmail':
+        return <EmailNotificationPage questionNum={questionNum} />;
       default:
         return null;
     }

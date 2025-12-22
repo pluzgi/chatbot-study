@@ -290,6 +290,17 @@
       "comments": "Additional comments",
       "commentsPlaceholder": "Share any additional thoughts or feedback..."
     },
+    "openFeedback": {
+      "question": "Was war der Hauptgrund für Ihre Entscheidung?",
+      "note": "Diese Frage ist optional, aber Ihre Gedanken helfen uns zu verstehen, wie Menschen diese Entscheidungen treffen.",
+      "placeholder": "Schreiben Sie hier Ihre Antwort...",
+      "maxLength": "Maximal 500 Zeichen"
+    },
+    "notifyEmail": {
+      "question": "Möchten Sie die Studienergebnisse erhalten?",
+      "note": "Optional. Geben Sie Ihre E-Mail-Adresse ein, wenn Sie benachrichtigt werden möchten, sobald die Ergebnisse veröffentlicht werden.",
+      "placeholder": "ihre.email@beispiel.ch"
+    },
     "validationError": "Please answer all required questions before submitting",
     "submissionError": "Failed to submit survey. Please try again.",
     "submitting": "Submitting...",
