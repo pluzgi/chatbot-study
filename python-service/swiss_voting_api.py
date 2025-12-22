@@ -41,13 +41,18 @@ def upcoming_context():
     """
     Get comprehensive context for all upcoming votes.
     Formatted for LLM consumption - ideal for chatbot system prompts.
+    Query params:
+        - lang: Language (de, fr, en)
+        - include_pdfs: Include PDF content (default: false for faster response)
     """
     try:
         lang = request.args.get('lang', 'de')
-        context = get_all_upcoming_context(lang)
+        include_pdfs = request.args.get('include_pdfs', 'false').lower() == 'true'
+        context = get_all_upcoming_context(lang, include_pdfs=include_pdfs)
         return jsonify({
             'context': context,
-            'lang': lang
+            'lang': lang,
+            'include_pdfs': include_pdfs
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500

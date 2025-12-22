@@ -59,9 +59,9 @@ def search_votes_by_keyword(keyword: str, include_historical: bool = False) -> L
     return search_votes(keyword, include_historical=include_historical)
 
 
-def get_all_upcoming_context(lang: str = 'de') -> str:
+def get_all_upcoming_context(lang: str = 'de', include_pdfs: bool = True) -> str:
     """Get comprehensive context for all upcoming votes."""
-    return get_all_upcoming_context_for_llm(lang)
+    return get_all_upcoming_context_for_llm(lang, include_pdfs=include_pdfs)
 
 
 def get_historical_votes(year: int = None, rechtsform: int = None, lang: str = 'de') -> List[Dict]:
