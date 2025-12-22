@@ -257,7 +257,7 @@ ${ballotContext}`;
     const response = await axios.post(
       `${this.baseUrl}/v1/chat/completions`,
       {
-        model: "apertus-8b-instruct",
+        model: "Apertus-70B-Instruct-2509",
         messages: [
           { role: "system", content: systemPrompt },
           ...messages
