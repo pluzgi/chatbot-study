@@ -71,4 +71,7 @@ export interface SurveyData {
 
   // Q14: Open Feedback (optional)
   openFeedback: string;
+
+  // Q15: Email Notification (optional)
+  notifyEmail?: string;
 }

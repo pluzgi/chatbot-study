@@ -262,6 +262,11 @@
       "placeholder": "Type your response here...",
       "maxLength": "Maximum 500 characters"
     },
+    "notifyEmail": {
+      "question": "Would you like to receive the study results?",
+      "note": "Optional. Enter your email if you'd like to be notified when results are published.",
+      "placeholder": "your.email@example.com"
+    },
     "validationError": "Please answer all required questions before submitting",
     "submissionError": "Failed to submit survey. Please try again.",
     "submitting": "Submitting...",

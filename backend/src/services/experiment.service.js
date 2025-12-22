@@ -2,8 +2,11 @@ import pool from '../config/database.js';
 import { v4 as uuidv4 } from 'uuid';
 
 class ExperimentService {
+  /**
+   * Assign condition using block randomization.
+   * Ensures balanced distribution across A, B, C, D.
+   */
   async assignCondition() {
-    // Block randomization
     const result = await pool.query(`
       SELECT condition, COUNT(*) as count
       FROM participants
@@ -19,6 +22,10 @@ class ExperimentService {
     return available[Math.floor(Math.random() * available.length)];
   }
 
+  /**
+   * Get UI configuration for a condition.
+   * Derived from condition - not stored in DB.
+   */
   getConditionConfig(condition) {
     return {
       A: { transparency: 'low', control: 'low', showDNL: false, showDashboard: false },
@@ -28,6 +35,9 @@ class ExperimentService {
     }[condition];
   }
 
+  /**
+   * Check for duplicate participation within 7 days.
+   */
   async checkDuplicateParticipation(fingerprint) {
     const result = await pool.query(
       `SELECT id FROM participants
@@ -36,18 +46,23 @@ class ExperimentService {
        LIMIT 1`,
       [fingerprint]
     );
-
     return result.rows.length > 0;
   }
 
+  /**
+   * Create new participant with assigned condition.
+   * Initial phase: 'consent'
+   */
   async createParticipant(lang = 'de', fingerprint = null) {
+    const id = uuidv4();
     const sessionId = uuidv4();
     const condition = await this.assignCondition();
 
     const result = await pool.query(
-      `INSERT INTO participants (id, session_id, condition, language, fingerprint, created_at)
-       VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING *`,
-      [uuidv4(), sessionId, condition, lang, fingerprint]
+      `INSERT INTO participants (id, session_id, condition, language, fingerprint, current_phase)
+       VALUES ($1, $2, $3, $4, $5, 'consent')
+       RETURNING *`,
+      [id, sessionId, condition, lang, fingerprint]
     );
 
     return {
@@ -56,40 +71,51 @@ class ExperimentService {
     };
   }
 
-  async recordDonation(participantId, decision, dashboardConfig = null) {
-    const p = await pool.query('SELECT condition FROM participants WHERE id = $1', [participantId]);
-    const condition = p.rows[0].condition;
-    const config = this.getConditionConfig(condition);
-
-    // Config is NULL for:
-    // - Conditions A & B (no dashboard)
-    // - Any decline decision
-    // Config is JSON object for:
-    // - Conditions C & D when user donates (contains dashboard selections)
-    const configValue = dashboardConfig ? JSON.stringify(dashboardConfig) : null;
-
+  /**
+   * Update participant's current phase for dropout tracking.
+   */
+  async updatePhase(participantId, phase) {
     await pool.query(
-      `INSERT INTO donation_decisions (id, participant_id, decision, condition,
-       transparency_level, control_level, config, decision_timestamp)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
-      [uuidv4(), participantId, decision, condition, config.transparency,
-       config.control, configValue]
+      `UPDATE participants SET current_phase = $1 WHERE id = $2`,
+      [phase, participantId]
     );
   }
 
+  /**
+   * Record baseline measures (Q1-Q2) and advance to chatbot phase.
+   */
   async recordBaseline(participantId, techComfort, privacyConcern) {
     await pool.query(
       `UPDATE participants
-       SET tech_comfort = $1, baseline_privacy_concern = $2
+       SET tech_comfort = $1, baseline_privacy_concern = $2, current_phase = 'chatbot'
        WHERE id = $3`,
       [techComfort, privacyConcern, participantId]
     );
   }
 
+  /**
+   * Record donation decision and advance to survey phase.
+   */
+  async recordDonation(participantId, decision, dashboardConfig = null) {
+    const configValue = dashboardConfig ? JSON.stringify(dashboardConfig) : null;
+
+    await pool.query(
+      `UPDATE participants
+       SET donation_decision = $1, donation_config = $2, decision_at = NOW(), current_phase = 'survey'
+       WHERE id = $3`,
+      [decision, configValue, participantId]
+    );
+  }
+
+  /**
+   * Record post-task survey measures (Q3-Q14) and mark as complete.
+   * Also handles optional notify_email.
+   */
   async recordPostMeasures(participantId, measures) {
+    // Insert survey measures
     await pool.query(
       `INSERT INTO post_task_measures (
-        id, participant_id,
+        participant_id,
         clarity1, clarity2, clarity3, clarity4,
         control1, control2, control3, control4,
         risk_privacy, risk_misuse, risk_companies, risk_trust, risk_security,
@@ -101,19 +127,19 @@ class ExperimentService {
         age, gender, gender_other, primary_language, education,
         open_feedback
       ) VALUES (
-        $1, $2,
-        $3, $4, $5, $6,
-        $7, $8, $9, $10,
-        $11, $12, $13, $14, $15,
-        $16, $17, $18,
-        $19, $20,
-        $21, $22, $23, $24,
-        $25,
-        $26, $27, $28, $29, $30,
-        $31
+        $1,
+        $2, $3, $4, $5,
+        $6, $7, $8, $9,
+        $10, $11, $12, $13, $14,
+        $15, $16, $17,
+        $18, $19,
+        $20, $21, $22, $23,
+        $24,
+        $25, $26, $27, $28, $29,
+        $30
       )`,
       [
-        uuidv4(), participantId,
+        participantId,
         measures.clarity1, measures.clarity2, measures.clarity3, measures.clarity4,
         measures.control1, measures.control2, measures.control3, measures.control4,
         measures.riskPrivacy, measures.riskMisuse, measures.riskCompanies, measures.riskTrust, measures.riskSecurity,
@@ -126,6 +152,35 @@ class ExperimentService {
         measures.openFeedback
       ]
     );
+
+    // Mark participant as complete and optionally store email
+    await pool.query(
+      `UPDATE participants
+       SET current_phase = 'complete', completed_at = NOW(), notify_email = $1
+       WHERE id = $2`,
+      [measures.notifyEmail || null, participantId]
+    );
+  }
+
+  /**
+   * Get dropout statistics by phase.
+   */
+  async getDropoutStats() {
+    const result = await pool.query(`
+      SELECT current_phase, COUNT(*) as count
+      FROM participants
+      GROUP BY current_phase
+      ORDER BY
+        CASE current_phase
+          WHEN 'consent' THEN 1
+          WHEN 'baseline' THEN 2
+          WHEN 'chatbot' THEN 3
+          WHEN 'decision' THEN 4
+          WHEN 'survey' THEN 5
+          WHEN 'complete' THEN 6
+        END
+    `);
+    return result.rows;
   }
 }
 

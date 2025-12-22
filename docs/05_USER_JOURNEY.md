@@ -712,6 +712,27 @@ If "Other" is selected:
 
 **Validation:** Optional (can leave empty)
 
+---
+
+### Question 15: Email Notification (Optional)
+
+**Section Header:** "Question 15"
+
+**Question:**
+"Would you like to receive the study results?"
+
+**Note (italic, gray text):**
+"Optional. Enter your email if you'd like to be notified when results are published."
+
+**Question Type:** Email input field
+
+**Input Field:**
+- Placeholder: "your.email@example.com"
+- Type: email (browser validation)
+- Max length: 255 characters
+
+**Validation:** Optional (can leave empty), but if filled must be valid email format
+
 **Button:** [Submit] (submits entire survey)
 
 ---
@@ -754,7 +775,8 @@ Shown after survey submission
 ### Question Numbering
 - Q1-Q2: Baseline (tech comfort, privacy concern)
 - Q3-Q14: Post-task survey
-- Total: 14 questions + 1 optional
+- Q15: Email notification (optional)
+- Total: 15 questions (Q14 and Q15 optional)
 
 ### Scale Types Used
 1. **7-point Likert (Agreement):**
@@ -862,5 +884,8 @@ Shown after survey submission
 
 ---
 
-*Document Version: 1.1 - January 2025*
-*Last Updated: Typography hierarchy updated to reflect actual implementation (January 30, 2025)*
+## 🗄️ Database Schema
+
+See [database/CONFIG_SCHEMA.md](../database/CONFIG_SCHEMA.md) for complete database documentation.
+
+---
