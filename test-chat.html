@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apertus Chat Test</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+    h1 { color: #333; }
+    .config { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    .config label { display: block; margin-bottom: 10px; }
+    .config select, .config input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+    #chat { background: #fff; border-radius: 8px; height: 400px; overflow-y: auto; padding: 15px; margin-bottom: 15px; }
+    .message { margin-bottom: 15px; padding: 10px 15px; border-radius: 12px; max-width: 80%; }
+    .user { background: #007bff; color: white; margin-left: auto; }
+    .assistant { background: #e9ecef; color: #333; }
+    .error { background: #dc3545; color: white; }
+    .system { background: #ffc107; color: #333; font-size: 12px; text-align: center; max-width: 100%; }
+    #input-area { display: flex; gap: 10px; }
+    #message { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+    #message:focus { border-color: #007bff; outline: none; }
+    button { padding: 12px 24px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #0056b3; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    #clear { background: #6c757d; }
+    .stats { font-size: 12px; color: #666; margin-top: 10px; }
+    .presets { margin-top: 15px; }
+    .presets button { font-size: 12px; padding: 6px 12px; margin: 3px; background: #28a745; }
+  </style>
+</head>
+<body>
+  <h1>Apertus Chat Test</h1>
+
+  <div class="config">
+    <label>
+      API Endpoint:
+      <input type="text" id="endpoint" value="https://thesis.jcloud-ver-jpe.ik-server.com/api" style="width: 400px;">
+    </label>
+    <label>
+      Language:
+      <select id="language">
+        <option value="de">Deutsch</option>
+        <option value="fr">Francais</option>
+        <option value="it">Italiano</option>
+        <option value="en">English</option>
+      </select>
+    </label>
+    <div class="presets">
+      <strong>Quick tests:</strong>
+      <button onclick="sendPreset('Was sind die Abstimmungen im Februar 2025?')">Upcoming votes</button>
+      <button onclick="sendPreset('Erklaere die Biodiversitaetsinitiative')">Biodiversity</button>
+      <button onclick="sendPreset('Wer ist fuer und wer gegen die Vorlage?')">Pro/Contra</button>
+      <button onclick="sendPreset('Was empfiehlt der Bundesrat?')">Federal Council</button>
+    </div>
+  </div>
+
+  <div id="chat"></div>
+
+  <div id="input-area">
+    <input type="text" id="message" placeholder="Stellen Sie eine Frage..." onkeypress="if(event.key==='Enter')sendMessage()">
+    <button onclick="sendMessage()" id="sendBtn">Senden</button>
+    <button onclick="clearChat()" id="clear">Clear</button>
+  </div>
+
+  <div class="stats">
+    Messages: <span id="msgCount">0</span> |
+    Avg response: <span id="avgTime">-</span>ms |
+    Errors: <span id="errorCount">0</span>
+  </div>
+
+  <script>
+    let conversationHistory = [];
+    let responseTimes = [];
+    let errorCount = 0;
+
+    function addMessage(content, type) {
+      const chat = document.getElementById('chat');
+      const div = document.createElement('div');
+      div.className = `message ${type}`;
+      div.textContent = content;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function updateStats() {
+      document.getElementById('msgCount').textContent = conversationHistory.length;
+      document.getElementById('errorCount').textContent = errorCount;
+      if (responseTimes.length > 0) {
+        const avg = Math.round(responseTimes.reduce((a,b) => a+b, 0) / responseTimes.length);
+        document.getElementById('avgTime').textContent = avg;
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('message');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const endpoint = document.getElementById('endpoint').value;
+      const language = document.getElementById('language').value;
+
+      addMessage(message, 'user');
+      conversationHistory.push({ role: 'user', content: message });
+      input.value = '';
+
+      document.getElementById('sendBtn').disabled = true;
+      addMessage('Thinking...', 'system');
+
+      const startTime = Date.now();
+
+      try {
+        const response = await fetch(`${endpoint}/chat/message`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            participantId: 'test-' + Date.now(),
+            message: message,
+            conversationHistory: conversationHistory.slice(0, -1),
+            language: language
+          })
+        });
+
+        const elapsed = Date.now() - startTime;
+        responseTimes.push(elapsed);
+
+        // Remove "Thinking..." message
+        document.getElementById('chat').lastChild.remove();
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        const reply = data.response || data.message || JSON.stringify(data);
+        addMessage(reply, 'assistant');
+        conversationHistory.push({ role: 'assistant', content: reply });
+        addMessage(`Response time: ${elapsed}ms`, 'system');
+
+      } catch (error) {
+        document.getElementById('chat').lastChild.remove();
+        addMessage(`Error: ${error.message}`, 'error');
+        errorCount++;
+        conversationHistory.pop(); // Remove failed user message
+      }
+
+      document.getElementById('sendBtn').disabled = false;
+      updateStats();
+    }
+
+    function sendPreset(text) {
+      document.getElementById('message').value = text;
+      sendMessage();
+    }
+
+    function clearChat() {
+      document.getElementById('chat').innerHTML = '';
+      conversationHistory = [];
+      responseTimes = [];
+      errorCount = 0;
+      updateStats();
+    }
+  </script>
+</body>
+</html>
