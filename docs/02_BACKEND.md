@@ -1,5 +1,13 @@
 # Backend Implementation
 
+> **TODO: Historical Vote Support in Chatbot**
+> Currently, the chatbot system prompt only includes upcoming votes context.
+> For comprehensive coverage, implement dynamic retrieval of historical votes:
+> - Option A: Function calling / tool use (LLM requests specific historical data)
+> - Option B: RAG (Retrieval Augmented Generation) with vector search
+> - Endpoints already exist: `/api/initiatives/search?historical=true`, `/api/initiatives/historical`
+> - See `apertus.service.js` for where to add historical context fetching
+
 ## 1. Python Microservice (Your Existing Code)
 
 ### Wrap existing swiss_voting_tools in Flask API
