@@ -93,8 +93,8 @@ backend/
 
 ### Environment Variables (.env)
 ```
-# Infomaniak
-INFOMANIAK_APERTUS_ENDPOINT=https://api.infomaniak.com/apertus
+# Infomaniak AI API (use /2/ for beta models like Apertus)
+INFOMANIAK_APERTUS_ENDPOINT=https://api.infomaniak.com/2/ai/106600/openai
 INFOMANIAK_API_KEY=your_api_key
 
 # Python Service

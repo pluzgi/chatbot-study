@@ -71,8 +71,9 @@ ${ballotContext}
 - Für detaillierte Informationen verweisen Sie auf swissvotes.ch`;
 
     try {
+      // Use /2/ API endpoint with /v1/ path for beta models like Apertus
       const response = await axios.post(
-        `${this.baseUrl}/chat/completions`,
+        `${this.baseUrl}/v1/chat/completions`,
         {
           model: "swiss-ai/Apertus-70B-Instruct-2509",
           messages: [
