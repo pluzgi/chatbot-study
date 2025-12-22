@@ -1,6 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 class BallotService {
   constructor() {
     this.pythonUrl = process.env.PYTHON_SERVICE_URL || 'http://localhost:5001';
+    console.log('BallotService using Python URL:', this.pythonUrl);
   }
 
   async getUpcoming(lang = 'de') {
