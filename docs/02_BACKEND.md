@@ -329,17 +329,16 @@ class ExperimentService {
     };
   }
 
-  async recordDonation(participantId, decision, configuration = {}) {
-    const p = await pool.query('SELECT condition FROM participants WHERE id = $1', [participantId]);
-    const condition = p.rows[0].condition;
-    const config = this.getConditionConfig(condition);
-    
+  async recordDonation(participantId, decision, configuration = null) {
+    // Donation stored directly in participants table (normalized design)
     await pool.query(
-      `INSERT INTO donation_decisions (id, participant_id, decision, condition, 
-       transparency_level, control_level, configuration, decision_timestamp)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
-      [uuidv4(), participantId, decision, condition, config.transparency, 
-       config.control, JSON.stringify(configuration)]
+      `UPDATE participants
+       SET donation_decision = $1,
+           donation_config = $2,
+           decision_at = NOW(),
+           current_phase = 'survey'
+       WHERE id = $3`,
+      [decision, configuration ? JSON.stringify(configuration) : null, participantId]
     );
   }
 }
@@ -431,39 +430,9 @@ export default router;
 
 ## 3. Database Schema
 
-```sql
-CREATE TABLE participants (
-    id UUID PRIMARY KEY,
-    session_id VARCHAR(255) UNIQUE NOT NULL,
-    condition VARCHAR(10) NOT NULL CHECK (condition IN ('A', 'B', 'C', 'D')),
-    language VARCHAR(5) NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
-);
+See [database/CONFIG_SCHEMA.md](../database/CONFIG_SCHEMA.md) for complete database documentation.
 
-CREATE TABLE donation_decisions (
-    id UUID PRIMARY KEY,
-    participant_id UUID REFERENCES participants(id),
-    decision VARCHAR(20) NOT NULL CHECK (decision IN ('donate', 'decline')),
-    condition VARCHAR(10) NOT NULL,
-    transparency_level VARCHAR(10) NOT NULL,
-    control_level VARCHAR(10) NOT NULL,
-    configuration JSONB DEFAULT '{}'::jsonb,
-    decision_timestamp TIMESTAMP DEFAULT NOW()
-);
-
-CREATE TABLE post_task_measures (
-    id UUID PRIMARY KEY,
-    participant_id UUID REFERENCES participants(id),
-    transparency_perception INT CHECK (transparency_perception BETWEEN 1 AND 7),
-    control_perception INT CHECK (control_perception BETWEEN 1 AND 7),
-    trust_score INT CHECK (trust_score BETWEEN 1 AND 7),
-    comments TEXT,
-    created_at TIMESTAMP DEFAULT NOW()
-);
-
-CREATE INDEX idx_participants_condition ON participants(condition);
-CREATE INDEX idx_participants_language ON participants(language);
-```
+**Summary:** Normalized 2-table design (participants, post_task_measures). Donation decision is stored directly in participants table. Schema is auto-created on backend startup via `migrate.js`.
 
 ---
 
