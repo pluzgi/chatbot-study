@@ -88,7 +88,7 @@ ${ballotContext}
             'Authorization': `Bearer ${this.apiKey}`,
             'Content-Type': 'application/json'
           },
-          timeout: 15000
+          timeout: 60000
         }
       );
 
