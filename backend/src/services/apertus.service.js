@@ -70,27 +70,36 @@ ${ballotContext}
 - Umfrageprognose: Aktuelle Umfragewerte (falls verfügbar)
 - Für detaillierte Informationen verweisen Sie auf swissvotes.ch`;
 
-    const response = await axios.post(
-      `${this.baseUrl}/chat/completions`,
-      {
-        model: "Apertus-70B-Instruct-2509",
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages
-        ],
-        temperature: 0.7,
-        max_tokens: 500
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json'
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/chat/completions`,
+        {
+          model: "Apertus-70B-Instruct-2509",
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...messages
+          ],
+          temperature: 0.7,
+          max_tokens: 500
         },
-        timeout: 15000
-      }
-    );
+        {
+          headers: {
+            'Authorization': `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          timeout: 15000
+        }
+      );
 
-    return response.data.choices[0].message.content;
+      return response.data.choices[0].message.content;
+    } catch (error) {
+      // Log the full error details from Infomaniak
+      console.error('[ApertusService] API Error:', {
+        status: error.response?.status,
+        data: JSON.stringify(error.response?.data, null, 2)
+      });
+      throw error;
+    }
   }
 
   async getVoteDetails(voteId, lang = 'de') {
