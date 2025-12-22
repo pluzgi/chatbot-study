@@ -31,9 +31,10 @@ A multi-language Swiss voting chatbot on **ailights.org/ballot-chat** that:
 ### 3. Database (1 hour)
 ```sql
 -- PostgreSQL on Infomaniak
--- 3 tables: participants, donation_decisions, post_task_measures
+-- 2 tables: participants, post_task_measures
+-- See: database/CONFIG_SCHEMA.md
 ```
-**See:** 02_BACKEND.md (Section 3)
+**See:** [database/CONFIG_SCHEMA.md](../database/CONFIG_SCHEMA.md)
 
 ### 4. Frontend (3 days)
 ```typescript
@@ -134,17 +135,16 @@ psql -h host -U user -d voting_assistant -f schema.sql
 ## Data Export for Analysis
 
 ```sql
-SELECT 
+SELECT
   p.condition,
-  dd.decision,
-  dd.transparency_level,
-  dd.control_level,
+  p.donation_decision,
   p.language,
-  ptm.transparency_perception,
-  ptm.control_perception
+  ptm.clarity1, ptm.clarity2, ptm.clarity3, ptm.clarity4,
+  ptm.control1, ptm.control2, ptm.control3, ptm.control4,
+  ptm.trust1, ptm.trust2
 FROM participants p
-JOIN donation_decisions dd ON p.id = dd.participant_id
-JOIN post_task_measures ptm ON p.id = ptm.participant_id;
+LEFT JOIN post_task_measures ptm ON p.id = ptm.participant_id
+WHERE p.current_phase = 'complete';
 ```
 
 Export to CSV → R/Python for logistic regression.
