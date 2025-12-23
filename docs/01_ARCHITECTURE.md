@@ -17,7 +17,7 @@ User (chat-study.ailights.org)
            ↓
     ┌──────────────┬─────────────────┐
     │              │                 │
-Apertus 8B    Python Microservice   PostgreSQL
+Apertus-70B   Python Microservice   PostgreSQL
 (Infomaniak)  (Your existing code) (Infomaniak)
 ```
 
@@ -37,7 +37,7 @@ Apertus 8B    Python Microservice   PostgreSQL
 - Python Flask microservice (your existing swiss_voting_tools)
 
 **AI:**
-- Apertus 8B API (Infomaniak)
+- Apertus-70B API (Infomaniak)
 
 ---
 
@@ -58,7 +58,7 @@ User message
     → React captures input
     → POST /api/chat/message
     → Express enriches with ballot data (from Python service)
-    → Sends to Apertus 8B
+    → Sends to Apertus-70B
     → Returns response
     → Logs interaction
 ```

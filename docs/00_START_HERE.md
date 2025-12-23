@@ -3,7 +3,7 @@
 ## What You're Building
 
 A multi-language Swiss voting chatbot on **ailights.org/ballot-chat** that:
-1. Uses Apertus 8B to answer questions about Swiss ballots
+1. Uses Apertus-70B to answer questions about Swiss ballots
 2. Tests 4 experimental conditions (transparency × control)
 3. Measures willingness to donate data (simulated, not actual)
 4. Collects data in German, French, Italian, and English
