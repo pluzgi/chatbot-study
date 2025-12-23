@@ -138,7 +138,7 @@ All UI strings translated and ready to copy-paste.
 
 ### Frontend (ailights.org/ballot-chat)
 - Landing page with language selector
-- Chat interface powered by Apertus 8B
+- Chat interface powered by Apertus-70B
 - 4 experimental conditions:
   - A: Baseline (generic text + binary)
   - B: Transparency (DNL + binary)
@@ -151,7 +151,7 @@ All UI strings translated and ready to copy-paste.
 - Python microservice (your existing voting tools)
 - Node.js API server
 - PostgreSQL database
-- Apertus 8B integration
+- Apertus-70B integration
 
 ### Data Collected
 - Participant condition (A/B/C/D)
@@ -175,7 +175,7 @@ All UI strings translated and ready to copy-paste.
 - PostgreSQL
 
 **AI:**
-- Apertus 8B (Infomaniak API)
+- Apertus-70B (Infomaniak API)
 
 **Hosting:**
 - Frontend: Lovable → ailights.org
