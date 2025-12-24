@@ -182,6 +182,31 @@ class ExperimentService {
     `);
     return result.rows;
   }
+
+  /**
+   * Increment a click counter (anonymous tracking).
+   * Used for tracking "Not interested" and "Try Apertus" button clicks.
+   */
+  async incrementClickCounter(eventType) {
+    await pool.query(
+      `UPDATE click_counters
+       SET count = count + 1, last_clicked_at = NOW()
+       WHERE event_type = $1`,
+      [eventType]
+    );
+  }
+
+  /**
+   * Get click counter statistics.
+   */
+  async getClickStats() {
+    const result = await pool.query(`
+      SELECT event_type, count, last_clicked_at
+      FROM click_counters
+      ORDER BY event_type
+    `);
+    return result.rows;
+  }
 }
 
 export default new ExperimentService();

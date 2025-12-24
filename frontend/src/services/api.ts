@@ -171,5 +171,28 @@ export const api = {
       console.warn('API failed, data saved locally:', error);
       return mockSuccess(); // Don't block user
     }
+  },
+
+  async trackClick(eventType: 'decline_study' | 'try_apertus') {
+    const data = { eventType };
+    saveToLocalStorage(`click_${eventType}`, data);
+
+    if (isDevelopment) {
+      console.log('[DEV] Mock: trackClick', data);
+      return mockSuccess();
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/experiment/track-click`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      return res.json();
+    } catch (error) {
+      console.warn('Track click failed:', error);
+      return mockSuccess(); // Don't block user
+    }
   }
 };

@@ -12,7 +12,7 @@ import Debriefing from './components/Survey/Debriefing';
 import BaselineSurvey from './components/Survey/BaselineSurvey';
 import './i18n/config';
 
-type Phase = 'landing' | 'baseline' | 'instruction' | 'chat' | 'donation' | 'survey' | 'debrief' | 'already-participated';
+type Phase = 'landing' | 'baseline' | 'instruction' | 'chat' | 'donation' | 'survey' | 'debrief' | 'already-participated' | 'declined';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -109,20 +109,20 @@ function App() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed">
+            <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
               {t('landing.subtitle')}
             </p>
 
             {/* What we study */}
             <div className="mb-6">
-              <p className="font-semibold text-base md:text-lg text-gray-900 mb-2">{t('landing.whatWeStudy')}</p>
-              <p className="text-[15px] md:text-base text-gray-600 leading-relaxed">{t('landing.whatWeStudyText')}</p>
+              <p className="font-semibold text-base md:text-lg text-black mb-2">{t('landing.whatWeStudy')}</p>
+              <p className="text-[15px] md:text-base text-black leading-relaxed">{t('landing.whatWeStudyText')}</p>
             </div>
 
             {/* What you'll do */}
             <div className="mb-6">
-              <p className="font-semibold text-base md:text-lg text-gray-900 mb-3">{t('landing.youWill')}</p>
-              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-gray-600 leading-relaxed">
+              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.youWill')}</p>
+              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
                 <li>{t('landing.step1')}</li>
                 <li>{t('landing.step2')}</li>
                 <li>{t('landing.step3')}</li>
@@ -131,8 +131,8 @@ function App() {
 
             {/* Good to know */}
             <div className="mb-6">
-              <p className="font-semibold text-base md:text-lg text-gray-900 mb-3">{t('landing.goodToKnow')}</p>
-              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-gray-600 leading-relaxed">
+              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.goodToKnow')}</p>
+              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
                 <li>{t('landing.fact1')}</li>
                 <li>{t('landing.fact2')}</li>
                 <li>{t('landing.fact3')}</li>
@@ -141,8 +141,8 @@ function App() {
 
             {/* Who can participate */}
             <div className="mb-8">
-              <p className="font-semibold text-base md:text-lg text-gray-900 mb-3">{t('landing.requirements')}</p>
-              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-gray-600 leading-relaxed">
+              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.requirements')}</p>
+              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
                 <li>{t('landing.req1')}</li>
                 <li>{t('landing.req2')}</li>
               </ul>
@@ -157,7 +157,10 @@ function App() {
                 {t('landing.startButton')}
               </button>
               <button
-                onClick={() => alert(t('landing.declineMessage'))}
+                onClick={() => {
+                  api.trackClick('decline_study');
+                  setPhase('declined');
+                }}
                 className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
               >
                 {t('landing.declineButton')}
@@ -322,6 +325,34 @@ function App() {
           <p className="text-sm text-gray-600">
             If you believe this is an error, please contact the research team.
           </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Declined Phase
+  if (phase === 'declined') {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+        <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm text-center">
+          <div className="flex justify-end gap-2 mb-6 md:mb-8">
+            <LanguageSelector />
+          </div>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-900">
+            {t('landing.declineMessage')}
+          </h2>
+          <p className="text-base md:text-lg text-black mb-8 leading-relaxed">
+            {t('landing.declinedPage.tryApertus')}
+          </p>
+          <a
+            href="http://publicai.ch/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => api.trackClick('try_apertus')}
+            className="inline-block px-8 py-4 bg-[#FF0000] text-white rounded-md font-medium text-base min-h-[48px] hover:bg-[#CC0000] transition"
+          >
+            {t('landing.declinedPage.button')}
+          </a>
         </div>
       </div>
     );

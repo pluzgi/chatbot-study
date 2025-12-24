@@ -4,7 +4,7 @@
     "title": "Swiss Civic AI Study",
     "subtitle": "A study on data donation and trust in open-source AI systems",
     "whatWeStudy": "What we study",
-    "whatWeStudyText": "We study under what conditions people allow anonymized AI interactions to improve a Swiss open-source model.",
+    "whatWeStudyText": "We explore what makes people willing to share their chatbot questions so Swiss researchers can build better AI.",
     "youWill": "What you'll do",
     "step1": "Use a chatbot to ask about Swiss ballot initiatives",
     "step2": "Decide how your anonymized chat inputs may be used for research",
@@ -29,7 +29,11 @@
       "confirm": "Continue",
       "back": "Go back"
     },
-    "declineMessage": "Thank you for your consideration."
+    "declineMessage": "Thank you for your consideration.",
+    "declinedPage": {
+      "tryApertus": "Want to use Apertus for your daily questions? Try it out!",
+      "button": "Try Apertus"
+    }
   },
   "baseline": {
     "title": "Before We Start",
