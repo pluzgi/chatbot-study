@@ -104,29 +104,49 @@ function App() {
           {/* Main content - all left-aligned */}
           <div className="text-left">
             {/* Title */}
-            <h1 className="text-2xl md:text-[28px] font-semibold mb-4 text-gray-900 leading-tight">
+            <h1 className="text-2xl md:text-[28px] font-semibold mb-2 text-gray-900 leading-tight">
               {t('landing.title')}
             </h1>
 
-            {/* Intro */}
+            {/* Subtitle */}
             <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed">
-              {t('landing.subtitle')} {t('landing.fact1')}. {t('landing.fact2')}.
+              {t('landing.subtitle')}
             </p>
 
-            {/* Steps */}
+            {/* What we study */}
+            <div className="mb-6">
+              <p className="font-semibold text-base md:text-lg text-gray-900 mb-2">{t('landing.whatWeStudy')}</p>
+              <p className="text-[15px] md:text-base text-gray-600 leading-relaxed">{t('landing.whatWeStudyText')}</p>
+            </div>
+
+            {/* What you'll do */}
             <div className="mb-6">
               <p className="font-semibold text-base md:text-lg text-gray-900 mb-3">{t('landing.youWill')}</p>
-              <ol className="list-decimal pl-5 space-y-3 text-[15px] md:text-base text-gray-600 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-gray-600 leading-relaxed">
                 <li>{t('landing.step1')}</li>
                 <li>{t('landing.step2')}</li>
                 <li>{t('landing.step3')}</li>
-              </ol>
+              </ul>
             </div>
 
-            {/* Requirements */}
-            <p className="text-sm md:text-[15px] text-gray-600 mb-8 leading-relaxed">
-              <span className="font-semibold text-gray-900">{t('landing.requirements')}</span> {t('landing.req1')}, {t('landing.req2')}
-            </p>
+            {/* Good to know */}
+            <div className="mb-6">
+              <p className="font-semibold text-base md:text-lg text-gray-900 mb-3">{t('landing.goodToKnow')}</p>
+              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-gray-600 leading-relaxed">
+                <li>{t('landing.fact1')}</li>
+                <li>{t('landing.fact2')}</li>
+                <li>{t('landing.fact3')}</li>
+              </ul>
+            </div>
+
+            {/* Who can participate */}
+            <div className="mb-8">
+              <p className="font-semibold text-base md:text-lg text-gray-900 mb-3">{t('landing.requirements')}</p>
+              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-gray-600 leading-relaxed">
+                <li>{t('landing.req1')}</li>
+                <li>{t('landing.req2')}</li>
+              </ul>
+            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col md:flex-row gap-3 mb-8">
