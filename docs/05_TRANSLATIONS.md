@@ -9,14 +9,38 @@ Copy these files to `src/i18n/locales/` in your Lovable project.
 ```json
 {
   "landing": {
-    "title": "Volksinitiativen-Chatbot",
-    "subtitle": "Unterstützt durch das Schweizer Sprachnodell Apertus",
-    "description": "Helfen Sie uns zu verstehen, wie Bürger mit KI-Systemen interagieren und Vertrauen aufbauen.",
-    "start": "Teilnehmen",
-    "consent": "Ich habe die Studieninformationen gelesen und stimme der Teilnahme zu."
+    "title": "Swiss Civic AI Study",
+    "subtitle": "A study on data donation and trust in open-source AI systems",
+    "whatWeStudy": "What we study",
+    "whatWeStudyText": "We study under what conditions people allow anonymized AI interactions to improve a Swiss open-source model.",
+    "youWill": "What you'll do",
+    "step1": "Use a chatbot to ask about Swiss ballot initiatives",
+    "step2": "Decide how your anonymized chat inputs may be used for research",
+    "step3": "Answer a few questions",
+    "goodToKnow": "Good to know",
+    "fact1": "About 8 minutes",
+    "fact2": "No personal identification required",
+    "fact3": "Conducted exclusively for academic research",
+    "requirements": "Who can participate",
+    "req1": "18+",
+    "req2": "Eligible to vote in Switzerland",
+    "startButton": "Start study",
+    "declineButton": "Not interested",
+    "contact": "Questions?",
+    "email": "hello@ailights.org",
+    "consentModal": {
+      "title": "Before you begin",
+      "text": "By continuing, you confirm:",
+      "age": "You are 18 years or older",
+      "vote": "You are eligible to vote in Switzerland",
+      "voluntary": "Your participation is voluntary and you may stop at any time",
+      "confirm": "Continue",
+      "back": "Go back"
+    },
+    "declineMessage": "Thank you for your consideration."
   },
   "chat": {
-    "title": "Volksinitiativen-Chatbot",
+    "title": "Swiss Ballot Chatbot",
     "subtitle": "Powered by Apertus 🇨🇭",
     "placeholder": "Stellen Sie eine Frage zu Schweizer Volksinitiativen...",
     "send": "Senden",
@@ -123,14 +147,38 @@ Copy these files to `src/i18n/locales/` in your Lovable project.
 ```json
 {
   "landing": {
-    "title": "Assistant de Vote Suisse",
-    "subtitle": "Propulsé par Apertus - Swiss AI",
-    "description": "Aidez-nous à comprendre comment les citoyens interagissent avec les systèmes d'IA et établissent la confiance.",
-    "start": "Commencer l'étude",
-    "consent": "J'ai lu les informations de l'étude et j'accepte de participer."
+    "title": "Swiss Civic AI Study",
+    "subtitle": "A study on data donation and trust in open-source AI systems",
+    "whatWeStudy": "What we study",
+    "whatWeStudyText": "We study under what conditions people allow anonymized AI interactions to improve a Swiss open-source model.",
+    "youWill": "What you'll do",
+    "step1": "Use a chatbot to ask about Swiss ballot initiatives",
+    "step2": "Decide how your anonymized chat inputs may be used for research",
+    "step3": "Answer a few questions",
+    "goodToKnow": "Good to know",
+    "fact1": "About 8 minutes",
+    "fact2": "No personal identification required",
+    "fact3": "Conducted exclusively for academic research",
+    "requirements": "Who can participate",
+    "req1": "18+",
+    "req2": "Eligible to vote in Switzerland",
+    "startButton": "Start study",
+    "declineButton": "Not interested",
+    "contact": "Questions?",
+    "email": "hello@ailights.org",
+    "consentModal": {
+      "title": "Before you begin",
+      "text": "By continuing, you confirm:",
+      "age": "You are 18 years or older",
+      "vote": "You are eligible to vote in Switzerland",
+      "voluntary": "Your participation is voluntary and you may stop at any time",
+      "confirm": "Continue",
+      "back": "Go back"
+    },
+    "declineMessage": "Thank you for your consideration."
   },
   "chat": {
-    "title": "Assistant de Vote Suisse",
+    "title": "Swiss Ballot Chatbot",
     "subtitle": "Propulsé par Apertus 🇨🇭",
     "placeholder": "Posez une question sur les votations suisses...",
     "send": "Envoyer",
@@ -237,14 +285,38 @@ Copy these files to `src/i18n/locales/` in your Lovable project.
 ```json
 {
   "landing": {
-    "title": "Assistente di Voto Svizzero",
-    "subtitle": "Alimentato da Apertus - Swiss AI",
-    "description": "Aiutaci a capire come i cittadini interagiscono con i sistemi di IA e costruiscono fiducia.",
-    "start": "Inizia lo studio",
-    "consent": "Ho letto le informazioni dello studio e accetto di partecipare."
+    "title": "Swiss Civic AI Study",
+    "subtitle": "A study on data donation and trust in open-source AI systems",
+    "whatWeStudy": "What we study",
+    "whatWeStudyText": "We study under what conditions people allow anonymized AI interactions to improve a Swiss open-source model.",
+    "youWill": "What you'll do",
+    "step1": "Use a chatbot to ask about Swiss ballot initiatives",
+    "step2": "Decide how your anonymized chat inputs may be used for research",
+    "step3": "Answer a few questions",
+    "goodToKnow": "Good to know",
+    "fact1": "About 8 minutes",
+    "fact2": "No personal identification required",
+    "fact3": "Conducted exclusively for academic research",
+    "requirements": "Who can participate",
+    "req1": "18+",
+    "req2": "Eligible to vote in Switzerland",
+    "startButton": "Start study",
+    "declineButton": "Not interested",
+    "contact": "Questions?",
+    "email": "hello@ailights.org",
+    "consentModal": {
+      "title": "Before you begin",
+      "text": "By continuing, you confirm:",
+      "age": "You are 18 years or older",
+      "vote": "You are eligible to vote in Switzerland",
+      "voluntary": "Your participation is voluntary and you may stop at any time",
+      "confirm": "Continue",
+      "back": "Go back"
+    },
+    "declineMessage": "Thank you for your consideration."
   },
   "chat": {
-    "title": "Assistente di Voto Svizzero",
+    "title": "Swiss Ballot Chatbot",
     "subtitle": "Powered by Apertus 🇨🇭",
     "placeholder": "Fai una domanda sulle votazioni svizzere...",
     "send": "Invia",
@@ -351,11 +423,35 @@ Copy these files to `src/i18n/locales/` in your Lovable project.
 ```json
 {
   "landing": {
-    "title": "Swiss Ballot Chatbot",
-    "subtitle": "Powered by Apertus - Swiss AI",
-    "description": "Help us understand how citizens interact with AI systems and build trust.",
-    "start": "Start Study",
-    "consent": "I have read the study information and agree to participate."
+    "title": "Swiss Civic AI Study",
+    "subtitle": "A study on data donation and trust in open-source AI systems",
+    "whatWeStudy": "What we study",
+    "whatWeStudyText": "We study under what conditions people allow anonymized AI interactions to improve a Swiss open-source model.",
+    "youWill": "What you'll do",
+    "step1": "Use a chatbot to ask about Swiss ballot initiatives",
+    "step2": "Decide how your anonymized chat inputs may be used for research",
+    "step3": "Answer a few questions",
+    "goodToKnow": "Good to know",
+    "fact1": "About 8 minutes",
+    "fact2": "No personal identification required",
+    "fact3": "Conducted exclusively for academic research",
+    "requirements": "Who can participate",
+    "req1": "18+",
+    "req2": "Eligible to vote in Switzerland",
+    "startButton": "Start study",
+    "declineButton": "Not interested",
+    "contact": "Questions?",
+    "email": "hello@ailights.org",
+    "consentModal": {
+      "title": "Before you begin",
+      "text": "By continuing, you confirm:",
+      "age": "You are 18 years or older",
+      "vote": "You are eligible to vote in Switzerland",
+      "voluntary": "Your participation is voluntary and you may stop at any time",
+      "confirm": "Continue",
+      "back": "Go back"
+    },
+    "declineMessage": "Thank you for your consideration."
   },
   "chat": {
     "title": "Swiss Ballot Chatbot",
