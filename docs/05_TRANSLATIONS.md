@@ -9,23 +9,23 @@ Copy these files to `src/i18n/locales/` in your Lovable project.
 ```json
 {
   "landing": {
-    "title": "Swiss Voting Assistant",
-    "subtitle": "Unterstützt durch Apertus - Swiss AI",
+    "title": "Volksinitiativen-Chatbot",
+    "subtitle": "Unterstützt durch das Schweizer Sprachnodell Apertus",
     "description": "Helfen Sie uns zu verstehen, wie Bürger mit KI-Systemen interagieren und Vertrauen aufbauen.",
-    "start": "Studie starten",
+    "start": "Teilnehmen",
     "consent": "Ich habe die Studieninformationen gelesen und stimme der Teilnahme zu."
   },
   "chat": {
-    "title": "Swiss Voting Assistant",
+    "title": "Volksinitiativen-Chatbot",
     "subtitle": "Powered by Apertus 🇨🇭",
-    "placeholder": "Stellen Sie eine Frage zu Schweizer Abstimmungen...",
+    "placeholder": "Stellen Sie eine Frage zu Schweizer Volksinitiativen...",
     "send": "Senden",
     "thinking": "Denke nach...",
     "error": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
     "minQuestions": "Bitte stellen Sie mindestens 2 Fragen ({count}/2)"
   },
   "infoBridge": {
-    "title": "Vielen Dank für Ihre Nutzung!",
+    "title": "Vielen Dank für Ihre Teilnahme.",
     "content": "Dieser Chatbot wird durch Apertus betrieben, ein Schweizer Open-Source KI-Modell. Um solche Modelle zu verbessern, werden Nutzerdaten für das Training benötigt.",
     "question": "Würden Sie Ihre anonymisierten Fragen in einem echten Szenario spenden?",
     "continue": "Weiter"
@@ -42,14 +42,14 @@ Copy these files to `src/i18n/locales/` in your Lovable project.
     "subtitle": "Transparente Informationen über das Apertus-Modell",
     "provenance": "Herkunft",
     "provenanceValue": "CSCS Supercomputer (Lugano)",
-    "ingredients": "Zutaten",
+    "ingredients": "Bestandteile",
     "ingredientsValue": "Öffentliche Abstimmungsdaten, Wikipedia, Bundesverwaltung",
     "protection": "Schutz",
     "protectionValue": "Anti-Memorisierung, keine persönlichen Daten",
     "compliance": "Compliance",
     "complianceValue": "FADP & EU AI Act konform",
     "freshness": "Aktualität",
-    "freshnessValue": "Daten bis September 2025"
+    "freshnessValue": "Daten bis Januar 2025"
   },
   "dashboard": {
     "title": "Ihre Datenschutz-Einstellungen",
@@ -351,14 +351,14 @@ Copy these files to `src/i18n/locales/` in your Lovable project.
 ```json
 {
   "landing": {
-    "title": "Swiss Voting Assistant",
+    "title": "Swiss Ballot Chatbot",
     "subtitle": "Powered by Apertus - Swiss AI",
     "description": "Help us understand how citizens interact with AI systems and build trust.",
     "start": "Start Study",
     "consent": "I have read the study information and agree to participate."
   },
   "chat": {
-    "title": "Swiss Voting Assistant",
+    "title": "Swiss Ballot Chatbot",
     "subtitle": "Powered by Apertus 🇨🇭",
     "placeholder": "Ask a question about Swiss ballots...",
     "send": "Send",

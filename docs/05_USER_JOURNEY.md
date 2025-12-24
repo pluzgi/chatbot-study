@@ -1,4 +1,4 @@
-# Complete User Journey - Swiss Voting Assistant Survey
+# Complete User Journey - Swiss Ballot Chatbot Survey
 # COMPLETE_USER_JOURNEY.md
 
 ## Overview
@@ -160,7 +160,7 @@ The chatbot uses Apertus, a Swiss open-source large language artificial intellig
 ## 📍 PHASE 5: Chat Interface
 
 ### Header
-**Title:** "Swiss Ballot Assistant"
+**Title:** "Swiss Ballot Chatbot"
 **Subtitle:** "Powered by Apertus - Swiss AI"
 
 ### Interface Elements

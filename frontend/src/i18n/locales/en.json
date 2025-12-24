@@ -1,8 +1,9 @@
 {
   "_comment": "English (reference language)",
   "landing": {
-    "title": "Help Improve AI for Swiss Democracy",
-    "subtitle": "Participate in university research about AI chatbots and data sharing.",
+    "title": "Swiss Ballot Chatbot",
+    "subtitle": "Powered by Apertus - Swiss AI",
+    "description": "Help us understand how citizens interact with AI systems and build trust.",
     "fact1": "Takes about 8-10 minutes",
     "fact2": "Completely anonymous",
     "fact3": "For academic research only",
@@ -13,7 +14,7 @@
     "requirements": "Requirements:",
     "req1": "18+ years old",
     "req2": "Can vote in Switzerland",
-    "startButton": "Start Survey",
+    "startButton": "Start Study",
     "declineButton": "Not Interested",
     "contact": "Questions? Contact:",
     "email": "hello@ailights.org",
@@ -68,7 +69,7 @@
     "button": "Start Chatbot"
   },
   "chat": {
-    "title": "Swiss Ballot Assistant",
+    "title": "Swiss Ballot Chatbot",
     "subtitle": "Powered by Apertus - Swiss AI",
     "placeholder": "Ask a question...",
     "send": "Send",

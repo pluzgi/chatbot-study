@@ -1,4 +1,4 @@
--- Swiss Voting Assistant Chatbot Database Schema
+-- Swiss Ballot Chatbot Database Schema
 -- 2×2 Factorial Design: Transparency (Low/High) × Control (Low/High)
 -- Source of truth: backend/src/config/migrate.js
 

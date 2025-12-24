@@ -10,7 +10,7 @@
 - `it.json` - Landing title, chat title
 
 **Consistent branding:**
-- "Swiss Ballot Assistant" (not "Voting")
+- "Swiss Ballot Chatbot" (not "Voting")
 - All 4 languages updated
 - Page title updated
 
@@ -101,12 +101,12 @@
 ## Complete User Flow
 
 1. **Landing Page**
-   - Swiss Ballot Assistant title
+   - Swiss Ballot Chatbot title
    - Language selector (red when active)
    - Start button (Swiss red)
 
 2. **Chat Phase**
-   - Swiss Ballot Assistant header (red)
+   - Swiss Ballot Chatbot header (red)
    - User messages (red bubbles)
    - Send button (red)
    - Input with proper spacing
