@@ -395,7 +395,7 @@ router.post('/initialize', async (req, res) => {
   try {
     const { language } = req.body;
     const { participant, config } = await experimentService.createParticipant(language);
-    
+
     res.json({
       sessionId: participant.session_id,
       participantId: participant.id,
@@ -405,6 +405,22 @@ router.post('/initialize', async (req, res) => {
   } catch (error) {
     console.error('Init error:', error);
     res.status(500).json({ error: 'Failed to initialize' });
+  }
+});
+
+// Anonymous click tracking (no session required)
+router.post('/track-click', async (req, res) => {
+  try {
+    const { eventType } = req.body;
+    const validEvents = ['decline_study', 'try_apertus'];
+    if (!eventType || !validEvents.includes(eventType)) {
+      return res.status(400).json({ error: 'Invalid event type' });
+    }
+    await experimentService.incrementClickCounter(eventType);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Track click error:', error);
+    res.status(500).json({ error: 'Failed to track click' });
   }
 });
 

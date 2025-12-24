@@ -65,4 +65,24 @@ router.post('/baseline', async (req, res) => {
   }
 });
 
+// Track anonymous click events (no personal data)
+router.post('/track-click', async (req, res) => {
+  try {
+    const { eventType } = req.body;
+
+    // Validate event type
+    const validEvents = ['decline_study', 'try_apertus'];
+    if (!eventType || !validEvents.includes(eventType)) {
+      return res.status(400).json({ error: 'Invalid event type' });
+    }
+
+    await experimentService.incrementClickCounter(eventType);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Track click error:', error);
+    res.status(500).json({ error: 'Failed to track click' });
+  }
+});
+
 export default router;

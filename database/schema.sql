@@ -93,6 +93,22 @@ CREATE TABLE post_task_measures (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Click counters for anonymous tracking
+-- Tracks "Not interested" and "Try Apertus" button clicks without personal data
+CREATE TABLE click_counters (
+    id SERIAL PRIMARY KEY,
+    event_type VARCHAR(50) NOT NULL UNIQUE,
+    count INTEGER DEFAULT 0,
+    last_clicked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Insert initial counter rows
+INSERT INTO click_counters (event_type, count) VALUES
+    ('decline_study', 0),
+    ('try_apertus', 0)
+ON CONFLICT (event_type) DO NOTHING;
+
 -- Indexes for performance
 CREATE INDEX idx_participants_condition ON participants(condition);
 CREATE INDEX idx_participants_language ON participants(language);
@@ -103,6 +119,7 @@ CREATE INDEX idx_participants_created_at ON participants(created_at);
 -- Comments for documentation
 COMMENT ON TABLE participants IS 'Stores experiment participants with dropout tracking and donation decision';
 COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses (Q3-Q14)';
+COMMENT ON TABLE click_counters IS 'Anonymous click counters for tracking button interactions without personal data';
 COMMENT ON COLUMN participants.condition IS 'Experimental condition: A (low/low), B (high/low), C (low/high), D (high/high)';
 COMMENT ON COLUMN participants.current_phase IS 'Dropout tracking: consent → baseline → chatbot → decision → survey → complete';
 COMMENT ON COLUMN participants.donation_config IS 'Dashboard configuration for C/D: {"scope","purpose","storage","retention"}';

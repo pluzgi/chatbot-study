@@ -103,6 +103,7 @@ User message
 - ✅ Configuration (if condition C or D)
 - ✅ Survey responses
 - ✅ Interaction count
+- ✅ Anonymous click counters (decline_study, try_apertus)
 
 **What's NOT recorded:**
 - ❌ Actual chat messages (not stored for training)

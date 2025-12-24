@@ -46,7 +46,21 @@ Questions? Contact: hello@ailights.org
 
 **Buttons:**
 - [Start Survey] (primary, red)
-- [Not Interested] (secondary, gray)
+- [Not Interested] (secondary, gray) → Tracks click anonymously, shows Declined Page
+
+---
+
+## 📍 PHASE 1b: Declined Page
+
+Shown when user clicks "Not Interested"
+
+**Title:** "Thank you for your consideration."
+
+**Message:** "Want to use Apertus for your daily questions? Try it out!"
+
+**Button:** [Try Apertus] → Links to http://publicai.ch/ (tracks click anonymously)
+
+**Note:** Both button clicks ("Not Interested" and "Try Apertus") are tracked anonymously via `click_counters` table without storing any personal data.
 
 ---
 
