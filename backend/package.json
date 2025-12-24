@@ -2,7 +2,7 @@
   "name": "swiss-voting-backend",
   "version": "1.0.0",
   "type": "module",
-  "description": "Backend for Swiss Voting Assistant Chatbot",
+  "description": "Backend for Swiss Ballot Chatbot",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

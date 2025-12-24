@@ -1,7 +1,7 @@
 {
   "_comment": "PLACEHOLDER - Translate to German after UI is finalized",
   "landing": {
-    "title": "Help Improve AI for Swiss Democracy",
+    "title": "Volksinitiativen-Chatbot",
     "subtitle": "Participate in university research about AI chatbots and data sharing.",
     "fact1": "Takes about 8-10 minutes",
     "fact2": "Completely anonymous",
@@ -68,7 +68,7 @@
     "button": "Start Chatbot"
   },
   "chat": {
-    "title": "Swiss Ballot Assistant",
+    "title": "Volksinitiativen-Chatbot",
     "subtitle": "Powered by Apertus - Swiss AI",
     "placeholder": "Ask a question...",
     "send": "Send",

@@ -1,4 +1,4 @@
-# Documentation Package - Swiss Voting Assistant
+# Documentation Package - Swiss Ballot Chatbot
 
 ## 📦 What's Included
 

@@ -1,4 +1,4 @@
-# Swiss Voting Assistant - Technical Architecture
+# Swiss Ballot Chatbot - Technical Architecture
 
 ## System Overview
 
