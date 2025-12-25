@@ -27,12 +27,12 @@ const InputField: React.FC<Props> = ({ onSend, disabled = false }) => {
           onChange={(e) => setInput(e.target.value)}
           placeholder={t('chat.placeholder')}
           disabled={disabled}
-          className="flex-1 px-4 py-2 border-2 border-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] disabled:bg-gray-100 disabled:border-gray-300"
+          className="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 disabled:bg-gray-100 disabled:border-gray-200 min-h-[48px]"
         />
         <button
           type="submit"
           disabled={disabled || !input.trim()}
-          className="px-6 py-2 bg-[#FF0000] text-white rounded-lg font-semibold hover:bg-[#CC0000] disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+          className="px-6 py-3 bg-gray-200 text-black rounded-md font-medium min-h-[48px] hover:bg-green-600 hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition"
         >
           {t('chat.send')}
         </button>

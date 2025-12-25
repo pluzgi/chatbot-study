@@ -144,19 +144,21 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               </div>
             )}
 
-            {/* Buttons - Equal visual weight (no bias) */}
+            {/* Buttons - Matching landing page hierarchy (primary left, secondary right) */}
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 mt-6 md:mt-8">
-              <button
-                onClick={handleDecline}
-                className="w-full md:flex-1 bg-[#E5E7EB] text-black py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-gray-300 transition"
-              >
-                {t('donation.decline')}
-              </button>
+              {/* Primary action: Donate Data (filled neutral, like "Start study") */}
               <button
                 onClick={handleDonate}
-                className="w-full md:flex-1 bg-[#D1D5DB] text-black py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-gray-400 transition"
+                className="w-full md:flex-1 bg-gray-200 text-black py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition"
               >
                 {t('donation.accept')}
+              </button>
+              {/* Secondary action: Don't Donate (outlined/ghost, like "Not interested") */}
+              <button
+                onClick={handleDecline}
+                className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-50 transition"
+              >
+                {t('donation.decline')}
               </button>
             </div>
           </>
