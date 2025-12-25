@@ -300,7 +300,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     rightLabel: string;
   }) => (
     <div className="mb-10">
-      <p className="text-lg md:text-xl mb-4 text-gray-900 font-medium text-left leading-relaxed">{label}</p>
+      <p className="text-lg md:text-xl mb-4 text-black font-medium text-left leading-relaxed">{label}</p>
       <LikertScale
         name={field}
         value={answers[field] as number | null}
@@ -325,7 +325,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
         {t('survey.clarity.intro')}
       </h2>
       <div className="max-w-3xl">
@@ -370,7 +370,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
         {t('survey.control.intro')}
       </h2>
       <div className="max-w-3xl">
@@ -415,7 +415,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
         {t('survey.risk.intro')}
       </h2>
       <div className="max-w-3xl">
@@ -466,7 +466,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
         {t('survey.agency.intro')}
       </h2>
       <div className="max-w-3xl">
@@ -505,7 +505,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-gray-700 text-left leading-tight">
+      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
         {t('survey.trust.intro')}
       </h2>
       <div className="max-w-3xl">
@@ -564,10 +564,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             />
           </div>
         </div>
-        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-900 text-left">
+        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-black text-left">
           {t('survey.acceptableUse.question')}
         </h2>
-        <p className="text-sm text-gray-600 mb-12 italic text-left">
+        <p className="text-sm text-black mb-12 italic text-left">
           {t('survey.acceptableUse.instruction')}
         </p>
         <div className="space-y-4">
@@ -577,14 +577,16 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             { field: 'acceptableUseCommercialProducts' as keyof SurveyData, label: t('survey.acceptableUse.commercialProducts') },
             { field: 'acceptableUseNothing' as keyof SurveyData, label: t('survey.acceptableUse.nothing') }
           ].map(({ field, label }) => (
-            <label key={field} className="flex items-start gap-3 p-3 md:p-4 border-2 border-gray-200 rounded-lg hover:border-[#FF0000] hover:bg-red-50 cursor-pointer transition min-h-[48px] items-center">
+            <label key={field} className={`flex items-start gap-3 p-3 md:p-4 border-2 rounded-lg cursor-pointer transition min-h-[48px] items-center ${
+              answers[field] ? 'border-green-600 bg-green-50' : 'border-gray-200 hover:border-green-600 hover:bg-green-50'
+            }`}>
               <input
                 type="checkbox"
                 checked={answers[field] as boolean || false}
                 onChange={(e) => handleCheckboxChange(field, e.target.checked)}
-                className="mt-1 w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000]"
+                className="mt-1 w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-600"
               />
-              <span className="text-base text-gray-900">{label}</span>
+              <span className="text-base text-black">{label}</span>
             </label>
           ))}
         </div>
@@ -610,11 +612,11 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-12 text-gray-900 text-left">{label}</h2>
+      <h2 className="text-xl md:text-2xl font-semibold mb-12 text-black text-left">{label}</h2>
       <select
         value={answers[field] as string || ''}
         onChange={(e) => updateAnswer(field, e.target.value)}
-        className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] bg-white block min-h-[48px]"
+        className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 bg-white block min-h-[48px]"
       >
         {options.map(opt => (
           <option key={opt.value} value={opt.value} disabled={opt.value === ''}>
@@ -631,7 +633,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             value={answers.genderOther || ''}
             onChange={(e) => updateAnswer('genderOther', e.target.value)}
             placeholder={t('survey.demographics.gender.otherPlaceholder')}
-            className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] min-h-[48px]"
+            className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
           />
         </div>
       )}
@@ -641,12 +643,12 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   const TransitionPage = () => (
     <div className="text-center max-w-2xl mx-auto">
       <div className="text-6xl mb-6">🙏🏻</div>
-      <h2 className="text-3xl font-bold mb-4 text-gray-900">{t('survey.transition.title')}</h2>
-      <p className="text-xl text-gray-600 mb-6">{t('survey.transition.message')}</p>
+      <h2 className="text-3xl font-bold mb-4 text-black">{t('survey.transition.title')}</h2>
+      <p className="text-xl text-black mb-6">{t('survey.transition.message')}</p>
 
       {/* Simulation Reminder */}
       <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mt-8">
-        <p className="text-base text-gray-800 leading-relaxed">
+        <p className="text-base text-black leading-relaxed">
           {t('survey.transition.reminder')}
         </p>
       </div>
@@ -666,10 +668,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-900 text-left">
+      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-black text-left">
         {t('survey.openFeedback.question')}
       </h2>
-      <p className="text-sm text-gray-600 mb-8 italic text-left">
+      <p className="text-sm text-black mb-8 italic text-left">
         {t('survey.openFeedback.note')}
       </p>
       <textarea
@@ -677,7 +679,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         onChange={(e) => updateAnswer('openFeedback', e.target.value.slice(0, 500))}
         rows={6}
         maxLength={500}
-        className="w-full p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] min-h-[48px]"
+        className="w-full p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
         placeholder={t('survey.openFeedback.placeholder')}
       />
       <p className="text-xs text-gray-500 mt-2 text-right">
@@ -699,10 +701,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           />
         </div>
       </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-900 text-left">
+      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-black text-left">
         {t('survey.notifyEmail.question')}
       </h2>
-      <p className="text-sm text-gray-600 mb-8 italic text-left">
+      <p className="text-sm text-black mb-8 italic text-left">
         {t('survey.notifyEmail.note')}
       </p>
       <input
@@ -710,7 +712,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         value={answers.notifyEmail || ''}
         onChange={(e) => updateAnswer('notifyEmail', e.target.value)}
         maxLength={255}
-        className="w-full max-w-md p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF0000] focus:border-[#FF0000] min-h-[48px]"
+        className="w-full max-w-md p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
         placeholder={t('survey.notifyEmail.placeholder')}
       />
     </div>
@@ -824,6 +826,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <div className="bg-white rounded-lg max-w-4xl w-full p-6 md:p-8 lg:p-12 my-6 md:my-8 shadow-lg">
+        {/* Step Headline - shown on first page */}
+        {currentPage === 1 && (
+          <p className="text-base md:text-lg font-semibold text-black mb-6">{t('survey.stepHeadline')}</p>
+        )}
         <div className="mb-8 md:mb-12">
           {renderPage()}
         </div>
@@ -841,7 +847,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           {currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition' ? (
             <button
               onClick={handleBack}
-              className="w-full md:w-auto px-8 py-4 md:py-3 bg-gray-200 text-gray-700 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-300 transition order-2 md:order-1"
+              className="w-full md:w-auto px-8 py-4 md:py-3 bg-gray-200 text-black rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-300 transition order-2 md:order-1"
             >
               ← {t('survey.navigation.back')}
             </button>
@@ -857,7 +863,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
                 disabled={!canProceed()}
                 className={`w-full md:w-auto px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] transition ${
                   canProceed()
-                    ? 'bg-[#FF0000] text-white hover:bg-[#CC0000]'
+                    ? 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -870,7 +876,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
                 className={`w-full md:w-auto px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] transition ${
                   submitting || !isFormComplete()
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-[#FF0000] text-white hover:bg-[#CC0000]'
+                    : 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
                 }`}
               >
                 {submitting ? t('survey.submitting') : t('survey.submit')}

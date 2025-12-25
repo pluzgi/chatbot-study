@@ -26,7 +26,7 @@ const DataNutritionLabel: React.FC<Props> = ({ compact = false }) => {
               <div className="text-xl md:text-2xl flex-shrink-0 mt-0.5">{item.icon}</div>
               <div className="flex-1 min-w-0">
                 <div className="text-sm md:text-base font-semibold text-black mb-1 leading-tight">{t(`dnl.${item.key}`)}</div>
-                <div className="text-xs md:text-sm text-gray-700 leading-relaxed">{t(`dnl.${item.key}Value`)}</div>
+                <div className="text-xs md:text-sm text-black leading-relaxed">{t(`dnl.${item.key}Value`)}</div>
               </div>
             </div>
           ))}

@@ -121,6 +121,7 @@ User message
 | Service | URL |
 |---------|-----|
 | Frontend | https://chat-study.ailights.org |
+| Frontend (Jelastic) | https://chat-study.jcloud-ver-jpe.ik-server.com |
 | Backend API | https://thesis.jcloud-ver-jpe.ik-server.com |
 | Python Service | http://thesis-python.jcloud-ver-jpe.ik-server.com (internal) |
 | Database | 10.101.29.52:5432 (internal) |

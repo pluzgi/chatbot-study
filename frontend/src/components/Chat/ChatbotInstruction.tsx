@@ -11,21 +11,36 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
       <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
-        {/* Headline */}
-        <h1 className="text-2xl md:text-[28px] font-bold mb-6 md:mb-8 text-gray-900 text-left leading-tight">
+        {/* About this study - Main Headline */}
+        <div className="mb-8 md:mb-10 text-left">
+          <h1 className="text-2xl md:text-[28px] font-bold mb-4 text-black leading-tight">
+            {t('instruction.aboutTitle')}
+          </h1>
+          <div className="space-y-3">
+            <p className="text-base md:text-lg text-black leading-relaxed">
+              {t('instruction.aboutText1')}
+            </p>
+            <p className="text-base md:text-lg text-black leading-relaxed">
+              {t('instruction.aboutText2')}
+            </p>
+          </div>
+        </div>
+
+        {/* Step 1 - Subheadline */}
+        <h2 className="text-lg md:text-xl font-bold mb-6 md:mb-8 text-black text-left leading-tight">
           {t('instruction.headline')}
-        </h1>
+        </h2>
 
         {/* Main Text */}
         <div className="mb-6 md:mb-8 space-y-4 text-left">
-          <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+          <p className="text-base md:text-lg text-black leading-relaxed">
             {t('instruction.text1')}
           </p>
-          <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+          <p className="text-base md:text-lg text-black leading-relaxed">
             {t('instruction.text2')}
           </p>
           {t('instruction.text3') && (
-            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+            <p className="text-base md:text-lg text-black leading-relaxed">
               {t('instruction.text3')}
             </p>
           )}
@@ -33,24 +48,27 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
 
         {/* Task */}
         <div className="mb-6 md:mb-8 text-left">
-          <p className="text-base md:text-lg font-semibold text-gray-900 mb-2 leading-relaxed">
+          <p className="text-base md:text-lg font-semibold text-black mb-2 leading-relaxed">
             {t('instruction.task')}
+          </p>
+          <p className="text-base md:text-lg text-black leading-relaxed">
+            {t('instruction.taskSubtitle')}
           </p>
         </div>
 
         {/* Examples */}
         <div className="mb-8 md:mb-12 text-left">
-          <p className="text-base font-semibold text-gray-700 mb-4">
+          <p className="text-base font-semibold text-black mb-4">
             {t('instruction.examplesLabel')}
           </p>
           <ul className="space-y-3">
-            <li className="text-[15px] md:text-base text-gray-600 pl-4 border-l-2 border-gray-300 leading-relaxed">
+            <li className="text-[15px] md:text-base text-black pl-4 border-l-2 border-gray-300 leading-relaxed">
               {t('instruction.example1')}
             </li>
-            <li className="text-[15px] md:text-base text-gray-600 pl-4 border-l-2 border-gray-300 leading-relaxed">
+            <li className="text-[15px] md:text-base text-black pl-4 border-l-2 border-gray-300 leading-relaxed">
               {t('instruction.example2')}
             </li>
-            <li className="text-[15px] md:text-base text-gray-600 pl-4 border-l-2 border-gray-300 leading-relaxed">
+            <li className="text-[15px] md:text-base text-black pl-4 border-l-2 border-gray-300 leading-relaxed">
               {t('instruction.example3')}
             </li>
           </ul>
@@ -60,7 +78,7 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
         <div className="flex justify-end">
           <button
             onClick={onContinue}
-            className="w-full md:w-auto bg-[#FF0000] text-white px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-[#CC0000] transition"
+            className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
           >
             {t('instruction.button')}
           </button>

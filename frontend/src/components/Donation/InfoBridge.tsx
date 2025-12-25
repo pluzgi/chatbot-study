@@ -26,7 +26,7 @@ const InfoBridge: React.FC<Props> = ({ onContinue }) => {
 
         <button
           onClick={onContinue}
-          className="w-full bg-[#FF0000] text-white py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-[#CC0000] transition"
+          className="w-full bg-gray-200 text-black py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
         >
           Learn More
         </button>

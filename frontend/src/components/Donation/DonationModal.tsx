@@ -56,40 +56,43 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               </svg>
             </div>
 
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-gray-900 leading-tight">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-black leading-tight">
               {showConfirmation === 'donate'
                 ? t('donation.confirmDonate.title')
                 : t('donation.confirmDecline.title')}
             </h2>
 
-            <p className="text-base md:text-lg text-gray-900 mb-3 md:mb-4 leading-relaxed">
+            <p className="text-base md:text-lg text-black mb-3 md:mb-4 leading-relaxed">
               {showConfirmation === 'donate'
                 ? t('donation.confirmDonate.message')
                 : t('donation.confirmDecline.message')}
             </p>
 
-            <p className="text-base text-gray-700 mb-6 md:mb-8 leading-relaxed">
+            <p className="text-base text-black mb-6 md:mb-8 leading-relaxed">
               {t('donation.confirmDonate.nextStep')}
             </p>
 
             <button
               onClick={handleContinue}
-              className="w-full md:w-auto bg-[#FF0000] text-white px-10 py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-[#CC0000] transition"
+              className="w-full md:w-auto bg-gray-200 text-black px-10 py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition"
             >
               {t('donation.confirmDonate.button')}
             </button>
           </div>
         ) : (
           <>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-gray-900 leading-tight">{t('donation.title')}</h2>
+            {/* Step Headline */}
+            <p className="text-base md:text-lg font-semibold text-black mb-4">{t('donation.stepHeadline')}</p>
+
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-black leading-tight">{t('donation.title')}</h2>
 
             {/* Show baseline text if Condition A (no DNL, no Dashboard) */}
             {!config.showDNL && !config.showDashboard && (
               <>
-                <p className="mb-4 md:mb-6 text-gray-900 text-lg md:text-xl leading-relaxed">
+                <p className="mb-4 md:mb-6 text-black text-lg md:text-xl leading-relaxed">
                   {t('donation.baselineText')}
                 </p>
-                <p className="mb-6 md:mb-8 text-gray-600 text-base md:text-lg leading-relaxed">
+                <p className="mb-6 md:mb-8 text-black text-base md:text-lg leading-relaxed">
                   {t('donation.baselineHelp')}
                 </p>
               </>
@@ -100,7 +103,7 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6 items-start">
                 {/* Left column: Data Nutrition Label (original card design) */}
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4 text-gray-900">
+                  <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4 text-black">
                     {t('donation.dnlIntro')}
                   </h3>
                   <DataNutritionLabel />
@@ -145,13 +148,13 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 mt-6 md:mt-8">
               <button
                 onClick={handleDecline}
-                className="w-full md:flex-1 bg-[#E5E7EB] text-gray-700 py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-gray-300 transition"
+                className="w-full md:flex-1 bg-[#E5E7EB] text-black py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-gray-300 transition"
               >
                 {t('donation.decline')}
               </button>
               <button
                 onClick={handleDonate}
-                className="w-full md:flex-1 bg-[#D1D5DB] text-gray-700 py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-gray-400 transition"
+                className="w-full md:flex-1 bg-[#D1D5DB] text-black py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-gray-400 transition"
               >
                 {t('donation.accept')}
               </button>

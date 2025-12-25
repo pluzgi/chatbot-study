@@ -39,8 +39,8 @@ const LikertScale: React.FC<LikertScaleProps> = ({
             <div
               className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition-all ${
                 value === point
-                  ? 'bg-[#FF0000] border-[#FF0000] text-white'
-                  : 'border-gray-300 hover:border-[#FF0000] hover:bg-red-50 text-gray-700'
+                  ? 'bg-green-600 border-green-600 text-white'
+                  : 'bg-gray-100 border-gray-300 hover:bg-green-600 hover:border-green-600 hover:text-white text-black'
               }`}
             >
               <span className="text-base font-medium">{point}</span>
@@ -50,7 +50,7 @@ const LikertScale: React.FC<LikertScaleProps> = ({
       </div>
 
       {/* Labels */}
-      <div className="flex items-start justify-between text-sm md:text-base text-gray-600 mt-2">
+      <div className="flex items-start justify-between text-sm md:text-base text-black mt-2">
         <span className="text-left max-w-[45%] leading-relaxed">{leftLabel}</span>
         <span className="text-right max-w-[45%] leading-relaxed">{rightLabel}</span>
       </div>

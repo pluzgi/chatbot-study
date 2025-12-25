@@ -24,6 +24,8 @@ Stores all participant data including baseline measures, dropout tracking, and d
 | language | VARCHAR(5) | NOT NULL | UI language (de, fr, it, en) |
 | fingerprint | VARCHAR(64) | | Browser fingerprint for duplicate detection |
 | current_phase | VARCHAR(20) | DEFAULT 'consent' | Dropout tracking phase |
+| consent_given | BOOLEAN | NOT NULL DEFAULT FALSE | TRUE when participant confirmed consent |
+| consent_at | TIMESTAMP | | When consent was given |
 | tech_comfort | INT | CHECK (1-7) | Q1: Technology comfort |
 | baseline_privacy_concern | INT | CHECK (1-7) | Q2: Privacy concern |
 | donation_decision | VARCHAR(10) | CHECK (donate, decline) | User's donation choice |
