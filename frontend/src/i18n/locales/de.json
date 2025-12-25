@@ -83,7 +83,8 @@
     "placeholder": "Ask a question...",
     "send": "Send",
     "thinking": "Thinking...",
-    "minQuestions": "Please ask at least 2 questions ({{count}}/2)"
+    "minQuestions": "Please ask at least 2 questions ({{count}}/2)",
+    "continueButton": "Continue to Next Step →"
   },
   "donation": {
     "title": "Help Improve the Apertus Model",

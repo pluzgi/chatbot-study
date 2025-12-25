@@ -216,7 +216,8 @@ When participant clicks Continue with checkbox checked:
 ### User Experience
 - Participant types questions about Swiss ballot initiatives
 - AI responds with voting information
-- After 2nd question is sent → InfoBridge modal appears
+- After 2nd question receives a response → "Continue to Next Step" button appears
+- User can read the answer before clicking continue → InfoBridge modal appears
 
 ---
 
