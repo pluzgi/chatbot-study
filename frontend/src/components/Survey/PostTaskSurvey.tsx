@@ -293,14 +293,34 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     }
   };
 
-  const LikertQuestion = ({ label, field, leftLabel, rightLabel }: {
+  // ============================================
+  // REUSABLE COMPONENTS - IMPROVED READABILITY
+  // ============================================
+
+  // Simple question label - no percentage, just "Question X"
+  const QuestionLabel = ({ questionNum }: { questionNum: number }) => (
+    <div className="mb-6">
+      <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
+        {t('survey.progress.question')} {questionNum}
+      </span>
+    </div>
+  );
+
+  // Likert item with improved readability
+  // - Larger, bolder statement text
+  // - More spacing between items
+  const LikertItem = ({ label, field, leftLabel, rightLabel }: {
     label: string;
     field: keyof SurveyData;
     leftLabel: string;
     rightLabel: string;
   }) => (
-    <div className="mb-10">
-      <p className="text-lg md:text-xl mb-4 text-black font-medium text-left leading-relaxed">{label}</p>
+    <div className="py-6 border-b border-gray-100 last:border-0 last:pb-0 first:pt-0">
+      {/* Statement - PRIMARY FOCUS: larger, medium weight, high contrast */}
+      <p className="text-lg md:text-xl text-gray-900 font-medium mb-5 leading-relaxed">
+        {label}
+      </p>
+      {/* Scale - secondary */}
       <LikertScale
         name={field}
         value={answers[field] as number | null}
@@ -308,220 +328,174 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         leftLabel={leftLabel}
         rightLabel={rightLabel}
         points={7}
+        compact={true}
       />
     </div>
   );
 
+  // Question block - clean white background, no nested grays
+  const QuestionBlock = ({ intro, children }: { intro: string; children: React.ReactNode }) => (
+    <div>
+      {/* Block intro - SECONDARY: smaller, lighter, explains what to do */}
+      <p className="text-base text-gray-500 mb-6 leading-relaxed">
+        {intro}
+      </p>
+      {/* Likert items with clear separation */}
+      <div>
+        {children}
+      </div>
+    </div>
+  );
+
+  // ============================================
+  // SECTION COMPONENTS
+  // ============================================
+
   const ClaritySection = ({ questionNum }: { questionNum: number }) => (
     <div>
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
-        {t('survey.clarity.intro')}
-      </h2>
-      <div className="max-w-3xl">
-        <LikertQuestion
+      <QuestionLabel questionNum={questionNum} />
+      <QuestionBlock intro={t('survey.clarity.intro')}>
+        <LikertItem
           label={t('survey.clarity.q1')}
           field="clarity1"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.clarity.q2')}
           field="clarity2"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.clarity.q3')}
           field="clarity3"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.clarity.q4')}
           field="clarity4"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-      </div>
+      </QuestionBlock>
     </div>
   );
 
   const ControlSection = ({ questionNum }: { questionNum: number }) => (
     <div>
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
-        {t('survey.control.intro')}
-      </h2>
-      <div className="max-w-3xl">
-        <LikertQuestion
+      <QuestionLabel questionNum={questionNum} />
+      <QuestionBlock intro={t('survey.control.intro')}>
+        <LikertItem
           label={t('survey.control.q1')}
           field="control1"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.control.q2')}
           field="control2"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.control.q3')}
           field="control3"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.control.q4')}
           field="control4"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-      </div>
+      </QuestionBlock>
     </div>
   );
 
   const RiskSection = ({ questionNum }: { questionNum: number }) => (
     <div>
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
-        {t('survey.risk.intro')}
-      </h2>
-      <div className="max-w-3xl">
-        <LikertQuestion
+      <QuestionLabel questionNum={questionNum} />
+      <QuestionBlock intro={t('survey.risk.intro')}>
+        <LikertItem
           label={t('survey.risk.privacy')}
           field="riskPrivacy"
           leftLabel={t('survey.likert.notConcerned')}
           rightLabel={t('survey.likert.extremelyConcerned')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.risk.misuse')}
           field="riskMisuse"
           leftLabel={t('survey.likert.notConcerned')}
           rightLabel={t('survey.likert.extremelyConcerned')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.risk.companies')}
           field="riskCompanies"
           leftLabel={t('survey.likert.notConcerned')}
           rightLabel={t('survey.likert.extremelyConcerned')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.risk.trust')}
           field="riskTrust"
           leftLabel={t('survey.likert.notConcerned')}
           rightLabel={t('survey.likert.extremelyConcerned')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.risk.security')}
           field="riskSecurity"
           leftLabel={t('survey.likert.notConcerned')}
           rightLabel={t('survey.likert.extremelyConcerned')}
         />
-      </div>
+      </QuestionBlock>
     </div>
   );
 
   const AgencySection = ({ questionNum }: { questionNum: number }) => (
     <div>
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
-        {t('survey.agency.intro')}
-      </h2>
-      <div className="max-w-3xl">
-        <LikertQuestion
+      <QuestionLabel questionNum={questionNum} />
+      <QuestionBlock intro={t('survey.agency.intro')}>
+        <LikertItem
           label={t('survey.agency.q1')}
           field="agency1"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.agency.q2')}
           field="agency2"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.agency.q3')}
           field="agency3"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-      </div>
+      </QuestionBlock>
     </div>
   );
 
   const TrustSection = ({ questionNum }: { questionNum: number }) => (
     <div>
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-8 text-black text-left leading-tight">
-        {t('survey.trust.intro')}
-      </h2>
-      <div className="max-w-3xl">
-        <LikertQuestion
+      <QuestionLabel questionNum={questionNum} />
+      <QuestionBlock intro={t('survey.trust.intro')}>
+        <LikertItem
           label={t('survey.trust.q1')}
           field="trust1"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertQuestion
+        <LikertItem
           label={t('survey.trust.q2')}
           field="trust2"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-      </div>
+      </QuestionBlock>
     </div>
   );
 
@@ -552,43 +526,43 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     };
 
     return (
-      <div className="max-w-2xl">
-        <div className="mb-12">
-          <p className="text-sm text-gray-400 mb-2">
-            {t('survey.progress.question')} {questionNum}
+      <div>
+        <QuestionLabel questionNum={questionNum} />
+        <div>
+          <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
+            {t('survey.acceptableUse.question')}
           </p>
-          <div className="w-full bg-gray-200 rounded-full h-[3px]">
-            <div
-              className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-              style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
-            />
+          <p className="text-base text-gray-500 mb-6">
+            {t('survey.acceptableUse.instruction')}
+          </p>
+          <div className="space-y-3">
+            {[
+              { field: 'acceptableUseImproveChatbot' as keyof SurveyData, label: t('survey.acceptableUse.improveChatbot') },
+              { field: 'acceptableUseAcademicResearch' as keyof SurveyData, label: t('survey.acceptableUse.academicResearch') },
+              { field: 'acceptableUseCommercialProducts' as keyof SurveyData, label: t('survey.acceptableUse.commercialProducts') },
+              { field: 'acceptableUseNothing' as keyof SurveyData, label: t('survey.acceptableUse.nothing') }
+            ].map(({ field, label }) => (
+              <label
+                key={field}
+                className={`
+                  flex items-center gap-4 p-4 border rounded-md cursor-pointer transition min-h-[52px]
+                  focus-within:ring-2 focus-within:ring-offset-1 focus-within:ring-gray-400
+                  ${answers[field]
+                    ? 'border-gray-800 bg-gray-50'
+                    : 'border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50'
+                  }
+                `}
+              >
+                <input
+                  type="checkbox"
+                  checked={answers[field] as boolean || false}
+                  onChange={(e) => handleCheckboxChange(field, e.target.checked)}
+                  className="w-5 h-5 text-gray-800 border-gray-300 rounded focus:ring-gray-500"
+                />
+                <span className="text-base text-gray-900">{label}</span>
+              </label>
+            ))}
           </div>
-        </div>
-        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-black text-left">
-          {t('survey.acceptableUse.question')}
-        </h2>
-        <p className="text-sm text-black mb-12 italic text-left">
-          {t('survey.acceptableUse.instruction')}
-        </p>
-        <div className="space-y-4">
-          {[
-            { field: 'acceptableUseImproveChatbot' as keyof SurveyData, label: t('survey.acceptableUse.improveChatbot') },
-            { field: 'acceptableUseAcademicResearch' as keyof SurveyData, label: t('survey.acceptableUse.academicResearch') },
-            { field: 'acceptableUseCommercialProducts' as keyof SurveyData, label: t('survey.acceptableUse.commercialProducts') },
-            { field: 'acceptableUseNothing' as keyof SurveyData, label: t('survey.acceptableUse.nothing') }
-          ].map(({ field, label }) => (
-            <label key={field} className={`flex items-start gap-3 p-3 md:p-4 border-2 rounded-lg cursor-pointer transition min-h-[48px] items-center ${
-              answers[field] ? 'border-green-600 bg-green-50' : 'border-gray-200 hover:border-green-600 hover:bg-green-50'
-            }`}>
-              <input
-                type="checkbox"
-                checked={answers[field] as boolean || false}
-                onChange={(e) => handleCheckboxChange(field, e.target.checked)}
-                className="mt-1 w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-600"
-              />
-              <span className="text-base text-black">{label}</span>
-            </label>
-          ))}
         </div>
       </div>
     );
@@ -600,121 +574,50 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     label: string;
     options: { value: string; label: string }[];
   }) => (
-    <div className="max-w-2xl">
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 12) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-12 text-black text-left">{label}</h2>
-      <select
-        value={answers[field] as string || ''}
-        onChange={(e) => updateAnswer(field, e.target.value)}
-        className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 bg-white block min-h-[48px]"
-      >
-        {options.map(opt => (
-          <option key={opt.value} value={opt.value} disabled={opt.value === ''}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+    <div>
+      <QuestionLabel questionNum={questionNum} />
+      <div>
+        <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{label}</p>
+        <select
+          value={answers[field] as string || ''}
+          onChange={(e) => updateAnswer(field, e.target.value)}
+          className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white min-h-[52px]"
+        >
+          {options.map(opt => (
+            <option key={opt.value} value={opt.value} disabled={opt.value === ''}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
 
-      {/* Gender "Other" text field */}
-      {field === 'gender' && answers.gender === 'other' && (
-        <div className="mt-6">
-          <input
-            type="text"
-            value={answers.genderOther || ''}
-            onChange={(e) => updateAnswer('genderOther', e.target.value)}
-            placeholder={t('survey.demographics.gender.otherPlaceholder')}
-            className="w-full max-w-md p-3 md:p-4 text-base md:text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
-          />
-        </div>
-      )}
+        {/* Gender "Other" text field */}
+        {field === 'gender' && answers.gender === 'other' && (
+          <div className="mt-4">
+            <input
+              type="text"
+              value={answers.genderOther || ''}
+              onChange={(e) => updateAnswer('genderOther', e.target.value)}
+              placeholder={t('survey.demographics.gender.otherPlaceholder')}
+              className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 min-h-[52px]"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 
   const TransitionPage = () => (
-    <div className="text-center max-w-2xl mx-auto">
-      <div className="text-6xl mb-6">🙏🏻</div>
-      <h2 className="text-3xl font-bold mb-4 text-black">{t('survey.transition.title')}</h2>
-      <p className="text-xl text-black mb-6">{t('survey.transition.message')}</p>
+    <div className="text-center py-8">
+      <div className="text-5xl mb-6">🙏🏻</div>
+      <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900">{t('survey.transition.title')}</h2>
+      <p className="text-lg text-gray-600 mb-8">{t('survey.transition.message')}</p>
 
       {/* Simulation Reminder */}
-      <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mt-8">
-        <p className="text-base text-black leading-relaxed">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 max-w-lg mx-auto">
+        <p className="text-sm text-blue-800 leading-relaxed">
           {t('survey.transition.reminder')}
         </p>
       </div>
-    </div>
-  );
-
-  const OpenFeedbackPage = ({ questionNum }: { questionNum: number }) => (
-    <div className="max-w-2xl">
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 13) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-black text-left">
-        {t('survey.openFeedback.question')}
-      </h2>
-      <p className="text-sm text-black mb-8 italic text-left">
-        {t('survey.openFeedback.note')}
-      </p>
-      <textarea
-        value={answers.openFeedback || ''}
-        onChange={(e) => updateAnswer('openFeedback', e.target.value)}
-        rows={6}
-        maxLength={500}
-        className="w-full p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 resize-none"
-        placeholder={t('survey.openFeedback.placeholder')}
-      />
-      <p className="text-xs text-gray-500 mt-2 text-right">
-        {(answers.openFeedback || '').length}/500 - {t('survey.openFeedback.maxLength')}
-      </p>
-    </div>
-  );
-
-  const EmailNotificationPage = ({ questionNum }: { questionNum: number }) => (
-    <div className="max-w-2xl">
-      <div className="mb-12">
-        <p className="text-sm text-gray-400 mb-2">
-          {t('survey.progress.question')} {questionNum}
-        </p>
-        <div className="w-full bg-gray-200 rounded-full h-[3px]">
-          <div
-            className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-            style={{ width: `${((questionNum - 2) / 13) * 100}%` }}
-          />
-        </div>
-      </div>
-      <h2 className="text-xl md:text-2xl font-semibold mb-4 text-black text-left">
-        {t('survey.notifyEmail.question')}
-      </h2>
-      <p className="text-sm text-black mb-8 italic text-left">
-        {t('survey.notifyEmail.note')}
-      </p>
-      <input
-        type="email"
-        value={answers.notifyEmail || ''}
-        onChange={(e) => updateAnswer('notifyEmail', e.target.value)}
-        maxLength={255}
-        className="w-full max-w-md p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
-        placeholder={t('survey.notifyEmail.placeholder')}
-      />
     </div>
   );
 
@@ -815,74 +718,134 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           ]}
         />;
       case 'openFeedback':
-        return <OpenFeedbackPage questionNum={questionNum} />;
+        return (
+          <div>
+            <div className="mb-6">
+              <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
+                {t('survey.progress.question')} {questionNum}
+              </span>
+            </div>
+            <div>
+              <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
+                {t('survey.openFeedback.question')}
+              </p>
+              <p className="text-base text-gray-500 mb-6">
+                {t('survey.openFeedback.note')}
+              </p>
+              <textarea
+                value={answers.openFeedback || ''}
+                onChange={(e) => updateAnswer('openFeedback', e.target.value)}
+                rows={5}
+                maxLength={500}
+                className="w-full p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white resize-none"
+                placeholder={t('survey.openFeedback.placeholder')}
+              />
+              <p className="text-sm text-gray-400 mt-2 text-right">
+                {(answers.openFeedback || '').length}/500
+              </p>
+            </div>
+          </div>
+        );
       case 'notifyEmail':
-        return <EmailNotificationPage questionNum={questionNum} />;
+        return (
+          <div>
+            <div className="mb-6">
+              <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
+                {t('survey.progress.question')} {questionNum}
+              </span>
+            </div>
+            <div>
+              <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
+                {t('survey.notifyEmail.question')}
+              </p>
+              <p className="text-base text-gray-500 mb-6">
+                {t('survey.notifyEmail.note')}
+              </p>
+              <input
+                type="email"
+                value={answers.notifyEmail || ''}
+                onChange={(e) => updateAnswer('notifyEmail', e.target.value)}
+                maxLength={255}
+                className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white min-h-[52px]"
+                placeholder={t('survey.notifyEmail.placeholder')}
+              />
+            </div>
+          </div>
+        );
       default:
         return null;
     }
   };
 
+  // Check if we're on a Likert section page (for showing step headline)
+  const isLikertPage = ['clarity-section', 'control-section', 'risk-section', 'agency-section', 'trust-section'].includes(
+    pageStructure[currentPage - 1]?.type || ''
+  );
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-      <div className="bg-white rounded-lg max-w-4xl w-full p-6 md:p-8 lg:p-12 my-6 md:my-8 shadow-lg">
-        {/* Step Headline - shown on first page */}
-        {currentPage === 1 && (
-          <p className="text-base md:text-lg font-semibold text-black mb-6">{t('survey.stepHeadline')}</p>
+    <div className="min-h-screen bg-gray-50 py-6 md:py-10">
+      <div className="max-w-2xl mx-auto px-4">
+        {/* Step Headline - Prominent, shown on Likert pages */}
+        {(currentPage === 1 || isLikertPage) && (
+          <div className="mb-6 text-left">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900">
+              {t('survey.stepHeadline')}
+            </h1>
+          </div>
         )}
-        <div className="mb-8 md:mb-12">
+
+        {/* Main Content Card - Clean white, no nested grays */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-10">
           {renderPage()}
         </div>
 
         {/* Validation Error */}
         {validationError && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center text-base">
+          <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-center text-sm">
             {validationError}
           </div>
         )}
 
-        {/* Navigation Buttons */}
-        <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-between items-stretch md:items-center mt-8 md:mt-12">
-          {/* Back Button */}
+        {/* Navigation Buttons - Matching app button styles */}
+        <div className="flex flex-col-reverse md:flex-row gap-3 justify-between items-stretch mt-6">
+          {/* Back Button - ghost/outlined style */}
           {currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition' ? (
             <button
               onClick={handleBack}
-              className="w-full md:w-auto px-8 py-4 md:py-3 bg-gray-200 text-black rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-300 transition order-2 md:order-1"
+              className="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
             >
               ← {t('survey.navigation.back')}
             </button>
           ) : (
-            <div className="hidden md:block"></div>
+            <div></div>
           )}
 
-          {/* Next/Submit Button */}
-          <div className="w-full md:w-auto order-1 md:order-2">
-            {currentPage < totalPages ? (
-              <button
-                onClick={handleNext}
-                disabled={!canProceed()}
-                className={`w-full md:w-auto px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] transition ${
-                  canProceed()
-                    ? 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {t('survey.navigation.next')}
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={submitting || !isFormComplete()}
-                className={`w-full md:w-auto px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] transition ${
-                  submitting || !isFormComplete()
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
-                }`}
-              >
-                {submitting ? t('survey.submitting') : t('survey.submit')}
-              </button>
-            )}
-          </div>
+          {/* Next/Submit Button - filled neutral style */}
+          {currentPage < totalPages ? (
+            <button
+              onClick={handleNext}
+              disabled={!canProceed()}
+              className={`px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition ${
+                canProceed()
+                  ? 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              {t('survey.navigation.next')} →
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              disabled={submitting || !isFormComplete()}
+              className={`px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition ${
+                submitting || !isFormComplete()
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
+              }`}
+            >
+              {submitting ? t('survey.submitting') : t('survey.submit')}
+            </button>
+          )}
         </div>
       </div>
     </div>
