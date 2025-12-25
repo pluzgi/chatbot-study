@@ -676,10 +676,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       </p>
       <textarea
         value={answers.openFeedback || ''}
-        onChange={(e) => updateAnswer('openFeedback', e.target.value.slice(0, 500))}
+        onChange={(e) => updateAnswer('openFeedback', e.target.value)}
         rows={6}
         maxLength={500}
-        className="w-full p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 min-h-[48px]"
+        className="w-full p-3 md:p-4 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 resize-none"
         placeholder={t('survey.openFeedback.placeholder')}
       />
       <p className="text-xs text-gray-500 mt-2 text-right">

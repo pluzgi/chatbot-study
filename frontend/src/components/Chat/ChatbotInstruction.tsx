@@ -27,7 +27,7 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
         </div>
 
         {/* Step 1 - Subheadline */}
-        <h2 className="text-lg md:text-xl font-bold mb-6 md:mb-8 text-black text-left leading-tight">
+        <h2 className="text-lg md:text-xl font-bold mb-3 md:mb-4 text-black text-left leading-tight">
           {t('instruction.headline')}
         </h2>
 
@@ -57,18 +57,18 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
         </div>
 
         {/* Examples */}
-        <div className="mb-8 md:mb-12 text-left">
-          <p className="text-base font-semibold text-black mb-4">
+        <div className="mb-6 md:mb-8 text-left">
+          <p className="text-sm md:text-base font-semibold text-black mb-2">
             {t('instruction.examplesLabel')}
           </p>
-          <ul className="space-y-3">
-            <li className="text-[15px] md:text-base text-black pl-4 border-l-2 border-gray-300 leading-relaxed">
+          <ul className="space-y-1.5">
+            <li className="text-sm text-black pl-3 border-l-2 border-gray-300 leading-snug">
               {t('instruction.example1')}
             </li>
-            <li className="text-[15px] md:text-base text-black pl-4 border-l-2 border-gray-300 leading-relaxed">
+            <li className="text-sm text-black pl-3 border-l-2 border-gray-300 leading-snug">
               {t('instruction.example2')}
             </li>
-            <li className="text-[15px] md:text-base text-black pl-4 border-l-2 border-gray-300 leading-relaxed">
+            <li className="text-sm text-black pl-3 border-l-2 border-gray-300 leading-snug">
               {t('instruction.example3')}
             </li>
           </ul>

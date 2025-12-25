@@ -13,6 +13,7 @@ const ChatInterface: React.FC<Props> = ({ participantId, onMinimumReached }) => 
   const { t } = useTranslation();
   const { messages, loading, sendMessage } = useChat(participantId);
   const [count, setCount] = useState(0);
+  const [canContinue, setCanContinue] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -28,8 +29,13 @@ const ChatInterface: React.FC<Props> = ({ participantId, onMinimumReached }) => 
     const newCount = count + 1;
     setCount(newCount);
     if (newCount >= 2) {
-      onMinimumReached();
+      // Show continue button after response is received
+      setCanContinue(true);
     }
+  };
+
+  const handleContinue = () => {
+    onMinimumReached();
   };
 
   return (
@@ -61,8 +67,17 @@ const ChatInterface: React.FC<Props> = ({ participantId, onMinimumReached }) => 
         </div>
       )}
 
-      {/* Add spacing at bottom for better visibility */}
-      <div className="pb-8"></div>
+      {/* Continue button after minimum questions answered */}
+      {canContinue && !loading && (
+        <div className="p-4 bg-green-50 border-t border-green-200">
+          <button
+            onClick={handleContinue}
+            className="w-full bg-gray-200 text-black py-4 rounded-lg font-semibold text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
+          >
+            {t('chat.continueButton')}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
