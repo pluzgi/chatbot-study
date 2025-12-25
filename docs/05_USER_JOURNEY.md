@@ -22,31 +22,31 @@ This document describes the complete participant experience from landing page to
 
 ### Main Content
 **Title:**
-"Help Improve AI for Swiss Democracy"
+"Swiss Civic AI Study"
 
 **Subtitle:**
-"Participate in university research about AI chatbots and data sharing."
+"A short academic study on data donation and trust in open-source AI"
 
-**Key Facts:**
-- ⏱️ Takes about 8-10 minutes
-- 🔒 Completely anonymous
-- 🎓 For academic research only
+**What this is about:**
+"We explore how people decide whether to donate anonymized chatbot questions for AI language model research."
 
-**What you'll do:**
-1. Try a voting-info chatbot
-2. Make a simulated decision
-3. Answer a few questions
+**What to expect:**
+- About 8 minutes
+- Anonymous participation
+- Academic research only
 
-**Requirements:**
-- 18+ years old
-- Can vote in Switzerland
+**Who can participate:**
+- 18+
+- Eligible to vote in Switzerland
 
 **Contact:**
-Questions? Contact: hello@ailights.org
+Questions? Please send an email (hello@ailights.org)
+Sabine Wildemann, Data Science & Business Analytics
+DBU Digital Business University of Applied Sciences · Prof. Daniel Ambach
 
 **Buttons:**
-- [Start Survey] (primary, red)
-- [Not Interested] (secondary, gray) → Tracks click anonymously, shows Declined Page
+- [Start study] (gray, turns green on hover)
+- [Not interested] (gray, turns green on hover) → Tracks click anonymously, shows Declined Page
 
 ---
 
@@ -56,8 +56,6 @@ Shown when user clicks "Not Interested"
 
 **Title:** "Thank you for your consideration."
 
-**Message:** "Want to use Apertus for your daily questions? Try it out!"
-
 **Button:** [Try Apertus] → Links to http://publicai.ch/ (tracks click anonymously)
 
 **Note:** Both button clicks ("Not Interested" and "Try Apertus") are tracked anonymously via `click_counters` table without storing any personal data.
@@ -66,20 +64,28 @@ Shown when user clicks "Not Interested"
 
 ## 📍 PHASE 2: Consent Modal
 
-Triggered when user clicks "Start Survey"
+Triggered when user clicks "Start study"
 
-**Title:** "Before You Begin"
+**Title:** "Before we start"
 
-**Text:** "By starting this survey, you confirm:"
+**Text:** "By continuing, you confirm that:"
 
-**Checkboxes (all required):**
-- ☐ I am 18 years or older
-- ☐ I can vote in Swiss federal elections
-- ☐ I participate voluntarily
+**Listing:**
+- you are 18 years or older
+- you are eligible to vote in Switzerland
+- your participation is voluntary and you may stop at any time
+
+**Checkbox (required):**
+- ☐ I confirm the above and agree to participate
 
 **Buttons:**
-- [I Consent] (proceeds to baseline)
-- [Go Back] (returns to landing page)
+- [Continue] (proceeds to baseline, only enabled when checkbox is checked)
+- [Go back] (returns to landing page)
+
+**Database Tracking:**
+When participant clicks Continue with checkbox checked:
+- `consent_given` = TRUE
+- `consent_at` = timestamp
 
 **Decline Message (if "Not Interested"):**
 "Thank you for your consideration."
@@ -151,20 +157,39 @@ Triggered when user clicks "Start Survey"
 
 ## 📍 PHASE 4: Chatbot Instruction Page
 
-**Headline:** "Try the Chatbot"
+### About this study (Main Headline)
+**Main Headline (large, bold):** "About this study"
 
-**Main Text:**
-"Imagine Swiss researchers have built a chatbot to help citizens get clear, unbiased information about upcoming ballot initiatives.
+**Paragraph 1:**
+"In this study, we explore how people use a chatbot in a civic context and how they decide whether their anonymized chat questions may be used for academic AI research."
 
-The chatbot uses Apertus, a Swiss open-source large language artificial intelligence model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre."
+**Paragraph 2:**
+"To explore this, the study combines a short hands-on interaction with a chatbot and follow-up questions about your experience."
 
-**Task:**
-"Ask the chatbot at least 2 questions about upcoming ballot initiatives."
+---
 
-**Examples:**
+### Step 1 of 3 (Subheadline)
+
+**Subheadline (smaller, bold):**
+"Step 1 of 3 — Try the Chatbot"
+
+**Paragraph 1:**
+"In this first step, you will interact with a chatbot designed to provide information about Swiss ballot initiatives."
+
+**Paragraph 2:**
+"The chatbot is based on a Swiss open-source AI language model. Such models are trained to understand questions and generate text-based answers, similar to other chat-based tools you may already know."
+
+**Paragraph 3:**
+"The AI model used for the chatbot, Apertus, is a Swiss open-source large language model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre."
+
+**Task (bold):**
+"Please ask at least 2 questions about Swiss ballot initiatives."
+"This helps you get a sense of how the system works before continuing with the study."
+
+**Example questions**
 - What is the Klimafonds Initiative about?
 - Explain the Cash Initiative and the counter-proposal.
-- What is the National Council's position on "For a fair energy and climate policy"?
+- What are the main arguments for and against the SRG Initiative?
 
 **Button:**
 [Start Chatbot] (proceeds to chat interface)
@@ -218,6 +243,9 @@ Would you donate your anonymized questions?"
 ---
 
 ## 📍 PHASE 7: Donation Decision Screen
+
+**Headline (large, bold):**
+"Step 2 of 3 — Decide How Your Anonymized Chat Data May Be Used"
 
 ### Varies by Experimental Condition
 
@@ -389,6 +417,9 @@ Shown after donation decision (donate OR decline)
 ---
 
 ## 📍 PHASE 9: Post-Task Survey (Q3-Q14)
+
+**Headline (shown on first page only):**
+"Step 3 of 3 — Share Your Perspective"
 
 ### Survey Structure
 - **Total Questions:** 12 required + 1 optional
@@ -826,8 +857,9 @@ Shown after survey submission
 - **Checkbox validation:** At least 1 selection in Q8
 
 ### Button States
-- **Disabled state:** Gray background, no hover effect
-- **Enabled state:** Red (#FF0000) background, darker red (#CC0000) on hover
+- **Disabled state:** Gray background (#D1D5DB), no hover effect, gray text
+- **Enabled state:** Gray background (#E5E7EB), turns green (#16A34A) on hover
+- **Selected/Active state:** Green background with white text
 - **Submit button:** Only enabled when all required questions answered
 
 ---
@@ -862,10 +894,11 @@ Shown after survey submission
 ## 🎨 Visual Design Elements
 
 ### Colors
-- **Primary (Swiss Red):** #FF0000
-- **Hover:** #CC0000
+- **Primary Button (default):** #E5E7EB (gray-200)
+- **Primary Button (hover/selected):** #16A34A (green-600)
 - **Progress Bar:** #D1D5DB (gray)
 - **Background:** #F9FAFB (light gray)
+- **Text:** #000000 (black)
 
 ### Spacing
 - **Consistent:** 48px (mb-12) between elements

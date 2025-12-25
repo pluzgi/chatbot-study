@@ -22,11 +22,7 @@ function App() {
   const [showDonationModal, setShowDonationModal] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [consentChecks, setConsentChecks] = useState({
-    age: false,
-    vote: false,
-    voluntary: false
-  });
+  const [consentConfirmed, setConsentConfirmed] = useState(false);
   const [_baselineData, setBaselineData] = useState<{ techComfort: number; privacyConcern: number } | null>(null);
 
   const startExperiment = async () => {
@@ -91,7 +87,7 @@ function App() {
 
   // Landing Page - Professional Research Study
   if (phase === 'landing') {
-    const allConsented = consentChecks.age && consentChecks.vote && consentChecks.voluntary;
+    const allConsented = consentConfirmed;
 
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
@@ -104,7 +100,7 @@ function App() {
           {/* Main content - all left-aligned */}
           <div className="text-left">
             {/* Title */}
-            <h1 className="text-2xl md:text-[28px] font-semibold mb-2 text-gray-900 leading-tight">
+            <h1 className="text-2xl md:text-[28px] font-semibold mb-2 text-black leading-tight">
               {t('landing.title')}
             </h1>
 
@@ -119,23 +115,13 @@ function App() {
               <p className="text-[15px] md:text-base text-black leading-relaxed">{t('landing.whatWeStudyText')}</p>
             </div>
 
-            {/* What you'll do */}
+            {/* What to expect */}
             <div className="mb-6">
-              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.youWill')}</p>
+              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.whatToExpect')}</p>
               <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
-                <li>{t('landing.step1')}</li>
-                <li>{t('landing.step2')}</li>
-                <li>{t('landing.step3')}</li>
-              </ul>
-            </div>
-
-            {/* Good to know */}
-            <div className="mb-6">
-              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.goodToKnow')}</p>
-              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
-                <li>{t('landing.fact1')}</li>
-                <li>{t('landing.fact2')}</li>
-                <li>{t('landing.fact3')}</li>
+                <li>{t('landing.expect1')}</li>
+                <li>{t('landing.expect2')}</li>
+                <li>{t('landing.expect3')}</li>
               </ul>
             </div>
 
@@ -152,7 +138,7 @@ function App() {
             <div className="flex flex-col md:flex-row gap-3 mb-8">
               <button
                 onClick={() => setShowConsentModal(true)}
-                className="w-full md:w-auto px-6 py-4 md:py-3 bg-[#FF0000] text-white rounded-md font-medium text-base min-h-[48px] hover:bg-[#CC0000] transition"
+                className="w-full md:w-auto px-6 py-4 md:py-3 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
               >
                 {t('landing.startButton')}
               </button>
@@ -161,16 +147,20 @@ function App() {
                   api.trackClick('decline_study');
                   setPhase('declined');
                 }}
-                className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+                className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-black border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
               >
                 {t('landing.declineButton')}
               </button>
             </div>
 
             {/* Contact */}
-            <p className="text-sm text-gray-500">
-              {t('landing.contact')} <a href={`mailto:${t('landing.email')}`} className="text-[#FF0000] hover:underline">{t('landing.email')}</a>
-            </p>
+            <div className="text-sm text-black space-y-1">
+              <p>
+                {t('landing.contact')} <a href="mailto:hello@ailights.org" className="text-black hover:underline">{t('landing.emailLink')}</a>
+              </p>
+              <p>{t('landing.researcher')}</p>
+              <p>{t('landing.program')}</p>
+            </div>
           </div>
         </div>
 
@@ -178,40 +168,24 @@ function App() {
         {showConsentModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-md w-full p-6 md:p-8">
-              <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-900 leading-tight">{t('landing.consentModal.title')}</h2>
-              <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>
+              <h2 className="text-xl md:text-2xl font-bold mb-4 text-black leading-tight">{t('landing.consentModal.title')}</h2>
+              <p className="text-base md:text-lg text-black mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>
 
-              <div className="space-y-4 mb-8">
-                <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center">
-                  <input
-                    type="checkbox"
-                    checked={consentChecks.age}
-                    onChange={(e) => setConsentChecks(prev => ({ ...prev, age: e.target.checked }))}
-                    className="w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000] flex-shrink-0"
-                  />
-                  <span className="text-base text-gray-800 leading-relaxed">{t('landing.consentModal.age')}</span>
-                </label>
+              <ul className="list-disc pl-5 space-y-2 text-base text-black mb-6 leading-relaxed">
+                <li>{t('landing.consentModal.age')}</li>
+                <li>{t('landing.consentModal.vote')}</li>
+                <li>{t('landing.consentModal.voluntary')}</li>
+              </ul>
 
-                <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center">
-                  <input
-                    type="checkbox"
-                    checked={consentChecks.vote}
-                    onChange={(e) => setConsentChecks(prev => ({ ...prev, vote: e.target.checked }))}
-                    className="w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000] flex-shrink-0"
-                  />
-                  <span className="text-base text-gray-800 leading-relaxed">{t('landing.consentModal.vote')}</span>
-                </label>
-
-                <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center">
-                  <input
-                    type="checkbox"
-                    checked={consentChecks.voluntary}
-                    onChange={(e) => setConsentChecks(prev => ({ ...prev, voluntary: e.target.checked }))}
-                    className="w-5 h-5 text-[#FF0000] border-gray-300 rounded focus:ring-[#FF0000] flex-shrink-0"
-                  />
-                  <span className="text-base text-gray-800 leading-relaxed">{t('landing.consentModal.voluntary')}</span>
-                </label>
-              </div>
+              <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center mb-8">
+                <input
+                  type="checkbox"
+                  checked={consentConfirmed}
+                  onChange={(e) => setConsentConfirmed(e.target.checked)}
+                  className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-600 flex-shrink-0"
+                />
+                <span className="text-base text-black leading-relaxed">{t('landing.consentModal.confirm_checkbox')}</span>
+              </label>
 
               <div className="flex flex-col md:flex-row gap-4">
                 <button
@@ -222,7 +196,7 @@ function App() {
                   disabled={!allConsented || loading}
                   className={`w-full md:flex-1 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] transition ${
                     allConsented && !loading
-                      ? 'bg-[#FF0000] text-white hover:bg-[#CC0000]'
+                      ? 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
@@ -230,7 +204,7 @@ function App() {
                 </button>
                 <button
                   onClick={() => setShowConsentModal(false)}
-                  className="w-full md:flex-1 bg-gray-300 text-gray-800 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition"
+                  className="w-full md:flex-1 bg-gray-300 text-black px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition"
                 >
                   {t('landing.consentModal.back')}
                 </button>
@@ -315,14 +289,14 @@ function App() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
             </svg>
           </div>
-          <h2 className="text-3xl font-bold mb-6 text-gray-900">Thank You</h2>
-          <p className="text-lg text-gray-900 mb-6 leading-relaxed">
+          <h2 className="text-3xl font-bold mb-6 text-black">Thank You</h2>
+          <p className="text-lg text-black mb-6 leading-relaxed">
             Our records show you have already participated in this study recently.
           </p>
-          <p className="text-base text-gray-700 mb-6 leading-relaxed">
+          <p className="text-base text-black mb-6 leading-relaxed">
             We appreciate your contribution! To maintain research validity, we ask participants to complete the study only once.
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-black">
             If you believe this is an error, please contact the research team.
           </p>
         </div>
@@ -338,18 +312,15 @@ function App() {
           <div className="flex justify-end gap-2 mb-6 md:mb-8">
             <LanguageSelector />
           </div>
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-900">
+          <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-black">
             {t('landing.declineMessage')}
           </h2>
-          <p className="text-base md:text-lg text-black mb-8 leading-relaxed">
-            {t('landing.declinedPage.tryApertus')}
-          </p>
           <a
             href="http://publicai.ch/"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => api.trackClick('try_apertus')}
-            className="inline-block px-8 py-4 bg-[#FF0000] text-white rounded-md font-medium text-base min-h-[48px] hover:bg-[#CC0000] transition"
+            className="inline-block px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
           >
             {t('landing.declinedPage.button')}
           </a>

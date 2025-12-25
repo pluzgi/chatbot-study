@@ -21,6 +21,10 @@ CREATE TABLE participants (
     current_phase VARCHAR(20) NOT NULL DEFAULT 'consent'
         CHECK (current_phase IN ('consent', 'baseline', 'chatbot', 'decision', 'survey', 'complete')),
 
+    -- Consent tracking
+    consent_given BOOLEAN NOT NULL DEFAULT FALSE,
+    consent_at TIMESTAMP,
+
     -- Baseline measures (Q1-Q2)
     tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 7),
     baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 7),
@@ -122,4 +126,6 @@ COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses (Q3-Q1
 COMMENT ON TABLE click_counters IS 'Anonymous click counters for tracking button interactions without personal data';
 COMMENT ON COLUMN participants.condition IS 'Experimental condition: A (low/low), B (high/low), C (low/high), D (high/high)';
 COMMENT ON COLUMN participants.current_phase IS 'Dropout tracking: consent → baseline → chatbot → decision → survey → complete';
+COMMENT ON COLUMN participants.consent_given IS 'TRUE when participant confirmed consent checkbox';
+COMMENT ON COLUMN participants.consent_at IS 'Timestamp when consent was given';
 COMMENT ON COLUMN participants.donation_config IS 'Dashboard configuration for C/D: {"scope","purpose","storage","retention"}';

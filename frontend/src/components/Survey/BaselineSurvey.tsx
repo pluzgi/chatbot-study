@@ -40,10 +40,10 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
       <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
         {/* Title */}
         <div className="text-center mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900 leading-tight">
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black leading-tight">
             {t('baseline.title')}
           </h1>
-          <p className="text-base md:text-lg text-gray-600">
+          <p className="text-base md:text-lg text-black">
             {t('baseline.subtitle')}
           </p>
         </div>
@@ -64,7 +64,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
         {/* Question 1: Tech Comfort */}
         {currentQuestion === 1 && (
           <div>
-            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-gray-900 text-left leading-relaxed">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
               {t('baseline.techComfort.question')}
             </h2>
 
@@ -85,7 +85,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
         {/* Question 2: Privacy Concern */}
         {currentQuestion === 2 && (
           <div>
-            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-gray-900 text-left leading-relaxed">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
               {t('baseline.privacyConcern.question')}
             </h2>
 
@@ -114,7 +114,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
         <div className="mt-8 md:mt-12 flex justify-end">
           <button
             onClick={handleContinue}
-            className="w-full md:w-auto bg-[#FF0000] text-white px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-[#CC0000] transition"
+            className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
           >
             {currentQuestion === 2 ? t('baseline.continue') : t('survey.navigation.next')}
           </button>

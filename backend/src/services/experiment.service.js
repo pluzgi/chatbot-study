@@ -51,7 +51,7 @@ class ExperimentService {
 
   /**
    * Create new participant with assigned condition.
-   * Initial phase: 'consent'
+   * Records consent and sets initial phase to 'consent'.
    */
   async createParticipant(lang = 'de', fingerprint = null) {
     const id = uuidv4();
@@ -59,8 +59,8 @@ class ExperimentService {
     const condition = await this.assignCondition();
 
     const result = await pool.query(
-      `INSERT INTO participants (id, session_id, condition, language, fingerprint, current_phase)
-       VALUES ($1, $2, $3, $4, $5, 'consent')
+      `INSERT INTO participants (id, session_id, condition, language, fingerprint, current_phase, consent_given, consent_at)
+       VALUES ($1, $2, $3, $4, $5, 'consent', TRUE, NOW())
        RETURNING *`,
       [id, sessionId, condition, lang, fingerprint]
     );

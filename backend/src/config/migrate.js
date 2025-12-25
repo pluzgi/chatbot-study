@@ -15,6 +15,10 @@ CREATE TABLE IF NOT EXISTS participants (
     current_phase VARCHAR(20) NOT NULL DEFAULT 'consent'
         CHECK (current_phase IN ('consent', 'baseline', 'chatbot', 'decision', 'survey', 'complete')),
 
+    -- Consent tracking
+    consent_given BOOLEAN NOT NULL DEFAULT FALSE,
+    consent_at TIMESTAMP,
+
     -- Baseline measures (Q1-Q2)
     tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 7),
     baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 7),

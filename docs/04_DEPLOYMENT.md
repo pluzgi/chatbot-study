@@ -436,6 +436,7 @@ Before launching study:
 
 ### URLs
 - Frontend: https://chat-study.ailights.org
+- Frontend (Jelastic): https://chat-study.jcloud-ver-jpe.ik-server.com
 - Backend: https://thesis.jcloud-ver-jpe.ik-server.com
 - Python Service: https://thesis-python.jcloud-ver-jpe.ik-server.com (internal)
 - Database: 10.101.29.52:5432 (internal)
