@@ -50,13 +50,13 @@ router.post('/initialize', async (req, res) => {
 
 router.post('/baseline', async (req, res) => {
   try {
-    const { participantId, techComfort, privacyConcern } = req.body;
+    const { participantId, techComfort, privacyConcern, ballotFamiliarity } = req.body;
 
-    if (!participantId || techComfort === undefined || privacyConcern === undefined) {
+    if (!participantId || techComfort === undefined || privacyConcern === undefined || ballotFamiliarity === undefined) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    await experimentService.recordBaseline(participantId, techComfort, privacyConcern);
+    await experimentService.recordBaseline(participantId, techComfort, privacyConcern, ballotFamiliarity);
 
     res.json({ success: true });
   } catch (error) {

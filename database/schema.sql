@@ -25,9 +25,10 @@ CREATE TABLE participants (
     consent_given BOOLEAN NOT NULL DEFAULT FALSE,
     consent_at TIMESTAMP,
 
-    -- Baseline measures (Q1-Q2)
+    -- Baseline measures (Q1-Q3)
     tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 7),
     baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 7),
+    ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 7),
 
     -- Donation decision (merged from donation_decisions table)
     donation_decision VARCHAR(10) CHECK (donation_decision IN ('donate', 'decline')),
@@ -84,14 +85,15 @@ CREATE TABLE post_task_measures (
     -- Q9: Attention check
     attention_check VARCHAR(50),
 
-    -- Q10-Q13: Demographics
+    -- Q8-Q12: Demographics
     age VARCHAR(20),
     gender VARCHAR(50),
     gender_other VARCHAR(255),
     primary_language VARCHAR(50),
     education VARCHAR(100),
+    eligible_to_vote_ch BOOLEAN,
 
-    -- Q14: Open feedback
+    -- Q13: Open feedback
     open_feedback TEXT,
 
     created_at TIMESTAMP DEFAULT NOW()

@@ -24,54 +24,75 @@ export interface DonationConfig {
   retention?: '1month' | '3months' | '6months' | '1year' | 'indefinite';
 }
 
+/**
+ * SurveyData - Hypothesis-Driven Structure
+ *
+ * This interface captures survey responses aligned with H1-H3:
+ * - H1 (Transparency): DNL → ↑ donation (measured by perceived transparency)
+ * - H2 (Control): Dashboard → ↑ donation (measured by perceived control)
+ * - H3 (Interaction): Transparency × Control (mediated by risk perception)
+ *
+ * Constructs:
+ * - MC-T: Manipulation Check for Transparency (Q3)
+ * - MC-C: Manipulation Check for Control (Q4)
+ * - OUT-RISK: Risk Perception outcome (Q5)
+ * - OUT-TRUST: Trust outcome (Q6)
+ * - QUAL: Qualitative feedback (Q12)
+ */
 export interface SurveyData {
-  // Q3: Clarity (4 items - always shown)
-  clarity1: number | null;  // I understood where the Apertus chatbot was developed
-  clarity2: number | null;  // I knew what information the chatbot was trained on
-  clarity3: number | null;  // The privacy protections were clearly explained
-  clarity4: number | null;  // I had enough information to make my decision
+  // ============================================
+  // Q3: Perceived Transparency (MC-T) - H1 manipulation check
+  // Expected: Higher in conditions B & D (with DNL)
+  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // ============================================
+  transparency1: number | null;  // "The information about how my anonymized chat questions may be used was clear."
+  transparency2: number | null;  // "I understood what would happen to my anonymized chat questions if I agreed to share them."
 
-  // Q4: Control (4 items - always shown)
-  control1: number | null;  // I had control over what happens to my questions
-  control2: number | null;  // I could choose how my data would be used
-  control3: number | null;  // I had real options for how to donate
-  control4: number | null;  // The process gave me the flexibility I wanted
+  // ============================================
+  // Q4: Perceived User Control (MC-C) - H2 manipulation check
+  // Expected: Higher in conditions C & D (with Dashboard)
+  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // ============================================
+  control1: number | null;  // "I felt I had control over how my anonymized chat questions could be used."
+  control2: number | null;  // "I felt I had meaningful choices about sharing my anonymized chat questions."
 
-  // Q5: Risk Concerns (5 items - always shown)
-  riskPrivacy: number | null;     // Privacy: My questions could be traced back to me
-  riskMisuse: number | null;      // Misuse: Data used for things I don't agree with
-  riskCompanies: number | null;   // Companies: Businesses profiting from my data
-  riskTrust: number | null;       // Trust: Not knowing who's behind this
-  riskSecurity: number | null;    // Security: Data could be hacked or stolen
+  // ============================================
+  // Q5: Risk Perception (OUT-RISK) - H3 interaction mechanism
+  // Expected: Lowest in D (high transparency reduces risk), highest in A
+  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // ============================================
+  riskTraceability: number | null;  // "Even if anonymized, my chat questions could be traced back to me."
+  riskMisuse: number | null;        // "My anonymized chat questions could be used in ways I would not agree with."
 
-  // Q6: Agency (3 items - always shown)
-  agency1: number | null;  // I felt in control of my data in this situation
-  agency2: number | null;  // My choices actually mattered for my data
-  agency3: number | null;  // I felt empowered to decide what's right for me
+  // ============================================
+  // Q6: Trust (OUT-TRUST) - Supporting construct for interpretation
+  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // ============================================
+  trust1: number | null;  // "I trust the organization behind this study to handle my data responsibly."
+  trust2: number | null;  // "I believe my anonymized data would be handled securely."
 
-  // Q7: Trust (2 items - always shown)
-  trust1: number | null;  // I trust the Apertus chatbot
-  trust2: number | null;  // I trust my data would be handled responsibly
-
-  // Q8: Acceptable Use (checkboxes - always shown)
-  acceptableUseImproveChatbot: boolean;      // Improving this chatbot
-  acceptableUseAcademicResearch: boolean;    // Academic research
-  acceptableUseCommercialProducts: boolean;  // Commercial products
-  acceptableUseNothing: boolean;             // Nothing
-
-  // Q9: Attention Check (single choice - always shown)
+  // ============================================
+  // Q7: Attention Check
+  // ============================================
   attentionCheck: string | null;  // voting/tax/immigration/news/dontremember
 
-  // Q10-Q13: Demographics (always shown)
+  // ============================================
+  // Q8-Q12: Demographics
+  // ============================================
   age: string | null;
   gender: string | null;
   genderOther: string;  // For "Other" option
   primaryLanguage: string | null;
   education: string | null;
+  eligibleToVoteCh: string | null;  // "Are you eligible to vote in Swiss federal elections?" (eligible/not-eligible/not-sure)
 
-  // Q14: Open Feedback (optional)
+  // ============================================
+  // Q13: Open Feedback (QUAL) - Qualitative insight
+  // ============================================
   openFeedback: string;
 
-  // Q15: Email Notification (optional)
+  // ============================================
+  // Q14: Email Notification (optional)
+  // ============================================
   notifyEmail?: string;
 }
