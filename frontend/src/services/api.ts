@@ -76,8 +76,8 @@ export const api = {
     }
   },
 
-  async recordBaseline(participantId: string, techComfort: number, privacyConcern: number) {
-    const data = { participantId, techComfort, privacyConcern };
+  async recordBaseline(participantId: string, techComfort: number, privacyConcern: number, ballotFamiliarity: number) {
+    const data = { participantId, techComfort, privacyConcern, ballotFamiliarity };
     saveToLocalStorage('baseline_data', data);
 
     if (isDevelopment) {

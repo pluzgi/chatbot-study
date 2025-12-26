@@ -11,7 +11,7 @@
     "expect3": "Academic research only",
     "requirements": "Who can participate",
     "req1": "18+",
-    "req2": "Eligible to vote in Switzerland",
+    "req2": "Live in Switzerland",
     "startButton": "Start study",
     "declineButton": "Not interested",
     "contact": "Questions?",
@@ -22,7 +22,7 @@
       "title": "Before we start",
       "text": "By continuing, you confirm that:",
       "age": "you are 18 years or older",
-      "vote": "you are eligible to vote in Switzerland",
+      "residence": "you currently live in Switzerland",
       "voluntary": "your participation is voluntary and you may stop at any time",
       "confirm_checkbox": "I confirm the above and agree to participate",
       "confirm": "Continue",
@@ -36,8 +36,8 @@
   },
   "baseline": {
     "title": "Before We Start",
-    "subtitle": "Just 2 quick questions about you",
-    "progress": "Question {{current}} of 2",
+    "subtitle": "Just 3 quick questions about you",
+    "progress": "Question {{current}} of 3",
     "techComfort": {
       "question": "I am comfortable using new digital technology (like AI chatbots, new apps, or online tools).",
       "stronglyDisagree": "Strongly disagree",
@@ -57,6 +57,13 @@
       "somewhatAgree": "Somewhat agree",
       "agree": "Agree",
       "stronglyAgree": "Strongly agree"
+    },
+    "ballotFamiliarity": {
+      "_tag": "COVARIATE",
+      "_purpose": "Baseline familiarity with Swiss ballot initiatives - covariate for analysis",
+      "question": "How familiar are you with Swiss ballot initiatives?",
+      "notFamiliar": "Not at all familiar",
+      "veryFamiliar": "Very familiar"
     },
     "continue": "Continue →",
     "validationError": "Please answer this question to continue"
@@ -88,11 +95,23 @@
     "continueButton": "Continue to Next Step →"
   },
   "donation": {
-    "stepHeadline": "Step 2 of 3 — Decide How Your Anonymized Chat Data May Be Used",
-    "title": "Help Improve the Apertus Model",
-    "dnlIntro": "To help you decide, here are key facts about the Apertus model:",
-    "baselineText": "We would like to use your anonymized questions to improve the Apertus model. Your data will be handled securely and used only for research and model development.",
-    "baselineHelp": "Donating your questions helps train better AI models.",
+    "eyebrow": "Step 2 of 3 — Data Donation Decision",
+    "headline": "Your decision about data donation",
+    "transition": "You have just used the chatbot. Now we ask you to decide whether your anonymized chat questions may be used for academic AI research.",
+    "conditionA": {
+      "text": "Your anonymized chat questions would be used to improve a Swiss open-source AI model for academic research. Data would be handled securely and not used for commercial purposes."
+    },
+    "conditionB": {
+      "intro": "To support your decision, here is factual information about the chatbot and how data is handled:"
+    },
+    "conditionC": {
+      "intro": "You can decide how your anonymized chat questions would be used."
+    },
+    "conditionD": {
+      "intro": "To support your decision, you can review information about the chatbot and adjust how your anonymized data would be used."
+    },
+    "dashboardHelper": "You can leave the default settings or adjust them before deciding.",
+    "decisionQuestion": "Do you want to donate your anonymized chat questions for research purposes?",
     "accept": "Donate Data",
     "decline": "Don't Donate",
     "confirmDonate": {
@@ -153,6 +172,13 @@
     "validationError": "Please configure all privacy settings"
   },
   "survey": {
+    "_hypothesisMapping": {
+      "Q3_transparency": "MC-T: Manipulation check for H1 (Transparency). Expected: Higher in B & D (with DNL)",
+      "Q4_control": "MC-C: Manipulation check for H2 (User Control). Expected: Higher in C & D (with Dashboard)",
+      "Q5_risk": "OUT-RISK: H3 interaction mechanism. Expected: Lowest in D, highest in A",
+      "Q6_trust": "OUT-TRUST: Supporting construct for interpretation",
+      "Q12_openFeedback": "QUAL: Qualitative insight into decision reasoning"
+    },
     "stepHeadline": "Step 3 of 3 — Share Your Perspective",
     "title": "Final Questions",
     "subtitle": "Please answer the following questions about your experience",
@@ -170,56 +196,45 @@
     },
     "likert": {
       "disagree": "Strongly disagree",
-      "agree": "Strongly agree",
-      "notConcerned": "Not at all concerned",
-      "extremelyConcerned": "Extremely concerned"
+      "agree": "Strongly agree"
     },
     "section": {
       "finalQuestion": "Our last question"
     },
-    "clarity": {
-      "section": "About Your Decision",
-      "intro": "Please tell us what you thought about the information you saw:",
-      "q1": "I understood where the Apertus chatbot was developed.",
-      "q2": "I knew what information the chatbot was trained on.",
-      "q3": "The privacy protections were clearly explained.",
-      "q4": "I had enough information to make my decision."
+    "transparency": {
+      "_tag": "MC-T",
+      "_hypothesis": "H1",
+      "_expectedPattern": "Higher in B & D (with DNL) than A & C",
+      "intro": "Please indicate your agreement with the following statements:",
+      "q1": "The information about how my anonymized chat questions may be used was clear.",
+      "q2": "I understood what would happen to my anonymized chat questions if I agreed to share them."
     },
     "control": {
-      "intro": "Please tell us about the choices you had:",
-      "q1": "I had control over what happens to my questions.",
-      "q2": "I could choose how my data would be used.",
-      "q3": "I had real options for how to donate.",
-      "q4": "The process gave me the flexibility I wanted."
+      "_tag": "MC-C",
+      "_hypothesis": "H2",
+      "_expectedPattern": "Higher in C & D (with Dashboard) than A & B",
+      "intro": "Please indicate your agreement with the following statements:",
+      "q1": "I felt I had control over how my anonymized chat questions could be used.",
+      "q2": "I felt I had meaningful choices about sharing my anonymized chat questions."
     },
     "risk": {
-      "intro": "When thinking about donating your questions, how concerned were you about:",
-      "privacy": "My questions could be traced back to me",
-      "misuse": "My data being used for things I don't agree with",
-      "companies": "Companies making money from my data",
-      "trust": "Not knowing who is really behind this",
-      "security": "My data being hacked or stolen"
-    },
-    "agency": {
-      "intro": "Please tell us how you felt about the data donation choice you just made:",
-      "q1": "I felt in control of what would happen to my questions.",
-      "q2": "My choices actually influenced what would happen to my data.",
-      "q3": "I felt able to make the right decision for myself."
+      "_tag": "OUT-RISK",
+      "_hypothesis": "H3",
+      "_expectedPattern": "Lowest in D (high transparency reduces risk), highest in A",
+      "intro": "Please indicate your agreement with the following statements:",
+      "traceability": "Even if anonymized, my chat questions could be traced back to me.",
+      "misuse": "My anonymized chat questions could be used in ways I would not agree with."
     },
     "trust": {
-      "intro": "Please indicate your agreement:",
-      "q1": "I believe my data would be safe with this chatbot.",
-      "q2": "I trust the organization behind this chatbot to do the right thing."
-    },
-    "acceptableUse": {
-      "question": "What should donated questions be used for?",
-      "instruction": "Select all that apply",
-      "improveChatbot": "Improving this chatbot",
-      "academicResearch": "Academic research",
-      "commercialProducts": "Commercial products",
-      "nothing": "Nothing"
+      "_tag": "OUT-TRUST",
+      "_hypothesis": "Interpretation",
+      "_expectedPattern": "Exploratory - not required for H1-H3 testing",
+      "intro": "Please indicate your agreement with the following statements:",
+      "q1": "I trust the organization behind this study to handle my data responsibly.",
+      "q2": "I believe my anonymized data would be handled securely."
     },
     "attentionCheck": {
+      "_tag": "QUALITY",
       "question": "This chatbot helps people with questions about:",
       "placeholder": "Select topic...",
       "voting": "Swiss votes and ballot initiatives",
@@ -268,6 +283,14 @@
         "higherVocational": "Higher vocational education",
         "appliedSciences": "University of Applied Sciences",
         "university": "University (Bachelor/Master/PhD)"
+      },
+      "votingEligibility": {
+        "_tag": "DEMO",
+        "_purpose": "Voting eligibility - collected as demographic variable for analysis",
+        "question": "Are you eligible to vote in Swiss federal elections?",
+        "eligible": "I am eligible to vote in Swiss federal elections",
+        "notEligible": "I live in Switzerland but am not eligible to vote",
+        "notSure": "I am not sure"
       }
     },
     "openFeedback": {

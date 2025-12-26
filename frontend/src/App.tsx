@@ -5,7 +5,6 @@ import { Session } from './types';
 import LanguageSelector from './components/LanguageSelector';
 import ChatInterface from './components/Chat/ChatInterface';
 import ChatbotInstruction from './components/Chat/ChatbotInstruction';
-import InfoBridge from './components/Donation/InfoBridge';
 import DonationModal from './components/Donation/DonationModal';
 import PostTaskSurvey from './components/Survey/PostTaskSurvey';
 import Debriefing from './components/Survey/Debriefing';
@@ -18,12 +17,11 @@ function App() {
   const { t, i18n } = useTranslation();
   const [phase, setPhase] = useState<Phase>('landing');
   const [session, setSession] = useState<Session | null>(null);
-  const [showInfoBridge, setShowInfoBridge] = useState(false);
   const [showDonationModal, setShowDonationModal] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [consentConfirmed, setConsentConfirmed] = useState(false);
-  const [_baselineData, setBaselineData] = useState<{ techComfort: number; privacyConcern: number } | null>(null);
+  const [_baselineData, setBaselineData] = useState<{ techComfort: number; privacyConcern: number; ballotFamiliarity: number } | null>(null);
 
   const startExperiment = async () => {
     setLoading(true);
@@ -45,11 +43,11 @@ function App() {
     }
   };
 
-  const handleBaselineComplete = async (data: { techComfort: number; privacyConcern: number }) => {
+  const handleBaselineComplete = async (data: { techComfort: number; privacyConcern: number; ballotFamiliarity: number }) => {
     setBaselineData(data);
     if (session) {
       try {
-        await api.recordBaseline(session.participantId, data.techComfort, data.privacyConcern);
+        await api.recordBaseline(session.participantId, data.techComfort, data.privacyConcern, data.ballotFamiliarity);
       } catch (error) {
         console.error('Failed to record baseline:', error);
         // Don't block user - data is saved locally in development mode
@@ -60,15 +58,7 @@ function App() {
   };
 
   const handleMinimumReached = () => {
-    setShowInfoBridge(true);
-  };
-
-  const handleInfoBridgeContinue = () => {
-    console.log('[InfoBridge] Continue button clicked');
-    console.log('[InfoBridge] Session:', session);
-    setShowInfoBridge(false);
     setShowDonationModal(true);
-    console.log('[InfoBridge] State updated - showing donation modal');
   };
 
   const handleDonationDecision = async (decision: 'donate' | 'decline', config?: any) => {
@@ -173,7 +163,7 @@ function App() {
 
               <ul className="list-disc pl-5 space-y-2 text-base text-black mb-6 leading-relaxed">
                 <li>{t('landing.consentModal.age')}</li>
-                <li>{t('landing.consentModal.vote')}</li>
+                <li>{t('landing.consentModal.residence')}</li>
                 <li>{t('landing.consentModal.voluntary')}</li>
               </ul>
 
@@ -245,9 +235,6 @@ function App() {
               participantId={session.participantId}
               onMinimumReached={handleMinimumReached}
             />
-            {showInfoBridge && (
-              <InfoBridge onContinue={handleInfoBridgeContinue} />
-            )}
             {showDonationModal && (
               <DonationModal
                 config={session.config}

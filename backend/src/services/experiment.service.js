@@ -82,14 +82,15 @@ class ExperimentService {
   }
 
   /**
-   * Record baseline measures (Q1-Q2) and advance to chatbot phase.
+   * Record baseline measures (Q1-Q3) and advance to chatbot phase.
+   * Q1: Tech comfort, Q2: Privacy concern, Q3: Ballot familiarity
    */
-  async recordBaseline(participantId, techComfort, privacyConcern) {
+  async recordBaseline(participantId, techComfort, privacyConcern, ballotFamiliarity) {
     await pool.query(
       `UPDATE participants
-       SET tech_comfort = $1, baseline_privacy_concern = $2, current_phase = 'chatbot'
-       WHERE id = $3`,
-      [techComfort, privacyConcern, participantId]
+       SET tech_comfort = $1, baseline_privacy_concern = $2, ballot_familiarity = $3, current_phase = 'chatbot'
+       WHERE id = $4`,
+      [techComfort, privacyConcern, ballotFamiliarity, participantId]
     );
   }
 

@@ -8,7 +8,15 @@
  * - Chronological numbered list of all screens
  * - Deep-linking via URL params (?screen=8, ?lang=en, ?condition=A)
  * - Static previews for each survey page
+ * - Hypothesis-driven metadata for Step 3 screens
  * - Condition matrix showing what differs between A/B/C/D
+ *
+ * Step 3 Hypothesis Mapping:
+ * - MC-T (blue): Manipulation Check for Transparency (H1)
+ * - MC-C (green): Manipulation Check for Control (H2)
+ * - OUT-RISK (yellow): Risk Perception outcome (H3)
+ * - OUT-TRUST (yellow): Trust outcome (interpretation)
+ * - QUAL (gray): Qualitative feedback
  */
 
 import React, { useState, useEffect } from 'react';
@@ -23,7 +31,24 @@ import DonationModal from '../components/Donation/DonationModal';
 import Debriefing from '../components/Survey/Debriefing';
 
 // ============================================
-// SCREENS REGISTRY
+// HYPOTHESIS TAGS AND COLORS
+// ============================================
+
+type HypothesisTag = 'MC-T' | 'MC-C' | 'OUT-RISK' | 'OUT-TRUST' | 'QUAL' | 'DEMO' | 'ATTN' | 'COV';
+
+const TAG_COLORS: Record<HypothesisTag, { bg: string; border: string; text: string }> = {
+  'MC-T': { bg: 'bg-blue-50', border: 'border-l-blue-500', text: 'text-blue-700' },
+  'MC-C': { bg: 'bg-green-50', border: 'border-l-green-500', text: 'text-green-700' },
+  'OUT-RISK': { bg: 'bg-yellow-50', border: 'border-l-yellow-500', text: 'text-yellow-700' },
+  'OUT-TRUST': { bg: 'bg-yellow-50', border: 'border-l-yellow-500', text: 'text-yellow-700' },
+  'QUAL': { bg: 'bg-gray-50', border: 'border-l-gray-400', text: 'text-gray-600' },
+  'DEMO': { bg: 'bg-gray-50', border: 'border-l-gray-300', text: 'text-gray-500' },
+  'ATTN': { bg: 'bg-purple-50', border: 'border-l-purple-400', text: 'text-purple-600' },
+  'COV': { bg: 'bg-orange-50', border: 'border-l-orange-400', text: 'text-orange-600' }
+};
+
+// ============================================
+// SCREENS REGISTRY WITH HYPOTHESIS METADATA
 // ============================================
 
 interface ScreenConfig {
@@ -32,70 +57,163 @@ interface ScreenConfig {
   stage: 'onboarding' | 'task' | 'donation' | 'survey' | 'debrief';
   conditionDependent?: boolean;
   description?: string;
+  // Hypothesis-driven metadata for Step 3 screens
+  tag?: HypothesisTag;
+  construct?: string;
+  hypothesis?: string;
+  items?: string[];
+  expectedPattern?: string;
 }
 
 export const SCREENS: ScreenConfig[] = [
-  // Onboarding Stage
-  { id: '1', name: 'Landing Page', stage: 'onboarding', description: 'Welcome page with consent modal' },
+  // ========== ONBOARDING STAGE ==========
+  { id: '1', name: 'Landing Page', stage: 'onboarding', description: 'Welcome page with consent modal (Swiss residents 18+)' },
   { id: '2A', name: 'Baseline Q1', stage: 'onboarding', description: 'Tech comfort question' },
   { id: '2B', name: 'Baseline Q2', stage: 'onboarding', description: 'Privacy concern question' },
+  { id: '2C', name: 'Baseline Q3', stage: 'onboarding', tag: 'COV', construct: 'Ballot Familiarity', description: 'How familiar are you with Swiss ballot initiatives?' },
   { id: '3', name: 'Instruction', stage: 'onboarding', description: 'Chatbot introduction and task explanation' },
 
-  // Task Stage
+  // ========== TASK STAGE ==========
   { id: '4', name: 'Chat Interface', stage: 'task', description: 'Chatbot interaction (2 questions minimum)' },
 
-  // Donation Stage
-  { id: '5', name: 'Info Bridge', stage: 'donation', description: 'Transition modal asking about data donation' },
-  { id: '6', name: 'Donation Modal', stage: 'donation', conditionDependent: true, description: 'Data donation decision (varies by condition A/B/C/D)' },
+  // ========== DONATION STAGE ==========
+  { id: '5', name: 'Donation Modal', stage: 'donation', conditionDependent: true, description: 'Data donation decision (varies by condition A/B/C/D)' },
 
-  // Survey Stage (PostTaskSurvey pages)
-  { id: '7', name: 'Survey Q3: Clarity', stage: 'survey', description: '4 Likert items about information clarity' },
-  { id: '8', name: 'Survey Q4: Control', stage: 'survey', description: '4 Likert items about perceived control' },
-  { id: '9', name: 'Survey Q5: Risk', stage: 'survey', description: '5 Likert items about risk concerns' },
-  { id: '10', name: 'Survey Q6: Agency', stage: 'survey', description: '3 Likert items about decision agency' },
-  { id: '11', name: 'Survey Q7: Trust', stage: 'survey', description: '2 Likert items about trust' },
-  { id: '12', name: 'Survey Q8: Acceptable Use', stage: 'survey', description: 'Checkbox selection for acceptable uses' },
-  { id: '13', name: 'Survey Q9: Attention Check', stage: 'survey', description: 'Dropdown attention check question' },
-  { id: '14', name: 'Survey Transition', stage: 'survey', description: 'Transition screen before demographics' },
-  { id: '15', name: 'Survey Q10: Age', stage: 'survey', description: 'Demographics - age range' },
-  { id: '16', name: 'Survey Q11: Gender', stage: 'survey', description: 'Demographics - gender' },
-  { id: '17', name: 'Survey Q12: Language', stage: 'survey', description: 'Demographics - primary language' },
-  { id: '18', name: 'Survey Q13: Education', stage: 'survey', description: 'Demographics - education level' },
-  { id: '19', name: 'Survey Q14: Open Feedback', stage: 'survey', description: 'Optional open text feedback' },
-  { id: '20', name: 'Survey Q15: Notify Email', stage: 'survey', description: 'Optional email for results notification' },
+  // ========== SURVEY STAGE (Hypothesis-Driven) ==========
+  {
+    id: '6',
+    name: 'Q3: Transparency',
+    stage: 'survey',
+    tag: 'MC-T',
+    construct: 'Perceived Transparency',
+    hypothesis: 'H1',
+    items: [
+      'The information about how my anonymized chat questions may be used was clear.',
+      'I understood what would happen to my anonymized chat questions if I agreed to share them.'
+    ],
+    expectedPattern: 'Higher in B & D (with DNL) than A & C',
+    description: '2 Likert items - H1 manipulation check'
+  },
+  {
+    id: '7',
+    name: 'Q4: Control',
+    stage: 'survey',
+    tag: 'MC-C',
+    construct: 'Perceived User Control',
+    hypothesis: 'H2',
+    items: [
+      'I felt I had control over how my anonymized chat questions could be used.',
+      'I felt I had meaningful choices about sharing my anonymized chat questions.'
+    ],
+    expectedPattern: 'Higher in C & D (with Dashboard) than A & B',
+    description: '2 Likert items - H2 manipulation check'
+  },
+  {
+    id: '8',
+    name: 'Q5: Risk',
+    stage: 'survey',
+    tag: 'OUT-RISK',
+    construct: 'Risk Perception',
+    hypothesis: 'H3',
+    items: [
+      'Even if anonymized, my chat questions could be traced back to me.',
+      'My anonymized chat questions could be used in ways I would not agree with.'
+    ],
+    expectedPattern: 'Lowest in D (high transparency reduces risk), highest in A',
+    description: '2 Likert items - H3 interaction mechanism'
+  },
+  {
+    id: '9',
+    name: 'Q6: Trust',
+    stage: 'survey',
+    tag: 'OUT-TRUST',
+    construct: 'Trust',
+    hypothesis: 'Interpretation',
+    items: [
+      'I trust the organization behind this study to handle my data responsibly.',
+      'I believe my anonymized data would be handled securely.'
+    ],
+    expectedPattern: 'Exploratory - not required for H1-H3 testing',
+    description: '2 Likert items - Supporting construct'
+  },
+  {
+    id: '10',
+    name: 'Q7: Attention Check',
+    stage: 'survey',
+    tag: 'ATTN',
+    construct: 'Data Quality',
+    description: 'Dropdown attention check question'
+  },
+  {
+    id: '11',
+    name: 'Transition',
+    stage: 'survey',
+    description: 'Transition screen before demographics'
+  },
+  { id: '12', name: 'Q8: Age', stage: 'survey', tag: 'DEMO', description: 'Demographics - age range' },
+  { id: '13', name: 'Q9: Gender', stage: 'survey', tag: 'DEMO', description: 'Demographics - gender' },
+  { id: '14', name: 'Q10: Language', stage: 'survey', tag: 'DEMO', description: 'Demographics - primary language' },
+  { id: '15', name: 'Q11: Education', stage: 'survey', tag: 'DEMO', description: 'Demographics - education level' },
+  { id: '15B', name: 'Q12: Voting Eligibility', stage: 'survey', tag: 'DEMO', description: 'Are you eligible to vote in Switzerland? (Yes/No)' },
+  {
+    id: '16',
+    name: 'Q13: Open Feedback',
+    stage: 'survey',
+    tag: 'QUAL',
+    construct: 'Qualitative Insight',
+    hypothesis: 'Interpretation',
+    items: ['In your own words, what was the main reason for your decision?'],
+    description: 'Optional open text feedback'
+  },
+  { id: '17', name: 'Q14: Email', stage: 'survey', description: 'Optional email for results notification' },
 
-  // Debrief Stage
-  { id: '21', name: 'Debriefing', stage: 'debrief', description: 'Study explanation and thank you' },
+  // ========== DEBRIEF STAGE ==========
+  { id: '18', name: 'Debriefing', stage: 'debrief', description: 'Study explanation and thank you' },
 ];
 
 // ============================================
 // STATIC PREVIEW COMPONENTS
 // ============================================
 
-// Reusable preview wrapper
-const PreviewWrapper: React.FC<{ children: React.ReactNode; title: string; questionNum?: number }> = ({
-  children,
-  title,
-  questionNum
-}) => (
-  <div className="min-h-screen bg-gray-50 py-6 md:py-10">
-    <div className="max-w-2xl mx-auto px-4">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-10">
-        {questionNum && (
-          <div className="mb-6">
-            <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
-              Question {questionNum}
-            </span>
-          </div>
-        )}
-        <h2 className="text-xl font-bold text-gray-900 mb-6">{title}</h2>
-        {children}
+const PreviewWrapper: React.FC<{
+  children: React.ReactNode;
+  title: string;
+  questionNum?: number;
+  tag?: HypothesisTag;
+  construct?: string;
+}> = ({ children, title, questionNum, tag, construct }) => {
+  const colors = tag ? TAG_COLORS[tag] : null;
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-6 md:py-10">
+      <div className="max-w-2xl mx-auto px-4">
+        <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-10 ${colors ? `border-l-4 ${colors.border}` : ''}`}>
+          {/* Tag Badge */}
+          {tag && (
+            <div className="mb-4 flex items-center gap-2">
+              <span className={`px-2 py-1 rounded text-xs font-bold ${colors?.bg} ${colors?.text}`}>
+                {tag}
+              </span>
+              {construct && (
+                <span className="text-sm text-gray-500">{construct}</span>
+              )}
+            </div>
+          )}
+          {questionNum && (
+            <div className="mb-6">
+              <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
+                Question {questionNum}
+              </span>
+            </div>
+          )}
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{title}</h2>
+          {children}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-// Static Likert item preview
 const LikertItemPreview: React.FC<{ label: string; leftLabel: string; rightLabel: string }> = ({
   label,
   leftLabel,
@@ -116,6 +234,123 @@ const LikertItemPreview: React.FC<{ label: string; leftLabel: string; rightLabel
 );
 
 // ============================================
+// STEP 3 DOCUMENTATION COMPONENT
+// ============================================
+
+const Step3Documentation: React.FC<{ isOpen: boolean; onToggle: () => void }> = ({ isOpen, onToggle }) => (
+  <div className="mb-6 border border-blue-200 rounded-lg overflow-hidden">
+    <button
+      onClick={onToggle}
+      className="w-full p-4 bg-blue-50 text-left flex justify-between items-center hover:bg-blue-100 transition"
+    >
+      <span className="font-semibold text-blue-900">Step 3 Documentation — Hypothesis Mapping</span>
+      <span className="text-blue-600">{isOpen ? '▼' : '▶'}</span>
+    </button>
+    {isOpen && (
+      <div className="p-4 bg-white text-sm space-y-4">
+        {/* Purpose */}
+        <div>
+          <h4 className="font-bold text-gray-900 mb-1">Purpose</h4>
+          <p className="text-gray-600">
+            Step 3 validates H1–H3 via perceived transparency, perceived user control, and risk perception
+            after the donation decision. Trust is included as a supporting construct for interpretation.
+          </p>
+        </div>
+
+        {/* What is measured */}
+        <div>
+          <h4 className="font-bold text-gray-900 mb-1">What is Measured</h4>
+          <ul className="text-gray-600 space-y-1">
+            <li className="flex items-center gap-2">
+              <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-700">MC-T</span>
+              Perceived Transparency (2 items) — H1 manipulation check
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700">MC-C</span>
+              Perceived User Control (2 items) — H2 manipulation check
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-yellow-100 text-yellow-700">OUT-RISK</span>
+              Risk Perception (2 items) — H3 interaction mechanism
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-yellow-100 text-yellow-700">OUT-TRUST</span>
+              Trust (2 items) — Supporting construct
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-gray-100 text-gray-600">QUAL</span>
+              Open Text — Qualitative reasoning
+            </li>
+          </ul>
+        </div>
+
+        {/* What is excluded */}
+        <div>
+          <h4 className="font-bold text-gray-900 mb-1">Intentionally Excluded</h4>
+          <ul className="text-gray-600 list-disc pl-5 space-y-1">
+            <li><strong>Model origin items</strong> — Measures institutional trust cues, not procedural transparency</li>
+            <li><strong>Agency items</strong> — Redundant with control construct</li>
+            <li><strong>Acceptable use checkboxes</strong> — Exploratory, not needed for H1-H3</li>
+          </ul>
+        </div>
+
+        {/* Expected patterns */}
+        <div>
+          <h4 className="font-bold text-gray-900 mb-1">Expected Condition Patterns</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-1 pr-2">Construct</th>
+                  <th className="text-center py-1 px-2">A</th>
+                  <th className="text-center py-1 px-2">B</th>
+                  <th className="text-center py-1 px-2">C</th>
+                  <th className="text-center py-1 px-2">D</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-600">
+                <tr className="border-b">
+                  <td className="py-1 pr-2">Transparency</td>
+                  <td className="text-center py-1 px-2">Low</td>
+                  <td className="text-center py-1 px-2 font-bold text-blue-600">High</td>
+                  <td className="text-center py-1 px-2">Low</td>
+                  <td className="text-center py-1 px-2 font-bold text-blue-600">High</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-1 pr-2">User Control</td>
+                  <td className="text-center py-1 px-2">Low</td>
+                  <td className="text-center py-1 px-2">Low</td>
+                  <td className="text-center py-1 px-2 font-bold text-green-600">High</td>
+                  <td className="text-center py-1 px-2 font-bold text-green-600">High</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-1 pr-2">Risk Perception</td>
+                  <td className="text-center py-1 px-2 font-bold text-red-600">Highest</td>
+                  <td className="text-center py-1 px-2">Medium</td>
+                  <td className="text-center py-1 px-2">Medium</td>
+                  <td className="text-center py-1 px-2 font-bold text-green-600">Lowest</td>
+                </tr>
+                <tr>
+                  <td className="py-1 pr-2">Trust</td>
+                  <td className="text-center py-1 px-2 text-gray-400" colSpan={4}>Exploratory — not required for H1-H3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Item count */}
+        <div className="pt-2 border-t">
+          <p className="text-gray-600">
+            <strong>Total items:</strong> 8 core Likert items + 1 attention check + 4 demographics + 1 optional text + 1 optional email
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
+);
+
+// ============================================
 // DEBUG NAVIGATOR COMPONENT
 // ============================================
 
@@ -127,6 +362,7 @@ interface DebugState {
 const SurveyDebugNavigator: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [selectedScreen, setSelectedScreen] = useState<string | null>(null);
+  const [showDocumentation, setShowDocumentation] = useState(false);
   const [debugState, setDebugState] = useState<DebugState>({
     condition: 'A',
     participantId: 'debug-participant-001'
@@ -150,7 +386,6 @@ const SurveyDebugNavigator: React.FC = () => {
     }
   }, [i18n]);
 
-  // Update URL when screen changes
   const navigateToScreen = (screenId: string) => {
     const params = new URLSearchParams(window.location.search);
     params.set('screen', screenId);
@@ -158,7 +393,6 @@ const SurveyDebugNavigator: React.FC = () => {
     setSelectedScreen(screenId);
   };
 
-  // Get current screen index for prev/next navigation
   const currentIndex = SCREENS.findIndex(s => s.id === selectedScreen);
 
   const goToPrev = () => {
@@ -180,7 +414,6 @@ const SurveyDebugNavigator: React.FC = () => {
     setSelectedScreen(null);
   };
 
-  // Get experiment config based on condition
   const getExperimentConfig = () => {
     const configs = {
       A: { transparency: 'low' as const, control: 'low' as const, showDNL: false, showDashboard: false },
@@ -191,7 +424,6 @@ const SurveyDebugNavigator: React.FC = () => {
     return configs[debugState.condition];
   };
 
-  // Group screens by stage
   const groupedScreens = SCREENS.reduce((acc, screen) => {
     if (!acc[screen.stage]) {
       acc[screen.stage] = [];
@@ -205,17 +437,18 @@ const SurveyDebugNavigator: React.FC = () => {
     onboarding: 'Onboarding',
     task: 'Task',
     donation: 'Donation Decision',
-    survey: 'Post-Task Survey',
+    survey: 'Post-Task Survey (Step 3)',
     debrief: 'Debriefing',
   };
 
   const noop = () => console.log('[DEBUG] Callback triggered');
 
-  // Render the selected screen component with STATIC previews for survey pages
+  // Render the selected screen component
   const renderScreen = () => {
     if (!selectedScreen) return null;
 
     const config = getExperimentConfig();
+    const screenConfig = SCREENS.find(s => s.id === selectedScreen);
 
     switch (selectedScreen) {
       // ========== ONBOARDING ==========
@@ -278,7 +511,7 @@ const SurveyDebugNavigator: React.FC = () => {
               <div className="mb-8 md:mb-12">
                 <p className="text-sm text-gray-400 mb-2">{t('baseline.progress', { current: 1 })}</p>
                 <div className="w-full bg-gray-200 rounded-full h-[3px]">
-                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '50%' }} />
+                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '33%' }} />
                 </div>
               </div>
               <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
@@ -309,7 +542,7 @@ const SurveyDebugNavigator: React.FC = () => {
               <div className="mb-8 md:mb-12">
                 <p className="text-sm text-gray-400 mb-2">{t('baseline.progress', { current: 2 })}</p>
                 <div className="w-full bg-gray-200 rounded-full h-[3px]">
-                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '100%' }} />
+                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '66%' }} />
                 </div>
               </div>
               <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
@@ -321,6 +554,41 @@ const SurveyDebugNavigator: React.FC = () => {
                 onChange={() => {}}
                 leftLabel={t('baseline.privacyConcern.stronglyDisagree')}
                 rightLabel={t('baseline.privacyConcern.stronglyAgree')}
+                points={7}
+              />
+            </div>
+          </div>
+        );
+
+      case '2C':
+        return (
+          <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
+            <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
+              <div className="text-center mb-6 md:mb-8">
+                <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black leading-tight">
+                  {t('baseline.title')}
+                </h1>
+                <p className="text-base md:text-lg text-black">{t('baseline.subtitle')}</p>
+              </div>
+              <div className="mb-4 flex items-center gap-2">
+                <span className="px-2 py-1 rounded text-xs font-bold bg-orange-50 text-orange-600">COV</span>
+                <span className="text-sm text-gray-500">Ballot Familiarity - Covariate</span>
+              </div>
+              <div className="mb-8 md:mb-12">
+                <p className="text-sm text-gray-400 mb-2">{t('baseline.progress', { current: 3 })}</p>
+                <div className="w-full bg-gray-200 rounded-full h-[3px]">
+                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '100%' }} />
+                </div>
+              </div>
+              <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
+                {t('baseline.ballotFamiliarity.question')}
+              </h2>
+              <LikertScale
+                name="ballotFamiliarity"
+                value={null}
+                onChange={() => {}}
+                leftLabel={t('baseline.ballotFamiliarity.notFamiliar')}
+                rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
                 points={7}
               />
             </div>
@@ -346,36 +614,6 @@ const SurveyDebugNavigator: React.FC = () => {
       case '5':
         return (
           <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
-            <div className="relative w-full max-w-xl">
-              <div className="bg-white rounded-lg w-full p-6 md:p-8 shadow-lg">
-                <p className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-black leading-tight">
-                  Hoi and welcome,
-                </p>
-                <div className="space-y-4 md:space-y-5 mb-6 md:mb-8 text-black text-base md:text-lg leading-relaxed">
-                  <p>
-                    This chatbot is powered by <strong>Apertus</strong>, the first Swiss open-source large language artificial intelligence model.
-                  </p>
-                  <p>
-                    To improve such models, questions from chatbot users are needed for training the data.
-                  </p>
-                  <p className="font-semibold text-lg md:text-xl">
-                    Would you donate your anonymized questions?
-                  </p>
-                </div>
-                <button
-                  onClick={noop}
-                  className="w-full bg-gray-200 text-black py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
-                >
-                  Learn More
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-
-      case '6':
-        return (
-          <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
             <div className="relative">
               <DonationModal
                 key={`donation-${debugState.condition}`}
@@ -386,12 +624,17 @@ const SurveyDebugNavigator: React.FC = () => {
           </div>
         );
 
-      // ========== SURVEY - STATIC PREVIEWS ==========
-      case '7': // Q3: Clarity
+      // ========== SURVEY - HYPOTHESIS-DRIVEN PREVIEWS ==========
+      case '6': // Q3: Perceived Transparency (MC-T)
         return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={3}>
+          <PreviewWrapper
+            title="Step 3 of 3 — Survey"
+            questionNum={3}
+            tag="MC-T"
+            construct="Perceived Transparency"
+          >
             <p className="text-base text-gray-500 mb-6 leading-relaxed">
-              Please tell us how clear the information was:
+              {t('survey.transparency.intro')}
             </p>
             <LikertItemPreview
               label={t('survey.transparency.q1')}
@@ -403,22 +646,22 @@ const SurveyDebugNavigator: React.FC = () => {
               leftLabel={t('survey.likert.disagree')}
               rightLabel={t('survey.likert.agree')}
             />
-            <LikertItemPreview
-              label={t('survey.transparency.q3')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
-            <LikertItemPreview
-              label={t('survey.transparency.q4')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
+            {screenConfig?.expectedPattern && (
+              <div className="mt-6 p-3 bg-blue-50 rounded text-sm text-blue-700">
+                <strong>Expected:</strong> {screenConfig.expectedPattern}
+              </div>
+            )}
           </PreviewWrapper>
         );
 
-      case '8': // Q4: Control
+      case '7': // Q4: Perceived User Control (MC-C)
         return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={4}>
+          <PreviewWrapper
+            title="Step 3 of 3 — Survey"
+            questionNum={4}
+            tag="MC-C"
+            construct="Perceived User Control"
+          >
             <p className="text-base text-gray-500 mb-6 leading-relaxed">
               {t('survey.control.intro')}
             </p>
@@ -432,80 +675,51 @@ const SurveyDebugNavigator: React.FC = () => {
               leftLabel={t('survey.likert.disagree')}
               rightLabel={t('survey.likert.agree')}
             />
-            <LikertItemPreview
-              label={t('survey.control.q3')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
-            <LikertItemPreview
-              label={t('survey.control.q4')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
+            {screenConfig?.expectedPattern && (
+              <div className="mt-6 p-3 bg-green-50 rounded text-sm text-green-700">
+                <strong>Expected:</strong> {screenConfig.expectedPattern}
+              </div>
+            )}
           </PreviewWrapper>
         );
 
-      case '9': // Q5: Risk
+      case '8': // Q5: Risk Perception (OUT-RISK)
         return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={5}>
+          <PreviewWrapper
+            title="Step 3 of 3 — Survey"
+            questionNum={5}
+            tag="OUT-RISK"
+            construct="Risk Perception"
+          >
             <p className="text-base text-gray-500 mb-6 leading-relaxed">
               {t('survey.risk.intro')}
             </p>
             <LikertItemPreview
-              label={t('survey.risk.privacy')}
-              leftLabel="Not concerned"
-              rightLabel="Extremely concerned"
+              label={t('survey.risk.traceability')}
+              leftLabel={t('survey.likert.disagree')}
+              rightLabel={t('survey.likert.agree')}
             />
             <LikertItemPreview
               label={t('survey.risk.misuse')}
-              leftLabel="Not concerned"
-              rightLabel="Extremely concerned"
+              leftLabel={t('survey.likert.disagree')}
+              rightLabel={t('survey.likert.agree')}
             />
-            <LikertItemPreview
-              label={t('survey.risk.companies')}
-              leftLabel="Not concerned"
-              rightLabel="Extremely concerned"
-            />
-            <LikertItemPreview
-              label={t('survey.risk.trust')}
-              leftLabel="Not concerned"
-              rightLabel="Extremely concerned"
-            />
-            <LikertItemPreview
-              label={t('survey.risk.security')}
-              leftLabel="Not concerned"
-              rightLabel="Extremely concerned"
-            />
+            {screenConfig?.expectedPattern && (
+              <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
+                <strong>Expected:</strong> {screenConfig.expectedPattern}
+              </div>
+            )}
           </PreviewWrapper>
         );
 
-      case '10': // Q6: Agency
+      case '9': // Q6: Trust (OUT-TRUST)
         return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={6}>
-            <p className="text-base text-gray-500 mb-6 leading-relaxed">
-              {t('survey.agency.intro')}
-            </p>
-            <LikertItemPreview
-              label={t('survey.agency.q1')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
-            <LikertItemPreview
-              label={t('survey.agency.q2')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
-            <LikertItemPreview
-              label={t('survey.agency.q3')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
-          </PreviewWrapper>
-        );
-
-      case '11': // Q7: Trust
-        return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={7}>
+          <PreviewWrapper
+            title="Step 3 of 3 — Survey"
+            questionNum={6}
+            tag="OUT-TRUST"
+            construct="Trust"
+          >
             <p className="text-base text-gray-500 mb-6 leading-relaxed">
               {t('survey.trust.intro')}
             </p>
@@ -519,37 +733,17 @@ const SurveyDebugNavigator: React.FC = () => {
               leftLabel={t('survey.likert.disagree')}
               rightLabel={t('survey.likert.agree')}
             />
+            {screenConfig?.expectedPattern && (
+              <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
+                <strong>Note:</strong> {screenConfig.expectedPattern}
+              </div>
+            )}
           </PreviewWrapper>
         );
 
-      case '12': // Q8: Acceptable Use
+      case '10': // Q7: Attention Check
         return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={8}>
-            <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-              {t('survey.acceptableUse.question')}
-            </p>
-            <p className="text-base text-gray-500 mb-6">
-              {t('survey.acceptableUse.instruction')}
-            </p>
-            <div className="space-y-3">
-              {[
-                t('survey.acceptableUse.improveChatbot'),
-                t('survey.acceptableUse.academicResearch'),
-                t('survey.acceptableUse.commercialProducts'),
-                t('survey.acceptableUse.nothing')
-              ].map((label, i) => (
-                <label key={i} className="flex items-center gap-4 p-4 border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400 hover:bg-gray-50 min-h-[52px]">
-                  <input type="checkbox" className="w-5 h-5 text-gray-800 border-gray-300 rounded" />
-                  <span className="text-base text-gray-900">{label}</span>
-                </label>
-              ))}
-            </div>
-          </PreviewWrapper>
-        );
-
-      case '13': // Q9: Attention Check
-        return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={9}>
+          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={7} tag="ATTN" construct="Data Quality">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.attentionCheck.question')}
             </p>
@@ -564,7 +758,7 @@ const SurveyDebugNavigator: React.FC = () => {
           </PreviewWrapper>
         );
 
-      case '14': // Transition
+      case '11': // Transition
         return (
           <div className="min-h-screen bg-gray-50 py-6 md:py-10">
             <div className="max-w-2xl mx-auto px-4">
@@ -588,112 +782,233 @@ const SurveyDebugNavigator: React.FC = () => {
           </div>
         );
 
-      case '15': // Q10: Age
+      case '12': // Q8: Age
         return (
-          <PreviewWrapper title="Demographics" questionNum={10}>
+          <PreviewWrapper title="Demographics" questionNum={8} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.age.question')}
             </p>
-            <select className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]">
-              <option>{t('survey.demographics.age.placeholder')}</option>
-              <option>18-24</option>
-              <option>25-34</option>
-              <option>35-44</option>
-              <option>45-54</option>
-              <option>55-64</option>
-              <option>65+</option>
-            </select>
+            <div className="space-y-3">
+              {['18-24', '25-34', '35-44', '45-54', '55-64', '65+'].map((age, idx) => (
+                <button
+                  key={age}
+                  type="button"
+                  className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
+                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                    }`}>
+                      {idx === 0 && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-base font-medium">{t(`survey.demographics.age.${age}`)}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </PreviewWrapper>
         );
 
-      case '16': // Q11: Gender
+      case '13': // Q9: Gender
         return (
-          <PreviewWrapper title="Demographics" questionNum={11}>
+          <PreviewWrapper title="Demographics" questionNum={9} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.gender.question')}
             </p>
-            <select className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]">
-              <option>{t('survey.demographics.gender.placeholder')}</option>
-              <option>{t('survey.demographics.gender.female')}</option>
-              <option>{t('survey.demographics.gender.male')}</option>
-              <option>{t('survey.demographics.gender.nonBinary')}</option>
-              <option>{t('survey.demographics.gender.other')}</option>
-            </select>
+            <div className="space-y-3">
+              {[
+                { key: 'female', label: t('survey.demographics.gender.female') },
+                { key: 'male', label: t('survey.demographics.gender.male') },
+                { key: 'nonBinary', label: t('survey.demographics.gender.nonBinary') },
+                { key: 'other', label: t('survey.demographics.gender.other') },
+                { key: 'preferNotSay', label: t('survey.demographics.preferNotSay') }
+              ].map((opt, idx) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
+                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                    }`}>
+                      {idx === 0 && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-base font-medium">{opt.label}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </PreviewWrapper>
         );
 
-      case '17': // Q12: Language
+      case '14': // Q10: Language
         return (
-          <PreviewWrapper title="Demographics" questionNum={12}>
+          <PreviewWrapper title="Demographics" questionNum={10} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.language.question')}
             </p>
-            <select className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]">
-              <option>{t('survey.demographics.language.placeholder')}</option>
-              <option>{t('survey.demographics.language.german')}</option>
-              <option>{t('survey.demographics.language.french')}</option>
-              <option>{t('survey.demographics.language.italian')}</option>
-              <option>{t('survey.demographics.language.english')}</option>
-              <option>{t('survey.demographics.language.romansh')}</option>
-            </select>
+            <div className="space-y-3">
+              {[
+                { key: 'german', label: t('survey.demographics.language.german') },
+                { key: 'french', label: t('survey.demographics.language.french') },
+                { key: 'italian', label: t('survey.demographics.language.italian') },
+                { key: 'english', label: t('survey.demographics.language.english') },
+                { key: 'romansh', label: t('survey.demographics.language.romansh') },
+                { key: 'other', label: t('survey.demographics.language.other') }
+              ].map((opt, idx) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
+                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                    }`}>
+                      {idx === 0 && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-base font-medium">{opt.label}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </PreviewWrapper>
         );
 
-      case '18': // Q13: Education
+      case '15': // Q11: Education
         return (
-          <PreviewWrapper title="Demographics" questionNum={13}>
+          <PreviewWrapper title="Demographics" questionNum={11} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.education.question')}
             </p>
-            <select className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]">
-              <option>{t('survey.demographics.education.placeholder')}</option>
-              <option>{t('survey.demographics.education.mandatory')}</option>
-              <option>{t('survey.demographics.education.matura')}</option>
-              <option>{t('survey.demographics.education.vocational')}</option>
-              <option>{t('survey.demographics.education.higherVocational')}</option>
-              <option>{t('survey.demographics.education.appliedSciences')}</option>
-              <option>{t('survey.demographics.education.university')}</option>
-            </select>
+            <div className="space-y-3">
+              {[
+                { key: 'mandatory', label: t('survey.demographics.education.mandatory') },
+                { key: 'matura', label: t('survey.demographics.education.matura') },
+                { key: 'vocational', label: t('survey.demographics.education.vocational') },
+                { key: 'higherVocational', label: t('survey.demographics.education.higherVocational') },
+                { key: 'appliedSciences', label: t('survey.demographics.education.appliedSciences') },
+                { key: 'university', label: t('survey.demographics.education.university') },
+                { key: 'preferNotSay', label: t('survey.demographics.preferNotSay') }
+              ].map((opt, idx) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
+                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                    }`}>
+                      {idx === 0 && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-base font-medium">{opt.label}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </PreviewWrapper>
         );
 
-      case '19': // Q14: Open Feedback
+      case '15B': // Q12: Voting Eligibility
         return (
-          <PreviewWrapper title="Your Feedback" questionNum={14}>
+          <PreviewWrapper title="Demographics" questionNum={12} tag="DEMO">
+            <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
+              {t('survey.demographics.votingEligibility.question')}
+            </p>
+            <div className="space-y-3">
+              {[
+                { key: 'eligible', label: t('survey.demographics.votingEligibility.eligible') },
+                { key: 'notEligible', label: t('survey.demographics.votingEligibility.notEligible') },
+                { key: 'notSure', label: t('survey.demographics.votingEligibility.notSure') }
+              ].map((opt, idx) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
+                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                    }`}>
+                      {idx === 0 && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-base font-medium">{opt.label}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </PreviewWrapper>
+        );
+
+      case '16': // Q13: Open Feedback
+        return (
+          <PreviewWrapper title="Your Feedback" questionNum={13} tag="QUAL" construct="Qualitative Insight">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-              In your own words, what was the main reason for your decision?
+              {t('survey.openFeedback.question')}
             </p>
             <p className="text-base text-gray-500 mb-6">
-              This question is optional, but your thoughts help us understand how people make these decisions.
+              {t('survey.openFeedback.note')}
             </p>
             <textarea
               rows={5}
               className="w-full p-4 text-base border border-gray-300 rounded-md bg-white resize-none"
-              placeholder="Write your answer here..."
+              placeholder={t('survey.openFeedback.placeholder')}
             />
             <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
           </PreviewWrapper>
         );
 
-      case '20': // Q15: Notify Email
+      case '17': // Q14: Email
         return (
-          <PreviewWrapper title="Stay Updated" questionNum={15}>
+          <PreviewWrapper title="Stay Updated" questionNum={14}>
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-              Would you like to receive the study results?
+              {t('survey.notifyEmail.question')}
             </p>
             <p className="text-base text-gray-500 mb-6">
-              Optional. Enter your email if you would like to be notified when results are published.
+              {t('survey.notifyEmail.note')}
             </p>
             <input
               type="email"
               className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]"
-              placeholder="your.email@example.ch"
+              placeholder={t('survey.notifyEmail.placeholder')}
             />
           </PreviewWrapper>
         );
 
       // ========== DEBRIEF ==========
-      case '21':
+      case '18':
         return <Debriefing />;
 
       default:
@@ -711,7 +1026,7 @@ const SurveyDebugNavigator: React.FC = () => {
   if (selectedScreen) {
     return (
       <div className="flex min-h-screen">
-        {/* Floating Debug Controls - Always visible above everything */}
+        {/* Floating Debug Controls */}
         <div className="fixed top-4 right-4 z-[200] flex gap-2">
           <button
             onClick={goToPrev}
@@ -738,16 +1053,21 @@ const SurveyDebugNavigator: React.FC = () => {
           </button>
         </div>
 
-        {/* Current Screen Badge - Always visible */}
+        {/* Current Screen Badge */}
         <div className="fixed top-4 left-4 z-[200] bg-gray-900 text-white px-3 py-2 rounded-lg shadow-lg text-sm max-w-xs">
           <span className="font-mono mr-2">{selectedScreen}</span>
           <span className="opacity-70">{SCREENS.find(s => s.id === selectedScreen)?.name}</span>
           {SCREENS.find(s => s.id === selectedScreen)?.conditionDependent && (
             <span className="ml-2 text-xs bg-yellow-500 text-black px-1.5 py-0.5 rounded">{debugState.condition}</span>
           )}
+          {SCREENS.find(s => s.id === selectedScreen)?.tag && (
+            <span className={`ml-2 text-xs px-1.5 py-0.5 rounded ${TAG_COLORS[SCREENS.find(s => s.id === selectedScreen)!.tag!].bg} ${TAG_COLORS[SCREENS.find(s => s.id === selectedScreen)!.tag!].text}`}>
+              {SCREENS.find(s => s.id === selectedScreen)?.tag}
+            </span>
+          )}
         </div>
 
-        {/* Main Content Area - Full width for preview */}
+        {/* Main Content Area */}
         <div className="flex-1">
           {renderScreen()}
         </div>
@@ -755,7 +1075,7 @@ const SurveyDebugNavigator: React.FC = () => {
     );
   }
 
-  // Journey steps with condition-specific content descriptions
+  // Journey steps with condition-specific content
   const getJourneySteps = (condition: 'A' | 'B' | 'C' | 'D') => {
     const donationContent = {
       A: 'Simple text asking to donate data. Binary choice: Donate / Don\'t Donate',
@@ -765,32 +1085,31 @@ const SurveyDebugNavigator: React.FC = () => {
     };
 
     return [
-      { id: '1', step: 1, name: 'Landing Page', content: 'Study introduction, requirements (18+, Swiss voter), consent checkbox' },
+      { id: '1', step: 1, name: 'Landing Page', content: 'Study introduction, requirements (18+, Swiss resident), consent' },
       { id: '2A', step: 2, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
-      { id: '2B', step: 3, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information is used..."' },
-      { id: '3', step: 4, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
-      { id: '4', step: 5, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
-      { id: '5', step: 6, name: 'Info Bridge', content: '"Would you donate your anonymized questions?" - Learn More button' },
-      { id: '6', step: 7, name: 'Donation Modal', content: donationContent[condition], highlight: true },
-      { id: '7', step: 8, name: 'Q3: Clarity', content: '4 items: understood origin, training data, privacy protections, enough info' },
-      { id: '8', step: 9, name: 'Q4: Control', content: '4 items: control over questions, choice in usage, real options, flexibility' },
-      { id: '9', step: 10, name: 'Q5: Risk', content: '5 items: privacy, misuse, companies, trust, security concerns' },
-      { id: '10', step: 11, name: 'Q6: Agency', content: '3 items: felt in control, choices mattered, able to decide' },
-      { id: '11', step: 12, name: 'Q7: Trust', content: '2 items: data safety, trust in organization' },
-      { id: '12', step: 13, name: 'Q8: Acceptable Use', content: 'Checkboxes: improve chatbot, academic research, commercial, nothing' },
-      { id: '13', step: 14, name: 'Q9: Attention Check', content: '"This chatbot helps users with questions about:" dropdown' },
-      { id: '14', step: 15, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
-      { id: '15', step: 16, name: 'Q10: Age', content: 'Age range dropdown (18-24 to 65+)' },
-      { id: '16', step: 17, name: 'Q11: Gender', content: 'Gender dropdown with "Other" option' },
-      { id: '17', step: 18, name: 'Q12: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)' },
-      { id: '18', step: 19, name: 'Q13: Education', content: 'Education level dropdown' },
-      { id: '19', step: 20, name: 'Q14: Open Feedback', content: 'Optional: "What was the main reason for your decision?"' },
-      { id: '20', step: 21, name: 'Q15: Email', content: 'Optional: Email for study results notification' },
-      { id: '21', step: 22, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info' },
+      { id: '2B', step: 3, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
+      { id: '2C', step: 4, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballot initiatives?"', tag: 'COV' as HypothesisTag },
+      { id: '3', step: 5, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
+      { id: '4', step: 6, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
+      { id: '5', step: 7, name: 'Donation Modal', content: donationContent[condition], highlight: true },
+      { id: '6', step: 8, name: 'Q3: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
+      { id: '7', step: 9, name: 'Q4: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
+      { id: '8', step: 10, name: 'Q5: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
+      { id: '9', step: 11, name: 'Q6: Trust', content: '2 items: organization trust, data security', tag: 'OUT-TRUST' as HypothesisTag },
+      { id: '10', step: 12, name: 'Q7: Attention', content: '"This chatbot helps with questions about:" dropdown', tag: 'ATTN' as HypothesisTag },
+      { id: '11', step: 13, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
+      { id: '12', step: 14, name: 'Q8: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
+      { id: '13', step: 15, name: 'Q9: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
+      { id: '14', step: 16, name: 'Q10: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
+      { id: '15', step: 17, name: 'Q11: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
+      { id: '15B', step: 18, name: 'Q12: Voting Eligibility', content: 'Are you eligible to vote in Switzerland? (Yes/No)', tag: 'DEMO' as HypothesisTag },
+      { id: '16', step: 19, name: 'Q13: Feedback', content: 'Optional: "What was the main reason for your decision?"', tag: 'QUAL' as HypothesisTag },
+      { id: '17', step: 20, name: 'Q14: Email', content: 'Optional: Email for study results notification' },
+      { id: '18', step: 21, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info' },
     ];
   };
 
-  // ========== LANDING VIEW - SCREEN LIST ==========
+  // ========== LANDING VIEW ==========
   return (
     <div className="min-h-screen bg-gray-100 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
@@ -835,49 +1154,79 @@ const SurveyDebugNavigator: React.FC = () => {
 
               {/* Journey Steps */}
               <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-2">
-                {getJourneySteps(debugState.condition).map((step) => (
-                  <button
-                    key={step.id}
-                    onClick={() => navigateToScreen(step.id)}
-                    className={`w-full text-left p-3 rounded-lg transition group ${
-                      step.highlight
-                        ? 'bg-yellow-50 border-2 border-yellow-300 hover:border-yellow-400'
-                        : 'hover:bg-gray-50 border border-transparent hover:border-gray-200'
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                {getJourneySteps(debugState.condition).map((step) => {
+                  const colors = step.tag ? TAG_COLORS[step.tag] : null;
+                  return (
+                    <button
+                      key={step.id}
+                      onClick={() => navigateToScreen(step.id)}
+                      className={`w-full text-left p-3 rounded-lg transition group ${
                         step.highlight
-                          ? 'bg-yellow-400 text-yellow-900'
-                          : 'bg-gray-200 text-gray-600 group-hover:bg-green-500 group-hover:text-white'
-                      }`}>
-                        {step.step}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className={`font-medium text-sm ${step.highlight ? 'text-yellow-900' : 'text-gray-900'}`}>
-                          {step.name}
-                        </p>
-                        <p className={`text-xs mt-0.5 leading-snug ${step.highlight ? 'text-yellow-700' : 'text-gray-500'}`}>
-                          {step.content}
-                        </p>
-                      </div>
-                    </div>
-                    {step.highlight && (
-                      <div className="mt-2 ml-9">
-                        <span className="text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">
-                          Condition-specific
+                          ? 'bg-yellow-50 border-2 border-yellow-300 hover:border-yellow-400'
+                          : colors
+                            ? `${colors.bg} border-l-4 ${colors.border} hover:opacity-80`
+                            : 'hover:bg-gray-50 border border-transparent hover:border-gray-200'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                          step.highlight
+                            ? 'bg-yellow-400 text-yellow-900'
+                            : colors
+                              ? `${colors.bg} ${colors.text} border ${colors.border}`
+                              : 'bg-gray-200 text-gray-600 group-hover:bg-green-500 group-hover:text-white'
+                        }`}>
+                          {step.step}
                         </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className={`font-medium text-sm ${step.highlight ? 'text-yellow-900' : colors ? colors.text : 'text-gray-900'}`}>
+                              {step.name}
+                            </p>
+                            {step.tag && (
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${colors?.bg} ${colors?.text}`}>
+                                {step.tag}
+                              </span>
+                            )}
+                          </div>
+                          <p className={`text-xs mt-0.5 leading-snug ${step.highlight ? 'text-yellow-700' : 'text-gray-500'}`}>
+                            {step.content}
+                          </p>
+                        </div>
                       </div>
-                    )}
-                  </button>
-                ))}
+                      {step.highlight && (
+                        <div className="mt-2 ml-9">
+                          <span className="text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">
+                            Condition-specific
+                          </span>
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Legend */}
-              <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="mt-4 pt-4 border-t border-gray-200 space-y-1">
                 <p className="text-xs text-gray-500 flex items-center gap-2">
                   <span className="w-4 h-4 bg-yellow-200 border border-yellow-400 rounded"></span>
                   Varies by condition
+                </p>
+                <p className="text-xs text-gray-500 flex items-center gap-2">
+                  <span className="w-4 h-4 bg-orange-100 border-l-2 border-orange-400 rounded-r"></span>
+                  COV: Covariate
+                </p>
+                <p className="text-xs text-gray-500 flex items-center gap-2">
+                  <span className="w-4 h-4 bg-blue-100 border-l-2 border-blue-500 rounded-r"></span>
+                  MC-T: Transparency (H1)
+                </p>
+                <p className="text-xs text-gray-500 flex items-center gap-2">
+                  <span className="w-4 h-4 bg-green-100 border-l-2 border-green-500 rounded-r"></span>
+                  MC-C: Control (H2)
+                </p>
+                <p className="text-xs text-gray-500 flex items-center gap-2">
+                  <span className="w-4 h-4 bg-yellow-100 border-l-2 border-yellow-500 rounded-r"></span>
+                  OUT: Risk/Trust (H3)
                 </p>
               </div>
             </div>
@@ -891,13 +1240,19 @@ const SurveyDebugNavigator: React.FC = () => {
                   <h1 className="text-3xl font-bold text-gray-900 mb-2">Survey Debug Navigator</h1>
                   <p className="text-gray-600">Click any screen to preview. Deep-link:</p>
                   <code className="text-sm bg-gray-100 px-2 py-1 rounded mt-2 inline-block">
-                    ?debug=survey&screen=6&condition=D
+                    ?debug=survey&screen=7&condition=D
                   </code>
                 </div>
                 <LanguageSelector />
               </div>
 
-              {/* Condition Matrix - What differs between conditions */}
+              {/* Step 3 Documentation */}
+              <Step3Documentation
+                isOpen={showDocumentation}
+                onToggle={() => setShowDocumentation(!showDocumentation)}
+              />
+
+              {/* Condition Matrix */}
               <div className="mb-8 p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <h2 className="text-lg font-bold text-yellow-900 mb-4">Condition Matrix - What Differs</h2>
                 <div className="overflow-x-auto">
@@ -947,42 +1302,56 @@ const SurveyDebugNavigator: React.FC = () => {
                     <span className="w-3 h-3 rounded-full bg-green-500"></span>
                     {stageLabels[stage]}
                     {stage === 'survey' && (
-                      <span className="text-xs font-normal text-gray-500 ml-2">(same for all conditions)</span>
+                      <span className="text-xs font-normal text-gray-500 ml-2">(hypothesis-driven)</span>
                     )}
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {groupedScreens[stage]?.map(screen => (
-                      <button
-                        key={screen.id}
-                        onClick={() => navigateToScreen(screen.id)}
-                        className={`p-4 border rounded-lg hover:shadow-md transition text-left group ${
-                          screen.conditionDependent
-                            ? 'bg-yellow-50 border-yellow-200 hover:border-yellow-400'
-                            : 'bg-white border-gray-200 hover:border-green-500'
-                        }`}
-                      >
-                        <div className="flex items-start gap-2">
-                          <span className={`text-2xl font-bold transition ${
+                    {groupedScreens[stage]?.map(screen => {
+                      const colors = screen.tag ? TAG_COLORS[screen.tag] : null;
+                      return (
+                        <button
+                          key={screen.id}
+                          onClick={() => navigateToScreen(screen.id)}
+                          className={`p-4 border rounded-lg hover:shadow-md transition text-left group ${
                             screen.conditionDependent
-                              ? 'text-yellow-400 group-hover:text-yellow-600'
-                              : 'text-gray-300 group-hover:text-green-500'
-                          }`}>
-                            {screen.id}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-gray-900 text-sm truncate">{screen.name}</p>
-                            {screen.description && (
-                              <p className="text-xs text-gray-500 mt-1 line-clamp-2">{screen.description}</p>
-                            )}
-                            {screen.conditionDependent && (
-                              <span className="inline-block mt-1 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">
-                                Varies
-                              </span>
-                            )}
+                              ? 'bg-yellow-50 border-yellow-200 hover:border-yellow-400'
+                              : colors
+                                ? `${colors.bg} border-l-4 ${colors.border} border-gray-200`
+                                : 'bg-white border-gray-200 hover:border-green-500'
+                          }`}
+                        >
+                          <div className="flex items-start gap-2">
+                            <span className={`text-2xl font-bold transition ${
+                              screen.conditionDependent
+                                ? 'text-yellow-400 group-hover:text-yellow-600'
+                                : colors
+                                  ? colors.text
+                                  : 'text-gray-300 group-hover:text-green-500'
+                            }`}>
+                              {screen.id}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1 flex-wrap">
+                                <p className="font-medium text-gray-900 text-sm">{screen.name}</p>
+                                {screen.tag && (
+                                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${colors?.bg} ${colors?.text}`}>
+                                    {screen.tag}
+                                  </span>
+                                )}
+                              </div>
+                              {screen.description && (
+                                <p className="text-xs text-gray-500 mt-1 line-clamp-2">{screen.description}</p>
+                              )}
+                              {screen.conditionDependent && (
+                                <span className="inline-block mt-1 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded">
+                                  Varies
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </button>
-                    ))}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               ))}
@@ -993,6 +1362,7 @@ const SurveyDebugNavigator: React.FC = () => {
                 <ul className="text-sm text-blue-800 space-y-1">
                   <li>• <strong>Left panel:</strong> Complete journey overview for selected condition</li>
                   <li>• <strong>Right panel:</strong> Click any screen to preview it</li>
+                  <li>• <strong>Tags:</strong> MC-T (blue) = H1, MC-C (green) = H2, OUT (yellow) = H3</li>
                   <li>• Switch conditions (A/B/C/D) to see different journey descriptions</li>
                   <li>• Yellow items are condition-dependent (only Donation Modal differs)</li>
                 </ul>

@@ -15,8 +15,6 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
   const [validationError, setValidationError] = useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = useState<'donate' | 'decline' | null>(null);
 
-  console.log('[DonationModal] Rendered with config:', config);
-
   const handleDonate = () => {
     // Validate if dashboard is shown (Conditions C or D)
     if (config.showDashboard) {
@@ -41,14 +39,17 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
     onDecision(showConfirmation!, dashboardConfig || undefined);
   };
 
-  // Condition D: Both DNL and Dashboard shown (needs special layout)
+  // Determine condition type
+  const isConditionA = !config.showDNL && !config.showDashboard;
+  const isConditionB = config.showDNL && !config.showDashboard;
+  const isConditionC = !config.showDNL && config.showDashboard;
   const isConditionD = config.showDNL && config.showDashboard;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-5xl' : 'max-w-2xl'}`}>
         {showConfirmation ? (
-          /* Confirmation Modal - Manual dismiss with button */
+          /* Confirmation Screen */
           <div className="text-center py-6 md:py-8">
             <div className="w-20 h-20 md:w-24 md:h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
               <svg className="w-12 h-12 md:w-16 md:h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,61 +82,85 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
           </div>
         ) : (
           <>
-            {/* Step Headline */}
-            <p className="text-base md:text-lg font-semibold text-black mb-4">{t('donation.stepHeadline')}</p>
+            {/* ===== SHARED HEADER (all conditions) ===== */}
 
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-black leading-tight">{t('donation.title')}</h2>
+            {/* Eyebrow */}
+            <p className="text-sm text-gray-500 uppercase tracking-wide font-medium mb-2">
+              {t('donation.eyebrow')}
+            </p>
 
-            {/* Show baseline text if Condition A (no DNL, no Dashboard) */}
-            {!config.showDNL && !config.showDashboard && (
-              <>
-                <p className="mb-4 md:mb-6 text-black text-lg md:text-xl leading-relaxed">
-                  {t('donation.baselineText')}
+            {/* Main Headline */}
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">
+              {t('donation.headline')}
+            </h2>
+
+            {/* Transition Sentence */}
+            <p className="text-base md:text-lg text-gray-700 mb-6 md:mb-8 leading-relaxed">
+              {t('donation.transition')}
+            </p>
+
+            {/* ===== CONDITION-SPECIFIC CONTENT ===== */}
+
+            {/* Condition A: Baseline (no DNL, no Dashboard) */}
+            {isConditionA && (
+              <div className="mb-6 md:mb-8">
+                <p className="text-base md:text-lg text-black leading-relaxed">
+                  {t('donation.conditionA.text')}
                 </p>
-                <p className="mb-6 md:mb-8 text-black text-base md:text-lg leading-relaxed">
-                  {t('donation.baselineHelp')}
-                </p>
-              </>
+              </div>
             )}
 
-            {/* Condition D: Two-column layout (DNL + Dashboard) */}
-            {isConditionD ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6 items-start">
-                {/* Left column: Data Nutrition Label (original card design) */}
-                <div>
-                  <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4 text-black">
-                    {t('donation.dnlIntro')}
-                  </h3>
-                  <DataNutritionLabel />
-                </div>
+            {/* Condition B: DNL only */}
+            {isConditionB && (
+              <div className="mb-6 md:mb-8">
+                <p className="text-base md:text-lg text-black mb-4 leading-relaxed">
+                  {t('donation.conditionB.intro')}
+                </p>
+                <DataNutritionLabel />
+              </div>
+            )}
 
-                {/* Right column: Dashboard */}
-                <div>
-                  <GranularDashboard onChange={setDashboardConfig} />
+            {/* Condition C: Dashboard only */}
+            {isConditionC && (
+              <div className="mb-6 md:mb-8">
+                <p className="text-base md:text-lg text-black mb-4 leading-relaxed">
+                  {t('donation.conditionC.intro')}
+                </p>
+                <GranularDashboard onChange={setDashboardConfig} />
+                <p className="text-sm text-gray-500 mt-3 leading-relaxed">
+                  {t('donation.dashboardHelper')}
+                </p>
+              </div>
+            )}
+
+            {/* Condition D: DNL + Dashboard (two-column layout) */}
+            {isConditionD && (
+              <div className="mb-6 md:mb-8">
+                <p className="text-base md:text-lg text-black mb-4 leading-relaxed">
+                  {t('donation.conditionD.intro')}
+                </p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-start">
+                  {/* Left column: Data Nutrition Label */}
+                  <div>
+                    <DataNutritionLabel />
+                  </div>
+                  {/* Right column: Dashboard */}
+                  <div>
+                    <GranularDashboard onChange={setDashboardConfig} />
+                    <p className="text-sm text-gray-500 mt-3 leading-relaxed">
+                      {t('donation.dashboardHelper')}
+                    </p>
+                  </div>
                 </div>
               </div>
-            ) : (
-              <>
-                {/* Show DNL only (Condition B) */}
-                {config.showDNL && (
-                  <>
-                    <p className="text-lg md:text-xl text-black mb-4 md:mb-6 leading-relaxed">
-                      {t('donation.dnlIntro')}
-                    </p>
-                    <div className="mb-4 md:mb-6">
-                      <DataNutritionLabel />
-                    </div>
-                  </>
-                )}
-
-                {/* Show Dashboard only (Condition C) */}
-                {config.showDashboard && (
-                  <div className="mb-4 md:mb-6">
-                    <GranularDashboard onChange={setDashboardConfig} />
-                  </div>
-                )}
-              </>
             )}
+
+            {/* ===== DECISION SECTION (all conditions) ===== */}
+
+            {/* Decision Question */}
+            <p className="text-lg md:text-xl font-semibold text-black mb-4 leading-relaxed">
+              {t('donation.decisionQuestion')}
+            </p>
 
             {/* Validation Error */}
             {validationError && (
@@ -144,16 +169,16 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               </div>
             )}
 
-            {/* Buttons - Matching landing page hierarchy (primary left, secondary right) */}
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 mt-6 md:mt-8">
-              {/* Primary action: Donate Data (filled neutral, like "Start study") */}
+            {/* Buttons - Matching landing page style (neutral, no color bias) */}
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+              {/* Left: Donate Data (filled neutral, like "Start study") */}
               <button
                 onClick={handleDonate}
                 className="w-full md:flex-1 bg-gray-200 text-black py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition"
               >
                 {t('donation.accept')}
               </button>
-              {/* Secondary action: Don't Donate (outlined/ghost, like "Not interested") */}
+              {/* Right: Don't Donate (outlined, like "Not interested") */}
               <button
                 onClick={handleDecline}
                 className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-50 transition"

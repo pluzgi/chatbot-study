@@ -1,20 +1,18 @@
 # Complete User Journey - Swiss Ballot Chatbot Survey
-# COMPLETE_USER_JOURNEY.md
 
 ## Overview
 This document describes the complete participant experience from landing page to debrief, including all text, questions, answer options, and scale types.
 
-**Total Phases:** 10
+**Total Phases:** 9
 1. Landing Page
 2. Consent Modal
-3. Baseline Questions (Q1-Q2)
+3. Baseline Questions (Q1-Q3)
 4. Chatbot Instruction Page
 5. Chat Interface
-6. InfoBridge Modal
-7. Donation Decision Screen (varies by condition A/B/C/D)
-8. Confirmation Screen
-9. Post-Task Survey (Q3-Q14)
-10. Debrief Screen
+6. Donation Decision Screen (varies by condition A/B/C/D)
+7. Confirmation Screen
+8. Post-Task Survey (Q3-Q14) — Hypothesis-Driven
+9. Debrief Screen
 
 ---
 
@@ -37,7 +35,7 @@ This document describes the complete participant experience from landing page to
 
 **Who can participate:**
 - 18+
-- Eligible to vote in Switzerland
+- Live in Switzerland
 
 **Contact:**
 Questions? Please send an email (hello@ailights.org)
@@ -72,7 +70,7 @@ Triggered when user clicks "Start study"
 
 **Listing:**
 - you are 18 years or older
-- you are eligible to vote in Switzerland
+- you currently live in Switzerland
 - your participation is voluntary and you may stop at any time
 
 **Checkbox (required):**
@@ -92,14 +90,14 @@ When participant clicks Continue with checkbox checked:
 
 ---
 
-## 📍 PHASE 3: Baseline Questions (Q1-Q2)
+## 📍 PHASE 3: Baseline Questions (Q1-Q3)
 
 ### Header
 **Title:** "Before We Start"
-**Subtitle:** "Just 2 quick questions about you"
+**Subtitle:** "Just 3 quick questions about you"
 
 **Progress Indicator:**
-- Shows: "Question 1 of 2" / "Question 2 of 2"
+- Shows: "Question 1 of 3" / "Question 2 of 3" / "Question 3 of 3"
 - Progress bar: 3px height, gray (#D1D5DB)
 
 ---
@@ -150,8 +148,32 @@ When participant clicks Continue with checkbox checked:
 **Display:** Interactive boxes (clickable)
 **Validation:** Required
 
+---
+
+### Question 3: Ballot Familiarity (Covariate)
+
+**Question Text:**
+"How familiar are you with Swiss ballot initiatives?"
+
+**Scale Type:** 7-point Likert scale
+**Scale Endpoints:**
+- Left: "Not at all familiar"
+- Right: "Very familiar"
+
+**Answer Options:**
+1. Not at all familiar
+2.
+3.
+4.
+5.
+6.
+7. Very familiar
+
+**Display:** Interactive boxes (clickable)
+**Validation:** Required
+
 **Button:**
-[Continue →] (enabled after both questions answered, proceeds to Chatbot Instruction Page)
+[Continue →] (enabled after all three questions answered, proceeds to Chatbot Instruction Page)
 
 ---
 
@@ -217,69 +239,46 @@ When participant clicks Continue with checkbox checked:
 - Participant types questions about Swiss ballot initiatives
 - AI responds with voting information
 - After 2nd question receives a response → "Continue to Next Step" button appears
-- User can read the answer before clicking continue → InfoBridge modal appears
+- User can read the answer before clicking continue → Donation modal appears
 
 ---
 
-## 📍 PHASE 6: InfoBridge Modal
+## 📍 PHASE 6: Donation Decision Screen
 
-**Timing:** Appears after participant sends 2nd question to chatbot
+### Shared Layout (All Conditions)
 
-**Title:** "Hoi and welcome,"
+All four conditions share the same header structure:
 
-**Main Text:**
-"This chatbot is powered by Apertus, the first Swiss open-source large language artificial intelligence model.
-
-To improve such models, questions from chatbot users are needed for training the data.
-
-Would you donate your anonymized questions?"
-
-**Purpose:** Bridge between chat and donation decision
-
-**Button:**
-- [Learn More] (proceeds to donation modal)
-
-**Note:** This modal is the same for all conditions (A/B/C/D)
-
----
-
-## 📍 PHASE 7: Donation Decision Screen
+**Eyebrow (small, uppercase, gray):**
+"Step 2 of 3 — Data Donation Decision"
 
 **Headline (large, bold):**
-"Step 2 of 3 — Decide How Your Anonymized Chat Data May Be Used"
+"Your decision about data donation"
 
-### Varies by Experimental Condition
+**Transition Sentence:**
+"You have just used the chatbot. Now we ask you to decide whether your anonymized chat questions may be used for academic AI research."
+
+---
+
+### Condition-Specific Content
 
 ---
 
 ### 🅰️ Condition A: Baseline (Low Transparency, Low Control)
 
-**Title:** "Help Improve the Apertus Model"
-
-**Main Text:**
-"We would like to use your anonymized questions to improve the Apertus model. Your data will be handled securely and used only for research and model development."
-
-**Help Text:**
-"Donating your questions helps train better AI models."
+**Content:**
+"Your anonymized chat questions would be used to improve a Swiss open-source AI model for academic research. Data would be handled securely and not used for commercial purposes."
 
 **Components Shown:**
 - ❌ No Data Nutrition Label
 - ❌ No Granular Dashboard
 
-**Buttons:**
-- [Donate Data] (filled gray button - #D1D5DB)
-- [Don't Donate] (filled gray button - #E5E7EB)
-
-**Note:** Both buttons have equal visual weight with no color bias to avoid influencing participant decisions.
-
 ---
 
 ### 🅱️ Condition B: High Transparency, Low Control
 
-**Title:** "Help Improve the Apertus Model"
-
 **Intro Text:**
-"To help you decide, here are key facts about the Apertus model:"
+"To support your decision, here is factual information about the chatbot and how data is handled:"
 
 **Components Shown:**
 - ✅ Data Nutrition Label (DNL)
@@ -302,22 +301,19 @@ Would you donate your anonymized questions?"
 **🌍 Multilingual & Current**
 "Includes Swiss German & Romansh; data through January 2025"
 
-**Buttons:**
-- [Donate Data]
-- [Don't Donate]
-
 ---
 
 ### 🅲 Condition C: Low Transparency, High Control
 
-**Title:** "Configure Your Data Donation"
-
-**Main Text:**
-"We would like to use your anonymized questions to improve the Apertus model. Please configure how your data will be used:"
+**Intro Text:**
+"You can decide how your anonymized chat questions would be used."
 
 **Components Shown:**
 - ❌ No Data Nutrition Label
 - ✅ Granular Dashboard
+
+**Helper Text (below dashboard):**
+"You can leave the default settings or adjust them before deciding."
 
 #### Granular Dashboard Options:
 
@@ -356,30 +352,42 @@ Would you donate your anonymized questions?"
 If user clicks "Donate Data" without filling all fields:
 → Error: "Please configure all privacy settings"
 
-**Buttons:**
-- [Donate Data] (only enabled when all fields filled)
-- [Don't Donate]
-
 ---
 
 ### 🅳 Condition D: High Transparency, High Control
 
-**Title:** "Configure Your Data Donation"
-
 **Intro Text:**
-"To help you decide, here are key facts about the Apertus model:"
+"To support your decision, you can review information about the chatbot and adjust how your anonymized data would be used."
 
 **Components Shown:**
-- ✅ Data Nutrition Label (same as Condition B)
-- ✅ Granular Dashboard (same as Condition C)
+- ✅ Data Nutrition Label (left column)
+- ✅ Granular Dashboard (right column)
 
-**Buttons:**
-- [Donate Data] (requires all dashboard fields filled)
-- [Don't Donate]
+**Layout:** Two-column on desktop (side by side), stacked on mobile
+
+**Helper Text (below dashboard):**
+"You can leave the default settings or adjust them before deciding."
+
+**Validation:**
+If user clicks "Donate Data" without filling all dashboard fields:
+→ Error: "Please configure all privacy settings"
 
 ---
 
-## 📍 PHASE 8: Confirmation Screen
+### Decision Section (All Conditions)
+
+**Decision Question (bold, prominent):**
+"Do you want to donate your anonymized chat questions for research purposes?"
+
+**Buttons (neutral styling, no color bias):**
+- [Donate Data] — Left button, filled gray (#E5E7EB), turns green on hover
+- [Don't Donate] — Right button, outlined white with gray border, turns gray-50 on hover
+
+**Note:** Both buttons have equal visual weight with no color bias to avoid influencing participant decisions. Styling matches landing page buttons.
+
+---
+
+## 📍 PHASE 7: Confirmation Screen
 
 Shown after donation decision (donate OR decline)
 
@@ -417,148 +425,41 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-## 📍 PHASE 9: Post-Task Survey (Q3-Q14)
+## 📍 PHASE 8: Post-Task Survey (Q3-Q14) — Hypothesis-Driven
 
 **Headline (shown on first page only):**
 "Step 3 of 3 — Share Your Perspective"
 
+### Hypothesis Mapping
+
+| Question | Construct | Tag | Hypothesis | Expected Pattern |
+|----------|-----------|-----|------------|------------------|
+| Q3 | Perceived Transparency | MC-T | H1 | Higher in B & D (with DNL) |
+| Q4 | Perceived User Control | MC-C | H2 | Higher in C & D (with Dashboard) |
+| Q5 | Risk Perception | OUT-RISK | H3 | Lowest in D, highest in A |
+| Q6 | Trust | OUT-TRUST | — | Supporting construct |
+| Q7 | Attention Check | ATTN | — | Validation |
+| Q8-Q12 | Demographics | DEMO | — | Covariates |
+| Q13 | Open Feedback | QUAL | — | Qualitative insight |
+| Q14 | Email Notification | — | — | Optional |
+
 ### Survey Structure
-- **Total Questions:** 12 required + 1 optional
-- **Display:** One question per page
+- **Total Questions:** 11 required + 2 optional (Q13 feedback, Q14 email)
+- **Core Likert Items:** 8 items across 4 constructs (2 items each)
+- **Display:** One question section per page
 - **Navigation:** Back button (from Q3 onwards), Next/Submit button
 - **Progress Bar:** 3px gray bar showing progress through questions
 
 ---
 
-### Question 3: Clarity Section
+### Question 3: Perceived Transparency (MC-T)
 
-**Section Header:** "About Your Decision"
+**Tag:** 🔵 MC-T — H1 Manipulation Check
+**Expected Pattern:** Higher in conditions B & D (with Data Nutrition Label)
 
-**Intro:** "Please tell us what you thought about the information you saw:"
+**Section Header:** "About Your Experience"
 
-**Question Type:** 4 Likert items on one page
-
-**Scale Type:** 7-point Likert
-**Scale Endpoints:**
-- Left: "Strongly disagree"
-- Right: "Strongly agree"
-
-**Items:**
-
-**3.1** "I understood where the Apertus chatbot was developed."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**3.2** "I knew what information the chatbot was trained on."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**3.3** "The privacy protections were clearly explained."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**3.4** "I had enough information to make my decision."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**Validation:** All 4 items required
-
----
-
-### Question 4: Control Section
-
-**Section Header:** "Question 4"
-
-**Intro:** "Please tell us about the choices you had:"
-
-**Question Type:** 4 Likert items on one page
-
-**Scale Type:** 7-point Likert
-**Scale Endpoints:**
-- Left: "Strongly disagree"
-- Right: "Strongly agree"
-
-**Items:**
-
-**4.1** "I had control over what happens to my questions."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**4.2** "I could choose how my data would be used."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**4.3** "I had real options for how to donate."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**4.4** "The process gave me the flexibility I wanted."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**Validation:** All 4 items required
-
----
-
-### Question 5: Risk Concerns Section
-
-**Section Header:** "Question 5"
-
-**Intro:** "When thinking about donating your questions, how concerned were you about:"
-
-**Question Type:** 5 Likert items on one page
-
-**Scale Type:** 7-point Likert (CONCERN scale)
-**Scale Endpoints:**
-- Left: "Not at all concerned"
-- Right: "Extremely concerned"
-
-**Items:**
-
-**5.1** "Privacy: My questions could be traced back to me"
-- Scale: 1-7 (Not at all concerned → Extremely concerned)
-
-**5.2** "Misuse: Data used for things I don't agree with"
-- Scale: 1-7 (Not at all concerned → Extremely concerned)
-
-**5.3** "Companies: Businesses profiting from my data"
-- Scale: 1-7 (Not at all concerned → Extremely concerned)
-
-**5.4** "Trust: Not knowing who's behind this"
-- Scale: 1-7 (Not at all concerned → Extremely concerned)
-
-**5.5** "Security: Data could be hacked or stolen"
-- Scale: 1-7 (Not at all concerned → Extremely concerned)
-
-**Validation:** All 5 items required
-
----
-
-### Question 6: Agency Section
-
-**Section Header:** "Question 6"
-
-**Intro:** "Please tell us how you felt about the data donation choice you just made:"
-
-**Question Type:** 3 Likert items on one page
-
-**Scale Type:** 7-point Likert
-**Scale Endpoints:**
-- Left: "Strongly disagree"
-- Right: "Strongly agree"
-
-**Items:**
-
-**6.1** "I felt in control of what would happen to my questions."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**6.2** "My choices actually influenced what would happen to my data."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**6.3** "I felt able to make the right decision for myself."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-
-**Validation:** All 3 items required
-
----
-
-### Question 7: Trust Section
-
-**Section Header:** "Question 7"
-
-**Intro:** "Please indicate your agreement:"
+**Intro:** "Please indicate your agreement with the following statements:"
 
 **Question Type:** 2 Likert items on one page
 
@@ -569,45 +470,114 @@ Shown after donation decision (donate OR decline)
 
 **Items:**
 
-**7.1** "I believe my data would be safe with this chatbot."
+**3.1** "The information about how my anonymized chat questions may be used was clear."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `transparency1`
 
-**7.2** "I trust the organization behind this chatbot to do the right thing."
+**3.2** "I understood what would happen to my anonymized chat questions if I agreed to share them."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `transparency2`
 
 **Validation:** Both items required
 
 ---
 
-### Question 8: Acceptable Use
+### Question 4: Perceived User Control (MC-C)
 
-**Section Header:** "Question 8"
+**Tag:** 🟢 MC-C — H2 Manipulation Check
+**Expected Pattern:** Higher in conditions C & D (with Dashboard)
 
-**Question:**
-"What should donated questions be used for?"
+**Section Header:** "Question 4"
 
-**Sub-instruction:**
-"Select all that apply"
+**Intro:** "Please indicate your agreement with the following statements:"
 
-**Question Type:** Multiple checkboxes
+**Question Type:** 2 Likert items on one page
 
-**Options:**
-- ☐ Improving this chatbot
-- ☐ Academic research
-- ☐ Commercial products
-- ☐ Nothing
+**Scale Type:** 7-point Likert
+**Scale Endpoints:**
+- Left: "Strongly disagree"
+- Right: "Strongly agree"
 
-**Special Behavior:**
-- If "Nothing" is checked → all other boxes uncheck
-- If any other box is checked → "Nothing" unchecks
+**Items:**
 
-**Validation:** At least one checkbox required
+**4.1** "I felt I had control over how my anonymized chat questions could be used."
+- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `control1`
+
+**4.2** "I felt I had meaningful choices about sharing my anonymized chat questions."
+- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `control2`
+
+**Validation:** Both items required
 
 ---
 
-### Question 9: Attention Check
+### Question 5: Risk Perception (OUT-RISK)
 
-**Section Header:** "Question 9"
+**Tag:** 🟡 OUT-RISK — H3 Interaction Mechanism
+**Expected Pattern:** Lowest in D (high transparency + high control), highest in A
+
+**Section Header:** "Question 5"
+
+**Intro:** "Please indicate your agreement with the following statements:"
+
+**Question Type:** 2 Likert items on one page
+
+**Scale Type:** 7-point Likert
+**Scale Endpoints:**
+- Left: "Strongly disagree"
+- Right: "Strongly agree"
+
+**Items:**
+
+**5.1** "Even if anonymized, my chat questions could be traced back to me."
+- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `riskTraceability`
+
+**5.2** "My anonymized chat questions could be used in ways I would not agree with."
+- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `riskMisuse`
+
+**Validation:** Both items required
+
+---
+
+### Question 6: Trust (OUT-TRUST)
+
+**Tag:** 🟡 OUT-TRUST — Supporting Construct
+**Purpose:** Interpretation and additional insight
+
+**Section Header:** "Question 6"
+
+**Intro:** "Please indicate your agreement with the following statements:"
+
+**Question Type:** 2 Likert items on one page
+
+**Scale Type:** 7-point Likert
+**Scale Endpoints:**
+- Left: "Strongly disagree"
+- Right: "Strongly agree"
+
+**Items:**
+
+**6.1** "I trust the organization behind this study to handle my data responsibly."
+- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `trust1`
+
+**6.2** "I believe my anonymized data would be handled securely."
+- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Field: `trust2`
+
+**Validation:** Both items required
+
+---
+
+### Question 7: Attention Check (ATTN)
+
+**Tag:** 🟣 ATTN — Validation
+**Purpose:** Data quality check
+
+**Section Header:** "Question 7"
 
 **Question:**
 "This chatbot helps people with questions about:"
@@ -623,6 +593,7 @@ Shown after donation decision (donate OR decline)
 4. General political news
 5. I don't remember
 
+**Field:** `attentionCheck`
 **Validation:** Required (must select an option)
 
 ---
@@ -642,38 +613,42 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 10: Age
+### Question 8: Age (DEMO)
 
-**Section Header:** "Question 10"
+**Tag:** ⚫ DEMO — Covariate
+
+**Section Header:** "Question 8"
 
 **Question:** "What is your age?"
 
-**Question Type:** Single-select dropdown
+**Question Type:** Checkbox-style selection (single select enforced)
 
-**Dropdown Placeholder:** "Select age range..."
+**Display:** All options visible as selectable buttons with checkbox indicators
 
 **Options:**
-1. 18-24
-2. 25-34
-3. 35-44
-4. 45-54
-5. 55-64
+1. 18–24
+2. 25–34
+3. 35–44
+4. 45–54
+5. 55–64
 6. 65+
-7. Prefer not to say
 
-**Validation:** Required
+**Field:** `age`
+**Validation:** Required (one selection)
 
 ---
 
-### Question 11: Gender
+### Question 9: Gender (DEMO)
 
-**Section Header:** "Question 11"
+**Tag:** ⚫ DEMO — Covariate
+
+**Section Header:** "Question 9"
 
 **Question:** "What is your gender?"
 
-**Question Type:** Single-select dropdown with conditional text field
+**Question Type:** Checkbox-style selection (single select enforced) with conditional text field
 
-**Dropdown Placeholder:** "Select gender..."
+**Display:** All options visible as selectable buttons with checkbox indicators
 
 **Options:**
 1. Female
@@ -684,46 +659,52 @@ Shown after donation decision (donate OR decline)
 
 **Conditional Text Field:**
 If "Other" is selected:
-- Text input appears below dropdown
+- Text input appears below options
 - Placeholder: "Please specify..."
 - Max length: 255 characters
 - Optional to fill
 
-**Validation:** Dropdown selection required
+**Fields:** `gender`, `genderOther`
+**Validation:** Selection required
 
 ---
 
-### Question 12: Primary Language
+### Question 10: Primary Language (DEMO)
 
-**Section Header:** "Question 12"
+**Tag:** ⚫ DEMO — Covariate
+
+**Section Header:** "Question 10"
 
 **Question:** "What is your primary language?"
 
-**Question Type:** Single-select dropdown
+**Question Type:** Checkbox-style selection (single select enforced)
 
-**Dropdown Placeholder:** "Select language..."
+**Display:** All options visible as selectable buttons with checkbox indicators
 
 **Options:**
-1. English
+1. German / Swiss German
 2. French
-3. German / Swiss German
-4. Italian
+3. Italian
+4. English
 5. Romansh
 6. Other
 
-**Validation:** Required
+**Field:** `primaryLanguage`
+**Validation:** Required (one selection)
 
 ---
 
-### Question 13: Education
+### Question 11: Education (DEMO)
 
-**Section Header:** "Question 13"
+**Tag:** ⚫ DEMO — Covariate
+
+**Section Header:** "Question 11"
 
 **Question:** "What is your highest level of education?"
 
-**Question Type:** Single-select dropdown
+**Question Type:** Checkbox-style selection (single select enforced)
 
-**Dropdown Placeholder:** "Select education level..."
+**Display:** All options visible as selectable buttons with checkbox indicators
 
 **Options:**
 1. Mandatory schooling
@@ -734,13 +715,38 @@ If "Other" is selected:
 6. University (Bachelor/Master/PhD)
 7. Prefer not to say
 
+**Field:** `education`
+**Validation:** Required (one selection)
+
+---
+
+### Question 12: Voting Eligibility (DEMO)
+
+**Tag:** ⚫ DEMO — Covariate
+
+**Section Header:** "Question 12"
+
+**Question:** "Are you eligible to vote in Swiss federal elections?"
+
+**Question Type:** Checkbox-style selection (single select enforced)
+
+**Display:** All options visible as selectable buttons with checkbox indicators
+
+**Options:**
+1. I am eligible to vote in Swiss federal elections
+2. I live in Switzerland but am not eligible to vote
+3. I am not sure
+
+**Field:** `eligibleToVoteCh` (string: 'eligible' | 'not-eligible' | 'not-sure')
 **Validation:** Required
 
 ---
 
-### Question 14: Open Feedback
+### Question 13: Open Feedback (QUAL)
 
-**Section Header:** "Question 14"
+**Tag:** ⚫ QUAL — Qualitative Insight
+
+**Section Header:** "Question 13"
 
 **Question:**
 "In your own words, what was the main reason for your decision?"
@@ -756,13 +762,14 @@ If "Other" is selected:
 - Max length: 500 characters
 - Character counter: "X/500 - Maximum 500 characters"
 
+**Field:** `openFeedback`
 **Validation:** Optional (can leave empty)
 
 ---
 
-### Question 15: Email Notification (Optional)
+### Question 14: Email Notification (Optional)
 
-**Section Header:** "Question 15"
+**Section Header:** "Question 14"
 
 **Question:**
 "Would you like to receive the study results?"
@@ -777,13 +784,14 @@ If "Other" is selected:
 - Type: email (browser validation)
 - Max length: 255 characters
 
+**Field:** `notifyEmail`
 **Validation:** Optional (can leave empty), but if filled must be valid email format
 
 **Button:** [Submit] (submits entire survey)
 
 ---
 
-## 📍 PHASE 10: Debrief Screen
+## 📍 PHASE 9: Debrief Screen
 
 Shown after survey submission
 
@@ -818,44 +826,64 @@ Shown after survey submission
 
 ## 📊 Technical Details
 
-### Question Numbering
-- Q1-Q2: Baseline (tech comfort, privacy concern)
-- Q3-Q14: Post-task survey
-- Q15: Email notification (optional)
-- Total: 15 questions (Q14 and Q15 optional)
+### Question Numbering (Hypothesis-Aligned)
+- Q1-Q3: Baseline (tech comfort, privacy concern, ballot familiarity)
+- Q3: Perceived Transparency (MC-T) — 2 items
+- Q4: Perceived User Control (MC-C) — 2 items
+- Q5: Risk Perception (OUT-RISK) — 2 items
+- Q6: Trust (OUT-TRUST) — 2 items
+- Q7: Attention Check (ATTN)
+- Q8-Q12: Demographics (DEMO) — including voting eligibility
+- Q13: Open Feedback (QUAL) — optional
+- Q14: Email notification — optional
+- **Total:** 14 questions (Q13 and Q14 optional)
+- **Core Likert Items:** 8 items across 4 constructs
 
 ### Scale Types Used
 1. **7-point Likert (Agreement):**
-   - Used in: Q1, Q2, Q3 (all 4 items), Q4 (all 4 items), Q6 (all 3 items), Q7 (all 2 items)
+   - Used in: Q1, Q2, Q3 (baseline), Q3 (2 items), Q4 (2 items), Q5 (2 items), Q6 (2 items)
    - Endpoints: Strongly disagree (1) → Strongly agree (7)
+   - Exception: Baseline Q3 uses "Not at all familiar" → "Very familiar"
 
-2. **7-point Likert (Concern):**
-   - Used in: Q5 (all 5 items)
-   - Endpoints: Not at all concerned (1) → Extremely concerned (7)
-
-3. **Multiple Choice (Checkboxes):**
-   - Used in: Q8 (acceptable use)
-   - Validation: At least one required
-
-4. **Single Select (Dropdowns):**
-   - Used in: Q9, Q10, Q11, Q12, Q13
+2. **Single Select (Dropdown):**
+   - Used in: Q7 (attention check only)
    - Validation: Selection required
 
-5. **Free Text:**
-   - Used in: Q11 (gender other), Q14 (open feedback)
+3. **Checkbox-Style Selection (Single Select Enforced):**
+   - Used in: Q8-Q12 (all demographics)
+   - All options visible as selectable buttons with checkbox indicators
+   - No hidden menus or dropdowns
+   - Consistent visual treatment across all demographic questions
+   - Validation: One selection required per question
+
+4. **Free Text:**
+   - Used in: Q9 (gender other), Q13 (open feedback)
    - Validation: Optional
 
+5. **Email Input:**
+   - Used in: Q14
+   - Validation: Optional, but must be valid format if provided
+
+### Hypothesis-Construct Mapping
+
+| Tag | Construct | Hypothesis | Items | Expected Pattern |
+|-----|-----------|------------|-------|------------------|
+| MC-T | Perceived Transparency | H1 | transparency1, transparency2 | Higher in B & D |
+| MC-C | Perceived User Control | H2 | control1, control2 | Higher in C & D |
+| OUT-RISK | Risk Perception | H3 | riskTraceability, riskMisuse | Lowest in D |
+| OUT-TRUST | Trust | Supporting | trust1, trust2 | — |
+
 ### Conditional Elements
-- **Gender "Other" text field:** Only shows when "Other" selected in Q11
+- **Gender "Other" text field:** Only shows when "Other" selected in Q9
 - **Dashboard configuration:** Only shown in Conditions C & D
 - **Data Nutrition Label:** Only shown in Conditions B & D
 - **Back button:** Available from Q3 onwards (not on Q1-Q2)
 
 ### Validation Rules
-- **Required questions:** All except Q14 (open feedback) and Q11 gender text
+- **Required questions:** Q3-Q12 (all)
+- **Optional questions:** Q13 (open feedback), Q14 (email)
 - **Minimum chat messages:** 2 questions before progression
 - **Dashboard validation:** All 4 fields required in Conditions C/D when donating
-- **Checkbox validation:** At least 1 selection in Q8
 
 ### Button States
 - **Disabled state:** Gray background (#D1D5DB), no hover effect, gray text
@@ -879,10 +907,9 @@ Shown after survey submission
 ## ⏱️ Estimated Time
 
 - Landing & Consent: ~1 minute
-- Baseline Questions (Q1-Q2): ~1 minute
+- Baseline Questions (Q1-Q3): ~1 minute
 - Chatbot Instruction: ~30 seconds
 - Chat Interface: ~2-3 minutes (minimum 2 questions)
-- InfoBridge Modal: ~15 seconds
 - Donation Decision: ~1-2 minutes (longer for C/D with dashboard)
 - Confirmation Screen: ~15 seconds
 - Post-Task Survey (Q3-Q14): ~3-4 minutes

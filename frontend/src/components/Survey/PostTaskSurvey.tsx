@@ -4,6 +4,25 @@ import { api } from '../../services/api';
 import { SurveyData } from '../../types';
 import LikertScale from './LikertScale';
 
+/**
+ * PostTaskSurvey - Hypothesis-Driven Survey Component
+ *
+ * This survey measures constructs aligned with H1-H3:
+ * - Q3: Perceived Transparency (MC-T) - H1 manipulation check
+ * - Q4: Perceived User Control (MC-C) - H2 manipulation check
+ * - Q5: Risk Perception (OUT-RISK) - H3 interaction mechanism
+ * - Q6: Trust (OUT-TRUST) - Supporting construct
+ * - Q7: Attention Check
+ * - Q8-Q11: Demographics
+ * - Q12: Open Feedback (QUAL)
+ * - Q13: Email (optional)
+ *
+ * Intentionally excluded:
+ * - Agency items (redundant with control)
+ * - Acceptable use checkboxes (exploratory, not needed for H1-H3)
+ * - Model origin items (measures institutional trust, not procedural transparency)
+ */
+
 interface Props {
   participantId: string;
   condition: 'A' | 'B' | 'C' | 'D';
@@ -16,87 +35,64 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   const [submitting, setSubmitting] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // All survey answers
+  // All survey answers - aligned with hypothesis-driven structure
   const [answers, setAnswers] = useState<Partial<SurveyData>>({
-    // Q3: Clarity (4 items)
-    clarity1: null,
-    clarity2: null,
-    clarity3: null,
-    clarity4: null,
-    // Q4: Control (4 items)
+    // Q3: Perceived Transparency (MC-T) - 2 items
+    transparency1: null,
+    transparency2: null,
+    // Q4: Perceived User Control (MC-C) - 2 items
     control1: null,
     control2: null,
-    control3: null,
-    control4: null,
-    // Q5: Risk Concerns (5 items)
-    riskPrivacy: null,
+    // Q5: Risk Perception (OUT-RISK) - 2 items
+    riskTraceability: null,
     riskMisuse: null,
-    riskCompanies: null,
-    riskTrust: null,
-    riskSecurity: null,
-    // Q6: Agency (3 items)
-    agency1: null,
-    agency2: null,
-    agency3: null,
-    // Q7: Trust (2 items)
+    // Q6: Trust (OUT-TRUST) - 2 items
     trust1: null,
     trust2: null,
-    // Q8: Acceptable Use (checkboxes)
-    acceptableUseImproveChatbot: false,
-    acceptableUseAcademicResearch: false,
-    acceptableUseCommercialProducts: false,
-    acceptableUseNothing: false,
-    // Q9: Attention Check
+    // Q7: Attention Check
     attentionCheck: null,
-    // Q10-Q13: Demographics
+    // Q8-Q12: Demographics
     age: null,
     gender: null,
     genderOther: '',
     primaryLanguage: null,
     education: null,
-    // Q14: Open Feedback
+    eligibleToVoteCh: null,
+    // Q13: Open Feedback (QUAL)
     openFeedback: '',
-    // Q15: Email Notification (optional)
+    // Q14: Email Notification (optional)
     notifyEmail: ''
   });
 
   // Build dynamic page structure
   const pageStructure = useMemo(() => {
     const pages: Array<{ questionNum: number; type: string; field?: keyof SurveyData }> = [];
-    let questionNum = 3; // Starting from Q3
+    let questionNum = 3; // Starting from Q3 (after baseline Q1-Q2)
 
-    // Q3: Clarity (4 items)
-    pages.push({ questionNum, type: 'clarity-section', field: undefined });
+    // Q3: Perceived Transparency (MC-T) - 2 items
+    pages.push({ questionNum, type: 'transparency-section', field: undefined });
     questionNum++;
 
-    // Q4: Control (4 items)
+    // Q4: Perceived User Control (MC-C) - 2 items
     pages.push({ questionNum, type: 'control-section', field: undefined });
     questionNum++;
 
-    // Q5: Risk Concerns (5 items)
+    // Q5: Risk Perception (OUT-RISK) - 2 items
     pages.push({ questionNum, type: 'risk-section', field: undefined });
     questionNum++;
 
-    // Q6: Agency (3 items)
-    pages.push({ questionNum, type: 'agency-section', field: undefined });
-    questionNum++;
-
-    // Q7: Trust (2 items)
+    // Q6: Trust (OUT-TRUST) - 2 items
     pages.push({ questionNum, type: 'trust-section', field: undefined });
     questionNum++;
 
-    // Q8: Acceptable Use (checkboxes)
-    pages.push({ questionNum, type: 'acceptableUse', field: undefined });
-    questionNum++;
-
-    // Q9: Attention Check
+    // Q7: Attention Check
     pages.push({ questionNum, type: 'attentionCheck', field: 'attentionCheck' });
     questionNum++;
 
-    // Transition page
+    // Transition page (before demographics)
     pages.push({ questionNum: -1, type: 'transition', field: undefined });
 
-    // Q10-Q13: Demographics
+    // Q8-Q12: Demographics
     pages.push({ questionNum, type: 'age', field: 'age' });
     questionNum++;
     pages.push({ questionNum, type: 'gender', field: 'gender' });
@@ -105,12 +101,14 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     questionNum++;
     pages.push({ questionNum, type: 'education', field: 'education' });
     questionNum++;
+    pages.push({ questionNum, type: 'eligibleToVoteCh', field: 'eligibleToVoteCh' });
+    questionNum++;
 
-    // Q14: Open Feedback
+    // Q13: Open Feedback (QUAL)
     pages.push({ questionNum, type: 'openFeedback', field: 'openFeedback' });
     questionNum++;
 
-    // Q15: Email Notification (optional)
+    // Q14: Email Notification (optional)
     pages.push({ questionNum, type: 'notifyEmail', field: 'notifyEmail' });
 
     return pages;
@@ -136,36 +134,27 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       return true;
     }
 
-    // Open feedback and email notification are optional, can always proceed
+    // Open feedback and email notification are optional
     if (currentPageData.type === 'openFeedback' || currentPageData.type === 'notifyEmail') {
       return true;
     }
 
     // Check section-based validations
     switch (currentPageData.type) {
-      case 'clarity-section':
-        return answers.clarity1 !== null && answers.clarity2 !== null &&
-               answers.clarity3 !== null && answers.clarity4 !== null;
+      case 'transparency-section':
+        return answers.transparency1 !== null && answers.transparency2 !== null;
       case 'control-section':
-        return answers.control1 !== null && answers.control2 !== null &&
-               answers.control3 !== null && answers.control4 !== null;
+        return answers.control1 !== null && answers.control2 !== null;
       case 'risk-section':
-        return answers.riskPrivacy !== null && answers.riskMisuse !== null &&
-               answers.riskCompanies !== null && answers.riskTrust !== null &&
-               answers.riskSecurity !== null;
-      case 'agency-section':
-        return answers.agency1 !== null && answers.agency2 !== null && answers.agency3 !== null;
+        return answers.riskTraceability !== null && answers.riskMisuse !== null;
       case 'trust-section':
         return answers.trust1 !== null && answers.trust2 !== null;
-      case 'acceptableUse':
-        // At least one checkbox must be selected
-        return answers.acceptableUseImproveChatbot || answers.acceptableUseAcademicResearch ||
-               answers.acceptableUseCommercialProducts || answers.acceptableUseNothing;
       case 'attentionCheck':
       case 'age':
       case 'gender':
       case 'primaryLanguage':
       case 'education':
+      case 'eligibleToVoteCh':
         const field = currentPageData.field;
         return field ? answers[field] !== null && answers[field] !== '' : false;
       default:
@@ -194,7 +183,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     }
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Only handle keyboard shortcuts when not focused on an input element
       const target = e.target as HTMLElement;
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
         return;
@@ -212,31 +200,24 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
   const isFormComplete = () => {
     return (
-      // Q3: Clarity
-      answers.clarity1 !== null && answers.clarity2 !== null &&
-      answers.clarity3 !== null && answers.clarity4 !== null &&
-      // Q4: Control
+      // Q3: Perceived Transparency
+      answers.transparency1 !== null && answers.transparency2 !== null &&
+      // Q4: Perceived User Control
       answers.control1 !== null && answers.control2 !== null &&
-      answers.control3 !== null && answers.control4 !== null &&
-      // Q5: Risk
-      answers.riskPrivacy !== null && answers.riskMisuse !== null &&
-      answers.riskCompanies !== null && answers.riskTrust !== null &&
-      answers.riskSecurity !== null &&
-      // Q6: Agency
-      answers.agency1 !== null && answers.agency2 !== null && answers.agency3 !== null &&
-      // Q7: Trust
+      // Q5: Risk Perception
+      answers.riskTraceability !== null && answers.riskMisuse !== null &&
+      // Q6: Trust
       answers.trust1 !== null && answers.trust2 !== null &&
-      // Q8: Acceptable Use (at least one)
-      (answers.acceptableUseImproveChatbot || answers.acceptableUseAcademicResearch ||
-       answers.acceptableUseCommercialProducts || answers.acceptableUseNothing) &&
-      // Q9: Attention Check
+      // Q7: Attention Check
       answers.attentionCheck !== null && answers.attentionCheck !== '' &&
-      // Q10-Q13: Demographics
+      // Q8-Q12: Demographics
       answers.age !== null && answers.age !== '' &&
       answers.gender !== null && answers.gender !== '' &&
       answers.primaryLanguage !== null && answers.primaryLanguage !== '' &&
-      answers.education !== null && answers.education !== ''
-      // Q14: Open Feedback is optional
+      answers.education !== null && answers.education !== '' &&
+      answers.eligibleToVoteCh !== null && answers.eligibleToVoteCh !== ''
+      // Q13: Open Feedback is optional
+      // Q14: Email is optional
     );
   };
 
@@ -251,34 +232,21 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
     try {
       const surveyData: SurveyData = {
-        clarity1: answers.clarity1!,
-        clarity2: answers.clarity2!,
-        clarity3: answers.clarity3!,
-        clarity4: answers.clarity4!,
+        transparency1: answers.transparency1!,
+        transparency2: answers.transparency2!,
         control1: answers.control1!,
         control2: answers.control2!,
-        control3: answers.control3!,
-        control4: answers.control4!,
-        riskPrivacy: answers.riskPrivacy!,
+        riskTraceability: answers.riskTraceability!,
         riskMisuse: answers.riskMisuse!,
-        riskCompanies: answers.riskCompanies!,
-        riskTrust: answers.riskTrust!,
-        riskSecurity: answers.riskSecurity!,
-        agency1: answers.agency1!,
-        agency2: answers.agency2!,
-        agency3: answers.agency3!,
         trust1: answers.trust1!,
         trust2: answers.trust2!,
-        acceptableUseImproveChatbot: answers.acceptableUseImproveChatbot!,
-        acceptableUseAcademicResearch: answers.acceptableUseAcademicResearch!,
-        acceptableUseCommercialProducts: answers.acceptableUseCommercialProducts!,
-        acceptableUseNothing: answers.acceptableUseNothing!,
         attentionCheck: answers.attentionCheck!,
         age: answers.age!,
         gender: answers.gender!,
         genderOther: answers.genderOther || '',
         primaryLanguage: answers.primaryLanguage!,
         education: answers.education!,
+        eligibleToVoteCh: answers.eligibleToVoteCh!,
         openFeedback: answers.openFeedback || '',
         notifyEmail: answers.notifyEmail || ''
       };
@@ -294,10 +262,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   };
 
   // ============================================
-  // REUSABLE COMPONENTS - IMPROVED READABILITY
+  // REUSABLE COMPONENTS
   // ============================================
 
-  // Simple question label - no percentage, just "Question X"
   const QuestionLabel = ({ questionNum }: { questionNum: number }) => (
     <div className="mb-6">
       <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
@@ -306,9 +273,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
-  // Likert item with improved readability
-  // - Larger, bolder statement text
-  // - More spacing between items
   const LikertItem = ({ label, field, leftLabel, rightLabel }: {
     label: string;
     field: keyof SurveyData;
@@ -316,11 +280,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     rightLabel: string;
   }) => (
     <div className="py-6 border-b border-gray-100 last:border-0 last:pb-0 first:pt-0">
-      {/* Statement - PRIMARY FOCUS: larger, medium weight, high contrast */}
       <p className="text-lg md:text-xl text-gray-900 font-medium mb-5 leading-relaxed">
         {label}
       </p>
-      {/* Scale - secondary */}
       <LikertScale
         name={field}
         value={answers[field] as number | null}
@@ -333,14 +295,11 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
-  // Question block - clean white background, no nested grays
   const QuestionBlock = ({ intro, children }: { intro: string; children: React.ReactNode }) => (
     <div>
-      {/* Block intro - SECONDARY: smaller, lighter, explains what to do */}
       <p className="text-base text-gray-500 mb-6 leading-relaxed">
         {intro}
       </p>
-      {/* Likert items with clear separation */}
       <div>
         {children}
       </div>
@@ -351,31 +310,20 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   // SECTION COMPONENTS
   // ============================================
 
-  const ClaritySection = ({ questionNum }: { questionNum: number }) => (
+  // Q3: Perceived Transparency (MC-T) - H1 manipulation check
+  const TransparencySection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <QuestionLabel questionNum={questionNum} />
-      <QuestionBlock intro={t('survey.clarity.intro')}>
+      <QuestionBlock intro={t('survey.transparency.intro')}>
         <LikertItem
-          label={t('survey.clarity.q1')}
-          field="clarity1"
+          label={t('survey.transparency.q1')}
+          field="transparency1"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
         <LikertItem
-          label={t('survey.clarity.q2')}
-          field="clarity2"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
-        <LikertItem
-          label={t('survey.clarity.q3')}
-          field="clarity3"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
-        <LikertItem
-          label={t('survey.clarity.q4')}
-          field="clarity4"
+          label={t('survey.transparency.q2')}
+          field="transparency2"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
@@ -383,6 +331,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
+  // Q4: Perceived User Control (MC-C) - H2 manipulation check
   const ControlSection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <QuestionLabel questionNum={questionNum} />
@@ -399,79 +348,24 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
-        <LikertItem
-          label={t('survey.control.q3')}
-          field="control3"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
-        <LikertItem
-          label={t('survey.control.q4')}
-          field="control4"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
       </QuestionBlock>
     </div>
   );
 
+  // Q5: Risk Perception (OUT-RISK) - H3 interaction mechanism
   const RiskSection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <QuestionLabel questionNum={questionNum} />
       <QuestionBlock intro={t('survey.risk.intro')}>
         <LikertItem
-          label={t('survey.risk.privacy')}
-          field="riskPrivacy"
-          leftLabel={t('survey.likert.notConcerned')}
-          rightLabel={t('survey.likert.extremelyConcerned')}
+          label={t('survey.risk.traceability')}
+          field="riskTraceability"
+          leftLabel={t('survey.likert.disagree')}
+          rightLabel={t('survey.likert.agree')}
         />
         <LikertItem
           label={t('survey.risk.misuse')}
           field="riskMisuse"
-          leftLabel={t('survey.likert.notConcerned')}
-          rightLabel={t('survey.likert.extremelyConcerned')}
-        />
-        <LikertItem
-          label={t('survey.risk.companies')}
-          field="riskCompanies"
-          leftLabel={t('survey.likert.notConcerned')}
-          rightLabel={t('survey.likert.extremelyConcerned')}
-        />
-        <LikertItem
-          label={t('survey.risk.trust')}
-          field="riskTrust"
-          leftLabel={t('survey.likert.notConcerned')}
-          rightLabel={t('survey.likert.extremelyConcerned')}
-        />
-        <LikertItem
-          label={t('survey.risk.security')}
-          field="riskSecurity"
-          leftLabel={t('survey.likert.notConcerned')}
-          rightLabel={t('survey.likert.extremelyConcerned')}
-        />
-      </QuestionBlock>
-    </div>
-  );
-
-  const AgencySection = ({ questionNum }: { questionNum: number }) => (
-    <div>
-      <QuestionLabel questionNum={questionNum} />
-      <QuestionBlock intro={t('survey.agency.intro')}>
-        <LikertItem
-          label={t('survey.agency.q1')}
-          field="agency1"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
-        <LikertItem
-          label={t('survey.agency.q2')}
-          field="agency2"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
-        <LikertItem
-          label={t('survey.agency.q3')}
-          field="agency3"
           leftLabel={t('survey.likert.disagree')}
           rightLabel={t('survey.likert.agree')}
         />
@@ -479,6 +373,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
+  // Q6: Trust (OUT-TRUST) - Supporting construct
   const TrustSection = ({ questionNum }: { questionNum: number }) => (
     <div>
       <QuestionLabel questionNum={questionNum} />
@@ -499,75 +394,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
-  const AcceptableUsePage = ({ questionNum }: { questionNum: number }) => {
-    const handleCheckboxChange = (field: keyof SurveyData, checked: boolean) => {
-      // If "Nothing" is checked, uncheck all others
-      if (field === 'acceptableUseNothing' && checked) {
-        setAnswers(prev => ({
-          ...prev,
-          acceptableUseImproveChatbot: false,
-          acceptableUseAcademicResearch: false,
-          acceptableUseCommercialProducts: false,
-          acceptableUseNothing: true
-        }));
-      }
-      // If any other checkbox is checked, uncheck "Nothing"
-      else if (field !== 'acceptableUseNothing' && checked) {
-        setAnswers(prev => ({
-          ...prev,
-          [field]: checked,
-          acceptableUseNothing: false
-        }));
-      }
-      // Normal uncheck
-      else {
-        updateAnswer(field, checked);
-      }
-    };
-
-    return (
-      <div>
-        <QuestionLabel questionNum={questionNum} />
-        <div>
-          <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-            {t('survey.acceptableUse.question')}
-          </p>
-          <p className="text-base text-gray-500 mb-6">
-            {t('survey.acceptableUse.instruction')}
-          </p>
-          <div className="space-y-3">
-            {[
-              { field: 'acceptableUseImproveChatbot' as keyof SurveyData, label: t('survey.acceptableUse.improveChatbot') },
-              { field: 'acceptableUseAcademicResearch' as keyof SurveyData, label: t('survey.acceptableUse.academicResearch') },
-              { field: 'acceptableUseCommercialProducts' as keyof SurveyData, label: t('survey.acceptableUse.commercialProducts') },
-              { field: 'acceptableUseNothing' as keyof SurveyData, label: t('survey.acceptableUse.nothing') }
-            ].map(({ field, label }) => (
-              <label
-                key={field}
-                className={`
-                  flex items-center gap-4 p-4 border rounded-md cursor-pointer transition min-h-[52px]
-                  focus-within:ring-2 focus-within:ring-offset-1 focus-within:ring-gray-400
-                  ${answers[field]
-                    ? 'border-gray-800 bg-gray-50'
-                    : 'border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50'
-                  }
-                `}
-              >
-                <input
-                  type="checkbox"
-                  checked={answers[field] as boolean || false}
-                  onChange={(e) => handleCheckboxChange(field, e.target.checked)}
-                  className="w-5 h-5 text-gray-800 border-gray-300 rounded focus:ring-gray-500"
-                />
-                <span className="text-base text-gray-900">{label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
+  // Dropdown question - only used for attention check (not demographics)
   const DropdownQuestion = ({ questionNum, field, label, options }: {
     questionNum: number;
     field: keyof SurveyData;
@@ -589,16 +416,61 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             </option>
           ))}
         </select>
+      </div>
+    </div>
+  );
+
+  // Checkbox-style selection for demographics (single select enforced in logic)
+  const CheckboxQuestion = ({ questionNum, field, label, options, showOtherInput }: {
+    questionNum: number;
+    field: keyof SurveyData;
+    label: string;
+    options: { value: string; label: string }[];
+    showOtherInput?: boolean;
+  }) => (
+    <div>
+      <QuestionLabel questionNum={questionNum} />
+      <div>
+        <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{label}</p>
+        <div className="space-y-3">
+          {options.map(opt => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => updateAnswer(field, opt.value)}
+              className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
+                answers[field] === opt.value
+                  ? 'border-green-600 bg-green-50 text-gray-900'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                  answers[field] === opt.value
+                    ? 'border-green-600 bg-green-600'
+                    : 'border-gray-300 bg-white'
+                }`}>
+                  {answers[field] === opt.value && (
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                <span className="text-base font-medium">{opt.label}</span>
+              </div>
+            </button>
+          ))}
+        </div>
 
         {/* Gender "Other" text field */}
-        {field === 'gender' && answers.gender === 'other' && (
+        {showOtherInput && field === 'gender' && answers.gender === 'other' && (
           <div className="mt-4">
             <input
               type="text"
               value={answers.genderOther || ''}
               onChange={(e) => updateAnswer('genderOther', e.target.value)}
               placeholder={t('survey.demographics.gender.otherPlaceholder')}
-              className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 min-h-[52px]"
+              className="w-full p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 min-h-[52px]"
             />
           </div>
         )}
@@ -628,18 +500,14 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     const { type, questionNum } = currentPageData;
 
     switch (type) {
-      case 'clarity-section':
-        return <ClaritySection questionNum={questionNum} />;
+      case 'transparency-section':
+        return <TransparencySection questionNum={questionNum} />;
       case 'control-section':
         return <ControlSection questionNum={questionNum} />;
       case 'risk-section':
         return <RiskSection questionNum={questionNum} />;
-      case 'agency-section':
-        return <AgencySection questionNum={questionNum} />;
       case 'trust-section':
         return <TrustSection questionNum={questionNum} />;
-      case 'acceptableUse':
-        return <AcceptableUsePage questionNum={questionNum} />;
       case 'attentionCheck':
         return <DropdownQuestion
           questionNum={questionNum}
@@ -657,57 +525,53 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'transition':
         return <TransitionPage />;
       case 'age':
-        return <DropdownQuestion
+        return <CheckboxQuestion
           questionNum={questionNum}
           field="age"
           label={t('survey.demographics.age.question')}
           options={[
-            { value: '', label: t('survey.demographics.age.placeholder') },
             { value: '18-24', label: t('survey.demographics.age.18-24') },
             { value: '25-34', label: t('survey.demographics.age.25-34') },
             { value: '35-44', label: t('survey.demographics.age.35-44') },
             { value: '45-54', label: t('survey.demographics.age.45-54') },
             { value: '55-64', label: t('survey.demographics.age.55-64') },
-            { value: '65+', label: t('survey.demographics.age.65+') },
-            { value: 'prefer-not-say', label: t('survey.demographics.preferNotSay') }
+            { value: '65+', label: t('survey.demographics.age.65+') }
           ]}
         />;
       case 'gender':
-        return <DropdownQuestion
+        return <CheckboxQuestion
           questionNum={questionNum}
           field="gender"
           label={t('survey.demographics.gender.question')}
           options={[
-            { value: '', label: t('survey.demographics.gender.placeholder') },
             { value: 'female', label: t('survey.demographics.gender.female') },
             { value: 'male', label: t('survey.demographics.gender.male') },
             { value: 'non-binary', label: t('survey.demographics.gender.nonBinary') },
             { value: 'other', label: t('survey.demographics.gender.other') },
             { value: 'prefer-not-say', label: t('survey.demographics.preferNotSay') }
           ]}
+          showOtherInput={true}
         />;
       case 'primaryLanguage':
-        return <DropdownQuestion
+        return <CheckboxQuestion
           questionNum={questionNum}
           field="primaryLanguage"
           label={t('survey.demographics.language.question')}
           options={[
-            { value: '', label: t('survey.demographics.language.placeholder') },
-            { value: 'english', label: t('survey.demographics.language.english') },
-            { value: 'french', label: t('survey.demographics.language.french') },
             { value: 'german', label: t('survey.demographics.language.german') },
+            { value: 'french', label: t('survey.demographics.language.french') },
             { value: 'italian', label: t('survey.demographics.language.italian') },
+            { value: 'english', label: t('survey.demographics.language.english') },
             { value: 'romansh', label: t('survey.demographics.language.romansh') },
             { value: 'other', label: t('survey.demographics.language.other') }
           ]}
         />;
       case 'education':
-        return <DropdownQuestion
+        return <CheckboxQuestion
           questionNum={questionNum}
           field="education"
           label={t('survey.demographics.education.question')}
           options={[
-            { value: '', label: t('survey.demographics.education.placeholder') },
             { value: 'mandatory', label: t('survey.demographics.education.mandatory') },
             { value: 'matura', label: t('survey.demographics.education.matura') },
             { value: 'vocational', label: t('survey.demographics.education.vocational') },
@@ -715,6 +579,17 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             { value: 'applied-sciences', label: t('survey.demographics.education.appliedSciences') },
             { value: 'university', label: t('survey.demographics.education.university') },
             { value: 'prefer-not-say', label: t('survey.demographics.preferNotSay') }
+          ]}
+        />;
+      case 'eligibleToVoteCh':
+        return <CheckboxQuestion
+          questionNum={questionNum}
+          field="eligibleToVoteCh"
+          label={t('survey.demographics.votingEligibility.question')}
+          options={[
+            { value: 'eligible', label: t('survey.demographics.votingEligibility.eligible') },
+            { value: 'not-eligible', label: t('survey.demographics.votingEligibility.notEligible') },
+            { value: 'not-sure', label: t('survey.demographics.votingEligibility.notSure') }
           ]}
         />;
       case 'openFeedback':
@@ -777,15 +652,15 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     }
   };
 
-  // Check if we're on a Likert section page (for showing step headline)
-  const isLikertPage = ['clarity-section', 'control-section', 'risk-section', 'agency-section', 'trust-section'].includes(
+  // Check if we're on a Likert section page
+  const isLikertPage = ['transparency-section', 'control-section', 'risk-section', 'trust-section'].includes(
     pageStructure[currentPage - 1]?.type || ''
   );
 
   return (
     <div className="min-h-screen bg-gray-50 py-6 md:py-10">
       <div className="max-w-2xl mx-auto px-4">
-        {/* Step Headline - Prominent, shown on Likert pages */}
+        {/* Step Headline - shown on first Likert page */}
         {(currentPage === 1 || isLikertPage) && (
           <div className="mb-6 text-left">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">
@@ -794,7 +669,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           </div>
         )}
 
-        {/* Main Content Card - Clean white, no nested grays */}
+        {/* Main Content Card */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-10">
           {renderPage()}
         </div>
@@ -806,9 +681,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           </div>
         )}
 
-        {/* Navigation Buttons - Matching app button styles */}
+        {/* Navigation Buttons */}
         <div className="flex flex-col-reverse md:flex-row gap-3 justify-between items-stretch mt-6">
-          {/* Back Button - ghost/outlined style */}
+          {/* Back Button */}
           {currentPage > 1 && pageStructure[currentPage - 1]?.type !== 'transition' ? (
             <button
               onClick={handleBack}
@@ -820,7 +695,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             <div></div>
           )}
 
-          {/* Next/Submit Button - filled neutral style */}
+          {/* Next/Submit Button */}
           {currentPage < totalPages ? (
             <button
               onClick={handleNext}

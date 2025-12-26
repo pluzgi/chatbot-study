@@ -4,14 +4,15 @@ import LikertScale from './LikertScale';
 
 interface Props {
   participantId: string;
-  onComplete: (data: { techComfort: number; privacyConcern: number }) => void;
+  onComplete: (data: { techComfort: number; privacyConcern: number; ballotFamiliarity: number }) => void;
 }
 
 const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
   const { t } = useTranslation();
-  const [currentQuestion, setCurrentQuestion] = useState<1 | 2>(1);
+  const [currentQuestion, setCurrentQuestion] = useState<1 | 2 | 3>(1);
   const [techComfort, setTechComfort] = useState<number | null>(null);
   const [privacyConcern, setPrivacyConcern] = useState<number | null>(null);
+  const [ballotFamiliarity, setBallotFamiliarity] = useState<number | null>(null);
   const [error, setError] = useState(false);
 
   const handleContinue = () => {
@@ -22,15 +23,23 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
       }
       setError(false);
       setCurrentQuestion(2);
-    } else {
+    } else if (currentQuestion === 2) {
       if (privacyConcern === null) {
         setError(true);
         return;
       }
-      // Both answers complete, call onComplete
+      setError(false);
+      setCurrentQuestion(3);
+    } else {
+      if (ballotFamiliarity === null) {
+        setError(true);
+        return;
+      }
+      // All answers complete, call onComplete
       onComplete({
         techComfort: techComfort!,
-        privacyConcern: privacyConcern!
+        privacyConcern: privacyConcern!,
+        ballotFamiliarity: ballotFamiliarity!
       });
     }
   };
@@ -56,7 +65,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
           <div className="w-full bg-gray-200 rounded-full h-[3px]">
             <div
               className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-              style={{ width: `${(currentQuestion / 2) * 100}%` }}
+              style={{ width: `${(currentQuestion / 3) * 100}%` }}
             />
           </div>
         </div>
@@ -103,6 +112,27 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
           </div>
         )}
 
+        {/* Question 3: Ballot Familiarity */}
+        {currentQuestion === 3 && (
+          <div>
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
+              {t('baseline.ballotFamiliarity.question')}
+            </h2>
+
+            <LikertScale
+              name="ballotFamiliarity"
+              value={ballotFamiliarity}
+              onChange={(value) => {
+                setBallotFamiliarity(value);
+                setError(false);
+              }}
+              leftLabel={t('baseline.ballotFamiliarity.notFamiliar')}
+              rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
+              points={7}
+            />
+          </div>
+        )}
+
         {/* Error Message */}
         {error && (
           <p className="text-red-600 text-base mt-4">
@@ -116,7 +146,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
             onClick={handleContinue}
             className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
           >
-            {currentQuestion === 2 ? t('baseline.continue') : t('survey.navigation.next')}
+            {currentQuestion === 3 ? t('baseline.continue') : t('survey.navigation.next')}
           </button>
         </div>
       </div>

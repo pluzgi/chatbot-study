@@ -16,8 +16,7 @@ src/
 │   ├── Donation/
 │   │   ├── DonationModal.tsx
 │   │   ├── DataNutritionLabel.tsx
-│   │   ├── GranularDashboard.tsx
-│   │   └── InfoBridge.tsx
+│   │   └── GranularDashboard.tsx
 │   ├── Survey/
 │   │   ├── PostTaskSurvey.tsx
 │   │   └── Debriefing.tsx
