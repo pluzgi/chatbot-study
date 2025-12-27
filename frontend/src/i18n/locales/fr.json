@@ -36,8 +36,15 @@
   },
   "baseline": {
     "title": "Before We Start",
-    "subtitle": "Just 2 quick questions about you",
-    "progress": "Question {{current}} of 2",
+    "subtitle": "Just 3 quick questions about you",
+    "progress": "Question {{current}} of 3",
+    "aboutYou": "À propos de vous",
+    "scale": {
+      "disagree": "Pas d'accord",
+      "agree": "D'accord",
+      "notFamiliar": "Pas familier",
+      "veryFamiliar": "Très familier"
+    },
     "techComfort": {
       "question": "I am comfortable using new digital technology (like AI chatbots, new apps, or online tools).",
       "stronglyDisagree": "Strongly disagree",

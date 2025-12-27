@@ -8,6 +8,8 @@ interface LikertScaleProps {
   rightLabel: string;
   points?: number;
   compact?: boolean;
+  minimal?: boolean;
+  showLabels?: boolean;
 }
 
 const LikertScale: React.FC<LikertScaleProps> = ({
@@ -17,9 +19,58 @@ const LikertScale: React.FC<LikertScaleProps> = ({
   leftLabel,
   rightLabel,
   points = 7,
-  compact = false
+  compact = false,
+  minimal = false,
+  showLabels = true
 }) => {
   const options = Array.from({ length: points }, (_, i) => i + 1);
+
+  // Minimal mode for baseline questions - lightweight, less cognitive load
+  if (minimal) {
+    return (
+      <div className="w-full">
+        {/* Scale buttons - smaller, outlined when unselected */}
+        <div className="flex items-center justify-center gap-2 md:gap-3">
+          {options.map((point) => (
+            <label
+              key={point}
+              className="cursor-pointer"
+            >
+              <input
+                type="radio"
+                name={name}
+                value={point}
+                checked={value === point}
+                onChange={() => onChange(point)}
+                className="sr-only peer"
+              />
+              <div
+                className={`
+                  w-9 h-9 md:w-10 md:h-10 rounded-full border-2
+                  flex items-center justify-center transition-all
+                  focus-within:ring-2 focus-within:ring-offset-1 focus-within:ring-gray-300
+                  ${value === point
+                    ? 'bg-gray-700 border-gray-700 text-white'
+                    : 'bg-transparent border-gray-300 hover:border-gray-400 text-gray-500'
+                  }
+                `}
+              >
+                <span className="text-sm font-medium">{point}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+
+        {/* Labels - only shown if showLabels is true */}
+        {showLabels && (
+          <div className="flex items-center justify-between text-xs text-gray-400 mt-3 px-1">
+            <span>{leftLabel}</span>
+            <span>{rightLabel}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   // Compact mode for Likert items within question blocks
   // Improved: better touch targets, readable numbers, consistent button styling
