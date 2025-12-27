@@ -17,12 +17,15 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
 
   const handleDonate = () => {
     // Validate if dashboard is shown (Conditions C or D)
+    // New validation: scope is required, retention is required only when scope is selected
+    // Purpose and storage are optional
     if (config.showDashboard) {
-      if (!dashboardConfig ||
-          !dashboardConfig.scope ||
-          !dashboardConfig.purpose ||
-          !dashboardConfig.storage ||
-          !dashboardConfig.retention) {
+      if (!dashboardConfig || !dashboardConfig.scope) {
+        setValidationError(t('dashboard.validationError'));
+        return;
+      }
+      // Retention is required when scope is selected
+      if (dashboardConfig.scope && !dashboardConfig.retention) {
         setValidationError(t('dashboard.validationError'));
         return;
       }
@@ -47,7 +50,7 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-5xl' : 'max-w-2xl'}`}>
+      <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-3xl' : 'max-w-2xl'}`}>
         {showConfirmation ? (
           /* Confirmation Screen */
           <div className="text-center py-6 md:py-8">
@@ -133,34 +136,42 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               </div>
             )}
 
-            {/* Condition D: DNL + Dashboard (two-column layout) */}
+            {/* Condition D: DNL + Dashboard (stacked layout to reduce cognitive overload) */}
             {isConditionD && (
               <div className="mb-6 md:mb-8">
                 <p className="text-base md:text-lg text-black mb-4 leading-relaxed">
                   {t('donation.conditionD.intro')}
                 </p>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-start">
-                  {/* Left column: Data Nutrition Label */}
-                  <div>
-                    <DataNutritionLabel />
-                  </div>
-                  {/* Right column: Dashboard */}
-                  <div>
-                    <GranularDashboard onChange={setDashboardConfig} />
-                    <p className="text-sm text-gray-500 mt-3 leading-relaxed">
-                      {t('donation.dashboardHelper')}
-                    </p>
-                  </div>
+
+                {/* Section 1: About the Model (compact DNL) */}
+                <div className="mb-6">
+                  <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                    <span className="text-lg">ℹ️</span>
+                    {t('dnl.title')}
+                  </h3>
+                  <DataNutritionLabel compact />
+                </div>
+
+                {/* Visual separator */}
+                <div className="border-t border-gray-200 my-6" />
+
+                {/* Section 2: Your Preferences (Dashboard) */}
+                <div>
+                  <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                    <span className="text-lg">⚙️</span>
+                    {t('dashboard.title')}
+                  </h3>
+                  <GranularDashboard onChange={setDashboardConfig} />
                 </div>
               </div>
             )}
 
             {/* ===== DECISION SECTION (all conditions) ===== */}
-
-            {/* Decision Question */}
-            <p className="text-lg md:text-xl font-semibold text-black mb-4 leading-relaxed">
-              {t('donation.decisionQuestion')}
-            </p>
+            <div className="mt-8">
+              {/* Decision Question */}
+              <p className="text-xl md:text-2xl font-semibold text-black mb-6 leading-relaxed">
+                {t('donation.decisionQuestion')}
+              </p>
 
             {/* Validation Error */}
             {validationError && (
@@ -181,10 +192,11 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               {/* Right: Don't Donate (outlined, like "Not interested") */}
               <button
                 onClick={handleDecline}
-                className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-50 transition"
+                className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-100 transition"
               >
                 {t('donation.decline')}
               </button>
+            </div>
             </div>
           </>
         )}

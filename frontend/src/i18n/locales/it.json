@@ -128,34 +128,40 @@
     "freshnessValue": "Includes Swiss German & Romansh; data through January 2025"
   },
   "dashboard": {
-    "title": "Configure Your Data Donation",
-    "placeholder": "Select an option...",
+    "title": "Configura la tua donazione di dati",
+    "placeholder": "Seleziona un'opzione...",
+    "optional": "Opzionale",
+    "required": "Obbligatorio",
     "scope": {
-      "label": "What data to share",
-      "topics": "Only topics I asked about (e.g., \"climate policy\")",
-      "full": "Full anonymized conversations (your exact questions with all identifying info removed)"
+      "label": "Cosa vorresti condividere?",
+      "topicsOnly": "Solo argomenti generali",
+      "topicsOnlyDesc": "Nessun testo effettivo condiviso",
+      "questionsOnly": "Le mie domande",
+      "questionsOnlyDesc": "Solo testo delle domande, nessuna risposta IA",
+      "full": "Conversazioni complete",
+      "fullDesc": "Sia domande che risposte IA"
     },
     "purpose": {
-      "label": "How data will be used",
-      "academic": "Academic research only",
-      "commercial": "Academic research and commercial use"
+      "label": "Come verranno utilizzati i dati",
+      "academic": "Solo ricerca accademica",
+      "commercial": "Ricerca accademica e uso commerciale"
     },
     "storage": {
-      "label": "Where data is stored",
-      "swiss": "Swiss servers only",
-      "eu": "EU servers allowed",
-      "noPreference": "No preference"
+      "label": "Dove vengono archiviati i dati",
+      "swiss": "Solo server svizzeri",
+      "eu": "Server UE consentiti",
+      "noPreference": "Nessuna preferenza"
     },
     "retention": {
-      "label": "How long to keep data",
-      "1month": "1 month",
-      "3months": "3 months",
-      "6months": "6 months",
-      "1year": "1 year",
-      "indefinite": "Indefinitely"
+      "label": "Quanto tempo conservare i dati",
+      "1month": "1 mese",
+      "3months": "3 mesi",
+      "6months": "6 mesi",
+      "1year": "1 anno",
+      "indefinite": "A tempo indeterminato"
     },
-    "revocability": "You can change these settings in your dashboard anytime.",
-    "validationError": "Please configure all privacy settings"
+    "revocability": "Puoi modificare queste impostazioni nella tua dashboard in qualsiasi momento.",
+    "validationError": "Per favore configura tutte le impostazioni sulla privacy"
   },
   "survey": {
     "title": "Final Questions",

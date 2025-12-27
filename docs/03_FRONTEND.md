@@ -93,9 +93,10 @@ export interface Session {
 }
 
 export interface DonationConfig {
-  scope: 'full' | 'topics';
+  scope: 'topics-only' | 'questions-only' | 'full';
   purpose: 'academic' | 'commercial';
-  retention: '1month' | '3months' | '6months' | '1year' | 'indefinite';
+  storage: 'swiss' | 'swiss-or-eu' | 'no-preference';
+  retention: 'until-fulfilled' | '6months' | '1year' | 'indefinite';
 }
 ```
 
@@ -356,11 +357,7 @@ interface Props {
 
 const GranularDashboard: React.FC<Props> = ({ onChange }) => {
   const { t } = useTranslation();
-  const [config, setConfig] = useState<DonationConfig>({
-    scope: 'topics',
-    purpose: 'academic',
-    retention: '1year'
-  });
+  const [config, setConfig] = useState<DonationConfig>({});
 
   const update = (key: keyof DonationConfig, value: any) => {
     const newConfig = { ...config, [key]: value };
@@ -372,27 +369,19 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
     <div className="space-y-6 bg-gray-50 p-6 rounded-lg">
       <h3 className="text-xl font-bold">{t('dashboard.title')}</h3>
 
-      {/* Scope */}
+      {/* Scope - 3 options */}
       <div>
         <label className="block font-semibold mb-2">{t('dashboard.scope.label')}</label>
-        <label className="flex items-center mb-2">
-          <input
-            type="radio"
-            checked={config.scope === 'topics'}
-            onChange={() => update('scope', 'topics')}
-            className="mr-2"
-          />
-          {t('dashboard.scope.topics')}
-        </label>
-        <label className="flex items-center">
-          <input
-            type="radio"
-            checked={config.scope === 'full'}
-            onChange={() => update('scope', 'full')}
-            className="mr-2"
-          />
-          {t('dashboard.scope.full')}
-        </label>
+        <select
+          value={config.scope || ''}
+          onChange={e => update('scope', e.target.value)}
+          className="w-full p-2 border rounded"
+        >
+          <option value="" disabled>{t('dashboard.placeholder')}</option>
+          <option value="topics-only">{t('dashboard.scope.topicsOnly')}</option>
+          <option value="questions-only">{t('dashboard.scope.questionsOnly')}</option>
+          <option value="full">{t('dashboard.scope.full')}</option>
+        </select>
       </div>
 
       {/* Purpose */}
@@ -426,8 +415,7 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
           onChange={e => update('retention', e.target.value)}
           className="w-full p-2 border rounded"
         >
-          <option value="1month">{t('dashboard.retention.1month')}</option>
-          <option value="3months">{t('dashboard.retention.3months')}</option>
+          <option value="until-fulfilled">{t('dashboard.retention.untilFulfilled')}</option>
           <option value="6months">{t('dashboard.retention.6months')}</option>
           <option value="1year">{t('dashboard.retention.1year')}</option>
           <option value="indefinite">{t('dashboard.retention.indefinite')}</option>

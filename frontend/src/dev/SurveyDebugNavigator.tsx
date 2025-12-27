@@ -27,7 +27,6 @@ import LikertScale from '../components/Survey/LikertScale';
 // Import components that work standalone
 import ChatbotInstruction from '../components/Chat/ChatbotInstruction';
 import ChatInterface from '../components/Chat/ChatInterface';
-import DonationModal from '../components/Donation/DonationModal';
 import Debriefing from '../components/Survey/Debriefing';
 
 // ============================================
@@ -639,19 +638,333 @@ const SurveyDebugNavigator: React.FC = () => {
           </div>
         );
 
-      // ========== DONATION ==========
-      case '5':
-        return (
-          <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
-            <div className="relative">
-              <DonationModal
-                key={`donation-${debugState.condition}`}
-                config={config}
-                onDecision={(decision, cfg) => console.log('[DEBUG] Donation decision:', decision, cfg)}
-              />
+      // ========== DONATION (Simplified Static Previews) ==========
+      case '5': {
+        const isConditionA = !config.showDNL && !config.showDashboard;
+        const isConditionB = config.showDNL && !config.showDashboard;
+        const isConditionC = !config.showDNL && config.showDashboard;
+        const isConditionD = config.showDNL && config.showDashboard;
+
+        // Shared components
+        const Headline = () => (
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">
+            Your decision about data donation
+          </h2>
+        );
+
+        const IntroText = () => (
+          <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
+            You have just used the chatbot. Please decide whether your anonymized chat questions may be used for academic AI research.
+          </p>
+        );
+
+        const DecisionSection = () => (
+          <div className="mt-8">
+            <p className="text-xl md:text-2xl font-semibold text-black mb-6 leading-relaxed">
+              Do you want to donate your anonymized chat questions for academic research?
+            </p>
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+              <button className="w-full md:flex-1 bg-gray-200 text-black py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                Donate Data
+              </button>
+              <button className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-100 transition">
+                Don't Donate
+              </button>
             </div>
           </div>
         );
+
+        // DNL cards (exact experimental stimuli - DO NOT CHANGE TEXT)
+        const SimplifiedDNL = () => (
+          <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-white">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+              {[
+                { icon: '🇨🇭', title: 'Swiss-Made', value: 'Built by EPFL, ETH Zurich & CSCS in Switzerland' },
+                { icon: '📖', title: 'Training Data', value: 'Only publicly available data from 1,000+ languages & sources' },
+                { icon: '🛡️', title: 'Privacy Protection', value: 'Personal data removed before training; respects opt-outs' }
+              ].map(item => (
+                <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
+                  <div className="text-2xl mb-2">{item.icon}</div>
+                  <div className="text-base font-medium text-black mb-1">{item.title}</div>
+                  <div className="text-sm text-black">{item.value}</div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg mx-auto">
+              {[
+                { icon: '✅', title: 'Legal Compliance', value: 'Follows Swiss privacy & copyright laws, EU AI Act standards' },
+                { icon: '📅', title: 'Multilingual & Current', value: 'Includes Swiss German & Romansh; data through January 2025' }
+              ].map(item => (
+                <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
+                  <div className="text-2xl mb-2">{item.icon}</div>
+                  <div className="text-base font-medium text-black mb-1">{item.title}</div>
+                  <div className="text-sm text-black">{item.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+        // Compact DNL for Condition D (reduces cognitive overload)
+        const CompactDNL = () => {
+          const items = [
+            { icon: '🇨🇭', title: 'Swiss-Made', value: 'Built by EPFL, ETH Zurich & CSCS in Switzerland' },
+            { icon: '📖', title: 'Training Data', value: 'Only publicly available data from 1,000+ languages & sources' },
+            { icon: '🛡️', title: 'Privacy Protection', value: 'Personal data removed before training; respects opt-outs' },
+            { icon: '✅', title: 'Legal Compliance', value: 'Follows Swiss privacy & copyright laws, EU AI Act standards' },
+            { icon: '📅', title: 'Multilingual & Current', value: 'Includes Swiss German & Romansh; data through January 2025' }
+          ];
+          return (
+            <div className="bg-white border-2 border-gray-300 rounded-lg p-3 md:p-4">
+              <div className="space-y-3">
+                {items.map(item => (
+                  <div key={item.title} className="flex items-start gap-2 md:gap-3 pb-3 border-b border-gray-200 last:border-0 last:pb-0">
+                    <div className="text-xl md:text-2xl flex-shrink-0 mt-0.5">{item.icon}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm md:text-base font-semibold text-black mb-1 leading-tight">{item.title}</div>
+                      <div className="text-xs md:text-sm text-black leading-relaxed">{item.value}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        };
+
+        // ========== DASHBOARD: SINGLE-SCREEN PROGRESSIVE ENABLEMENT ==========
+        const SimplifiedDashboard = () => {
+          // State management
+          const [shareChoice, setShareChoice] = React.useState<string | null>(null);
+          const [usageChoice, setUsageChoice] = React.useState<string | null>(null);
+          const [storageChoice, setStorageChoice] = React.useState<string | null>(null);
+          const [retentionChoice, setRetentionChoice] = React.useState<string | null>(null);
+
+          // Derived state
+          const isDonatingFlowActive = shareChoice !== null;
+
+          // Clear retention when share choice is cleared
+          React.useEffect(() => {
+            if (!shareChoice) {
+              setRetentionChoice(null);
+            }
+          }, [shareChoice]);
+
+          // Options
+          const shareOptions = [
+            { key: 'topics-only', label: 'High-level topics only', desc: 'No actual text shared' },
+            { key: 'questions-only', label: 'My questions', desc: 'Text of questions only, no AI responses' },
+            { key: 'full', label: 'Full conversations', desc: 'Both questions and AI responses' }
+          ];
+          const usageOptions = [
+            { key: 'academic', label: 'Academic research only' },
+            { key: 'commercial', label: 'Academic research and commercial use' }
+          ];
+          const storageOptions = [
+            { key: 'swiss', label: 'Swiss servers only' },
+            { key: 'swiss-or-eu', label: 'Swiss or EU servers' },
+            { key: 'no-preference', label: 'No preference' }
+          ];
+          const retentionOptions = [
+            { key: 'until-fulfilled', label: 'Until research purpose is fulfilled' },
+            { key: '6months', label: 'Up to 6 months' },
+            { key: '1year', label: 'Up to 1 year' },
+            { key: 'indefinite', label: 'Indefinitely' }
+          ];
+
+          // Reusable radio option component
+          const RadioOption = ({ selected, label, desc, onClick, disabled, name }: {
+            selected: boolean; label: string; desc?: string; onClick: () => void; disabled?: boolean; name: string;
+          }) => (
+            <label className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer ${
+              disabled
+                ? 'bg-gray-50 border-gray-200 opacity-50 cursor-not-allowed'
+                : selected
+                  ? 'border-gray-900 bg-gray-50'
+                  : 'border-gray-200 bg-white hover:border-gray-400'
+            }`}>
+              <input
+                type="radio"
+                name={name}
+                checked={selected}
+                onChange={onClick}
+                disabled={disabled}
+                className="sr-only"
+                tabIndex={disabled ? -1 : 0}
+              />
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                selected ? 'border-gray-900 bg-gray-900' : disabled ? 'border-gray-300' : 'border-gray-400'
+              }`}>
+                {selected && <div className="w-2 h-2 rounded-full bg-white" />}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={`text-base font-medium ${disabled ? 'text-gray-400' : 'text-gray-900'}`}>{label}</p>
+                {desc && <p className={`text-sm mt-0.5 ${disabled ? 'text-gray-300' : 'text-gray-500'}`}>{desc}</p>}
+              </div>
+            </label>
+          );
+
+          // Panel component
+          const Panel = ({ title, children, disabled }: {
+            title: string; children: React.ReactNode; disabled?: boolean;
+          }) => (
+            <div
+              className={`rounded-lg border-2 transition-all p-4 ${
+                disabled
+                  ? 'border-gray-200 bg-gray-50 opacity-60'
+                  : 'border-gray-200 bg-white'
+              }`}
+              aria-disabled={disabled}
+            >
+              <div className="mb-3">
+                <h3 className="font-semibold text-lg text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md">
+                  {title}
+                </h3>
+              </div>
+              {children}
+            </div>
+          );
+
+          return (
+            <div className="space-y-3">
+              {/* Panel 1: What to share */}
+              <Panel title="What would you like to share?">
+                <div className="space-y-2">
+                  {shareOptions.map(opt => (
+                    <RadioOption
+                      key={opt.key}
+                      name="share-choice"
+                      selected={shareChoice === opt.key}
+                      label={opt.label}
+                      desc={opt.desc}
+                      onClick={() => setShareChoice(shareChoice === opt.key ? null : opt.key)}
+                    />
+                  ))}
+                </div>
+              </Panel>
+
+              {/* Panel 2: How data will be used */}
+              <Panel title="How should your data be used?" disabled={!isDonatingFlowActive}>
+                <div className="space-y-2">
+                  {usageOptions.map(opt => (
+                    <RadioOption
+                      key={opt.key}
+                      name="usage-choice"
+                      selected={usageChoice === opt.key}
+                      label={opt.label}
+                      onClick={() => setUsageChoice(usageChoice === opt.key ? null : opt.key)}
+                      disabled={!isDonatingFlowActive}
+                    />
+                  ))}
+                </div>
+              </Panel>
+
+              {/* Panels 3 & 4: Storage and Retention (side-by-side on desktop) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Panel 3: Where stored */}
+                <Panel title="Where should your data be stored?" disabled={!isDonatingFlowActive}>
+                  <div className="space-y-2">
+                    {storageOptions.map(opt => (
+                      <RadioOption
+                        key={opt.key}
+                        name="storage-choice"
+                        selected={storageChoice === opt.key}
+                        label={opt.label}
+                        onClick={() => setStorageChoice(storageChoice === opt.key ? null : opt.key)}
+                        disabled={!isDonatingFlowActive}
+                      />
+                    ))}
+                  </div>
+                </Panel>
+
+                {/* Panel 4: Retention */}
+                <Panel
+                  title="How long should your data be kept?"
+                  disabled={!isDonatingFlowActive}
+                >
+                  <div className="space-y-2">
+                    {retentionOptions.map(opt => (
+                      <RadioOption
+                        key={opt.key}
+                        name="retention-choice"
+                        selected={retentionChoice === opt.key}
+                        label={opt.label}
+                        onClick={() => setRetentionChoice(retentionChoice === opt.key ? null : opt.key)}
+                        disabled={!isDonatingFlowActive}
+                      />
+                    ))}
+                  </div>
+                </Panel>
+              </div>
+
+              {/* Info text */}
+              <p className="text-base text-gray-500 mt-4 mb-8 flex items-center gap-2">
+                <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                You can change these settings in your dashboard anytime.
+              </p>
+            </div>
+          );
+        };
+
+        return (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-3xl' : 'max-w-2xl'}`}>
+              <Headline />
+              <IntroText />
+
+              {/* Condition A: Baseline - just binary question */}
+              {isConditionA && (
+                <DecisionSection />
+              )}
+
+              {/* Condition B: DNL + binary question */}
+              {isConditionB && (
+                <>
+                  <SimplifiedDNL />
+                  <DecisionSection />
+                </>
+              )}
+
+              {/* Condition C: Dashboard + binary question */}
+              {isConditionC && (
+                <>
+                  <SimplifiedDashboard />
+                  <DecisionSection />
+                </>
+              )}
+
+              {/* Condition D: DNL + Dashboard (stacked layout to reduce cognitive overload) */}
+              {isConditionD && (
+                <>
+                  {/* Section 1: About the Model (compact DNL) */}
+                  <div className="mb-6">
+                    <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                      <span className="text-lg">ℹ️</span>
+                      About the Apertus Model
+                    </h3>
+                    <CompactDNL />
+                  </div>
+
+                  {/* Visual separator */}
+                  <div className="border-t border-gray-200 my-6" />
+
+                  {/* Section 2: Your Preferences (Dashboard) */}
+                  <div className="mb-6">
+                    <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                      <span className="text-lg">⚙️</span>
+                      Configure Your Data Donation
+                    </h3>
+                    <SimplifiedDashboard />
+                  </div>
+
+                  <DecisionSection />
+                </>
+              )}
+            </div>
+          </div>
+        );
+      }
 
       // ========== SURVEY - HYPOTHESIS-DRIVEN PREVIEWS ==========
       case '6': // Q3: Perceived Transparency (MC-T)
@@ -783,23 +1096,18 @@ const SurveyDebugNavigator: React.FC = () => {
                 { key: 'immigration', label: t('survey.attentionCheck.immigration') },
                 { key: 'news', label: t('survey.attentionCheck.news') },
                 { key: 'dontremember', label: t('survey.attentionCheck.dontremember') }
-              ].map((opt, idx) => (
+              ].map((opt) => (
                 <button
                   key={opt.key}
                   type="button"
                   className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
-                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                      'border-gray-300 bg-white'
                     }`}>
-                      {idx === 0 && (
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
                     </div>
                     <span className="text-base font-medium">{opt.label}</span>
                   </div>
@@ -822,11 +1130,18 @@ const SurveyDebugNavigator: React.FC = () => {
                   <p className="text-lg text-gray-600 mb-8">
                     {t('survey.transition.message')}
                   </p>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 max-w-lg mx-auto">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 max-w-lg mx-auto mb-8">
                     <p className="text-sm text-blue-800 leading-relaxed">
                       {t('survey.transition.reminder')}
                     </p>
                   </div>
+                  {/* Next button */}
+                  <button
+                    type="button"
+                    className="bg-gray-200 text-black px-8 py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
+                  >
+                    {t('survey.navigation.next')}
+                  </button>
                 </div>
               </div>
             </div>
@@ -840,23 +1155,18 @@ const SurveyDebugNavigator: React.FC = () => {
               {t('survey.demographics.age.question')}
             </p>
             <div className="space-y-3">
-              {['18-24', '25-34', '35-44', '45-54', '55-64', '65+'].map((age, idx) => (
+              {['18-24', '25-34', '35-44', '45-54', '55-64', '65+'].map((age) => (
                 <button
                   key={age}
                   type="button"
                   className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
-                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                      'border-gray-300 bg-white'
                     }`}>
-                      {idx === 0 && (
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
                     </div>
                     <span className="text-base font-medium">{t(`survey.demographics.age.${age}`)}</span>
                   </div>
@@ -879,23 +1189,18 @@ const SurveyDebugNavigator: React.FC = () => {
                 { key: 'nonBinary', label: t('survey.demographics.gender.nonBinary') },
                 { key: 'other', label: t('survey.demographics.gender.other') },
                 { key: 'preferNotSay', label: t('survey.demographics.preferNotSay') }
-              ].map((opt, idx) => (
+              ].map((opt) => (
                 <button
                   key={opt.key}
                   type="button"
                   className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
-                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                      'border-gray-300 bg-white'
                     }`}>
-                      {idx === 0 && (
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
                     </div>
                     <span className="text-base font-medium">{opt.label}</span>
                   </div>
@@ -919,23 +1224,18 @@ const SurveyDebugNavigator: React.FC = () => {
                 { key: 'english', label: t('survey.demographics.language.english') },
                 { key: 'romansh', label: t('survey.demographics.language.romansh') },
                 { key: 'other', label: t('survey.demographics.language.other') }
-              ].map((opt, idx) => (
+              ].map((opt) => (
                 <button
                   key={opt.key}
                   type="button"
                   className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
-                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                      'border-gray-300 bg-white'
                     }`}>
-                      {idx === 0 && (
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
                     </div>
                     <span className="text-base font-medium">{opt.label}</span>
                   </div>
@@ -960,23 +1260,18 @@ const SurveyDebugNavigator: React.FC = () => {
                 { key: 'appliedSciences', label: t('survey.demographics.education.appliedSciences') },
                 { key: 'university', label: t('survey.demographics.education.university') },
                 { key: 'preferNotSay', label: t('survey.demographics.preferNotSay') }
-              ].map((opt, idx) => (
+              ].map((opt) => (
                 <button
                   key={opt.key}
                   type="button"
                   className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
-                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                      'border-gray-300 bg-white'
                     }`}>
-                      {idx === 0 && (
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
                     </div>
                     <span className="text-base font-medium">{opt.label}</span>
                   </div>
@@ -997,23 +1292,18 @@ const SurveyDebugNavigator: React.FC = () => {
                 { key: 'eligible', label: t('survey.demographics.votingEligibility.eligible') },
                 { key: 'notEligible', label: t('survey.demographics.votingEligibility.notEligible') },
                 { key: 'notSure', label: t('survey.demographics.votingEligibility.notSure') }
-              ].map((opt, idx) => (
+              ].map((opt) => (
                 <button
                   key={opt.key}
                   type="button"
                   className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
-                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
-                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                      'border-gray-300 bg-white'
                     }`}>
-                      {idx === 0 && (
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
                     </div>
                     <span className="text-base font-medium">{opt.label}</span>
                   </div>

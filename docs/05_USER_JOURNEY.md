@@ -293,8 +293,9 @@ All four conditions share the same header structure:
 **1. What data to share**
 - Dropdown (required)
 - Options:
-  - "Only topics I asked about (e.g., 'climate policy')"
-  - "Full anonymized conversations (your exact questions with all identifying info removed)"
+  - "Only high-level topics (no text)"
+  - "All chat questions (text only, no answers)"
+  - "Full anonymized conversations (questions + answers)"
 
 **2. How data will be used**
 - Dropdown (required)
@@ -306,16 +307,15 @@ All four conditions share the same header structure:
 - Dropdown (required)
 - Options:
   - "Swiss servers only"
-  - "EU servers allowed"
+  - "Swiss or EU servers"
   - "No preference"
 
 **4. How long to keep data**
 - Dropdown (required)
 - Options:
-  - "1 month"
-  - "3 months"
-  - "6 months"
-  - "1 year"
+  - "Until research purpose is fulfilled"
+  - "Up to 6 months"
+  - "Up to 1 year"
   - "Indefinitely"
 
 **Revocability Note:**
@@ -333,13 +333,19 @@ If user clicks "Donate Data" without filling all fields:
 "To support your decision, you can review information about the chatbot and adjust how your anonymized data would be used."
 
 **Components Shown:**
-- ✅ Data Nutrition Label (left column)
-- ✅ Granular Dashboard (right column)
+- ✅ Data Nutrition Label (compact list view)
+- ✅ Granular Dashboard
 
-**Layout:** Two-column on desktop (side by side), stacked on mobile
+**Layout:** Stacked vertically to reduce cognitive overload:
+1. **Section 1: "About the Apertus Model"** - Compact DNL (list format instead of badge grid)
+2. Visual separator (horizontal line)
+3. **Section 2: "Configure Your Data Donation"** - Dashboard panels
 
-**Helper Text (below dashboard):**
-"You can leave the default settings or adjust them before deciding."
+**Design Notes:**
+- Uses compact DNL (list view) instead of badge grid to reduce visual complexity
+- Stacked layout instead of side-by-side columns
+- Narrower modal width (max-w-3xl vs max-w-5xl)
+- Clear section headers with icons for visual hierarchy
 
 **Validation:**
 If user clicks "Donate Data" without filling all dashboard fields:
