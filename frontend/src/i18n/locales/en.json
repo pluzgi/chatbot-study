@@ -151,28 +151,33 @@
   "dashboard": {
     "title": "Configure Your Data Donation",
     "placeholder": "Select an option...",
+    "optional": "Optional",
+    "required": "Required",
     "scope": {
-      "label": "What data to share",
-      "topics": "Only topics I asked about (e.g., \"climate policy\")",
-      "full": "Full anonymized conversations (your exact questions with all identifying info removed)"
+      "label": "What would you like to share?",
+      "topicsOnly": "High-level topics only",
+      "topicsOnlyDesc": "No actual text shared",
+      "questionsOnly": "My questions",
+      "questionsOnlyDesc": "Text of questions only, no AI responses",
+      "full": "Full conversations",
+      "fullDesc": "Both questions and AI responses"
     },
     "purpose": {
-      "label": "How data will be used",
+      "label": "How should your data be used?",
       "academic": "Academic research only",
       "commercial": "Academic research and commercial use"
     },
     "storage": {
-      "label": "Where data is stored",
+      "label": "Where should your data be stored?",
       "swiss": "Swiss servers only",
-      "eu": "EU servers allowed",
+      "swissOrEu": "Swiss or EU servers",
       "noPreference": "No preference"
     },
     "retention": {
-      "label": "How long to keep data",
-      "1month": "1 month",
-      "3months": "3 months",
-      "6months": "6 months",
-      "1year": "1 year",
+      "label": "How long should your data be kept?",
+      "untilFulfilled": "Until research purpose is fulfilled",
+      "6months": "Up to 6 months",
+      "1year": "Up to 1 year",
       "indefinite": "Indefinitely"
     },
     "revocability": "You can change these settings in your dashboard anytime.",

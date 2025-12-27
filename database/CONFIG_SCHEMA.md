@@ -82,12 +82,17 @@ For conditions C & D when user donates, `donation_config` contains:
 
 ```json
 {
-  "scope": "full" | "topics",
+  "scope": "topics-only" | "questions-only" | "full",
   "purpose": "academic" | "commercial",
-  "storage": "swiss" | "eu" | "no-preference",
-  "retention": "1month" | "3months" | "6months" | "1year" | "indefinite"
+  "storage": "swiss" | "swiss-or-eu" | "no-preference",
+  "retention": "until-fulfilled" | "6months" | "1year" | "indefinite"
 }
 ```
+
+### Scope Values
+- `topics-only`: Only high-level topics (no text)
+- `questions-only`: All chat questions (text only, no answers)
+- `full`: Full anonymized conversations (questions + answers)
 
 **Config value by condition:**
 - Condition A (Low/Low): `NULL` (no dashboard)

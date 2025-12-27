@@ -18,10 +18,10 @@ export interface Session {
 }
 
 export interface DonationConfig {
-  scope?: 'full' | 'topics';
+  scope?: 'topics-only' | 'questions-only' | 'full';
   purpose?: 'academic' | 'commercial';
-  storage?: 'swiss' | 'eu' | 'no-preference';
-  retention?: '1month' | '3months' | '6months' | '1year' | 'indefinite';
+  storage?: 'swiss' | 'swiss-or-eu' | 'no-preference';
+  retention?: 'until-fulfilled' | '6months' | '1year' | 'indefinite';
 }
 
 /**
