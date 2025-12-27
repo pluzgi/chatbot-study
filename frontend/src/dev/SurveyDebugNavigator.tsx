@@ -67,7 +67,8 @@ interface ScreenConfig {
 
 export const SCREENS: ScreenConfig[] = [
   // ========== ONBOARDING STAGE ==========
-  { id: '1', name: 'Landing Page', stage: 'onboarding', description: 'Welcome page with consent modal (Swiss residents 18+)' },
+  { id: '1', name: 'Landing Page', stage: 'onboarding', description: 'Welcome page with Start/Decline buttons' },
+  { id: '1B', name: 'Consent Modal', stage: 'onboarding', description: 'Eligibility confirmation (18+, Swiss voter)' },
   { id: '2A', name: 'Baseline Q1', stage: 'onboarding', description: 'Tech comfort question' },
   { id: '2B', name: 'Baseline Q2', stage: 'onboarding', description: 'Privacy concern question' },
   { id: '2C', name: 'Baseline Q3', stage: 'onboarding', tag: 'COV', construct: 'Ballot Familiarity', description: 'How familiar are you with Swiss ballot initiatives?' },
@@ -142,7 +143,7 @@ export const SCREENS: ScreenConfig[] = [
     stage: 'survey',
     tag: 'ATTN',
     construct: 'Data Quality',
-    description: 'Dropdown attention check question'
+    description: 'Checkbox-style attention check question'
   },
   {
     id: '11',
@@ -498,22 +499,53 @@ const SurveyDebugNavigator: React.FC = () => {
           </div>
         );
 
+      case '1B': // Consent Modal - exact copy from App.tsx
+        return (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg max-w-md w-full p-6 md:p-8">
+              <h2 className="text-xl md:text-2xl font-bold mb-4 text-black leading-tight">{t('landing.consentModal.title')}</h2>
+              <p className="text-base md:text-lg text-black mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>
+
+              <ul className="list-disc pl-5 space-y-2 text-base text-black mb-6 leading-relaxed">
+                <li>{t('landing.consentModal.age')}</li>
+                <li>{t('landing.consentModal.residence')}</li>
+                <li>{t('landing.consentModal.voluntary')}</li>
+              </ul>
+
+              <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center mb-8">
+                <input
+                  type="checkbox"
+                  checked={false}
+                  onChange={() => {}}
+                  className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-600 flex-shrink-0"
+                />
+                <span className="text-base text-black leading-relaxed">{t('landing.consentModal.confirm_checkbox')}</span>
+              </label>
+
+              <div className="flex flex-col md:flex-row gap-4">
+                <button
+                  disabled={true}
+                  className="w-full md:flex-1 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] transition bg-gray-300 text-gray-500 cursor-not-allowed"
+                >
+                  {t('landing.consentModal.confirm')}
+                </button>
+                <button
+                  className="w-full md:flex-1 bg-gray-300 text-black px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition"
+                >
+                  {t('landing.consentModal.back')}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
       case '2A':
         return (
           <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
             <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
-              <div className="text-center mb-6 md:mb-8">
-                <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black leading-tight">
-                  {t('baseline.title')}
-                </h1>
-                <p className="text-base md:text-lg text-black">{t('baseline.subtitle')}</p>
-              </div>
-              <div className="mb-8 md:mb-12">
-                <p className="text-sm text-gray-400 mb-2">{t('baseline.progress', { current: 1 })}</p>
-                <div className="w-full bg-gray-200 rounded-full h-[3px]">
-                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '33%' }} />
-                </div>
-              </div>
+              <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
+                {t('baseline.aboutYou', 'About you')}
+              </p>
               <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
                 {t('baseline.techComfort.question')}
               </h2>
@@ -525,6 +557,11 @@ const SurveyDebugNavigator: React.FC = () => {
                 rightLabel={t('baseline.techComfort.stronglyAgree')}
                 points={7}
               />
+              <div className="mt-8 md:mt-12 flex justify-end">
+                <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                  {t('survey.navigation.next')}
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -533,18 +570,9 @@ const SurveyDebugNavigator: React.FC = () => {
         return (
           <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
             <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
-              <div className="text-center mb-6 md:mb-8">
-                <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black leading-tight">
-                  {t('baseline.title')}
-                </h1>
-                <p className="text-base md:text-lg text-black">{t('baseline.subtitle')}</p>
-              </div>
-              <div className="mb-8 md:mb-12">
-                <p className="text-sm text-gray-400 mb-2">{t('baseline.progress', { current: 2 })}</p>
-                <div className="w-full bg-gray-200 rounded-full h-[3px]">
-                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '66%' }} />
-                </div>
-              </div>
+              <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
+                {t('baseline.aboutYou', 'About you')}
+              </p>
               <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
                 {t('baseline.privacyConcern.question')}
               </h2>
@@ -556,6 +584,11 @@ const SurveyDebugNavigator: React.FC = () => {
                 rightLabel={t('baseline.privacyConcern.stronglyAgree')}
                 points={7}
               />
+              <div className="mt-8 md:mt-12 flex justify-end">
+                <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                  {t('survey.navigation.next')}
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -564,21 +597,12 @@ const SurveyDebugNavigator: React.FC = () => {
         return (
           <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
             <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
-              <div className="text-center mb-6 md:mb-8">
-                <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black leading-tight">
-                  {t('baseline.title')}
-                </h1>
-                <p className="text-base md:text-lg text-black">{t('baseline.subtitle')}</p>
-              </div>
+              <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
+                {t('baseline.aboutYou', 'About you')}
+              </p>
               <div className="mb-4 flex items-center gap-2">
                 <span className="px-2 py-1 rounded text-xs font-bold bg-orange-50 text-orange-600">COV</span>
                 <span className="text-sm text-gray-500">Ballot Familiarity - Covariate</span>
-              </div>
-              <div className="mb-8 md:mb-12">
-                <p className="text-sm text-gray-400 mb-2">{t('baseline.progress', { current: 3 })}</p>
-                <div className="w-full bg-gray-200 rounded-full h-[3px]">
-                  <div className="bg-[#D1D5DB] h-[3px] rounded-full" style={{ width: '100%' }} />
-                </div>
               </div>
               <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
                 {t('baseline.ballotFamiliarity.question')}
@@ -591,6 +615,11 @@ const SurveyDebugNavigator: React.FC = () => {
                 rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
                 points={7}
               />
+              <div className="mt-8 md:mt-12 flex justify-end">
+                <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                  {t('baseline.continue')}
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -747,14 +776,36 @@ const SurveyDebugNavigator: React.FC = () => {
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.attentionCheck.question')}
             </p>
-            <select className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]">
-              <option>{t('survey.attentionCheck.placeholder')}</option>
-              <option>{t('survey.attentionCheck.voting')}</option>
-              <option>{t('survey.attentionCheck.tax')}</option>
-              <option>{t('survey.attentionCheck.immigration')}</option>
-              <option>{t('survey.attentionCheck.news')}</option>
-              <option>{t('survey.attentionCheck.dontremember')}</option>
-            </select>
+            <div className="space-y-3">
+              {[
+                { key: 'voting', label: t('survey.attentionCheck.voting') },
+                { key: 'tax', label: t('survey.attentionCheck.tax') },
+                { key: 'immigration', label: t('survey.attentionCheck.immigration') },
+                { key: 'news', label: t('survey.attentionCheck.news') },
+                { key: 'dontremember', label: t('survey.attentionCheck.dontremember') }
+              ].map((opt, idx) => (
+                <button
+                  key={opt.key}
+                  type="button"
+                  className={`w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-150 min-h-[52px] ${
+                    idx === 0 ? 'border-green-600 bg-green-50 text-gray-900' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                      idx === 0 ? 'border-green-600 bg-green-600' : 'border-gray-300 bg-white'
+                    }`}>
+                      {idx === 0 && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-base font-medium">{opt.label}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </PreviewWrapper>
         );
 
@@ -1086,26 +1137,27 @@ const SurveyDebugNavigator: React.FC = () => {
 
     return [
       { id: '1', step: 1, name: 'Landing Page', content: 'Study introduction, requirements (18+, Swiss resident), consent' },
-      { id: '2A', step: 2, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
-      { id: '2B', step: 3, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
-      { id: '2C', step: 4, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballot initiatives?"', tag: 'COV' as HypothesisTag },
-      { id: '3', step: 5, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
-      { id: '4', step: 6, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
-      { id: '5', step: 7, name: 'Donation Modal', content: donationContent[condition], highlight: true },
-      { id: '6', step: 8, name: 'Q3: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
-      { id: '7', step: 9, name: 'Q4: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
-      { id: '8', step: 10, name: 'Q5: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
-      { id: '9', step: 11, name: 'Q6: Trust', content: '2 items: organization trust, data security', tag: 'OUT-TRUST' as HypothesisTag },
-      { id: '10', step: 12, name: 'Q7: Attention', content: '"This chatbot helps with questions about:" dropdown', tag: 'ATTN' as HypothesisTag },
-      { id: '11', step: 13, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
-      { id: '12', step: 14, name: 'Q8: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
-      { id: '13', step: 15, name: 'Q9: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
-      { id: '14', step: 16, name: 'Q10: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
-      { id: '15', step: 17, name: 'Q11: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
-      { id: '15B', step: 18, name: 'Q12: Voting Eligibility', content: 'Are you eligible to vote in Switzerland? (Yes/No)', tag: 'DEMO' as HypothesisTag },
-      { id: '16', step: 19, name: 'Q13: Feedback', content: 'Optional: "What was the main reason for your decision?"', tag: 'QUAL' as HypothesisTag },
-      { id: '17', step: 20, name: 'Q14: Email', content: 'Optional: Email for study results notification' },
-      { id: '18', step: 21, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info' },
+      { id: '1B', step: 2, name: 'Consent Modal', content: 'Eligibility confirmation: 18+, Swiss voter, voluntary participation' },
+      { id: '2A', step: 3, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
+      { id: '2B', step: 4, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
+      { id: '2C', step: 5, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballot initiatives?"', tag: 'COV' as HypothesisTag },
+      { id: '3', step: 6, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
+      { id: '4', step: 7, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
+      { id: '5', step: 8, name: 'Donation Modal', content: donationContent[condition], highlight: true },
+      { id: '6', step: 9, name: 'Q3: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
+      { id: '7', step: 10, name: 'Q4: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
+      { id: '8', step: 11, name: 'Q5: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
+      { id: '9', step: 12, name: 'Q6: Trust', content: '2 items: organization trust, data security', tag: 'OUT-TRUST' as HypothesisTag },
+      { id: '10', step: 13, name: 'Q7: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
+      { id: '11', step: 14, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
+      { id: '12', step: 15, name: 'Q8: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
+      { id: '13', step: 16, name: 'Q9: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
+      { id: '14', step: 17, name: 'Q10: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
+      { id: '15', step: 18, name: 'Q11: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
+      { id: '15B', step: 19, name: 'Q12: Voting Eligibility', content: 'Are you eligible to vote in Switzerland? (Yes/No)', tag: 'DEMO' as HypothesisTag },
+      { id: '16', step: 20, name: 'Q13: Feedback', content: 'Optional: "What was the main reason for your decision?"', tag: 'QUAL' as HypothesisTag },
+      { id: '17', step: 21, name: 'Q14: Email', content: 'Optional: Email for study results notification' },
+      { id: '18', step: 22, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info' },
     ];
   };
 

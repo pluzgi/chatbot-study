@@ -47,28 +47,10 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
       <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
-        {/* Title */}
-        <div className="text-center mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-black leading-tight">
-            {t('baseline.title')}
-          </h1>
-          <p className="text-base md:text-lg text-black">
-            {t('baseline.subtitle')}
-          </p>
-        </div>
-
-        {/* Progress */}
-        <div className="mb-8 md:mb-12">
-          <p className="text-sm text-gray-400 mb-2">
-            {t('baseline.progress', { current: currentQuestion })}
-          </p>
-          <div className="w-full bg-gray-200 rounded-full h-[3px]">
-            <div
-              className="bg-[#D1D5DB] h-[3px] rounded-full transition-all"
-              style={{ width: `${(currentQuestion / 3) * 100}%` }}
-            />
-          </div>
-        </div>
+        {/* Small header */}
+        <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
+          {t('baseline.aboutYou', 'About you')}
+        </p>
 
         {/* Question 1: Tech Comfort */}
         {currentQuestion === 1 && (

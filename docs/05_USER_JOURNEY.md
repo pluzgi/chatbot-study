@@ -92,13 +92,10 @@ When participant clicks Continue with checkbox checked:
 
 ## 📍 PHASE 3: Baseline Questions (Q1-Q3)
 
-### Header
-**Title:** "Before We Start"
-**Subtitle:** "Just 3 quick questions about you"
-
-**Progress Indicator:**
-- Shows: "Question 1 of 3" / "Question 2 of 3" / "Question 3 of 3"
-- Progress bar: 3px height, gray (#D1D5DB)
+### Layout
+- **Small header:** "ABOUT YOU" (uppercase, gray, left-aligned)
+- **Card:** Centered, max-width 672px (max-w-2xl), white background, shadow
+- **No progress bar, no question numbers, no "Before We Start" title**
 
 ---
 
@@ -112,16 +109,8 @@ When participant clicks Continue with checkbox checked:
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
 
-**Answer Options:**
-1. Strongly disagree
-2. Disagree
-3. Somewhat disagree
-4. Neither agree nor disagree
-5. Somewhat agree
-6. Agree
-7. Strongly agree
+**Display:** Standard square Likert buttons (same as rest of survey)
 
-**Display:** Interactive boxes (clickable)
 **Validation:** Required
 
 ---
@@ -136,16 +125,8 @@ When participant clicks Continue with checkbox checked:
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
 
-**Answer Options:**
-1. Strongly disagree
-2. Disagree
-3. Somewhat disagree
-4. Neither agree nor disagree
-5. Somewhat agree
-6. Agree
-7. Strongly agree
+**Display:** Standard square Likert buttons (same as Q1)
 
-**Display:** Interactive boxes (clickable)
 **Validation:** Required
 
 ---
@@ -160,20 +141,12 @@ When participant clicks Continue with checkbox checked:
 - Left: "Not at all familiar"
 - Right: "Very familiar"
 
-**Answer Options:**
-1. Not at all familiar
-2.
-3.
-4.
-5.
-6.
-7. Very familiar
+**Display:** Standard square Likert buttons (same as Q1-Q2)
 
-**Display:** Interactive boxes (clickable)
 **Validation:** Required
 
 **Button:**
-[Continue →] (enabled after all three questions answered, proceeds to Chatbot Instruction Page)
+[Next] / [Continue] (right-aligned, gray, hover green)
 
 ---
 
@@ -582,9 +555,9 @@ Shown after donation decision (donate OR decline)
 **Question:**
 "This chatbot helps people with questions about:"
 
-**Question Type:** Single-select dropdown
+**Question Type:** Checkbox-style selection (single select enforced)
 
-**Dropdown Placeholder:** "Select topic..."
+**Display:** All options visible as selectable buttons with checkbox indicators
 
 **Options:**
 1. Swiss votes and ballot initiatives ✓ (CORRECT)
@@ -594,7 +567,7 @@ Shown after donation decision (donate OR decline)
 5. I don't remember
 
 **Field:** `attentionCheck`
-**Validation:** Required (must select an option)
+**Validation:** Required (one selection)
 
 ---
 
@@ -840,27 +813,24 @@ Shown after survey submission
 - **Core Likert Items:** 8 items across 4 constructs
 
 ### Scale Types Used
-1. **7-point Likert (Agreement):**
-   - Used in: Q1, Q2, Q3 (baseline), Q3 (2 items), Q4 (2 items), Q5 (2 items), Q6 (2 items)
-   - Endpoints: Strongly disagree (1) → Strongly agree (7)
-   - Exception: Baseline Q3 uses "Not at all familiar" → "Very familiar"
+1. **7-point Likert:**
+   - Used in: Q1, Q2, Q3 (baseline), Q3-Q6 (post-task survey)
+   - Baseline endpoints: "Strongly disagree" → "Strongly agree" (Q1-Q2), "Not at all familiar" → "Very familiar" (Q3)
+   - Post-task endpoints: Strongly disagree (1) → Strongly agree (7)
+   - Standard square buttons, consistent visual treatment
 
-2. **Single Select (Dropdown):**
-   - Used in: Q7 (attention check only)
-   - Validation: Selection required
-
-3. **Checkbox-Style Selection (Single Select Enforced):**
-   - Used in: Q8-Q12 (all demographics)
+2. **Checkbox-Style Selection (Single Select Enforced):**
+   - Used in: Q7 (attention check), Q8-Q12 (all demographics)
    - All options visible as selectable buttons with checkbox indicators
    - No hidden menus or dropdowns
-   - Consistent visual treatment across all demographic questions
+   - Consistent visual treatment across all questions
    - Validation: One selection required per question
 
-4. **Free Text:**
+3. **Free Text:**
    - Used in: Q9 (gender other), Q13 (open feedback)
    - Validation: Optional
 
-5. **Email Input:**
+4. **Email Input:**
    - Used in: Q14
    - Validation: Optional, but must be valid format if provided
 

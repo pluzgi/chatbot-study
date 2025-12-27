@@ -394,33 +394,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
-  // Dropdown question - only used for attention check (not demographics)
-  const DropdownQuestion = ({ questionNum, field, label, options }: {
-    questionNum: number;
-    field: keyof SurveyData;
-    label: string;
-    options: { value: string; label: string }[];
-  }) => (
-    <div>
-      <QuestionLabel questionNum={questionNum} />
-      <div>
-        <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{label}</p>
-        <select
-          value={answers[field] as string || ''}
-          onChange={(e) => updateAnswer(field, e.target.value)}
-          className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white min-h-[52px]"
-        >
-          {options.map(opt => (
-            <option key={opt.value} value={opt.value} disabled={opt.value === ''}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-  );
-
-  // Checkbox-style selection for demographics (single select enforced in logic)
+  // Checkbox-style selection for demographics and attention check (single select enforced in logic)
   const CheckboxQuestion = ({ questionNum, field, label, options, showOtherInput }: {
     questionNum: number;
     field: keyof SurveyData;
@@ -509,12 +483,11 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'trust-section':
         return <TrustSection questionNum={questionNum} />;
       case 'attentionCheck':
-        return <DropdownQuestion
+        return <CheckboxQuestion
           questionNum={questionNum}
           field="attentionCheck"
           label={t('survey.attentionCheck.question')}
           options={[
-            { value: '', label: t('survey.attentionCheck.placeholder') },
             { value: 'voting', label: t('survey.attentionCheck.voting') },
             { value: 'tax', label: t('survey.attentionCheck.tax') },
             { value: 'immigration', label: t('survey.attentionCheck.immigration') },

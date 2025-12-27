@@ -38,6 +38,13 @@
     "title": "Before We Start",
     "subtitle": "Just 3 quick questions about you",
     "progress": "Question {{current}} of 3",
+    "aboutYou": "About you",
+    "scale": {
+      "disagree": "Disagree",
+      "agree": "Agree",
+      "notFamiliar": "Not familiar",
+      "veryFamiliar": "Very familiar"
+    },
     "techComfort": {
       "question": "I am comfortable using new digital technology (like AI chatbots, new apps, or online tools).",
       "stronglyDisagree": "Strongly disagree",
