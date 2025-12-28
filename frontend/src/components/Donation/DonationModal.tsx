@@ -49,7 +49,7 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
   const isConditionD = config.showDNL && config.showDashboard;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-white flex items-center justify-center p-4 z-50">
       <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-3xl' : 'max-w-2xl'}`}>
         {showConfirmation ? (
           /* Confirmation Screen */
@@ -141,11 +141,11 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
 
                 {/* Section 1: About the Model (compact DNL) */}
                 <div className="mb-6">
-                  <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <span className="text-lg">ℹ️</span>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                    <span className="text-xl">ℹ️</span>
                     {t('dnl.title')}
                   </h3>
-                  <DataNutritionLabel compact />
+                  <DataNutritionLabel />
                 </div>
 
                 {/* Visual separator */}
@@ -153,8 +153,8 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
 
                 {/* Section 2: Your Preferences (Dashboard) */}
                 <div>
-                  <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <span className="text-lg">⚙️</span>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                    <span className="text-xl">⚙️</span>
                     {t('dashboard.title')}
                   </h3>
                   <GranularDashboard onChange={setDashboardConfig} />
