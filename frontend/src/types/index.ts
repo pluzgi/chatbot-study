@@ -72,9 +72,9 @@ export interface SurveyData {
   trust2: number | null;  // "I believe my anonymized data would be handled securely."
 
   // ============================================
-  // Q7: Attention Check
+  // Q7: Chatbot Question
   // ============================================
-  attentionCheck: string | null;  // voting/tax/immigration/news/dontremember
+  attentionCheck: string | null;  // voting/tax/immigration/dontremember
 
   // ============================================
   // Q8-Q12: Demographics

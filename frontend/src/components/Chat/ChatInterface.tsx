@@ -9,11 +9,16 @@ interface Props {
   onMinimumReached: () => void;
 }
 
+const MAX_QUESTIONS = 3;
+const MIN_QUESTIONS = 2;
+
 const ChatInterface: React.FC<Props> = ({ participantId, onMinimumReached }) => {
   const { t } = useTranslation();
   const { messages, loading, sendMessage } = useChat(participantId);
   const [count, setCount] = useState(0);
   const [canContinue, setCanContinue] = useState(false);
+  const [maxReached, setMaxReached] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -28,13 +33,20 @@ const ChatInterface: React.FC<Props> = ({ participantId, onMinimumReached }) => 
     await sendMessage(content);
     const newCount = count + 1;
     setCount(newCount);
-    if (newCount >= 2) {
-      // Show continue button after response is received
+    if (newCount >= MIN_QUESTIONS) {
       setCanContinue(true);
+      setShowValidation(false);
+    }
+    if (newCount >= MAX_QUESTIONS) {
+      setMaxReached(true);
     }
   };
 
   const handleContinue = () => {
+    if (count < MIN_QUESTIONS) {
+      setShowValidation(true);
+      return;
+    }
     onMinimumReached();
   };
 
@@ -59,11 +71,26 @@ const ChatInterface: React.FC<Props> = ({ participantId, onMinimumReached }) => 
         <div ref={messagesEndRef} />
       </div>
 
-      <InputField onSend={handleSend} disabled={loading} />
+      <InputField onSend={handleSend} disabled={loading || maxReached} />
 
-      {count < 2 && (
+      {/* Progress indicator (before max reached) */}
+      {!maxReached && count < MIN_QUESTIONS && (
         <div className="p-2 text-center text-sm text-gray-500 bg-yellow-50 border-t border-yellow-200">
           {t('chat.minQuestions', { count })}
+        </div>
+      )}
+
+      {/* Max questions reached message */}
+      {maxReached && (
+        <div className="p-2 text-center text-sm text-green-700 bg-green-50 border-t border-green-200">
+          {t('chat.maxReached')}
+        </div>
+      )}
+
+      {/* Validation error */}
+      {showValidation && (
+        <div className="p-2 text-center text-sm text-red-700 bg-red-50 border-t border-red-200">
+          {t('chat.validationError')}
         </div>
       )}
 

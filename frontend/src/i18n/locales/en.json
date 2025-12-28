@@ -83,7 +83,7 @@
     "text1": "In this first step, you will interact with a chatbot designed to provide information about Swiss ballot initiatives.",
     "text2": "The chatbot is based on a Swiss open-source AI language model. Such models are trained to understand questions and generate text-based answers, similar to other chat-based tools you may already know.",
     "text3": "The AI model used for the chatbot, Apertus, is a Swiss open-source large language model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre.",
-    "task": "Please ask at least 2 questions about Swiss ballot initiatives.",
+    "task": "Please ask 2–3 questions about Swiss ballot initiatives.",
     "taskSubtitle": "This helps you get a sense of how the system works before continuing with the study.",
     "examplesLabel": "Example questions",
 
@@ -94,16 +94,18 @@
   },
   "chat": {
     "title": "Swiss Ballot Chatbot",
-    "subtitle": "Powered by Apertus - Swiss AI",
+    "subtitle": "Ask 2–3 questions about Swiss ballot initiatives",
     "placeholder": "Ask a question...",
     "send": "Send",
     "thinking": "Thinking...",
-    "minQuestions": "Please ask at least 2 questions ({{count}}/2)",
-    "continueButton": "Continue to Next Step →"
+    "minQuestions": "Please ask 2–3 questions ({{count}}/3)",
+    "maxReached": "Thanks — you can now continue to the survey.",
+    "continueButton": "Continue to Next Step →",
+    "validationError": "Please ask at least 2 questions to continue."
   },
   "donation": {
     "eyebrow": "Step 2 of 3 — Data Donation Decision",
-    "headline": "Your decision about data donation",
+    "headline": "Step 2 of 3 — Your decision about data donation",
     "transition": "You have just used the chatbot. Now we ask you to decide whether your anonymized chat questions may be used for academic AI research.",
     "conditionA": {
       "text": "Your anonymized chat questions would be used to improve a Swiss open-source AI model for academic research. Data would be handled securely and not used for commercial purposes."
@@ -191,7 +193,7 @@
       "Q6_trust": "OUT-TRUST: Supporting construct for interpretation",
       "Q12_openFeedback": "QUAL: Qualitative insight into decision reasoning"
     },
-    "stepHeadline": "Step 3 of 3 — Share Your Perspective",
+    "stepHeadline": "Step 3 of 3 — About Your Donation Decision",
     "title": "Final Questions",
     "subtitle": "Please answer the following questions about your experience",
     "progress": {
@@ -245,14 +247,12 @@
       "q1": "I trust the organization behind this study to handle my data responsibly.",
       "q2": "I believe my anonymized data would be handled securely."
     },
-    "attentionCheck": {
-      "_tag": "QUALITY",
+    "chatbotQuestion": {
+      "header": "A question about the chatbot",
       "question": "This chatbot helps people with questions about:",
-      "placeholder": "Select topic...",
-      "voting": "Swiss votes and ballot initiatives",
+      "voting": "Swiss ballot initiatives",
       "tax": "Swiss tax questions",
       "immigration": "Swiss immigration rules",
-      "news": "General political news",
       "dontremember": "I don't remember"
     },
     "demographics": {

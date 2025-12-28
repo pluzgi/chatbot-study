@@ -87,14 +87,10 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
           <>
             {/* ===== SHARED HEADER (all conditions) ===== */}
 
-            {/* Eyebrow */}
-            <p className="text-sm text-gray-500 uppercase tracking-wide font-medium mb-2">
-              {t('donation.eyebrow')}
-            </p>
-
             {/* Main Headline */}
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">
-              {t('donation.headline')}
+              <span className="text-gray-500 font-normal">Step 2 of 3 — </span>
+              {t('donation.headline').replace('Step 2 of 3 — ', '')}
             </h2>
 
             {/* Transition Sentence */}

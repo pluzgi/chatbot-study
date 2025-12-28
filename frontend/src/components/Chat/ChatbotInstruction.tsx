@@ -28,7 +28,8 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
 
         {/* Step 1 - Subheadline */}
         <h2 className="text-lg md:text-xl font-bold mb-3 md:mb-4 text-black text-left leading-tight">
-          {t('instruction.headline')}
+          <span className="text-gray-500 font-normal">Step 1 of 3 — </span>
+          {t('instruction.headline').replace('Step 1 of 3 — ', '')}
         </h2>
 
         {/* Main Text */}

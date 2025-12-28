@@ -265,13 +265,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   // REUSABLE COMPONENTS
   // ============================================
 
-  const QuestionLabel = ({ questionNum }: { questionNum: number }) => (
-    <div className="mb-6">
-      <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
-        {t('survey.progress.question')} {questionNum}
-      </span>
-    </div>
-  );
+  // QuestionLabel removed - no visible question numbering per design requirements
 
   const LikertItem = ({ label, field, leftLabel, rightLabel }: {
     label: string;
@@ -297,7 +291,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
   const QuestionBlock = ({ intro, children }: { intro: string; children: React.ReactNode }) => (
     <div>
-      <p className="text-base text-gray-500 mb-6 leading-relaxed">
+      <p className="text-base text-gray-900 mb-6 leading-relaxed">
         {intro}
       </p>
       <div>
@@ -311,9 +305,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   // ============================================
 
   // Q3: Perceived Transparency (MC-T) - H1 manipulation check
-  const TransparencySection = ({ questionNum }: { questionNum: number }) => (
+  const TransparencySection = () => (
     <div>
-      <QuestionLabel questionNum={questionNum} />
       <QuestionBlock intro={t('survey.transparency.intro')}>
         <LikertItem
           label={t('survey.transparency.q1')}
@@ -332,9 +325,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   );
 
   // Q4: Perceived User Control (MC-C) - H2 manipulation check
-  const ControlSection = ({ questionNum }: { questionNum: number }) => (
+  const ControlSection = () => (
     <div>
-      <QuestionLabel questionNum={questionNum} />
       <QuestionBlock intro={t('survey.control.intro')}>
         <LikertItem
           label={t('survey.control.q1')}
@@ -353,9 +345,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   );
 
   // Q5: Risk Perception (OUT-RISK) - H3 interaction mechanism
-  const RiskSection = ({ questionNum }: { questionNum: number }) => (
+  const RiskSection = () => (
     <div>
-      <QuestionLabel questionNum={questionNum} />
       <QuestionBlock intro={t('survey.risk.intro')}>
         <LikertItem
           label={t('survey.risk.traceability')}
@@ -374,9 +365,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   );
 
   // Q6: Trust (OUT-TRUST) - Supporting construct
-  const TrustSection = ({ questionNum }: { questionNum: number }) => (
+  const TrustSection = () => (
     <div>
-      <QuestionLabel questionNum={questionNum} />
       <QuestionBlock intro={t('survey.trust.intro')}>
         <LikertItem
           label={t('survey.trust.q1')}
@@ -394,17 +384,16 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
-  // Checkbox-style selection for demographics and attention check (single select enforced in logic)
-  const CheckboxQuestion = ({ questionNum, field, label, options, showOtherInput }: {
-    questionNum: number;
+  // Radio-style selection (single select with radio indicator)
+  const RadioQuestion = ({ field, header, label, options, showOtherInput }: {
     field: keyof SurveyData;
+    header?: string;
     label: string;
     options: { value: string; label: string }[];
     showOtherInput?: boolean;
   }) => (
     <div>
-      <QuestionLabel questionNum={questionNum} />
-      <div>
+        {header && <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">{header}</h2>}
         <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{label}</p>
         <div className="space-y-3">
           {options.map(opt => (
@@ -419,15 +408,13 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                   answers[field] === opt.value
-                    ? 'border-green-600 bg-green-600'
-                    : 'border-gray-300 bg-white'
+                    ? 'border-green-600'
+                    : 'border-gray-300'
                 }`}>
                   {answers[field] === opt.value && (
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-600" />
                   )}
                 </div>
                 <span className="text-base font-medium">{opt.label}</span>
@@ -448,7 +435,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             />
           </div>
         )}
-      </div>
     </div>
   );
 
@@ -471,35 +457,33 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     const currentPageData = pageStructure[currentPage - 1];
     if (!currentPageData) return null;
 
-    const { type, questionNum } = currentPageData;
+    const { type } = currentPageData;
 
     switch (type) {
       case 'transparency-section':
-        return <TransparencySection questionNum={questionNum} />;
+        return <TransparencySection />;
       case 'control-section':
-        return <ControlSection questionNum={questionNum} />;
+        return <ControlSection />;
       case 'risk-section':
-        return <RiskSection questionNum={questionNum} />;
+        return <RiskSection />;
       case 'trust-section':
-        return <TrustSection questionNum={questionNum} />;
+        return <TrustSection />;
       case 'attentionCheck':
-        return <CheckboxQuestion
-          questionNum={questionNum}
+        return <RadioQuestion
           field="attentionCheck"
-          label={t('survey.attentionCheck.question')}
+          header={t('survey.chatbotQuestion.header')}
+          label={t('survey.chatbotQuestion.question')}
           options={[
-            { value: 'voting', label: t('survey.attentionCheck.voting') },
-            { value: 'tax', label: t('survey.attentionCheck.tax') },
-            { value: 'immigration', label: t('survey.attentionCheck.immigration') },
-            { value: 'news', label: t('survey.attentionCheck.news') },
-            { value: 'dontremember', label: t('survey.attentionCheck.dontremember') }
+            { value: 'voting', label: t('survey.chatbotQuestion.voting') },
+            { value: 'tax', label: t('survey.chatbotQuestion.tax') },
+            { value: 'immigration', label: t('survey.chatbotQuestion.immigration') },
+            { value: 'dontremember', label: t('survey.chatbotQuestion.dontremember') }
           ]}
         />;
       case 'transition':
         return <TransitionPage />;
       case 'age':
-        return <CheckboxQuestion
-          questionNum={questionNum}
+        return <RadioQuestion
           field="age"
           label={t('survey.demographics.age.question')}
           options={[
@@ -512,8 +496,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           ]}
         />;
       case 'gender':
-        return <CheckboxQuestion
-          questionNum={questionNum}
+        return <RadioQuestion
           field="gender"
           label={t('survey.demographics.gender.question')}
           options={[
@@ -526,8 +509,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           showOtherInput={true}
         />;
       case 'primaryLanguage':
-        return <CheckboxQuestion
-          questionNum={questionNum}
+        return <RadioQuestion
           field="primaryLanguage"
           label={t('survey.demographics.language.question')}
           options={[
@@ -540,8 +522,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           ]}
         />;
       case 'education':
-        return <CheckboxQuestion
-          questionNum={questionNum}
+        return <RadioQuestion
           field="education"
           label={t('survey.demographics.education.question')}
           options={[
@@ -555,8 +536,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           ]}
         />;
       case 'eligibleToVoteCh':
-        return <CheckboxQuestion
-          questionNum={questionNum}
+        return <RadioQuestion
           field="eligibleToVoteCh"
           label={t('survey.demographics.votingEligibility.question')}
           options={[
@@ -568,56 +548,42 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'openFeedback':
         return (
           <div>
-            <div className="mb-6">
-              <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
-                {t('survey.progress.question')} {questionNum}
-              </span>
-            </div>
-            <div>
-              <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-                {t('survey.openFeedback.question')}
-              </p>
-              <p className="text-base text-gray-500 mb-6">
-                {t('survey.openFeedback.note')}
-              </p>
-              <textarea
-                value={answers.openFeedback || ''}
-                onChange={(e) => updateAnswer('openFeedback', e.target.value)}
-                rows={5}
-                maxLength={500}
-                className="w-full p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white resize-none"
-                placeholder={t('survey.openFeedback.placeholder')}
-              />
-              <p className="text-sm text-gray-400 mt-2 text-right">
-                {(answers.openFeedback || '').length}/500
-              </p>
-            </div>
+            <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
+              {t('survey.openFeedback.question')}
+            </p>
+            <p className="text-base text-gray-500 mb-6">
+              {t('survey.openFeedback.note')}
+            </p>
+            <textarea
+              value={answers.openFeedback || ''}
+              onChange={(e) => updateAnswer('openFeedback', e.target.value)}
+              rows={5}
+              maxLength={500}
+              className="w-full p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white resize-none"
+              placeholder={t('survey.openFeedback.placeholder')}
+            />
+            <p className="text-sm text-gray-400 mt-2 text-right">
+              {(answers.openFeedback || '').length}/500
+            </p>
           </div>
         );
       case 'notifyEmail':
         return (
           <div>
-            <div className="mb-6">
-              <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
-                {t('survey.progress.question')} {questionNum}
-              </span>
-            </div>
-            <div>
-              <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-                {t('survey.notifyEmail.question')}
-              </p>
-              <p className="text-base text-gray-500 mb-6">
-                {t('survey.notifyEmail.note')}
-              </p>
-              <input
-                type="email"
-                value={answers.notifyEmail || ''}
-                onChange={(e) => updateAnswer('notifyEmail', e.target.value)}
-                maxLength={255}
-                className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white min-h-[52px]"
-                placeholder={t('survey.notifyEmail.placeholder')}
-              />
-            </div>
+            <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
+              {t('survey.notifyEmail.question')}
+            </p>
+            <p className="text-base text-gray-500 mb-6">
+              {t('survey.notifyEmail.note')}
+            </p>
+            <input
+              type="email"
+              value={answers.notifyEmail || ''}
+              onChange={(e) => updateAnswer('notifyEmail', e.target.value)}
+              maxLength={255}
+              className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white min-h-[52px]"
+              placeholder={t('survey.notifyEmail.placeholder')}
+            />
           </div>
         );
       default:
@@ -637,7 +603,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         {(currentPage === 1 || isLikertPage) && (
           <div className="mb-6 text-left">
             <h1 className="text-xl md:text-2xl font-bold text-gray-900">
-              {t('survey.stepHeadline')}
+              <span className="text-gray-500 font-normal">Step 3 of 3 — </span>
+              {t('survey.stepHeadline').replace('Step 3 of 3 — ', '')}
             </h1>
           </div>
         )}
