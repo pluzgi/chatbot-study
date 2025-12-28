@@ -68,8 +68,7 @@ export interface SurveyData {
   // Q6: Trust (OUT-TRUST) - Supporting construct for interpretation
   // Scale: 1-7 (Strongly disagree → Strongly agree)
   // ============================================
-  trust1: number | null;  // "I trust the organization behind this study to handle my data responsibly."
-  trust2: number | null;  // "I believe my anonymized data would be handled securely."
+  trust1: number | null;  // "I trust the system behind this chatbot to handle anonymized questions responsibly."
 
   // ============================================
   // Q7: Chatbot Question

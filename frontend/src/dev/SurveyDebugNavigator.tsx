@@ -861,7 +861,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 6: Q3 TRANSPARENCY (MC-T) ========== */}
         <ScreenDivider id="6" name="Q3: Transparency" tag="MC-T" />
-        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="MC-T" construct="Perceived Transparency">
+        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-T" construct="Perceived Transparency">
           <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.transparency.intro')}</p>
           <LikertItemPreview label={t('survey.transparency.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.transparency.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -872,7 +872,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 7: Q4 CONTROL (MC-C) ========== */}
         <ScreenDivider id="7" name="Q4: Control" tag="MC-C" />
-        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="MC-C" construct="Perceived User Control">
+        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-C" construct="Perceived User Control">
           <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.control.intro')}</p>
           <LikertItemPreview label={t('survey.control.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.control.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -883,7 +883,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 8: Q5 RISK (OUT-RISK) ========== */}
         <ScreenDivider id="8" name="Q5: Risk" tag="OUT-RISK" />
-        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="OUT-RISK" construct="Risk Perception">
+        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-RISK" construct="Risk Perception">
           <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.risk.intro')}</p>
           <LikertItemPreview label={t('survey.risk.traceability')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.risk.misuse')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -894,10 +894,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 9: Q6 TRUST (OUT-TRUST) ========== */}
         <ScreenDivider id="9" name="Q6: Trust" tag="OUT-TRUST" />
-        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="OUT-TRUST" construct="Trust">
-          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.trust.intro')}</p>
+        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-TRUST" construct="Trust">
           <LikertItemPreview label={t('survey.trust.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
-          <LikertItemPreview label={t('survey.trust.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
             <strong>Note:</strong> Exploratory - not required for H1-H3 testing
           </div>
@@ -1051,18 +1049,32 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 16: Q13 OPEN FEEDBACK ========== */}
         <ScreenDivider id="16" name="Q13: Open Feedback" tag="QUAL" />
-        <JourneyCard title={t('survey.openFeedback.question')} tag="QUAL" construct="Qualitative Insight">
-          <p className="text-base text-gray-500 mb-6">{t('survey.openFeedback.note')}</p>
-          <textarea rows={5} className="w-full p-4 text-base border border-gray-300 rounded-md bg-white resize-none" placeholder={t('survey.openFeedback.placeholder')} disabled />
-          <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
-        </JourneyCard>
+        <div className="bg-gray-50 py-4 rounded-lg border border-gray-200">
+          <div className="max-w-2xl mx-auto px-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 border-l-4 border-l-yellow-400">
+              <div className="mb-4 flex items-center gap-2">
+                <span className="px-2 py-1 rounded text-xs font-bold bg-yellow-100 text-yellow-800">QUAL</span>
+                <span className="text-sm text-gray-500">Qualitative Insight</span>
+              </div>
+              <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">{t('survey.openFeedback.question')}</p>
+              <p className="text-base text-gray-500 mb-4">{t('survey.openFeedback.note')}</p>
+              <textarea rows={5} className="w-full p-4 text-base border border-gray-300 rounded-md bg-white resize-none" placeholder={t('survey.openFeedback.placeholder')} disabled />
+              <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
+            </div>
+          </div>
+        </div>
 
         {/* ========== 17: Q14 EMAIL ========== */}
         <ScreenDivider id="17" name="Q14: Email" />
-        <JourneyCard title={t('survey.notifyEmail.question')}>
-          <p className="text-base text-gray-500 mb-6">{t('survey.notifyEmail.note')}</p>
-          <input type="email" className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]" placeholder={t('survey.notifyEmail.placeholder')} disabled />
-        </JourneyCard>
+        <div className="bg-gray-50 py-4 rounded-lg border border-gray-200">
+          <div className="max-w-2xl mx-auto px-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">{t('survey.notifyEmail.question')}</p>
+              <p className="text-base text-gray-500 mb-4">{t('survey.notifyEmail.note')}</p>
+              <input type="email" className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]" placeholder={t('survey.notifyEmail.placeholder')} disabled />
+            </div>
+          </div>
+        </div>
 
         {/* ========== 18: DEBRIEFING ========== */}
         <ScreenDivider id="18" name="Debriefing" />
@@ -1796,7 +1808,7 @@ const SurveyDebugNavigator: React.FC = () => {
       case '6': // Q3: Perceived Transparency (MC-T)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — About Your Donation Decision"
+            title="Step 3 of 3 — Your View on Data Use"
             tag="MC-T"
             construct="Perceived Transparency"
           >
@@ -1824,7 +1836,7 @@ const SurveyDebugNavigator: React.FC = () => {
       case '7': // Q4: Perceived User Control (MC-C)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — About Your Donation Decision"
+            title="Step 3 of 3 — Your View on Data Use"
             tag="MC-C"
             construct="Perceived User Control"
           >
@@ -1852,7 +1864,7 @@ const SurveyDebugNavigator: React.FC = () => {
       case '8': // Q5: Risk Perception (OUT-RISK)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — About Your Donation Decision"
+            title="Step 3 of 3 — Your View on Data Use"
             tag="OUT-RISK"
             construct="Risk Perception"
           >
@@ -1880,20 +1892,12 @@ const SurveyDebugNavigator: React.FC = () => {
       case '9': // Q6: Trust (OUT-TRUST)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — About Your Donation Decision"
+            title="Step 3 of 3 — Your View on Data Use"
             tag="OUT-TRUST"
             construct="Trust"
           >
-            <p className="text-base text-gray-900 mb-6 leading-relaxed">
-              {t('survey.trust.intro')}
-            </p>
             <LikertItemPreview
               label={t('survey.trust.q1')}
-              leftLabel={t('survey.likert.disagree')}
-              rightLabel={t('survey.likert.agree')}
-            />
-            <LikertItemPreview
-              label={t('survey.trust.q2')}
               leftLabel={t('survey.likert.disagree')}
               rightLabel={t('survey.likert.agree')}
             />
@@ -2136,31 +2140,41 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '16': // Q13: Open Feedback
         return (
-          <PreviewWrapper title={t('survey.openFeedback.question')} tag="QUAL" construct="Qualitative Insight">
-            <p className="text-base text-gray-500 mb-6">
-              {t('survey.openFeedback.note')}
-            </p>
-            <textarea
-              rows={5}
-              className="w-full p-4 text-base border border-gray-300 rounded-md bg-white resize-none"
-              placeholder={t('survey.openFeedback.placeholder')}
-            />
-            <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
-          </PreviewWrapper>
+          <div className="min-h-screen bg-gray-50 py-6 md:py-10">
+            <div className="max-w-2xl mx-auto px-4">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-10 border-l-4 border-l-yellow-400">
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="px-2 py-1 rounded text-xs font-bold bg-yellow-100 text-yellow-800">QUAL</span>
+                  <span className="text-sm text-gray-500">Qualitative Insight</span>
+                </div>
+                <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">{t('survey.openFeedback.question')}</p>
+                <p className="text-base text-gray-500 mb-4">{t('survey.openFeedback.note')}</p>
+                <textarea
+                  rows={5}
+                  className="w-full p-4 text-base border border-gray-300 rounded-md bg-white resize-none"
+                  placeholder={t('survey.openFeedback.placeholder')}
+                />
+                <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
+              </div>
+            </div>
+          </div>
         );
 
       case '17': // Q14: Email
         return (
-          <PreviewWrapper title={t('survey.notifyEmail.question')}>
-            <p className="text-base text-gray-500 mb-6">
-              {t('survey.notifyEmail.note')}
-            </p>
-            <input
-              type="email"
-              className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]"
-              placeholder={t('survey.notifyEmail.placeholder')}
-            />
-          </PreviewWrapper>
+          <div className="min-h-screen bg-gray-50 py-6 md:py-10">
+            <div className="max-w-2xl mx-auto px-4">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-10">
+                <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">{t('survey.notifyEmail.question')}</p>
+                <p className="text-base text-gray-500 mb-4">{t('survey.notifyEmail.note')}</p>
+                <input
+                  type="email"
+                  className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]"
+                  placeholder={t('survey.notifyEmail.placeholder')}
+                />
+              </div>
+            </div>
+          </div>
         );
 
       // ========== DEBRIEF ==========

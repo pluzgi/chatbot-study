@@ -3,7 +3,7 @@
 ## Overview
 This document describes the complete participant experience from landing page to debrief, including all text, questions, answer options, and scale types.
 
-**Total Phases:** 9
+**Total Phases:** 10
 1. Landing Page
 2. Consent Modal
 3. Baseline Questions (Q1-Q3)
@@ -11,8 +11,9 @@ This document describes the complete participant experience from landing page to
 5. Chat Interface
 6. Donation Decision Screen (varies by condition A/B/C/D)
 7. Confirmation Screen
-8. Post-Task Survey (Q4-Q15) — Hypothesis-Driven
-9. Debrief Screen
+8. Post-Task Survey (Q4-Q14) — Hypothesis-Driven
+9. Email Notification (Q15) — Optional
+10. Debrief Screen
 
 ---
 
@@ -213,7 +214,7 @@ When participant clicks Continue with checkbox checked:
 
 ### User Experience
 - Participant types questions about Swiss ballot initiatives
-- AI responds with voting information
+- AI responds with ballot information
 - After 2nd question receives a response → "Continue to Next Step →" button appears
 - User can read the answer before clicking continue → Donation modal appears
 
@@ -415,7 +416,7 @@ Shown after donation decision (donate OR decline)
 ## 📍 PHASE 8: Post-Task Survey (Q4-Q14) — Hypothesis-Driven
 
 **Headline (shown on first page only):**
-"Step 3 of 3 — About Your Donation Decision"
+"Step 3 of 3 — Your View on Data Use"
 
 ### Hypothesis Mapping
 
@@ -550,17 +551,13 @@ Shown after donation decision (donate OR decline)
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
 
-**Items:**
+**Item:**
 
-**7.1** "I trust the organization behind this study to handle my data responsibly."
+**7.1** "I trust the system behind this chatbot to handle anonymized questions responsibly."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `trust1`
 
-**7.2** "I believe my anonymized data would be handled securely."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
-- Field: `trust2`
-
-**Validation:** Both items required
+**Validation:** Item required
 
 ---
 
@@ -761,7 +758,7 @@ If "Other" is selected:
 "Would you like to receive the study results?"
 
 **Note (gray text below headline):**
-"Optional. Enter your email if you'd like to be notified when results are published."
+"Optional. Enter your email to receive the results."
 
 **Question Type:** Email input field
 
@@ -777,7 +774,7 @@ If "Other" is selected:
 
 ---
 
-## 📍 PHASE 9: Debrief Screen
+## 📍 PHASE 10: Debrief Screen
 
 Shown after survey submission
 
@@ -860,7 +857,7 @@ Shown after survey submission
 | MC-T | Perceived Transparency | H1 | transparency1, transparency2 | Higher in B & D |
 | MC-C | Perceived User Control | H2 | control1, control2 | Higher in C & D |
 | OUT-RISK | Risk Perception | H3 | riskTraceability, riskMisuse | Lowest in D |
-| OUT-TRUST | Trust | Supporting | trust1, trust2 | — |
+| OUT-TRUST | Trust | Supporting | trust1 | — |
 
 ### Conditional Elements
 - **Gender "Other" text field:** Only shows when "Other" selected in Q10

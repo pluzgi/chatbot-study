@@ -60,8 +60,7 @@ Note: Q14 (notify_email) is stored in participants table.
 | control2 | INT | CHECK (1-7) | Q4.2: Perceived User Control (MC-C) |
 | risk_traceability | INT | CHECK (1-7) | Q5.1: Risk Perception (OUT-RISK) |
 | risk_misuse | INT | CHECK (1-7) | Q5.2: Risk Perception (OUT-RISK) |
-| trust1 | INT | CHECK (1-7) | Q6.1: Trust (OUT-TRUST) |
-| trust2 | INT | CHECK (1-7) | Q6.2: Trust (OUT-TRUST) |
+| trust1 | INT | CHECK (1-7) | Q6: Trust (OUT-TRUST) - single item |
 | attention_check | VARCHAR(50) | | Q7: Chatbot topic (voting, tax, immigration, dontremember) |
 | age | VARCHAR(20) | | Q8: Age range |
 | gender | VARCHAR(50) | | Q9: Gender |
@@ -79,7 +78,7 @@ Note: Q14 (notify_email) is stored in participants table.
 | MC-T (Transparency) | transparency1, transparency2 | H1 | Higher in B & D (with DNL) |
 | MC-C (Control) | control1, control2 | H2 | Higher in C & D (with Dashboard) |
 | OUT-RISK (Risk) | risk_traceability, risk_misuse | H3 | Lowest in D, highest in A |
-| OUT-TRUST (Trust) | trust1, trust2 | Supporting | Exploratory |
+| OUT-TRUST (Trust) | trust1 | Supporting | Exploratory |
 
 ---
 

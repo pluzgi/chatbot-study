@@ -322,7 +322,7 @@
     },
     "notifyEmail": {
       "question": "Möchten Sie die Studienergebnisse erhalten?",
-      "note": "Optional. Geben Sie Ihre E-Mail-Adresse ein, wenn Sie benachrichtigt werden möchten, sobald die Ergebnisse veröffentlicht werden.",
+      "note": "(Optional. Geben Sie Ihre E-Mail-Adresse ein, wenn Sie benachrichtigt werden möchten, sobald die Ergebnisse veröffentlicht werden.)",
       "placeholder": "ihre.email@beispiel.ch"
     },
     "validationError": "Please answer all required questions before submitting",

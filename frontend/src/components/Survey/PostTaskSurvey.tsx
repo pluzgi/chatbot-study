@@ -46,9 +46,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     // Q5: Risk Perception (OUT-RISK) - 2 items
     riskTraceability: null,
     riskMisuse: null,
-    // Q6: Trust (OUT-TRUST) - 2 items
+    // Q6: Trust (OUT-TRUST) - 1 item
     trust1: null,
-    trust2: null,
     // Q7: Attention Check
     attentionCheck: null,
     // Q8-Q12: Demographics
@@ -148,7 +147,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'risk-section':
         return answers.riskTraceability !== null && answers.riskMisuse !== null;
       case 'trust-section':
-        return answers.trust1 !== null && answers.trust2 !== null;
+        return answers.trust1 !== null;
       case 'attentionCheck':
       case 'age':
       case 'gender':
@@ -207,7 +206,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       // Q5: Risk Perception
       answers.riskTraceability !== null && answers.riskMisuse !== null &&
       // Q6: Trust
-      answers.trust1 !== null && answers.trust2 !== null &&
+      answers.trust1 !== null &&
       // Q7: Attention Check
       answers.attentionCheck !== null && answers.attentionCheck !== '' &&
       // Q8-Q12: Demographics
@@ -239,7 +238,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         riskTraceability: answers.riskTraceability!,
         riskMisuse: answers.riskMisuse!,
         trust1: answers.trust1!,
-        trust2: answers.trust2!,
         attentionCheck: answers.attentionCheck!,
         age: answers.age!,
         gender: answers.gender!,
@@ -364,23 +362,15 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     </div>
   );
 
-  // Q6: Trust (OUT-TRUST) - Supporting construct
+  // Q6: Trust (OUT-TRUST) - Supporting construct (single item)
   const TrustSection = () => (
     <div>
-      <QuestionBlock intro={t('survey.trust.intro')}>
-        <LikertItem
-          label={t('survey.trust.q1')}
-          field="trust1"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
-        <LikertItem
-          label={t('survey.trust.q2')}
-          field="trust2"
-          leftLabel={t('survey.likert.disagree')}
-          rightLabel={t('survey.likert.agree')}
-        />
-      </QuestionBlock>
+      <LikertItem
+        label={t('survey.trust.q1')}
+        field="trust1"
+        leftLabel={t('survey.likert.disagree')}
+        rightLabel={t('survey.likert.agree')}
+      />
     </div>
   );
 
@@ -548,10 +538,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'openFeedback':
         return (
           <div>
-            <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">
               {t('survey.openFeedback.question')}
             </p>
-            <p className="text-base text-gray-500 mb-6">
+            <p className="text-base text-gray-500 mb-4">
               {t('survey.openFeedback.note')}
             </p>
             <textarea
@@ -570,10 +560,10 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'notifyEmail':
         return (
           <div>
-            <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">
               {t('survey.notifyEmail.question')}
             </p>
-            <p className="text-base text-gray-500 mb-6">
+            <p className="text-base text-gray-500 mb-4">
               {t('survey.notifyEmail.note')}
             </p>
             <input

@@ -190,7 +190,7 @@
       "Q6_trust": "OUT-TRUST: Supporting construct for interpretation",
       "Q12_openFeedback": "QUAL: Qualitative insight into decision reasoning"
     },
-    "stepHeadline": "Step 3 of 3 — About Your Donation Decision",
+    "stepHeadline": "Step 3 of 3 — Your View on Data Use",
     "title": "Final Questions",
     "subtitle": "Please answer the following questions about your experience",
     "progress": {
@@ -240,9 +240,7 @@
       "_tag": "OUT-TRUST",
       "_hypothesis": "Interpretation",
       "_expectedPattern": "Exploratory - not required for H1-H3 testing",
-      "intro": "Please indicate your agreement with the following statements:",
-      "q1": "I trust the organization behind this study to handle my data responsibly.",
-      "q2": "I believe my anonymized data would be handled securely."
+      "q1": "I trust the system behind this chatbot to handle anonymized questions responsibly."
     },
     "chatbotQuestion": {
       "header": "A question about the chatbot",
@@ -310,7 +308,7 @@
     },
     "notifyEmail": {
       "question": "Would you like to receive the study results?",
-      "note": "Optional. Enter your email if you'd like to be notified when results are published.",
+      "note": "(Optional. Enter your email to receive the results.)",
       "placeholder": "your.email@example.com"
     },
     "validationError": "Please answer all required questions before submitting",

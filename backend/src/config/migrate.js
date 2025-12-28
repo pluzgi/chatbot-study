@@ -55,9 +55,8 @@ CREATE TABLE IF NOT EXISTS post_task_measures (
     risk_traceability INT CHECK (risk_traceability BETWEEN 1 AND 7),
     risk_misuse INT CHECK (risk_misuse BETWEEN 1 AND 7),
 
-    -- Q6: Trust (OUT-TRUST) - Supporting construct - 2 items
+    -- Q6: Trust (OUT-TRUST) - Supporting construct - 1 item
     trust1 INT CHECK (trust1 BETWEEN 1 AND 7),
-    trust2 INT CHECK (trust2 BETWEEN 1 AND 7),
 
     -- Q7: Attention check
     attention_check VARCHAR(50),
