@@ -11,7 +11,7 @@ This document describes the complete participant experience from landing page to
 5. Chat Interface
 6. Donation Decision Screen (varies by condition A/B/C/D)
 7. Confirmation Screen
-8. Post-Task Survey (Q3-Q14) — Hypothesis-Driven
+8. Post-Task Survey (Q4-Q15) — Hypothesis-Driven
 9. Debrief Screen
 
 ---
@@ -178,7 +178,7 @@ When participant clicks Continue with checkbox checked:
 "The AI model used for the chatbot, Apertus, is a Swiss open-source large language model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre."
 
 **Task (bold):**
-"Please ask at least 2 questions about Swiss ballot initiatives."
+"Please ask 2–3 questions about Swiss ballot initiatives."
 "This helps you get a sense of how the system works before continuing with the study."
 
 **Example questions**
@@ -195,23 +195,26 @@ When participant clicks Continue with checkbox checked:
 
 ### Header
 **Title:** "Swiss Ballot Chatbot"
-**Subtitle:** "Powered by Apertus - Swiss AI"
+**Subtitle:** "Ask 2–3 questions about Swiss ballot initiatives"
 
 ### Interface Elements
 **Input Placeholder:** "Ask a question..."
 **Send Button:** "Send"
 **Thinking State:** "Thinking..." (with loading indicator)
 
-### Minimum Requirement
+### Progress Indicator
+**Question Counter:**
+"Questions (X/3)"
+- Shows count of questions asked (up to 3)
+- Minimum 2 questions required to continue
+
 **Validation Message (if < 2 questions):**
-"Please ask at least 2 questions (X/2)"
-- Displayed in chat interface
-- Prevents progression until 2 questions asked
+"Please ask at least 2 questions to continue."
 
 ### User Experience
 - Participant types questions about Swiss ballot initiatives
 - AI responds with voting information
-- After 2nd question receives a response → "Continue to Next Step" button appears
+- After 2nd question receives a response → "Continue to Next Step →" button appears
 - User can read the answer before clicking continue → Donation modal appears
 
 ---
@@ -288,30 +291,32 @@ All four conditions share the same header structure:
 **Helper Text (below dashboard):**
 "You can leave the default settings or adjust them before deciding."
 
-#### Granular Dashboard Options:
+#### Granular Dashboard Options (Progressive Disclosure):
 
-**1. What data to share**
-- Dropdown (required)
+The dashboard uses **progressive disclosure** - questions appear one at a time. After answering each question, the next one is revealed. Completed answers are shown collapsed with a "Change" link.
+
+**1. What data would you like to share?**
+- Radio-style selection (required)
 - Options:
-  - "Only high-level topics (no text)"
-  - "All chat questions (text only, no answers)"
-  - "Full anonymized conversations (questions + answers)"
+  - "High-level topics only"
+  - "My questions"
+  - "My questions and chatbot answers"
 
-**2. How data will be used**
-- Dropdown (required)
+**2. How may your data be used?**
+- Radio-style selection (optional)
 - Options:
   - "Academic research only"
   - "Academic research and commercial use"
 
-**3. Where data is stored**
-- Dropdown (required)
+**3. Where should your data be stored?**
+- Radio-style selection (optional)
 - Options:
   - "Swiss servers only"
   - "Swiss or EU servers"
   - "No preference"
 
-**4. How long to keep data**
-- Dropdown (required)
+**4. How long should your data be kept?**
+- Radio-style selection (required)
 - Options:
   - "Until research purpose is fulfilled"
   - "Up to 6 months"
@@ -322,8 +327,10 @@ All four conditions share the same header structure:
 "You can change these settings in your dashboard anytime."
 
 **Validation:**
-If user clicks "Donate Data" without filling all fields:
-→ Error: "Please configure all privacy settings"
+- Scope (Q1) is required
+- Retention (Q4) is required when scope is selected
+- Purpose and storage are optional
+- Error if required fields missing: "Please configure all privacy settings"
 
 ---
 
@@ -333,18 +340,19 @@ If user clicks "Donate Data" without filling all fields:
 "To support your decision, you can review information about the chatbot and adjust how your anonymized data would be used."
 
 **Components Shown:**
-- ✅ Data Nutrition Label (compact list view)
+- ✅ Data Nutrition Label (same badge grid layout as Condition B)
 - ✅ Granular Dashboard
 
 **Layout:** Stacked vertically to reduce cognitive overload:
-1. **Section 1: "About the Apertus Model"** - Compact DNL (list format instead of badge grid)
+1. **Section 1: "ℹ️ About the Swiss Apertus Model"** - DNL badge grid (same as Condition B)
 2. Visual separator (horizontal line)
-3. **Section 2: "Configure Your Data Donation"** - Dashboard panels
+3. **Section 2: "⚙️ Configure Your Data Donation"** - Dashboard with progressive disclosure
 
 **Design Notes:**
-- Uses compact DNL (list view) instead of badge grid to reduce visual complexity
+- Uses same DNL badge grid layout as Condition B for consistency
+- Section headers have gray background (bg-gray-100) for visibility
 - Stacked layout instead of side-by-side columns
-- Narrower modal width (max-w-3xl vs max-w-5xl)
+- Modal width: max-w-3xl
 - Clear section headers with icons for visual hierarchy
 
 **Validation:**
@@ -404,39 +412,44 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-## 📍 PHASE 8: Post-Task Survey (Q3-Q14) — Hypothesis-Driven
+## 📍 PHASE 8: Post-Task Survey (Q4-Q14) — Hypothesis-Driven
 
 **Headline (shown on first page only):**
-"Step 3 of 3 — Share Your Perspective"
+"Step 3 of 3 — About Your Donation Decision"
 
 ### Hypothesis Mapping
 
 | Question | Construct | Tag | Hypothesis | Expected Pattern |
 |----------|-----------|-----|------------|------------------|
-| Q3 | Perceived Transparency | MC-T | H1 | Higher in B & D (with DNL) |
-| Q4 | Perceived User Control | MC-C | H2 | Higher in C & D (with Dashboard) |
-| Q5 | Risk Perception | OUT-RISK | H3 | Lowest in D, highest in A |
-| Q6 | Trust | OUT-TRUST | — | Supporting construct |
-| Q7 | Chatbot Question | — | — | Single-select recall |
-| Q8-Q12 | Demographics | DEMO | — | Covariates |
-| Q13 | Open Feedback | QUAL | — | Qualitative insight |
-| Q14 | Email Notification | — | — | Optional |
+| Q4 | Perceived Transparency | MC-T | H1 | Higher in B & D (with DNL) |
+| Q5 | Perceived User Control | MC-C | H2 | Higher in C & D (with Dashboard) |
+| Q6 | Risk Perception | OUT-RISK | H3 | Lowest in D, highest in A |
+| Q7 | Trust | OUT-TRUST | — | Supporting construct |
+| Q8 | Chatbot Question | — | — | Single-select recall |
+| Q9-Q13 | Demographics | DEMO | — | Covariates |
+| Q14 | Open Feedback | QUAL | — | Qualitative insight |
+| Q15 | Email Notification | — | — | Optional |
 
 ### Survey Structure
-- **Total Questions:** 11 required + 2 optional (Q13 feedback, Q14 email)
+- **Total Questions:** 12 pages (10 required + 2 optional: Q14 feedback, Q15 email)
 - **Core Likert Items:** 8 items across 4 constructs (2 items each)
 - **Display:** One question section per page
-- **Navigation:** Back button (from Q3 onwards), Next/Submit button
+- **Navigation:** Back button available, Next/Submit button
 - **Progress Bar:** 3px gray bar showing progress through questions
+
+**Note on Question Numbering:**
+- Baseline phase: Q1-Q3 (tech comfort, privacy concern, ballot familiarity)
+- Post-task survey: Q4-Q15 (starts at Q4 to continue from baseline)
+- This creates a continuous numbering scheme across the entire study
 
 ---
 
-### Question 3: Perceived Transparency (MC-T)
+### Question 4: Perceived Transparency (MC-T)
 
 **Tag:** 🔵 MC-T — H1 Manipulation Check
 **Expected Pattern:** Higher in conditions B & D (with Data Nutrition Label)
 
-**Section Header:** "About Your Experience"
+**Section Header:** (No separate header - intro text serves as context)
 
 **Intro:** "Please indicate your agreement with the following statements:"
 
@@ -449,11 +462,11 @@ Shown after donation decision (donate OR decline)
 
 **Items:**
 
-**3.1** "The information about how my anonymized chat questions may be used was clear."
+**4.1** "The information about how my anonymized chat questions may be used was clear."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `transparency1`
 
-**3.2** "I understood what would happen to my anonymized chat questions if I agreed to share them."
+**4.2** "I understood what would happen to my anonymized chat questions if I agreed to share them."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `transparency2`
 
@@ -461,12 +474,12 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 4: Perceived User Control (MC-C)
+### Question 5: Perceived User Control (MC-C)
 
 **Tag:** 🟢 MC-C — H2 Manipulation Check
 **Expected Pattern:** Higher in conditions C & D (with Dashboard)
 
-**Section Header:** "Question 4"
+**Section Header:** (No separate header)
 
 **Intro:** "Please indicate your agreement with the following statements:"
 
@@ -479,11 +492,11 @@ Shown after donation decision (donate OR decline)
 
 **Items:**
 
-**4.1** "I felt I had control over how my anonymized chat questions could be used."
+**5.1** "I felt I had control over how my anonymized chat questions could be used."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `control1`
 
-**4.2** "I felt I had meaningful choices about sharing my anonymized chat questions."
+**5.2** "I felt I had meaningful choices about sharing my anonymized chat questions."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `control2`
 
@@ -491,12 +504,12 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 5: Risk Perception (OUT-RISK)
+### Question 6: Risk Perception (OUT-RISK)
 
 **Tag:** 🟡 OUT-RISK — H3 Interaction Mechanism
 **Expected Pattern:** Lowest in D (high transparency + high control), highest in A
 
-**Section Header:** "Question 5"
+**Section Header:** (No separate header)
 
 **Intro:** "Please indicate your agreement with the following statements:"
 
@@ -509,11 +522,11 @@ Shown after donation decision (donate OR decline)
 
 **Items:**
 
-**5.1** "Even if anonymized, my chat questions could be traced back to me."
+**6.1** "Even if anonymized, my chat questions could be traced back to me."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `riskTraceability`
 
-**5.2** "My anonymized chat questions could be used in ways I would not agree with."
+**6.2** "My anonymized chat questions could be used in ways I would not agree with."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `riskMisuse`
 
@@ -521,12 +534,12 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 6: Trust (OUT-TRUST)
+### Question 7: Trust (OUT-TRUST)
 
 **Tag:** 🟡 OUT-TRUST — Supporting Construct
 **Purpose:** Interpretation and additional insight
 
-**Section Header:** "Question 6"
+**Section Header:** (No separate header)
 
 **Intro:** "Please indicate your agreement with the following statements:"
 
@@ -539,11 +552,11 @@ Shown after donation decision (donate OR decline)
 
 **Items:**
 
-**6.1** "I trust the organization behind this study to handle my data responsibly."
+**7.1** "I trust the organization behind this study to handle my data responsibly."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `trust1`
 
-**6.2** "I believe my anonymized data would be handled securely."
+**7.2** "I believe my anonymized data would be handled securely."
 - Scale: 1-7 (Strongly disagree → Strongly agree)
 - Field: `trust2`
 
@@ -551,7 +564,7 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 7: Chatbot Question
+### Question 8: Chatbot Question
 
 **Purpose:** Recall question about chatbot topic
 
@@ -590,11 +603,11 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 8: Age (DEMO)
+### Question 9: Age (DEMO)
 
 **Tag:** ⚫ DEMO — Covariate
 
-**Section Header:** "Question 8"
+**Section Header:** (No separate header - question is the headline)
 
 **Question:** "What is your age?"
 
@@ -615,11 +628,11 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 9: Gender (DEMO)
+### Question 10: Gender (DEMO)
 
 **Tag:** ⚫ DEMO — Covariate
 
-**Section Header:** "Question 9"
+**Section Header:** (No separate header - question is the headline)
 
 **Question:** "What is your gender?"
 
@@ -646,11 +659,11 @@ If "Other" is selected:
 
 ---
 
-### Question 10: Primary Language (DEMO)
+### Question 11: Primary Language (DEMO)
 
 **Tag:** ⚫ DEMO — Covariate
 
-**Section Header:** "Question 10"
+**Section Header:** (No separate header - question is the headline)
 
 **Question:** "What is your primary language?"
 
@@ -671,11 +684,11 @@ If "Other" is selected:
 
 ---
 
-### Question 11: Education (DEMO)
+### Question 12: Education (DEMO)
 
 **Tag:** ⚫ DEMO — Covariate
 
-**Section Header:** "Question 11"
+**Section Header:** (No separate header - question is the headline)
 
 **Question:** "What is your highest level of education?"
 
@@ -697,11 +710,11 @@ If "Other" is selected:
 
 ---
 
-### Question 12: Voting Eligibility (DEMO)
+### Question 13: Voting Eligibility (DEMO)
 
 **Tag:** ⚫ DEMO — Covariate
 
-**Section Header:** "Question 12"
+**Section Header:** (No separate header - question is the headline)
 
 **Question:** "Are you eligible to vote in Swiss federal elections?"
 
@@ -719,39 +732,35 @@ If "Other" is selected:
 
 ---
 
-### Question 13: Open Feedback (QUAL)
+### Question 14: Open Feedback (QUAL)
 
 **Tag:** ⚫ QUAL — Qualitative Insight
 
-**Section Header:** "Question 13"
+**Headline (displayed as main text):**
+"What mattered most for your decision?"
 
-**Question:**
-"In your own words, what was the main reason for your decision?"
-
-**Note (italic, gray text):**
-"This question is optional, but your thoughts help us understand how people make these decisions."
+**Note (gray text below headline):**
+"(Optional. Your answer helps us understand decision-making.)"
 
 **Question Type:** Free-text area
 
 **Text Area:**
 - Placeholder: "Type your response here..."
-- Rows: 6
+- Rows: 5
 - Max length: 500 characters
-- Character counter: "X/500 - Maximum 500 characters"
+- Character counter: "X/500"
 
 **Field:** `openFeedback`
 **Validation:** Optional (can leave empty)
 
 ---
 
-### Question 14: Email Notification (Optional)
+### Question 15: Email Notification (Optional)
 
-**Section Header:** "Question 14"
-
-**Question:**
+**Headline (displayed as main text):**
 "Would you like to receive the study results?"
 
-**Note (italic, gray text):**
+**Note (gray text below headline):**
 "Optional. Enter your email if you'd like to be notified when results are published."
 
 **Question Type:** Email input field
@@ -803,39 +812,45 @@ Shown after survey submission
 
 ## 📊 Technical Details
 
-### Question Numbering (Hypothesis-Aligned)
-- Q1-Q3: Baseline (tech comfort, privacy concern, ballot familiarity)
-- Q3: Perceived Transparency (MC-T) — 2 items
-- Q4: Perceived User Control (MC-C) — 2 items
-- Q5: Risk Perception (OUT-RISK) — 2 items
-- Q6: Trust (OUT-TRUST) — 2 items
-- Q7: Chatbot Question
-- Q8-Q12: Demographics (DEMO) — including voting eligibility
-- Q13: Open Feedback (QUAL) — optional
-- Q14: Email notification — optional
-- **Total:** 14 questions (Q13 and Q14 optional)
+### Question Numbering (Continuous Scheme)
+- **Baseline Phase (Q1-Q3):**
+  - Q1: Tech comfort
+  - Q2: Privacy concern
+  - Q3: Ballot familiarity
+
+- **Post-Task Survey (Q4-Q15):**
+  - Q4: Perceived Transparency (MC-T) — 2 items
+  - Q5: Perceived User Control (MC-C) — 2 items
+  - Q6: Risk Perception (OUT-RISK) — 2 items
+  - Q7: Trust (OUT-TRUST) — 2 items
+  - Q8: Chatbot Question (attention check)
+  - Q9-Q13: Demographics (DEMO) — age, gender, language, education, voting eligibility
+  - Q14: Open Feedback (QUAL) — optional
+  - Q15: Email notification — optional
+
+- **Total:** 15 questions (Q14 and Q15 optional)
 - **Core Likert Items:** 8 items across 4 constructs
 
 ### Scale Types Used
 1. **7-point Likert:**
-   - Used in: Q1, Q2, Q3 (baseline), Q3-Q6 (post-task survey)
+   - Used in: Q1, Q2, Q3 (baseline), Q4-Q7 (post-task survey)
    - Baseline endpoints: "Strongly disagree" → "Strongly agree" (Q1-Q2), "Not at all familiar" → "Very familiar" (Q3)
    - Post-task endpoints: Strongly disagree (1) → Strongly agree (7)
    - Standard square buttons, consistent visual treatment
 
 2. **Radio-Style Selection (Single Select):**
-   - Used in: Q7 (chatbot question), Q8-Q12 (all demographics)
+   - Used in: Q8 (chatbot question), Q9-Q13 (all demographics)
    - All options visible as selectable buttons with radio indicators (circular)
    - No hidden menus or dropdowns
    - Consistent visual treatment across all questions
    - Validation: One selection required per question
 
 3. **Free Text:**
-   - Used in: Q9 (gender other), Q13 (open feedback)
+   - Used in: Q10 (gender other), Q14 (open feedback)
    - Validation: Optional
 
 4. **Email Input:**
-   - Used in: Q14
+   - Used in: Q15
    - Validation: Optional, but must be valid format if provided
 
 ### Hypothesis-Construct Mapping
@@ -848,16 +863,16 @@ Shown after survey submission
 | OUT-TRUST | Trust | Supporting | trust1, trust2 | — |
 
 ### Conditional Elements
-- **Gender "Other" text field:** Only shows when "Other" selected in Q9
-- **Dashboard configuration:** Only shown in Conditions C & D
+- **Gender "Other" text field:** Only shows when "Other" selected in Q10
+- **Dashboard configuration:** Only shown in Conditions C & D (progressive disclosure)
 - **Data Nutrition Label:** Only shown in Conditions B & D
-- **Back button:** Available from Q3 onwards (not on Q1-Q2)
+- **Back button:** Available throughout post-task survey
 
 ### Validation Rules
-- **Required questions:** Q3-Q12 (all)
-- **Optional questions:** Q13 (open feedback), Q14 (email)
+- **Required questions:** Q4-Q13 (all post-task questions except Q14-Q15)
+- **Optional questions:** Q14 (open feedback), Q15 (email)
 - **Minimum chat messages:** 2 questions before progression
-- **Dashboard validation:** All 4 fields required in Conditions C/D when donating
+- **Dashboard validation:** Scope (Q1) and Retention (Q4) required in Conditions C/D when donating; Purpose and Storage are optional
 
 ### Button States
 - **Disabled state:** Gray background (#D1D5DB), no hover effect, gray text
@@ -886,7 +901,7 @@ Shown after survey submission
 - Chat Interface: ~2-3 minutes (minimum 2 questions)
 - Donation Decision: ~1-2 minutes (longer for C/D with dashboard)
 - Confirmation Screen: ~15 seconds
-- Post-Task Survey (Q3-Q14): ~3-4 minutes
+- Post-Task Survey (Q4-Q15): ~3-4 minutes
 - Debrief: ~1 minute
 
 **Total:** 8-10 minutes
@@ -909,7 +924,7 @@ Shown after survey submission
 
 ### Typography
 
-**Survey Questions (Q3-Q7):**
+**Survey Questions (Q4-Q8 Likert sections):**
 - **Main question/intro:** 20-24px (text-xl md:text-2xl), semibold, gray-700
 - **Item statements:** 20px (text-lg md:text-xl), medium weight, gray-900 (THE HERO - most prominent)
 - **Likert scale numbers:** 16px (text-base), medium weight, 48px touch targets

@@ -98,7 +98,7 @@
     "placeholder": "Ask a question...",
     "send": "Send",
     "thinking": "Thinking...",
-    "minQuestions": "Please ask 2–3 questions ({{count}}/3)",
+    "minQuestions": "Questions ({{count}}/3)",
     "maxReached": "Thanks — you can now continue to the survey.",
     "continueButton": "Continue to Next Step →",
     "validationError": "Please ask at least 2 questions to continue."
@@ -137,7 +137,7 @@
     }
   },
   "dnl": {
-    "title": "About the Apertus Model",
+    "title": "About the Swiss Apertus Model",
     "intro": "Here's the information you would receive about data handling before making your decision:",
     "provenance": "Swiss-Made",
     "provenanceValue": "Built by EPFL, ETH Zurich & CSCS in Switzerland",
@@ -156,16 +156,13 @@
     "optional": "Optional",
     "required": "Required",
     "scope": {
-      "label": "What would you like to share?",
+      "label": "What data would you like to share?",
       "topicsOnly": "High-level topics only",
-      "topicsOnlyDesc": "No actual text shared",
       "questionsOnly": "My questions",
-      "questionsOnlyDesc": "Text of questions only, no AI responses",
-      "full": "Full conversations",
-      "fullDesc": "Both questions and AI responses"
+      "full": "My questions and chatbot answers"
     },
     "purpose": {
-      "label": "How should your data be used?",
+      "label": "How may your data be used?",
       "academic": "Academic research only",
       "commercial": "Academic research and commercial use"
     },
@@ -306,8 +303,8 @@
       }
     },
     "openFeedback": {
-      "question": "In your own words, what was the main reason for your decision?",
-      "note": "This question is optional, but your thoughts help us understand how people make these decisions.",
+      "question": "What mattered most for your decision?",
+      "note": "(Optional. Your answer helps us understand decision-making.)",
       "placeholder": "Type your response here...",
       "maxLength": "Maximum 500 characters"
     },

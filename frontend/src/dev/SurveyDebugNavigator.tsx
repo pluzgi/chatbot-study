@@ -53,7 +53,7 @@ const TAG_COLORS: Record<HypothesisTag, { bg: string; border: string; text: stri
 interface ScreenConfig {
   id: string;
   name: string;
-  stage: 'onboarding' | 'task' | 'donation' | 'survey' | 'debrief';
+  stage: 'onboarding' | 'task' | 'donation' | 'survey' | 'debrief' | 'journey';
   conditionDependent?: boolean;
   description?: string;
   // Hypothesis-driven metadata for Step 3 screens
@@ -169,6 +169,12 @@ export const SCREENS: ScreenConfig[] = [
 
   // ========== DEBRIEF STAGE ==========
   { id: '18', name: 'Debriefing', stage: 'debrief', description: 'Study explanation and thank you' },
+
+  // ========== FULL JOURNEY VIEWS (hidden from grid, accessed via purple buttons) ==========
+  { id: 'journey-A', name: 'Full Journey - Condition A', stage: 'journey', description: 'Complete user flow for Condition A (Baseline)' },
+  { id: 'journey-B', name: 'Full Journey - Condition B', stage: 'journey', description: 'Complete user flow for Condition B (DNL only)' },
+  { id: 'journey-C', name: 'Full Journey - Condition C', stage: 'journey', description: 'Complete user flow for Condition C (Dashboard only)' },
+  { id: 'journey-D', name: 'Full Journey - Condition D', stage: 'journey', description: 'Complete user flow for Condition D (DNL + Dashboard)' },
 ];
 
 // ============================================
@@ -357,6 +363,748 @@ const Step3Documentation: React.FC<{ isOpen: boolean; onToggle: () => void }> = 
 );
 
 // ============================================
+// FULL JOURNEY VIEW COMPONENT
+// ============================================
+
+interface FullJourneyViewProps {
+  condition: 'A' | 'B' | 'C' | 'D';
+  onBack: () => void;
+}
+
+// Compact card wrapper for journey view (no min-h-screen)
+const JourneyCard: React.FC<{
+  children: React.ReactNode;
+  title: string;
+  tag?: HypothesisTag;
+  construct?: string;
+}> = ({ children, title, tag, construct }) => {
+  const colors = tag ? TAG_COLORS[tag] : null;
+  const stepMatch = title.match(/^(Step \d+ of \d+ — )(.*)/);
+  const renderTitle = () => {
+    if (stepMatch) {
+      return (
+        <>
+          <span className="text-gray-500 font-normal">{stepMatch[1]}</span>
+          {stepMatch[2]}
+        </>
+      );
+    }
+    return title;
+  };
+
+  return (
+    <div className="bg-gray-50 py-4 rounded-lg border border-gray-200">
+      <div className="max-w-2xl mx-auto px-4">
+        <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${colors ? `border-l-4 ${colors.border}` : ''}`}>
+          {tag && (
+            <div className="mb-4 flex items-center gap-2">
+              <span className={`px-2 py-1 rounded text-xs font-bold ${colors?.bg} ${colors?.text}`}>
+                {tag}
+              </span>
+              {construct && (
+                <span className="text-sm text-gray-500">{construct}</span>
+              )}
+            </div>
+          )}
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{renderTitle()}</h2>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) => {
+  const { t } = useTranslation();
+
+  const conditionDescriptions = {
+    A: { name: 'Baseline', description: 'No transparency info, binary choice only', color: 'bg-gray-100 border-gray-300' },
+    B: { name: 'Transparency', description: 'Data Nutrition Label shown, binary choice', color: 'bg-blue-50 border-blue-300' },
+    C: { name: 'Control', description: 'Granular Dashboard with 4 configurable options', color: 'bg-green-50 border-green-300' },
+    D: { name: 'Full', description: 'Both DNL + Dashboard (transparency + control)', color: 'bg-purple-50 border-purple-300' },
+  };
+
+  const info = conditionDescriptions[condition];
+
+  // Screen divider with number and title
+  const ScreenDivider = ({ id, name, tag }: { id: string; name: string; tag?: HypothesisTag }) => {
+    const colors = tag ? TAG_COLORS[tag] : null;
+    return (
+      <div className="flex items-center gap-3 mb-4 mt-8 first:mt-0">
+        <span className="text-2xl font-bold text-gray-300">{id}</span>
+        <span className="font-medium text-gray-700">{name}</span>
+        {tag && (
+          <span className={`text-xs px-2 py-1 rounded font-bold ${colors?.bg} ${colors?.text}`}>
+            {tag}
+          </span>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {/* Fixed Header */}
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onBack}
+              className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition"
+            >
+              ← Back to Navigator
+            </button>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900">
+                Full Journey — Condition {condition}
+              </h1>
+              <p className="text-sm text-gray-500">{info.name}: {info.description}</p>
+            </div>
+          </div>
+          <div className={`px-4 py-2 rounded-lg border-2 ${info.color}`}>
+            <span className="text-2xl font-bold">{condition}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Journey Content - Each screen exactly as in navigator */}
+      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+
+        {/* ========== 1: LANDING PAGE ========== */}
+        <ScreenDivider id="1" name="Landing Page" />
+        <div className="min-h-[600px] flex items-center justify-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm">
+            <div className="flex justify-end gap-2 mb-6 md:mb-8">
+              <span className="text-sm text-gray-500">[Language Selector]</span>
+            </div>
+            <div className="text-left">
+              <h1 className="text-2xl md:text-[28px] font-semibold mb-2 text-black leading-tight">
+                {t('landing.title')}
+              </h1>
+              <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
+                {t('landing.subtitle')}
+              </p>
+              <div className="mb-6">
+                <p className="font-semibold text-base md:text-lg text-black mb-2">{t('landing.whatWeStudy')}</p>
+                <p className="text-[15px] md:text-base text-black leading-relaxed">{t('landing.whatWeStudyText')}</p>
+              </div>
+              <div className="mb-6">
+                <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.whatToExpect')}</p>
+                <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+                  <li>{t('landing.expect1')}</li>
+                  <li>{t('landing.expect2')}</li>
+                  <li>{t('landing.expect3')}</li>
+                </ul>
+              </div>
+              <div className="mb-8">
+                <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.requirements')}</p>
+                <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+                  <li>{t('landing.req1')}</li>
+                  <li>{t('landing.req2')}</li>
+                </ul>
+              </div>
+              <div className="flex flex-col md:flex-row gap-3 mb-8">
+                <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                  {t('landing.startButton')}
+                </button>
+                <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-black border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+                  {t('landing.declineButton')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 1B: CONSENT MODAL ========== */}
+        <ScreenDivider id="1B" name="Consent Modal" />
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-md mx-auto p-6 md:p-8">
+            <h2 className="text-xl md:text-2xl font-bold mb-4 text-black leading-tight">{t('landing.consentModal.title')}</h2>
+            <p className="text-base md:text-lg text-black mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>
+            <ul className="list-disc pl-5 space-y-2 text-base text-black mb-6 leading-relaxed">
+              <li>{t('landing.consentModal.age')}</li>
+              <li>{t('landing.consentModal.residence')}</li>
+              <li>{t('landing.consentModal.voluntary')}</li>
+            </ul>
+            <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center mb-8">
+              <input type="checkbox" className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-600 flex-shrink-0" disabled />
+              <span className="text-base text-black leading-relaxed">{t('landing.consentModal.confirm_checkbox')}</span>
+            </label>
+            <div className="flex flex-col md:flex-row gap-4">
+              <button className="w-full md:flex-1 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] transition bg-gray-300 text-gray-500 cursor-not-allowed">
+                {t('landing.consentModal.confirm')}
+              </button>
+              <button className="w-full md:flex-1 bg-gray-300 text-black px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition">
+                {t('landing.consentModal.back')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 2A: BASELINE Q1 ========== */}
+        <ScreenDivider id="2A" name="Baseline Q1" />
+        <div className="min-h-[400px] flex items-center justify-center p-4 bg-white rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
+            <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
+              {t('baseline.aboutYou', 'About you')}
+            </p>
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
+              {t('baseline.techComfort.question')}
+            </h2>
+            <LikertScale
+              name="techComfort-preview"
+              value={null}
+              onChange={() => {}}
+              leftLabel={t('baseline.techComfort.stronglyDisagree')}
+              rightLabel={t('baseline.techComfort.stronglyAgree')}
+              points={7}
+            />
+            <div className="mt-8 md:mt-12 flex justify-end">
+              <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                {t('survey.navigation.next')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 2B: BASELINE Q2 ========== */}
+        <ScreenDivider id="2B" name="Baseline Q2" />
+        <div className="min-h-[400px] flex items-center justify-center p-4 bg-white rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
+            <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
+              {t('baseline.aboutYou', 'About you')}
+            </p>
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
+              {t('baseline.privacyConcern.question')}
+            </h2>
+            <LikertScale
+              name="privacyConcern-preview"
+              value={null}
+              onChange={() => {}}
+              leftLabel={t('baseline.privacyConcern.stronglyDisagree')}
+              rightLabel={t('baseline.privacyConcern.stronglyAgree')}
+              points={7}
+            />
+            <div className="mt-8 md:mt-12 flex justify-end">
+              <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                {t('survey.navigation.next')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 2C: BASELINE Q3 ========== */}
+        <ScreenDivider id="2C" name="Baseline Q3" tag="COV" />
+        <div className="min-h-[400px] flex items-center justify-center p-4 bg-white rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
+            <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
+              {t('baseline.aboutYou', 'About you')}
+            </p>
+            <div className="mb-4 flex items-center gap-2">
+              <span className="px-2 py-1 rounded text-xs font-bold bg-orange-50 text-orange-600">COV</span>
+              <span className="text-sm text-gray-500">Ballot Familiarity - Covariate</span>
+            </div>
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold mb-8 md:mb-12 text-black text-left leading-relaxed">
+              {t('baseline.ballotFamiliarity.question')}
+            </h2>
+            <LikertScale
+              name="ballotFamiliarity-preview"
+              value={null}
+              onChange={() => {}}
+              leftLabel={t('baseline.ballotFamiliarity.notFamiliar')}
+              rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
+              points={7}
+            />
+            <div className="mt-8 md:mt-12 flex justify-end">
+              <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                {t('baseline.continue')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 3: INSTRUCTION ========== */}
+        <ScreenDivider id="3" name="Instruction" />
+        <div className="p-4 bg-white rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-2xl mx-auto p-6 shadow-lg">
+            <div className="mb-6 text-left">
+              <h1 className="text-2xl font-bold mb-4 text-black">{t('instruction.aboutTitle')}</h1>
+              <div className="space-y-3">
+                <p className="text-base text-black leading-relaxed">{t('instruction.aboutText1')}</p>
+                <p className="text-base text-black leading-relaxed">{t('instruction.aboutText2')}</p>
+              </div>
+            </div>
+            <h2 className="text-lg font-bold mb-3 text-black text-left">
+              <span className="text-gray-500 font-normal">Step 1 of 3 — </span>
+              Try the Chatbot
+            </h2>
+            <div className="mb-6 space-y-4 text-left">
+              <p className="text-base text-black leading-relaxed">{t('instruction.text1')}</p>
+              <p className="text-base text-black leading-relaxed">{t('instruction.text2')}</p>
+              <p className="text-base text-black leading-relaxed">{t('instruction.text3')}</p>
+            </div>
+            <div className="mb-6 text-left">
+              <p className="text-base font-semibold text-black mb-2">{t('instruction.task')}</p>
+              <p className="text-base text-black">{t('instruction.taskSubtitle')}</p>
+            </div>
+            <div className="mb-6 text-left">
+              <p className="text-sm font-semibold text-black mb-2">{t('instruction.examplesLabel')}</p>
+              <ul className="space-y-1.5">
+                <li className="text-sm text-black pl-3 border-l-2 border-gray-300">{t('instruction.example1')}</li>
+                <li className="text-sm text-black pl-3 border-l-2 border-gray-300">{t('instruction.example2')}</li>
+                <li className="text-sm text-black pl-3 border-l-2 border-gray-300">{t('instruction.example3')}</li>
+              </ul>
+            </div>
+            <div className="flex justify-end">
+              <button className="bg-gray-200 text-black px-8 py-3 rounded-lg font-medium text-base min-h-[48px]">
+                {t('instruction.button')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 4: CHAT INTERFACE ========== */}
+        <ScreenDivider id="4" name="Chat Interface" />
+        <div className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden" style={{ height: '600px' }}>
+          <div className="flex flex-col h-full max-w-4xl mx-auto">
+            <div className="bg-[#FF0000] text-white p-4">
+              <h2 className="text-xl font-bold">{t('chat.title')}</h2>
+              <p className="text-sm">{t('chat.subtitle')}</p>
+            </div>
+            <div className="flex-1 p-4 overflow-y-auto">
+              <div className="space-y-4">
+                <div className="flex justify-end">
+                  <div className="bg-blue-500 text-white px-4 py-2 rounded-lg max-w-xs">
+                    What is the Klimafonds Initiative about?
+                  </div>
+                </div>
+                <div className="flex justify-start">
+                  <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-md">
+                    The Klimafonds Initiative proposes establishing a climate fund to invest in renewable energy and climate protection measures...
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-4 border-t border-gray-200">
+              <div className="flex gap-2">
+                <input type="text" placeholder={t('chat.placeholder')} className="flex-1 p-3 border border-gray-300 rounded-lg" disabled />
+                <button className="px-6 py-3 bg-blue-500 text-white rounded-lg">{t('chat.send')}</button>
+              </div>
+            </div>
+            <div className="p-2 text-center text-sm text-gray-500 bg-yellow-50 border-t border-yellow-200">
+              {t('chat.minQuestions', { count: 1 })}
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 5: DONATION MODAL (CONDITION-SPECIFIC) ========== */}
+        <ScreenDivider id="5" name="Donation Modal" />
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 mx-auto ${condition === 'D' ? 'max-w-3xl' : 'max-w-2xl'}`}>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">
+              <span className="text-gray-500 font-normal">Step 2 of 3 — </span>
+              Your decision about data donation
+            </h2>
+            <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
+              {t('donation.transition')}
+            </p>
+
+            {/* Condition A: Baseline */}
+            {condition === 'A' && (
+              <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
+                <p className="text-black">{t('donation.conditionA.text')}</p>
+              </div>
+            )}
+
+            {/* Condition B: DNL only */}
+            {condition === 'B' && (
+              <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-white">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                  {[
+                    { icon: '🇨🇭', title: t('dnl.provenance'), value: t('dnl.provenanceValue') },
+                    { icon: '📖', title: t('dnl.ingredients'), value: t('dnl.ingredientsValue') },
+                    { icon: '🛡️', title: t('dnl.protection'), value: t('dnl.protectionValue') }
+                  ].map(item => (
+                    <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
+                      <div className="text-2xl mb-2">{item.icon}</div>
+                      <div className="text-base font-medium text-black mb-1">{item.title}</div>
+                      <div className="text-sm text-black">{item.value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg mx-auto">
+                  {[
+                    { icon: '✅', title: t('dnl.compliance'), value: t('dnl.complianceValue') },
+                    { icon: '📅', title: t('dnl.freshness'), value: t('dnl.freshnessValue') }
+                  ].map(item => (
+                    <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
+                      <div className="text-2xl mb-2">{item.icon}</div>
+                      <div className="text-base font-medium text-black mb-1">{item.title}</div>
+                      <div className="text-sm text-black">{item.value}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Condition C: Dashboard only */}
+            {condition === 'C' && (
+              <div className="space-y-3 mb-6">
+                {[
+                  { title: t('dashboard.scope.label'), options: [t('dashboard.scope.topicsOnly'), t('dashboard.scope.questionsOnly'), t('dashboard.scope.full')] },
+                  { title: t('dashboard.purpose.label'), options: [t('dashboard.purpose.academic'), t('dashboard.purpose.commercial')] },
+                  { title: t('dashboard.storage.label'), options: [t('dashboard.storage.swiss'), t('dashboard.storage.swissOrEu'), t('dashboard.storage.noPreference')] },
+                  { title: t('dashboard.retention.label'), options: [t('dashboard.retention.untilFulfilled'), t('dashboard.retention.6months'), t('dashboard.retention.1year'), t('dashboard.retention.indefinite')] }
+                ].map((panel, idx) => (
+                  <div key={idx} className="rounded-lg border-2 border-gray-200 bg-white p-4">
+                    <div className="mb-3">
+                      <h3 className="font-semibold text-lg text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md">{panel.title}</h3>
+                    </div>
+                    <div className="space-y-2">
+                      {panel.options.map((opt, optIdx) => (
+                        <label key={optIdx} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 bg-white hover:border-gray-400 cursor-pointer">
+                          <div className="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center flex-shrink-0" />
+                          <span className="text-base font-medium text-gray-900">{opt}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Condition D: Both DNL + Dashboard */}
+            {condition === 'D' && (
+              <>
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                    <span className="text-xl">ℹ️</span>
+                    {t('dnl.title')}
+                  </h3>
+                  {/* Same DNL grid layout as Condition B */}
+                  <div className="border border-gray-200 rounded-lg p-4 bg-white">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                      {[
+                        { icon: '🇨🇭', title: t('dnl.provenance'), value: t('dnl.provenanceValue') },
+                        { icon: '📖', title: t('dnl.ingredients'), value: t('dnl.ingredientsValue') },
+                        { icon: '🛡️', title: t('dnl.protection'), value: t('dnl.protectionValue') }
+                      ].map(item => (
+                        <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
+                          <div className="text-2xl mb-2">{item.icon}</div>
+                          <div className="text-base font-medium text-black mb-1">{item.title}</div>
+                          <div className="text-sm text-black">{item.value}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg mx-auto">
+                      {[
+                        { icon: '✅', title: t('dnl.compliance'), value: t('dnl.complianceValue') },
+                        { icon: '📅', title: t('dnl.freshness'), value: t('dnl.freshnessValue') }
+                      ].map(item => (
+                        <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
+                          <div className="text-2xl mb-2">{item.icon}</div>
+                          <div className="text-base font-medium text-black mb-1">{item.title}</div>
+                          <div className="text-sm text-black">{item.value}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="border-t border-gray-200 my-6" />
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                    <span className="text-xl">⚙️</span>
+                    {t('dashboard.title')}
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { title: t('dashboard.scope.label'), options: [t('dashboard.scope.topicsOnly'), t('dashboard.scope.questionsOnly'), t('dashboard.scope.full')] },
+                      { title: t('dashboard.purpose.label'), options: [t('dashboard.purpose.academic'), t('dashboard.purpose.commercial')] },
+                      { title: t('dashboard.storage.label'), options: [t('dashboard.storage.swiss'), t('dashboard.storage.swissOrEu'), t('dashboard.storage.noPreference')] },
+                      { title: t('dashboard.retention.label'), options: [t('dashboard.retention.untilFulfilled'), t('dashboard.retention.6months'), t('dashboard.retention.1year'), t('dashboard.retention.indefinite')] }
+                    ].map((panel, idx) => (
+                      <div key={idx} className="rounded-lg border-2 border-gray-200 bg-white p-4">
+                        <div className="mb-3">
+                          <h3 className="font-semibold text-lg text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md">{panel.title}</h3>
+                        </div>
+                        <div className="space-y-2">
+                          {panel.options.map((opt, optIdx) => (
+                            <label key={optIdx} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 bg-white hover:border-gray-400 cursor-pointer">
+                              <div className="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center flex-shrink-0" />
+                              <span className="text-base font-medium text-gray-900">{opt}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Decision buttons */}
+            <div className="mt-8">
+              <p className="text-xl md:text-2xl font-semibold text-black mb-6 leading-relaxed">
+                {t('donation.decisionQuestion')}
+              </p>
+              <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+                <button className="w-full md:flex-1 bg-gray-200 text-black py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                  {t('donation.accept')}
+                </button>
+                <button className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-100 transition">
+                  {t('donation.decline')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 6: Q3 TRANSPARENCY (MC-T) ========== */}
+        <ScreenDivider id="6" name="Q3: Transparency" tag="MC-T" />
+        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="MC-T" construct="Perceived Transparency">
+          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.transparency.intro')}</p>
+          <LikertItemPreview label={t('survey.transparency.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <LikertItemPreview label={t('survey.transparency.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <div className="mt-6 p-3 bg-blue-50 rounded text-sm text-blue-700">
+            <strong>Expected:</strong> Higher in B & D (with DNL) than A & C
+          </div>
+        </JourneyCard>
+
+        {/* ========== 7: Q4 CONTROL (MC-C) ========== */}
+        <ScreenDivider id="7" name="Q4: Control" tag="MC-C" />
+        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="MC-C" construct="Perceived User Control">
+          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.control.intro')}</p>
+          <LikertItemPreview label={t('survey.control.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <LikertItemPreview label={t('survey.control.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <div className="mt-6 p-3 bg-green-50 rounded text-sm text-green-700">
+            <strong>Expected:</strong> Higher in C & D (with Dashboard) than A & B
+          </div>
+        </JourneyCard>
+
+        {/* ========== 8: Q5 RISK (OUT-RISK) ========== */}
+        <ScreenDivider id="8" name="Q5: Risk" tag="OUT-RISK" />
+        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="OUT-RISK" construct="Risk Perception">
+          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.risk.intro')}</p>
+          <LikertItemPreview label={t('survey.risk.traceability')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <LikertItemPreview label={t('survey.risk.misuse')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
+            <strong>Expected:</strong> Lowest in D (high transparency reduces risk), highest in A
+          </div>
+        </JourneyCard>
+
+        {/* ========== 9: Q6 TRUST (OUT-TRUST) ========== */}
+        <ScreenDivider id="9" name="Q6: Trust" tag="OUT-TRUST" />
+        <JourneyCard title="Step 3 of 3 — About Your Donation Decision" tag="OUT-TRUST" construct="Trust">
+          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.trust.intro')}</p>
+          <LikertItemPreview label={t('survey.trust.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <LikertItemPreview label={t('survey.trust.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
+          <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
+            <strong>Note:</strong> Exploratory - not required for H1-H3 testing
+          </div>
+        </JourneyCard>
+
+        {/* ========== 10: Q7 CHATBOT QUESTION ========== */}
+        <ScreenDivider id="10" name="Q7: Chatbot Question" />
+        <JourneyCard title={t('survey.chatbotQuestion.header')}>
+          <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.chatbotQuestion.question')}</p>
+          <div className="space-y-3">
+            {[
+              { key: 'voting', label: t('survey.chatbotQuestion.voting') },
+              { key: 'tax', label: t('survey.chatbotQuestion.tax') },
+              { key: 'immigration', label: t('survey.chatbotQuestion.immigration') },
+              { key: 'dontremember', label: t('survey.chatbotQuestion.dontremember') }
+            ].map((opt) => (
+              <button key={opt.key} type="button" className="w-full text-left px-5 py-4 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 transition-all duration-150 min-h-[52px]">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center flex-shrink-0" />
+                  <span className="text-base font-medium">{opt.label}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </JourneyCard>
+
+        {/* ========== 11: TRANSITION ========== */}
+        <ScreenDivider id="11" name="Transition" />
+        <div className="bg-gray-50 py-4 rounded-lg border border-gray-200">
+          <div className="max-w-2xl mx-auto px-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div className="text-center py-4">
+                <div className="text-5xl mb-6">🙏🏻</div>
+                <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900">{t('survey.transition.title')}</h2>
+                <p className="text-lg text-gray-600 mb-8">{t('survey.transition.message')}</p>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 max-w-lg mx-auto mb-8">
+                  <p className="text-sm text-blue-800 leading-relaxed">{t('survey.transition.reminder')}</p>
+                </div>
+                <button type="button" className="bg-gray-200 text-black px-8 py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                  {t('survey.navigation.next')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ========== 12: Q8 AGE ========== */}
+        <ScreenDivider id="12" name="Q8: Age" tag="DEMO" />
+        <JourneyCard title="A few questions about you" tag="DEMO">
+          <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.age.question')}</p>
+          <div className="space-y-3">
+            {['18-24', '25-34', '35-44', '45-54', '55-64', '65+'].map((age) => (
+              <button key={age} type="button" className="w-full text-left px-5 py-4 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 transition-all duration-150 min-h-[52px]">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center flex-shrink-0" />
+                  <span className="text-base font-medium">{t(`survey.demographics.age.${age}`)}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </JourneyCard>
+
+        {/* ========== 13: Q9 GENDER ========== */}
+        <ScreenDivider id="13" name="Q9: Gender" tag="DEMO" />
+        <JourneyCard title="A few questions about you" tag="DEMO">
+          <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.gender.question')}</p>
+          <div className="space-y-3">
+            {[
+              { key: 'female', label: t('survey.demographics.gender.female') },
+              { key: 'male', label: t('survey.demographics.gender.male') },
+              { key: 'nonBinary', label: t('survey.demographics.gender.nonBinary') },
+              { key: 'other', label: t('survey.demographics.gender.other') },
+              { key: 'preferNotSay', label: t('survey.demographics.preferNotSay') }
+            ].map((opt) => (
+              <button key={opt.key} type="button" className="w-full text-left px-5 py-4 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 transition-all duration-150 min-h-[52px]">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center flex-shrink-0" />
+                  <span className="text-base font-medium">{opt.label}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </JourneyCard>
+
+        {/* ========== 14: Q10 LANGUAGE ========== */}
+        <ScreenDivider id="14" name="Q10: Language" tag="DEMO" />
+        <JourneyCard title="A few questions about you" tag="DEMO">
+          <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.language.question')}</p>
+          <div className="space-y-3">
+            {[
+              { key: 'german', label: t('survey.demographics.language.german') },
+              { key: 'french', label: t('survey.demographics.language.french') },
+              { key: 'italian', label: t('survey.demographics.language.italian') },
+              { key: 'english', label: t('survey.demographics.language.english') },
+              { key: 'romansh', label: t('survey.demographics.language.romansh') },
+              { key: 'other', label: t('survey.demographics.language.other') }
+            ].map((opt) => (
+              <button key={opt.key} type="button" className="w-full text-left px-5 py-4 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 transition-all duration-150 min-h-[52px]">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center flex-shrink-0" />
+                  <span className="text-base font-medium">{opt.label}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </JourneyCard>
+
+        {/* ========== 15: Q11 EDUCATION ========== */}
+        <ScreenDivider id="15" name="Q11: Education" tag="DEMO" />
+        <JourneyCard title="A few questions about you" tag="DEMO">
+          <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.education.question')}</p>
+          <div className="space-y-3">
+            {[
+              { key: 'mandatory', label: t('survey.demographics.education.mandatory') },
+              { key: 'matura', label: t('survey.demographics.education.matura') },
+              { key: 'vocational', label: t('survey.demographics.education.vocational') },
+              { key: 'higherVocational', label: t('survey.demographics.education.higherVocational') },
+              { key: 'appliedSciences', label: t('survey.demographics.education.appliedSciences') },
+              { key: 'university', label: t('survey.demographics.education.university') },
+              { key: 'preferNotSay', label: t('survey.demographics.preferNotSay') }
+            ].map((opt) => (
+              <button key={opt.key} type="button" className="w-full text-left px-5 py-4 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 transition-all duration-150 min-h-[52px]">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center flex-shrink-0" />
+                  <span className="text-base font-medium">{opt.label}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </JourneyCard>
+
+        {/* ========== 15B: Q12 VOTING ELIGIBILITY ========== */}
+        <ScreenDivider id="15B" name="Q12: Voting Eligibility" tag="DEMO" />
+        <JourneyCard title="A few questions about you" tag="DEMO">
+          <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.votingEligibility.question')}</p>
+          <div className="space-y-3">
+            {[
+              { key: 'eligible', label: t('survey.demographics.votingEligibility.eligible') },
+              { key: 'notEligible', label: t('survey.demographics.votingEligibility.notEligible') },
+              { key: 'notSure', label: t('survey.demographics.votingEligibility.notSure') }
+            ].map((opt) => (
+              <button key={opt.key} type="button" className="w-full text-left px-5 py-4 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 transition-all duration-150 min-h-[52px]">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center flex-shrink-0" />
+                  <span className="text-base font-medium">{opt.label}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </JourneyCard>
+
+        {/* ========== 16: Q13 OPEN FEEDBACK ========== */}
+        <ScreenDivider id="16" name="Q13: Open Feedback" tag="QUAL" />
+        <JourneyCard title={t('survey.openFeedback.question')} tag="QUAL" construct="Qualitative Insight">
+          <p className="text-base text-gray-500 mb-6">{t('survey.openFeedback.note')}</p>
+          <textarea rows={5} className="w-full p-4 text-base border border-gray-300 rounded-md bg-white resize-none" placeholder={t('survey.openFeedback.placeholder')} disabled />
+          <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
+        </JourneyCard>
+
+        {/* ========== 17: Q14 EMAIL ========== */}
+        <ScreenDivider id="17" name="Q14: Email" />
+        <JourneyCard title={t('survey.notifyEmail.question')}>
+          <p className="text-base text-gray-500 mb-6">{t('survey.notifyEmail.note')}</p>
+          <input type="email" className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]" placeholder={t('survey.notifyEmail.placeholder')} disabled />
+        </JourneyCard>
+
+        {/* ========== 18: DEBRIEFING ========== */}
+        <ScreenDivider id="18" name="Debriefing" />
+        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+            <h1 className="text-2xl font-bold mb-6 text-black text-center">{t('debrief.title')}</h1>
+            <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4 mb-6">
+              <p className="text-base text-black leading-relaxed">
+                <strong>{t('debrief.important')}</strong> {t('debrief.simulationNote')}
+              </p>
+            </div>
+            <div className="mb-6">
+              <h2 className="text-lg font-bold mb-3 text-black">{t('debrief.whatWeStudy')}</h2>
+              <p className="text-base text-black leading-relaxed">{t('debrief.studyPurpose')}</p>
+            </div>
+            <div className="mb-6">
+              <h2 className="text-lg font-bold mb-3 text-black">{t('debrief.questions')}</h2>
+              <p className="text-base text-black mb-3 leading-relaxed">{t('debrief.contactIntro')}</p>
+              <div className="space-y-1 text-base text-black">
+                <p>{t('debrief.researcher')}</p>
+                <p>{t('debrief.institution')}</p>
+                <p>{t('debrief.supervisor')}</p>
+              </div>
+            </div>
+            <button className="w-full bg-gray-200 text-black py-4 rounded-lg font-semibold text-base min-h-[48px]">
+              {t('debrief.close')}
+            </button>
+          </div>
+        </div>
+
+        {/* Back to top */}
+        <div className="text-center py-8">
+          <button onClick={onBack} className="px-6 py-3 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-700 transition">
+            ← Back to Navigator
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================
 // DEBUG NAVIGATOR COMPONENT
 // ============================================
 
@@ -506,7 +1254,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '1B': // Consent Modal - exact copy from App.tsx
         return (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-white flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-md w-full p-6 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold mb-4 text-black leading-tight">{t('landing.consentModal.title')}</h2>
               <p className="text-base md:text-lg text-black mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>
@@ -546,7 +1294,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '2A':
         return (
-          <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
+          <div className="min-h-screen flex items-center justify-center p-4 bg-white">
             <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
               <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
                 {t('baseline.aboutYou', 'About you')}
@@ -573,7 +1321,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '2B':
         return (
-          <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
+          <div className="min-h-screen flex items-center justify-center p-4 bg-white">
             <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
               <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
                 {t('baseline.aboutYou', 'About you')}
@@ -600,7 +1348,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '2C':
         return (
-          <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
+          <div className="min-h-screen flex items-center justify-center p-4 bg-white">
             <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
               <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">
                 {t('baseline.aboutYou', 'About you')}
@@ -738,7 +1486,7 @@ const SurveyDebugNavigator: React.FC = () => {
           );
         };
 
-        // ========== DASHBOARD: SINGLE-SCREEN PROGRESSIVE ENABLEMENT ==========
+        // ========== DASHBOARD: TRUE PROGRESSIVE DISCLOSURE ==========
         const SimplifiedDashboard = () => {
           // State management
           const [shareChoice, setShareChoice] = React.useState<string | null>(null);
@@ -746,21 +1494,11 @@ const SurveyDebugNavigator: React.FC = () => {
           const [storageChoice, setStorageChoice] = React.useState<string | null>(null);
           const [retentionChoice, setRetentionChoice] = React.useState<string | null>(null);
 
-          // Derived state
-          const isDonatingFlowActive = shareChoice !== null;
-
-          // Clear retention when share choice is cleared
-          React.useEffect(() => {
-            if (!shareChoice) {
-              setRetentionChoice(null);
-            }
-          }, [shareChoice]);
-
-          // Options
+          // Options (no descriptions)
           const shareOptions = [
-            { key: 'topics-only', label: 'High-level topics only', desc: 'No actual text shared' },
-            { key: 'questions-only', label: 'My questions', desc: 'Text of questions only, no AI responses' },
-            { key: 'full', label: 'Full conversations', desc: 'Both questions and AI responses' }
+            { key: 'topics-only', label: 'High-level topics only' },
+            { key: 'questions-only', label: 'My questions' },
+            { key: 'full', label: 'My questions and chatbot answers' }
           ];
           const usageOptions = [
             { key: 'academic', label: 'Academic research only' },
@@ -778,134 +1516,215 @@ const SurveyDebugNavigator: React.FC = () => {
             { key: 'indefinite', label: 'Indefinitely' }
           ];
 
-          // Reusable radio option component
-          const RadioOption = ({ selected, label, desc, onClick, disabled, name }: {
-            selected: boolean; label: string; desc?: string; onClick: () => void; disabled?: boolean; name: string;
+          // Progressive disclosure: determine active step
+          const getActiveStep = (): number => {
+            if (!shareChoice) return 1;
+            if (!usageChoice) return 2;
+            if (!storageChoice) return 3;
+            if (!retentionChoice) return 4;
+            return 5; // All completed
+          };
+          const activeStep = getActiveStep();
+
+          // Get selected label helper
+          const getSelectedLabel = (options: { key: string; label: string }[], value: string | null) => {
+            return options.find(opt => opt.key === value)?.label || '';
+          };
+
+          // Handle value changes with clearing logic
+          const handleShareChange = (val: string) => {
+            if (val === '') {
+              setShareChoice(null);
+              setUsageChoice(null);
+              setStorageChoice(null);
+              setRetentionChoice(null);
+            } else {
+              setShareChoice(val);
+            }
+          };
+          const handleUsageChange = (val: string) => {
+            if (val === '') {
+              setUsageChoice(null);
+              setStorageChoice(null);
+              setRetentionChoice(null);
+            } else {
+              setUsageChoice(val);
+            }
+          };
+          const handleStorageChange = (val: string) => {
+            if (val === '') {
+              setStorageChoice(null);
+              setRetentionChoice(null);
+            } else {
+              setStorageChoice(val);
+            }
+          };
+          const handleRetentionChange = (val: string) => {
+            if (val === '') {
+              setRetentionChoice(null);
+            } else {
+              setRetentionChoice(val);
+            }
+          };
+
+          // Radio option component
+          const RadioOption = ({ selected, label, onClick, name, id }: {
+            selected: boolean; label: string; onClick: () => void; name: string; id: string;
           }) => (
-            <label className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer ${
-              disabled
-                ? 'bg-gray-50 border-gray-200 opacity-50 cursor-not-allowed'
-                : selected
-                  ? 'border-gray-900 bg-gray-50'
+            <label
+              htmlFor={id}
+              className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer ${
+                selected
+                  ? 'border-green-600 bg-green-50'
                   : 'border-gray-200 bg-white hover:border-gray-400'
-            }`}>
+              }`}
+            >
               <input
                 type="radio"
+                id={id}
                 name={name}
                 checked={selected}
                 onChange={onClick}
-                disabled={disabled}
                 className="sr-only"
-                tabIndex={disabled ? -1 : 0}
               />
               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                selected ? 'border-gray-900 bg-gray-900' : disabled ? 'border-gray-300' : 'border-gray-400'
+                selected ? 'border-green-600' : 'border-gray-400'
               }`}>
-                {selected && <div className="w-2 h-2 rounded-full bg-white" />}
+                {selected && <div className="w-2.5 h-2.5 rounded-full bg-green-600" />}
               </div>
-              <div className="flex-1 min-w-0">
-                <p className={`text-base font-medium ${disabled ? 'text-gray-400' : 'text-gray-900'}`}>{label}</p>
-                {desc && <p className={`text-sm mt-0.5 ${disabled ? 'text-gray-300' : 'text-gray-500'}`}>{desc}</p>}
-              </div>
+              <span className="text-base font-medium text-gray-900">{label}</span>
             </label>
           );
 
-          // Panel component
-          const Panel = ({ title, children, disabled }: {
-            title: string; children: React.ReactNode; disabled?: boolean;
-          }) => (
-            <div
-              className={`rounded-lg border-2 transition-all p-4 ${
-                disabled
-                  ? 'border-gray-200 bg-gray-50 opacity-60'
-                  : 'border-gray-200 bg-white'
-              }`}
-              aria-disabled={disabled}
-            >
-              <div className="mb-3">
-                <h3 className="font-semibold text-lg text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md">
-                  {title}
-                </h3>
+          // Collapsed answer display (shows selected answer)
+          const CollapsedAnswer = ({ label }: { label: string }) => (
+            <div className="flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
+              <div className="w-4 h-4 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+                <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
               </div>
-              {children}
+              <span className="text-sm font-medium text-green-800">{label}</span>
             </div>
           );
 
+          // Pending question display (grayed out, only title visible)
+          const PendingQuestion = ({ title }: { title: string }) => (
+            <div className="rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 p-4 opacity-60">
+              <h3 className="font-semibold text-base text-gray-400">{title}</h3>
+            </div>
+          );
+
+          // Question panel component with three states: pending, active, completed
+          const QuestionPanel = ({
+            step,
+            title,
+            options,
+            value,
+            onChange,
+            name
+          }: {
+            step: number;
+            title: string;
+            options: { key: string; label: string }[];
+            value: string | null;
+            onChange: (val: string) => void;
+            name: string;
+          }) => {
+            const isActive = activeStep === step;
+            const isCompleted = activeStep > step;
+            const isPending = activeStep < step;
+
+            // PENDING: Show only grayed-out title
+            if (isPending) {
+              return <PendingQuestion title={title} />;
+            }
+
+            // COMPLETED: Show collapsed with selected answer + change button
+            if (isCompleted && value) {
+              return (
+                <div className="rounded-lg border-2 border-gray-200 bg-white p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-semibold text-base text-gray-700">{title}</h3>
+                    <button
+                      type="button"
+                      onClick={() => onChange('')}
+                      className="text-xs text-gray-500 hover:text-gray-700 underline"
+                    >
+                      Change
+                    </button>
+                  </div>
+                  <CollapsedAnswer label={getSelectedLabel(options, value)} />
+                </div>
+              );
+            }
+
+            // ACTIVE: Show full options
+            return (
+              <fieldset className="rounded-lg border-2 border-gray-300 bg-white p-4">
+                <legend className="sr-only">{title}</legend>
+                <h3 className="font-semibold text-lg text-gray-900 mb-3">{title}</h3>
+                <div className="space-y-2" role="radiogroup" aria-label={title}>
+                  {options.map(opt => (
+                    <RadioOption
+                      key={opt.key}
+                      id={`${name}-${opt.key}`}
+                      name={name}
+                      selected={value === opt.key}
+                      label={opt.label}
+                      onClick={() => onChange(opt.key)}
+                    />
+                  ))}
+                </div>
+              </fieldset>
+            );
+          };
+
           return (
-            <div className="space-y-3">
-              {/* Panel 1: What to share */}
-              <Panel title="What would you like to share?">
-                <div className="space-y-2">
-                  {shareOptions.map(opt => (
-                    <RadioOption
-                      key={opt.key}
-                      name="share-choice"
-                      selected={shareChoice === opt.key}
-                      label={opt.label}
-                      desc={opt.desc}
-                      onClick={() => setShareChoice(shareChoice === opt.key ? null : opt.key)}
-                    />
-                  ))}
-                </div>
-              </Panel>
+            <div className="space-y-3" role="form" aria-label="Data donation configuration">
+              {/* Q1: What to share */}
+              <QuestionPanel
+                step={1}
+                title="What data would you like to share?"
+                options={shareOptions}
+                value={shareChoice}
+                onChange={handleShareChange}
+                name="share-choice"
+              />
 
-              {/* Panel 2: How data will be used */}
-              <Panel title="How should your data be used?" disabled={!isDonatingFlowActive}>
-                <div className="space-y-2">
-                  {usageOptions.map(opt => (
-                    <RadioOption
-                      key={opt.key}
-                      name="usage-choice"
-                      selected={usageChoice === opt.key}
-                      label={opt.label}
-                      onClick={() => setUsageChoice(usageChoice === opt.key ? null : opt.key)}
-                      disabled={!isDonatingFlowActive}
-                    />
-                  ))}
-                </div>
-              </Panel>
+              {/* Q2: How data will be used */}
+              <QuestionPanel
+                step={2}
+                title="How may your data be used?"
+                options={usageOptions}
+                value={usageChoice}
+                onChange={handleUsageChange}
+                name="usage-choice"
+              />
 
-              {/* Panels 3 & 4: Storage and Retention (side-by-side on desktop) */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {/* Panel 3: Where stored */}
-                <Panel title="Where should your data be stored?" disabled={!isDonatingFlowActive}>
-                  <div className="space-y-2">
-                    {storageOptions.map(opt => (
-                      <RadioOption
-                        key={opt.key}
-                        name="storage-choice"
-                        selected={storageChoice === opt.key}
-                        label={opt.label}
-                        onClick={() => setStorageChoice(storageChoice === opt.key ? null : opt.key)}
-                        disabled={!isDonatingFlowActive}
-                      />
-                    ))}
-                  </div>
-                </Panel>
+              {/* Q3: Where stored */}
+              <QuestionPanel
+                step={3}
+                title="Where should your data be stored?"
+                options={storageOptions}
+                value={storageChoice}
+                onChange={handleStorageChange}
+                name="storage-choice"
+              />
 
-                {/* Panel 4: Retention */}
-                <Panel
-                  title="How long should your data be kept?"
-                  disabled={!isDonatingFlowActive}
-                >
-                  <div className="space-y-2">
-                    {retentionOptions.map(opt => (
-                      <RadioOption
-                        key={opt.key}
-                        name="retention-choice"
-                        selected={retentionChoice === opt.key}
-                        label={opt.label}
-                        onClick={() => setRetentionChoice(retentionChoice === opt.key ? null : opt.key)}
-                        disabled={!isDonatingFlowActive}
-                      />
-                    ))}
-                  </div>
-                </Panel>
-              </div>
+              {/* Q4: Retention */}
+              <QuestionPanel
+                step={4}
+                title="How long should your data be kept?"
+                options={retentionOptions}
+                value={retentionChoice}
+                onChange={handleRetentionChange}
+                name="retention-choice"
+              />
 
               {/* Info text */}
-              <p className="text-base text-gray-500 mt-4 mb-8 flex items-center gap-2">
-                <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <p className="text-sm text-gray-500 mt-4 flex items-center gap-2">
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 You can change these settings in your dashboard anytime.
@@ -915,7 +1734,7 @@ const SurveyDebugNavigator: React.FC = () => {
         };
 
         return (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-white flex items-center justify-center p-4 z-50">
             <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-3xl' : 'max-w-2xl'}`}>
               <Headline />
               <IntroText />
@@ -944,13 +1763,13 @@ const SurveyDebugNavigator: React.FC = () => {
               {/* Condition D: DNL + Dashboard (stacked layout to reduce cognitive overload) */}
               {isConditionD && (
                 <>
-                  {/* Section 1: About the Model (compact DNL) */}
+                  {/* Section 1: About the Model (same DNL as condition B) */}
                   <div className="mb-6">
-                    <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                      <span className="text-lg">ℹ️</span>
-                      About the Apertus Model
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                      <span className="text-xl">ℹ️</span>
+                      About the Swiss Apertus Model
                     </h3>
-                    <CompactDNL />
+                    <SimplifiedDNL />
                   </div>
 
                   {/* Visual separator */}
@@ -958,8 +1777,8 @@ const SurveyDebugNavigator: React.FC = () => {
 
                   {/* Section 2: Your Preferences (Dashboard) */}
                   <div className="mb-6">
-                    <h3 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                      <span className="text-lg">⚙️</span>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                      <span className="text-xl">⚙️</span>
                       Configure Your Data Donation
                     </h3>
                     <SimplifiedDashboard />
@@ -1317,10 +2136,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '16': // Q13: Open Feedback
         return (
-          <PreviewWrapper title="Your Feedback" tag="QUAL" construct="Qualitative Insight">
-            <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-              {t('survey.openFeedback.question')}
-            </p>
+          <PreviewWrapper title={t('survey.openFeedback.question')} tag="QUAL" construct="Qualitative Insight">
             <p className="text-base text-gray-500 mb-6">
               {t('survey.openFeedback.note')}
             </p>
@@ -1335,10 +2151,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '17': // Q14: Email
         return (
-          <PreviewWrapper title="Stay Updated">
-            <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
-              {t('survey.notifyEmail.question')}
-            </p>
+          <PreviewWrapper title={t('survey.notifyEmail.question')}>
             <p className="text-base text-gray-500 mb-6">
               {t('survey.notifyEmail.note')}
             </p>
@@ -1353,6 +2166,16 @@ const SurveyDebugNavigator: React.FC = () => {
       // ========== DEBRIEF ==========
       case '18':
         return <Debriefing />;
+
+      // ========== FULL JOURNEY VIEWS ==========
+      case 'journey-A':
+        return <FullJourneyView condition="A" onBack={backToList} />;
+      case 'journey-B':
+        return <FullJourneyView condition="B" onBack={backToList} />;
+      case 'journey-C':
+        return <FullJourneyView condition="C" onBack={backToList} />;
+      case 'journey-D':
+        return <FullJourneyView condition="D" onBack={backToList} />;
 
       default:
         return (
@@ -1639,6 +2462,36 @@ const SurveyDebugNavigator: React.FC = () => {
                 </div>
               </div>
 
+              {/* Full Journey Views */}
+              <div className="mb-8 p-6 bg-purple-50 border border-purple-200 rounded-lg">
+                <h2 className="text-lg font-bold text-purple-900 mb-4">Full Journey Views</h2>
+                <p className="text-sm text-purple-700 mb-4">
+                  View the complete user flow with all questions displayed for each condition.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {(['A', 'B', 'C', 'D'] as const).map(cond => {
+                    const condInfo = {
+                      A: { name: 'Baseline', desc: 'No DNL, No Dashboard', color: 'bg-gray-100 hover:bg-gray-200 border-gray-300' },
+                      B: { name: 'Transparency', desc: 'DNL only', color: 'bg-blue-100 hover:bg-blue-200 border-blue-300' },
+                      C: { name: 'Control', desc: 'Dashboard only', color: 'bg-green-100 hover:bg-green-200 border-green-300' },
+                      D: { name: 'Full', desc: 'DNL + Dashboard', color: 'bg-purple-100 hover:bg-purple-200 border-purple-300' },
+                    };
+                    const info = condInfo[cond];
+                    return (
+                      <button
+                        key={cond}
+                        onClick={() => navigateToScreen(`journey-${cond}`)}
+                        className={`p-4 rounded-lg border-2 ${info.color} transition text-left`}
+                      >
+                        <div className="text-2xl font-bold text-gray-900 mb-1">{cond}</div>
+                        <div className="text-sm font-medium text-gray-700">{info.name}</div>
+                        <div className="text-xs text-gray-500">{info.desc}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Screens Grid */}
               {stageOrder.map(stage => (
                 <div key={stage} className="mb-8">
@@ -1704,11 +2557,13 @@ const SurveyDebugNavigator: React.FC = () => {
               <div className="mt-8 p-4 bg-blue-50 rounded-lg">
                 <h3 className="font-semibold text-blue-900 mb-2">How to use</h3>
                 <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• <strong>Left panel:</strong> Complete journey overview for selected condition</li>
-                  <li>• <strong>Right panel:</strong> Click any screen to preview it</li>
+                  <li>• <strong>Full Journey Views:</strong> Click A/B/C/D buttons to see complete flow with all questions for that condition</li>
+                  <li>• <strong>Left panel:</strong> Quick journey overview for selected condition</li>
+                  <li>• <strong>Right panel:</strong> Click any screen to preview it individually</li>
                   <li>• <strong>Tags:</strong> MC-T (blue) = H1, MC-C (green) = H2, OUT (yellow) = H3</li>
                   <li>• Switch conditions (A/B/C/D) to see different journey descriptions</li>
                   <li>• Yellow items are condition-dependent (only Donation Modal differs)</li>
+                  <li>• Deep-link to journey: <code className="bg-blue-100 px-1 rounded">?debug=survey&screen=journey-D</code></li>
                 </ul>
               </div>
             </div>

@@ -15,16 +15,6 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
   const [storageChoice, setStorageChoice] = useState<string | null>(null);
   const [retentionChoice, setRetentionChoice] = useState<string | null>(null);
 
-  // Derived state
-  const isDonatingFlowActive = shareChoice !== null;
-
-  // Clear retention when share choice is cleared
-  useEffect(() => {
-    if (!shareChoice) {
-      setRetentionChoice(null);
-    }
-  }, [shareChoice]);
-
   // Update parent whenever config changes
   useEffect(() => {
     const config: DonationConfig = {};
@@ -35,11 +25,11 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
     onChange(config);
   }, [shareChoice, usageChoice, storageChoice, retentionChoice, onChange]);
 
-  // Options data
+  // Options data (Q1 has no descriptions per requirement)
   const shareOptions = [
-    { key: 'topics-only', label: t('dashboard.scope.topicsOnly'), desc: t('dashboard.scope.topicsOnlyDesc') },
-    { key: 'questions-only', label: t('dashboard.scope.questionsOnly'), desc: t('dashboard.scope.questionsOnlyDesc') },
-    { key: 'full', label: t('dashboard.scope.full'), desc: t('dashboard.scope.fullDesc') }
+    { key: 'topics-only', label: t('dashboard.scope.topicsOnly') },
+    { key: 'questions-only', label: t('dashboard.scope.questionsOnly') },
+    { key: 'full', label: t('dashboard.scope.full') }
   ];
   const usageOptions = [
     { key: 'academic', label: t('dashboard.purpose.academic') },
@@ -57,156 +47,232 @@ const GranularDashboard: React.FC<Props> = ({ onChange }) => {
     { key: 'indefinite', label: t('dashboard.retention.indefinite') }
   ];
 
+  // Progressive disclosure: determine which step is active
+  const getActiveStep = (): number => {
+    if (!shareChoice) return 1;
+    if (!usageChoice) return 2;
+    if (!storageChoice) return 3;
+    if (!retentionChoice) return 4;
+    return 5; // All completed
+  };
+
+  const activeStep = getActiveStep();
+
+  // Helper to get selected label
+  const getSelectedLabel = (options: { key: string; label: string }[], value: string | null) => {
+    return options.find(opt => opt.key === value)?.label || '';
+  };
+
   // Reusable radio option component
   const RadioOption = ({
     selected,
     label,
-    desc,
     onClick,
-    disabled,
-    name
+    name,
+    id
   }: {
     selected: boolean;
     label: string;
-    desc?: string;
     onClick: () => void;
-    disabled?: boolean;
     name: string;
+    id: string;
   }) => (
     <label
+      htmlFor={id}
       className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer ${
-        disabled
-          ? 'bg-gray-50 border-gray-200 opacity-50 cursor-not-allowed'
-          : selected
-            ? 'border-gray-900 bg-gray-50'
-            : 'border-gray-200 bg-white hover:border-gray-400'
+        selected
+          ? 'border-green-600 bg-green-50'
+          : 'border-gray-200 bg-white hover:border-gray-400'
       }`}
     >
       <input
         type="radio"
+        id={id}
         name={name}
         checked={selected}
         onChange={onClick}
-        disabled={disabled}
         className="sr-only"
-        tabIndex={disabled ? -1 : 0}
       />
       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-        selected ? 'border-gray-900 bg-gray-900' : disabled ? 'border-gray-300' : 'border-gray-400'
+        selected ? 'border-green-600' : 'border-gray-400'
       }`}>
         {selected && (
-          <div className="w-2 h-2 rounded-full bg-white" />
+          <div className="w-2.5 h-2.5 rounded-full bg-green-600" />
         )}
       </div>
-      <div className="flex-1 min-w-0">
-        <p className={`text-base font-medium ${disabled ? 'text-gray-400' : 'text-gray-900'}`}>{label}</p>
-        {desc && <p className={`text-sm mt-0.5 ${disabled ? 'text-gray-300' : 'text-gray-500'}`}>{desc}</p>}
-      </div>
+      <span className="text-base font-medium text-gray-900">{label}</span>
     </label>
   );
 
-  // Panel component
-  const Panel = ({
-    title,
-    children,
-    disabled
-  }: {
-    title: string;
-    children: React.ReactNode;
-    disabled?: boolean;
-  }) => (
-    <div
-      className={`rounded-lg border-2 transition-all p-4 ${
-        disabled
-          ? 'border-gray-200 bg-gray-50 opacity-60'
-          : 'border-gray-200 bg-white'
-      }`}
-      aria-disabled={disabled}
-    >
-      <div className="mb-3">
-        <h3 className="font-semibold text-lg text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md">
-          {title}
-        </h3>
+  // Collapsed answer display (shows selected answer only)
+  const CollapsedAnswer = ({ label }: { label: string }) => (
+    <div className="flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
+      <div className="w-4 h-4 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+        <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+        </svg>
       </div>
-      {children}
+      <span className="text-sm font-medium text-green-800">{label}</span>
     </div>
   );
 
+  // Pending question display (shows only the question title, grayed out)
+  const PendingQuestion = ({ title }: { title: string }) => (
+    <div className="rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 p-4 opacity-60">
+      <h3 className="font-semibold text-base text-gray-400">{title}</h3>
+    </div>
+  );
+
+  // Question panel with fieldset for accessibility
+  const QuestionPanel = ({
+    step,
+    title,
+    options,
+    value,
+    onChange: onValueChange,
+    name
+  }: {
+    step: number;
+    title: string;
+    options: { key: string; label: string }[];
+    value: string | null;
+    onChange: (val: string) => void;
+    name: string;
+  }) => {
+    const isActive = activeStep === step;
+    const isCompleted = activeStep > step;
+    const isPending = activeStep < step;
+
+    if (isPending) {
+      return <PendingQuestion title={title} />;
+    }
+
+    if (isCompleted && value) {
+      return (
+        <div className="rounded-lg border-2 border-gray-200 bg-white p-4">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-base text-gray-700">{title}</h3>
+            <button
+              type="button"
+              onClick={() => onValueChange('')}
+              className="text-xs text-gray-500 hover:text-gray-700 underline"
+              aria-label={`Change answer for ${title}`}
+            >
+              Change
+            </button>
+          </div>
+          <CollapsedAnswer label={getSelectedLabel(options, value)} />
+        </div>
+      );
+    }
+
+    return (
+      <fieldset
+        className="rounded-lg border-2 border-gray-300 bg-white p-4"
+        aria-expanded={isActive}
+      >
+        <legend className="sr-only">{title}</legend>
+        <h3 className="font-semibold text-lg text-gray-900 mb-3">{title}</h3>
+        <div className="space-y-2" role="radiogroup" aria-label={title}>
+          {options.map(opt => (
+            <RadioOption
+              key={opt.key}
+              id={`${name}-${opt.key}`}
+              name={name}
+              selected={value === opt.key}
+              label={opt.label}
+              onClick={() => onValueChange(opt.key)}
+            />
+          ))}
+        </div>
+      </fieldset>
+    );
+  };
+
+  // Handle value change with clearing logic
+  const handleShareChange = (val: string) => {
+    if (val === '') {
+      setShareChoice(null);
+      setUsageChoice(null);
+      setStorageChoice(null);
+      setRetentionChoice(null);
+    } else {
+      setShareChoice(val);
+    }
+  };
+
+  const handleUsageChange = (val: string) => {
+    if (val === '') {
+      setUsageChoice(null);
+      setStorageChoice(null);
+      setRetentionChoice(null);
+    } else {
+      setUsageChoice(val);
+    }
+  };
+
+  const handleStorageChange = (val: string) => {
+    if (val === '') {
+      setStorageChoice(null);
+      setRetentionChoice(null);
+    } else {
+      setStorageChoice(val);
+    }
+  };
+
+  const handleRetentionChange = (val: string) => {
+    if (val === '') {
+      setRetentionChoice(null);
+    } else {
+      setRetentionChoice(val);
+    }
+  };
+
   return (
-    <div className="space-y-3">
-      {/* Panel 1: What to share */}
-      <Panel title={t('dashboard.scope.label')}>
-        <div className="space-y-2">
-          {shareOptions.map(opt => (
-            <RadioOption
-              key={opt.key}
-              name="share-choice"
-              selected={shareChoice === opt.key}
-              label={opt.label}
-              desc={opt.desc}
-              onClick={() => setShareChoice(shareChoice === opt.key ? null : opt.key)}
-            />
-          ))}
-        </div>
-      </Panel>
+    <div className="space-y-3" role="form" aria-label="Data donation configuration">
+      {/* Q1: What to share */}
+      <QuestionPanel
+        step={1}
+        title={t('dashboard.scope.label')}
+        options={shareOptions}
+        value={shareChoice}
+        onChange={handleShareChange}
+        name="share-choice"
+      />
 
-      {/* Panel 2: How data will be used */}
-      <Panel title={t('dashboard.purpose.label')} disabled={!isDonatingFlowActive}>
-        <div className="space-y-2">
-          {usageOptions.map(opt => (
-            <RadioOption
-              key={opt.key}
-              name="usage-choice"
-              selected={usageChoice === opt.key}
-              label={opt.label}
-              onClick={() => setUsageChoice(usageChoice === opt.key ? null : opt.key)}
-              disabled={!isDonatingFlowActive}
-            />
-          ))}
-        </div>
-      </Panel>
+      {/* Q2: How data will be used */}
+      <QuestionPanel
+        step={2}
+        title={t('dashboard.purpose.label')}
+        options={usageOptions}
+        value={usageChoice}
+        onChange={handleUsageChange}
+        name="usage-choice"
+      />
 
-      {/* Panels 3 & 4: Storage and Retention (side-by-side on desktop) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Panel 3: Where stored */}
-        <Panel title={t('dashboard.storage.label')} disabled={!isDonatingFlowActive}>
-          <div className="space-y-2">
-            {storageOptions.map(opt => (
-              <RadioOption
-                key={opt.key}
-                name="storage-choice"
-                selected={storageChoice === opt.key}
-                label={opt.label}
-                onClick={() => setStorageChoice(storageChoice === opt.key ? null : opt.key)}
-                disabled={!isDonatingFlowActive}
-              />
-            ))}
-          </div>
-        </Panel>
+      {/* Q3: Where stored */}
+      <QuestionPanel
+        step={3}
+        title={t('dashboard.storage.label')}
+        options={storageOptions}
+        value={storageChoice}
+        onChange={handleStorageChange}
+        name="storage-choice"
+      />
 
-        {/* Panel 4: Retention */}
-        <Panel
-          title={t('dashboard.retention.label')}
-          disabled={!isDonatingFlowActive}
-        >
-          <div className="space-y-2">
-            {retentionOptions.map(opt => (
-              <RadioOption
-                key={opt.key}
-                name="retention-choice"
-                selected={retentionChoice === opt.key}
-                label={opt.label}
-                onClick={() => setRetentionChoice(retentionChoice === opt.key ? null : opt.key)}
-                disabled={!isDonatingFlowActive}
-              />
-            ))}
-          </div>
-        </Panel>
-      </div>
+      {/* Q4: Retention */}
+      <QuestionPanel
+        step={4}
+        title={t('dashboard.retention.label')}
+        options={retentionOptions}
+        value={retentionChoice}
+        onChange={handleRetentionChange}
+        name="retention-choice"
+      />
 
       {/* Info text */}
-      <p className="text-base text-gray-500 mt-4 mb-8 flex items-center gap-2">
-        <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <p className="text-sm text-gray-500 mt-4 flex items-center gap-2">
+        <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         {t('dashboard.revocability')}
