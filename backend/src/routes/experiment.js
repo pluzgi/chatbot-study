@@ -23,15 +23,16 @@ router.post('/initialize', async (req, res) => {
     const { language } = req.body;
     const fingerprint = generateFingerprint(req);
 
-    // DISABLED FOR TESTING - Check for duplicate participation (within last 7 days)
-    // const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
+    // Check for duplicate COMPLETED participation (within last 7 days)
+    // Users who dropped out can restart fresh - only completed surveys are blocked
+    const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
 
-    // if (existingParticipation) {
-    //   return res.status(409).json({
-    //     error: 'already_participated',
-    //     message: 'You have already participated in this study recently.'
-    //   });
-    // }
+    if (existingParticipation) {
+      return res.status(409).json({
+        error: 'already_participated',
+        message: 'You have already participated in this study recently.'
+      });
+    }
 
     // Create new participant with fingerprint
     const { participant, config } = await experimentService.createParticipant(language, fingerprint);

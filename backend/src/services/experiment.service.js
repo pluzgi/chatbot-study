@@ -36,12 +36,15 @@ class ExperimentService {
   }
 
   /**
-   * Check for duplicate participation within 7 days.
+   * Check for duplicate COMPLETED participation within 7 days.
+   * Only blocks users who have fully completed the survey.
+   * Users who dropped out can restart fresh.
    */
   async checkDuplicateParticipation(fingerprint) {
     const result = await pool.query(
       `SELECT id FROM participants
        WHERE fingerprint = $1
+       AND completed_at IS NOT NULL
        AND created_at > NOW() - INTERVAL '7 days'
        LIMIT 1`,
       [fingerprint]
