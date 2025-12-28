@@ -89,9 +89,4 @@ export interface SurveyData {
   // Q13: Open Feedback (QUAL) - Qualitative insight
   // ============================================
   openFeedback: string;
-
-  // ============================================
-  // Q14: Email Notification (optional)
-  // ============================================
-  notifyEmail?: string;
 }
