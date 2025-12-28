@@ -141,7 +141,7 @@ SELECT
   p.language,
   ptm.clarity1, ptm.clarity2, ptm.clarity3, ptm.clarity4,
   ptm.control1, ptm.control2, ptm.control3, ptm.control4,
-  ptm.trust1, ptm.trust2
+  ptm.trust1
 FROM participants p
 LEFT JOIN post_task_measures ptm ON p.id = ptm.participant_id
 WHERE p.current_phase = 'complete';

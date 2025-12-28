@@ -109,47 +109,40 @@ class ExperimentService {
   }
 
   /**
-   * Record post-task survey measures (Q3-Q14) and mark as complete.
-   * Also handles optional notify_email.
+   * Record post-task survey measures (Q4-Q14) and mark as complete.
+   * Also handles optional notify_email (Q15).
+   * Schema matches frontend SurveyData type and migrate.js table definition.
    */
   async recordPostMeasures(participantId, measures) {
     // Insert survey measures
     await pool.query(
       `INSERT INTO post_task_measures (
         participant_id,
-        clarity1, clarity2, clarity3, clarity4,
-        control1, control2, control3, control4,
-        risk_privacy, risk_misuse, risk_companies, risk_trust, risk_security,
-        agency1, agency2, agency3,
-        trust1, trust2,
-        acceptable_use_improve_chatbot, acceptable_use_academic_research,
-        acceptable_use_commercial_products, acceptable_use_nothing,
+        transparency1, transparency2,
+        control1, control2,
+        risk_traceability, risk_misuse,
+        trust1,
         attention_check,
-        age, gender, gender_other, primary_language, education,
+        age, gender, gender_other, primary_language, education, eligible_to_vote_ch,
         open_feedback
       ) VALUES (
         $1,
-        $2, $3, $4, $5,
-        $6, $7, $8, $9,
-        $10, $11, $12, $13, $14,
-        $15, $16, $17,
-        $18, $19,
-        $20, $21, $22, $23,
-        $24,
-        $25, $26, $27, $28, $29,
-        $30
+        $2, $3,
+        $4, $5,
+        $6, $7,
+        $8,
+        $9,
+        $10, $11, $12, $13, $14, $15,
+        $16
       )`,
       [
         participantId,
-        measures.clarity1, measures.clarity2, measures.clarity3, measures.clarity4,
-        measures.control1, measures.control2, measures.control3, measures.control4,
-        measures.riskPrivacy, measures.riskMisuse, measures.riskCompanies, measures.riskTrust, measures.riskSecurity,
-        measures.agency1, measures.agency2, measures.agency3,
-        measures.trust1, measures.trust2,
-        measures.acceptableUseImproveChatbot, measures.acceptableUseAcademicResearch,
-        measures.acceptableUseCommercialProducts, measures.acceptableUseNothing,
+        measures.transparency1, measures.transparency2,
+        measures.control1, measures.control2,
+        measures.riskTraceability, measures.riskMisuse,
+        measures.trust1,
         measures.attentionCheck,
-        measures.age, measures.gender, measures.genderOther, measures.primaryLanguage, measures.education,
+        measures.age, measures.gender, measures.genderOther, measures.primaryLanguage, measures.education, measures.eligibleToVoteCh,
         measures.openFeedback
       ]
     );

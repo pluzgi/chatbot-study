@@ -43,57 +43,39 @@ CREATE TABLE participants (
     completed_at TIMESTAMP
 );
 
--- Post-task survey measures (Q3-Q14)
+-- Post-task survey measures (Q4-Q14)
 -- Separate table: logically distinct data collected after main experiment
+-- Aligned with hypothesis-driven survey structure
 CREATE TABLE post_task_measures (
     participant_id UUID PRIMARY KEY REFERENCES participants(id),
 
-    -- Q3: Clarity (4 items)
-    clarity1 INT CHECK (clarity1 BETWEEN 1 AND 7),
-    clarity2 INT CHECK (clarity2 BETWEEN 1 AND 7),
-    clarity3 INT CHECK (clarity3 BETWEEN 1 AND 7),
-    clarity4 INT CHECK (clarity4 BETWEEN 1 AND 7),
+    -- Q4: Perceived Transparency (MC-T) - H1 manipulation check - 2 items
+    transparency1 INT CHECK (transparency1 BETWEEN 1 AND 7),
+    transparency2 INT CHECK (transparency2 BETWEEN 1 AND 7),
 
-    -- Q4: Control (4 items)
+    -- Q5: Perceived User Control (MC-C) - H2 manipulation check - 2 items
     control1 INT CHECK (control1 BETWEEN 1 AND 7),
     control2 INT CHECK (control2 BETWEEN 1 AND 7),
-    control3 INT CHECK (control3 BETWEEN 1 AND 7),
-    control4 INT CHECK (control4 BETWEEN 1 AND 7),
 
-    -- Q5: Risk concerns (5 items)
-    risk_privacy INT CHECK (risk_privacy BETWEEN 1 AND 7),
+    -- Q6: Risk Perception (OUT-RISK) - H3 interaction mechanism - 2 items
+    risk_traceability INT CHECK (risk_traceability BETWEEN 1 AND 7),
     risk_misuse INT CHECK (risk_misuse BETWEEN 1 AND 7),
-    risk_companies INT CHECK (risk_companies BETWEEN 1 AND 7),
-    risk_trust INT CHECK (risk_trust BETWEEN 1 AND 7),
-    risk_security INT CHECK (risk_security BETWEEN 1 AND 7),
 
-    -- Q6: Agency (3 items)
-    agency1 INT CHECK (agency1 BETWEEN 1 AND 7),
-    agency2 INT CHECK (agency2 BETWEEN 1 AND 7),
-    agency3 INT CHECK (agency3 BETWEEN 1 AND 7),
-
-    -- Q7: Trust (2 items)
+    -- Q7: Trust (OUT-TRUST) - Supporting construct - 1 item
     trust1 INT CHECK (trust1 BETWEEN 1 AND 7),
-    trust2 INT CHECK (trust2 BETWEEN 1 AND 7),
 
-    -- Q8: Acceptable use (checkboxes)
-    acceptable_use_improve_chatbot BOOLEAN DEFAULT FALSE,
-    acceptable_use_academic_research BOOLEAN DEFAULT FALSE,
-    acceptable_use_commercial_products BOOLEAN DEFAULT FALSE,
-    acceptable_use_nothing BOOLEAN DEFAULT FALSE,
-
-    -- Q9: Attention check
+    -- Q8: Attention check
     attention_check VARCHAR(50),
 
-    -- Q8-Q12: Demographics
+    -- Q9-Q13: Demographics (checkbox-style selection, stored as strings)
     age VARCHAR(20),
     gender VARCHAR(50),
     gender_other VARCHAR(255),
     primary_language VARCHAR(50),
     education VARCHAR(100),
-    eligible_to_vote_ch BOOLEAN,
+    eligible_to_vote_ch VARCHAR(20) CHECK (eligible_to_vote_ch IN ('eligible', 'not-eligible', 'not-sure')),
 
-    -- Q13: Open feedback
+    -- Q14: Open feedback (QUAL)
     open_feedback TEXT,
 
     created_at TIMESTAMP DEFAULT NOW()
@@ -124,7 +106,7 @@ CREATE INDEX idx_participants_created_at ON participants(created_at);
 
 -- Comments for documentation
 COMMENT ON TABLE participants IS 'Stores experiment participants with dropout tracking and donation decision';
-COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses (Q3-Q14)';
+COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses (Q4-Q14)';
 COMMENT ON TABLE click_counters IS 'Anonymous click counters for tracking button interactions without personal data';
 COMMENT ON COLUMN participants.condition IS 'Experimental condition: A (low/low), B (high/low), C (low/high), D (high/high)';
 COMMENT ON COLUMN participants.current_phase IS 'Dropout tracking: consent → baseline → chatbot → decision → survey → complete';
