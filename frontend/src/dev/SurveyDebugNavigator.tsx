@@ -178,11 +178,24 @@ export const SCREENS: ScreenConfig[] = [
 const PreviewWrapper: React.FC<{
   children: React.ReactNode;
   title: string;
-  questionNum?: number;
   tag?: HypothesisTag;
   construct?: string;
-}> = ({ children, title, questionNum, tag, construct }) => {
+}> = ({ children, title, tag, construct }) => {
   const colors = tag ? TAG_COLORS[tag] : null;
+
+  // Format step prefix in grey if title starts with "Step X of 3 —"
+  const stepMatch = title.match(/^(Step \d+ of \d+ — )(.*)/);
+  const renderTitle = () => {
+    if (stepMatch) {
+      return (
+        <>
+          <span className="text-gray-500 font-normal">{stepMatch[1]}</span>
+          {stepMatch[2]}
+        </>
+      );
+    }
+    return title;
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-6 md:py-10">
@@ -199,14 +212,7 @@ const PreviewWrapper: React.FC<{
               )}
             </div>
           )}
-          {questionNum && (
-            <div className="mb-6">
-              <span className="text-sm text-gray-400 uppercase tracking-wide font-medium">
-                Question {questionNum}
-              </span>
-            </div>
-          )}
-          <h2 className="text-xl font-bold text-gray-900 mb-6">{title}</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">{renderTitle()}</h2>
           {children}
         </div>
       </div>
@@ -648,6 +654,7 @@ const SurveyDebugNavigator: React.FC = () => {
         // Shared components
         const Headline = () => (
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">
+            <span className="text-gray-500 font-normal">Step 2 of 3 — </span>
             Your decision about data donation
           </h2>
         );
@@ -970,12 +977,11 @@ const SurveyDebugNavigator: React.FC = () => {
       case '6': // Q3: Perceived Transparency (MC-T)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Survey"
-            questionNum={3}
+            title="Step 3 of 3 — About Your Donation Decision"
             tag="MC-T"
             construct="Perceived Transparency"
           >
-            <p className="text-base text-gray-500 mb-6 leading-relaxed">
+            <p className="text-base text-gray-900 mb-6 leading-relaxed">
               {t('survey.transparency.intro')}
             </p>
             <LikertItemPreview
@@ -999,12 +1005,11 @@ const SurveyDebugNavigator: React.FC = () => {
       case '7': // Q4: Perceived User Control (MC-C)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Survey"
-            questionNum={4}
+            title="Step 3 of 3 — About Your Donation Decision"
             tag="MC-C"
             construct="Perceived User Control"
           >
-            <p className="text-base text-gray-500 mb-6 leading-relaxed">
+            <p className="text-base text-gray-900 mb-6 leading-relaxed">
               {t('survey.control.intro')}
             </p>
             <LikertItemPreview
@@ -1028,12 +1033,11 @@ const SurveyDebugNavigator: React.FC = () => {
       case '8': // Q5: Risk Perception (OUT-RISK)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Survey"
-            questionNum={5}
+            title="Step 3 of 3 — About Your Donation Decision"
             tag="OUT-RISK"
             construct="Risk Perception"
           >
-            <p className="text-base text-gray-500 mb-6 leading-relaxed">
+            <p className="text-base text-gray-900 mb-6 leading-relaxed">
               {t('survey.risk.intro')}
             </p>
             <LikertItemPreview
@@ -1057,12 +1061,11 @@ const SurveyDebugNavigator: React.FC = () => {
       case '9': // Q6: Trust (OUT-TRUST)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Survey"
-            questionNum={6}
+            title="Step 3 of 3 — About Your Donation Decision"
             tag="OUT-TRUST"
             construct="Trust"
           >
-            <p className="text-base text-gray-500 mb-6 leading-relaxed">
+            <p className="text-base text-gray-900 mb-6 leading-relaxed">
               {t('survey.trust.intro')}
             </p>
             <LikertItemPreview
@@ -1083,19 +1086,18 @@ const SurveyDebugNavigator: React.FC = () => {
           </PreviewWrapper>
         );
 
-      case '10': // Q7: Attention Check
+      case '10': // Q7: Chatbot Question
         return (
-          <PreviewWrapper title="Step 3 of 3 — Survey" questionNum={7} tag="ATTN" construct="Data Quality">
+          <PreviewWrapper title={t('survey.chatbotQuestion.header')}>
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
-              {t('survey.attentionCheck.question')}
+              {t('survey.chatbotQuestion.question')}
             </p>
             <div className="space-y-3">
               {[
-                { key: 'voting', label: t('survey.attentionCheck.voting') },
-                { key: 'tax', label: t('survey.attentionCheck.tax') },
-                { key: 'immigration', label: t('survey.attentionCheck.immigration') },
-                { key: 'news', label: t('survey.attentionCheck.news') },
-                { key: 'dontremember', label: t('survey.attentionCheck.dontremember') }
+                { key: 'voting', label: t('survey.chatbotQuestion.voting') },
+                { key: 'tax', label: t('survey.chatbotQuestion.tax') },
+                { key: 'immigration', label: t('survey.chatbotQuestion.immigration') },
+                { key: 'dontremember', label: t('survey.chatbotQuestion.dontremember') }
               ].map((opt) => (
                 <button
                   key={opt.key}
@@ -1105,7 +1107,7 @@ const SurveyDebugNavigator: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                       'border-gray-300 bg-white'
                     }`}>
                     </div>
@@ -1150,7 +1152,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '12': // Q8: Age
         return (
-          <PreviewWrapper title="Demographics" questionNum={8} tag="DEMO">
+          <PreviewWrapper title="A few questions about you" tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.age.question')}
             </p>
@@ -1164,7 +1166,7 @@ const SurveyDebugNavigator: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                       'border-gray-300 bg-white'
                     }`}>
                     </div>
@@ -1178,7 +1180,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '13': // Q9: Gender
         return (
-          <PreviewWrapper title="Demographics" questionNum={9} tag="DEMO">
+          <PreviewWrapper title="A few questions about you" tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.gender.question')}
             </p>
@@ -1198,7 +1200,7 @@ const SurveyDebugNavigator: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                       'border-gray-300 bg-white'
                     }`}>
                     </div>
@@ -1212,7 +1214,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '14': // Q10: Language
         return (
-          <PreviewWrapper title="Demographics" questionNum={10} tag="DEMO">
+          <PreviewWrapper title="A few questions about you" tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.language.question')}
             </p>
@@ -1233,7 +1235,7 @@ const SurveyDebugNavigator: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                       'border-gray-300 bg-white'
                     }`}>
                     </div>
@@ -1247,7 +1249,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '15': // Q11: Education
         return (
-          <PreviewWrapper title="Demographics" questionNum={11} tag="DEMO">
+          <PreviewWrapper title="A few questions about you" tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.education.question')}
             </p>
@@ -1269,7 +1271,7 @@ const SurveyDebugNavigator: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                       'border-gray-300 bg-white'
                     }`}>
                     </div>
@@ -1283,7 +1285,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '15B': // Q12: Voting Eligibility
         return (
-          <PreviewWrapper title="Demographics" questionNum={12} tag="DEMO">
+          <PreviewWrapper title="A few questions about you" tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.votingEligibility.question')}
             </p>
@@ -1301,7 +1303,7 @@ const SurveyDebugNavigator: React.FC = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                       'border-gray-300 bg-white'
                     }`}>
                     </div>
@@ -1315,7 +1317,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '16': // Q13: Open Feedback
         return (
-          <PreviewWrapper title="Your Feedback" questionNum={13} tag="QUAL" construct="Qualitative Insight">
+          <PreviewWrapper title="Your Feedback" tag="QUAL" construct="Qualitative Insight">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
               {t('survey.openFeedback.question')}
             </p>
@@ -1333,7 +1335,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '17': // Q14: Email
         return (
-          <PreviewWrapper title="Stay Updated" questionNum={14}>
+          <PreviewWrapper title="Stay Updated">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-2 leading-relaxed">
               {t('survey.notifyEmail.question')}
             </p>

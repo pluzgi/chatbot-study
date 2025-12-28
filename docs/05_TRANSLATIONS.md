@@ -1,7 +1,5 @@
 # Translation Files (i18n)
 
-Copy these files to `src/i18n/locales/` in your Lovable project.
-
 ---
 
 ## de.json (German)

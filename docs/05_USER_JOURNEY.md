@@ -417,7 +417,7 @@ Shown after donation decision (donate OR decline)
 | Q4 | Perceived User Control | MC-C | H2 | Higher in C & D (with Dashboard) |
 | Q5 | Risk Perception | OUT-RISK | H3 | Lowest in D, highest in A |
 | Q6 | Trust | OUT-TRUST | — | Supporting construct |
-| Q7 | Attention Check | ATTN | — | Validation |
+| Q7 | Chatbot Question | — | — | Single-select recall |
 | Q8-Q12 | Demographics | DEMO | — | Covariates |
 | Q13 | Open Feedback | QUAL | — | Qualitative insight |
 | Q14 | Email Notification | — | — | Optional |
@@ -551,26 +551,24 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-### Question 7: Attention Check (ATTN)
+### Question 7: Chatbot Question
 
-**Tag:** 🟣 ATTN — Validation
-**Purpose:** Data quality check
+**Purpose:** Recall question about chatbot topic
 
-**Section Header:** "Question 7"
+**Section Header:** "A question about the chatbot"
 
 **Question:**
 "This chatbot helps people with questions about:"
 
-**Question Type:** Checkbox-style selection (single select enforced)
+**Question Type:** Radio-style selection (single select)
 
-**Display:** All options visible as selectable buttons with checkbox indicators
+**Display:** All options visible as selectable buttons with radio indicators (circular)
 
 **Options:**
-1. Swiss votes and ballot initiatives ✓ (CORRECT)
+1. Swiss ballot initiatives
 2. Swiss tax questions
 3. Swiss immigration rules
-4. General political news
-5. I don't remember
+4. I don't remember
 
 **Field:** `attentionCheck`
 **Validation:** Required (one selection)
@@ -811,7 +809,7 @@ Shown after survey submission
 - Q4: Perceived User Control (MC-C) — 2 items
 - Q5: Risk Perception (OUT-RISK) — 2 items
 - Q6: Trust (OUT-TRUST) — 2 items
-- Q7: Attention Check (ATTN)
+- Q7: Chatbot Question
 - Q8-Q12: Demographics (DEMO) — including voting eligibility
 - Q13: Open Feedback (QUAL) — optional
 - Q14: Email notification — optional
@@ -825,9 +823,9 @@ Shown after survey submission
    - Post-task endpoints: Strongly disagree (1) → Strongly agree (7)
    - Standard square buttons, consistent visual treatment
 
-2. **Checkbox-Style Selection (Single Select Enforced):**
-   - Used in: Q7 (attention check), Q8-Q12 (all demographics)
-   - All options visible as selectable buttons with checkbox indicators
+2. **Radio-Style Selection (Single Select):**
+   - Used in: Q7 (chatbot question), Q8-Q12 (all demographics)
+   - All options visible as selectable buttons with radio indicators (circular)
    - No hidden menus or dropdowns
    - Consistent visual treatment across all questions
    - Validation: One selection required per question
