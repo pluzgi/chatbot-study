@@ -1425,16 +1425,30 @@ const SurveyDebugNavigator: React.FC = () => {
           </p>
         );
 
-        const DecisionSection = () => (
+        const DecisionSection = ({ disabled = false }: { disabled?: boolean }) => (
           <div className="mt-8">
             <p className="text-xl md:text-2xl font-semibold text-black mb-6 leading-relaxed">
               Do you want to donate your anonymized chat questions for academic research?
             </p>
             <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-              <button className="w-full md:flex-1 bg-gray-200 text-black py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition">
+              <button
+                disabled={disabled}
+                className={`w-full md:flex-1 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] transition ${
+                  disabled
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
+                }`}
+              >
                 Donate Data
               </button>
-              <button className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-100 transition">
+              <button
+                disabled={disabled}
+                className={`w-full md:flex-1 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] transition ${
+                  disabled
+                    ? 'bg-gray-50 text-gray-400 border border-gray-200 cursor-not-allowed'
+                    : 'bg-white text-black border border-gray-300 hover:bg-gray-100'
+                }`}
+              >
                 Don't Donate
               </button>
             </div>
@@ -1499,12 +1513,18 @@ const SurveyDebugNavigator: React.FC = () => {
         };
 
         // ========== DASHBOARD: TRUE PROGRESSIVE DISCLOSURE ==========
-        const SimplifiedDashboard = () => {
+        const SimplifiedDashboard = ({ onAllAnswered }: { onAllAnswered?: (complete: boolean) => void }) => {
           // State management
           const [shareChoice, setShareChoice] = React.useState<string | null>(null);
           const [usageChoice, setUsageChoice] = React.useState<string | null>(null);
           const [storageChoice, setStorageChoice] = React.useState<string | null>(null);
           const [retentionChoice, setRetentionChoice] = React.useState<string | null>(null);
+
+          // Report completion state to parent
+          React.useEffect(() => {
+            const allAnswered = !!(shareChoice && usageChoice && storageChoice && retentionChoice);
+            onAllAnswered?.(allAnswered);
+          }, [shareChoice, usageChoice, storageChoice, retentionChoice, onAllAnswered]);
 
           // Options (no descriptions)
           const shareOptions = [
@@ -1745,6 +1765,48 @@ const SurveyDebugNavigator: React.FC = () => {
           );
         };
 
+        // Wrapper for Condition C: Dashboard + Decision with disabled buttons until complete
+        const ConditionCContent = () => {
+          const [allAnswered, setAllAnswered] = React.useState(false);
+          return (
+            <>
+              <SimplifiedDashboard onAllAnswered={setAllAnswered} />
+              <DecisionSection disabled={!allAnswered} />
+            </>
+          );
+        };
+
+        // Wrapper for Condition D: DNL + Dashboard + Decision with disabled buttons until complete
+        const ConditionDContent = () => {
+          const [allAnswered, setAllAnswered] = React.useState(false);
+          return (
+            <>
+              {/* Section 1: About the Model (same DNL as condition B) */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                  <span className="text-xl">ℹ️</span>
+                  About the Swiss Apertus Model
+                </h3>
+                <SimplifiedDNL />
+              </div>
+
+              {/* Visual separator */}
+              <div className="border-t border-gray-200 my-6" />
+
+              {/* Section 2: Your Preferences (Dashboard) */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                  <span className="text-xl">⚙️</span>
+                  Configure Your Data Donation
+                </h3>
+                <SimplifiedDashboard onAllAnswered={setAllAnswered} />
+              </div>
+
+              <DecisionSection disabled={!allAnswered} />
+            </>
+          );
+        };
+
         return (
           <div className="fixed inset-0 bg-white flex items-center justify-center p-4 z-50">
             <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-3xl' : 'max-w-2xl'}`}>
@@ -1766,38 +1828,12 @@ const SurveyDebugNavigator: React.FC = () => {
 
               {/* Condition C: Dashboard + binary question */}
               {isConditionC && (
-                <>
-                  <SimplifiedDashboard />
-                  <DecisionSection />
-                </>
+                <ConditionCContent />
               )}
 
               {/* Condition D: DNL + Dashboard (stacked layout to reduce cognitive overload) */}
               {isConditionD && (
-                <>
-                  {/* Section 1: About the Model (same DNL as condition B) */}
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
-                      <span className="text-xl">ℹ️</span>
-                      About the Swiss Apertus Model
-                    </h3>
-                    <SimplifiedDNL />
-                  </div>
-
-                  {/* Visual separator */}
-                  <div className="border-t border-gray-200 my-6" />
-
-                  {/* Section 2: Your Preferences (Dashboard) */}
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
-                      <span className="text-xl">⚙️</span>
-                      Configure Your Data Donation
-                    </h3>
-                    <SimplifiedDashboard />
-                  </div>
-
-                  <DecisionSection />
-                </>
+                <ConditionDContent />
               )}
             </div>
           </div>

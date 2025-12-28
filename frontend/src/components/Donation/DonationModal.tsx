@@ -48,6 +48,15 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
   const isConditionC = !config.showDNL && config.showDashboard;
   const isConditionD = config.showDNL && config.showDashboard;
 
+  // Check if all dashboard questions are answered (for C & D)
+  const allDashboardQuestionsAnswered = dashboardConfig?.scope &&
+    dashboardConfig?.purpose &&
+    dashboardConfig?.storage &&
+    dashboardConfig?.retention;
+
+  // Buttons should be disabled in C & D until all questions answered
+  const buttonsDisabled = (isConditionC || isConditionD) && !allDashboardQuestionsAnswered;
+
   return (
     <div className="fixed inset-0 bg-white flex items-center justify-center p-4 z-50">
       <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 ${isConditionD ? 'max-w-3xl' : 'max-w-2xl'}`}>
@@ -181,14 +190,24 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               {/* Left: Donate Data (filled neutral, like "Start study") */}
               <button
                 onClick={handleDonate}
-                className="w-full md:flex-1 bg-gray-200 text-black py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition"
+                disabled={buttonsDisabled}
+                className={`w-full md:flex-1 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] transition ${
+                  buttonsDisabled
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
+                }`}
               >
                 {t('donation.accept')}
               </button>
               {/* Right: Don't Donate (outlined, like "Not interested") */}
               <button
                 onClick={handleDecline}
-                className="w-full md:flex-1 bg-white text-black border border-gray-300 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] hover:bg-gray-100 transition"
+                disabled={buttonsDisabled}
+                className={`w-full md:flex-1 py-4 rounded-md font-medium text-base md:text-lg min-h-[48px] transition ${
+                  buttonsDisabled
+                    ? 'bg-gray-50 text-gray-400 border border-gray-200 cursor-not-allowed'
+                    : 'bg-white text-black border border-gray-300 hover:bg-gray-100'
+                }`}
               >
                 {t('donation.decline')}
               </button>

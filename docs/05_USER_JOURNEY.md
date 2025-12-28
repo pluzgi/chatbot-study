@@ -27,7 +27,7 @@ This document describes the complete participant experience from landing page to
 "A short academic study on data donation and trust in open-source AI"
 
 **What this is about:**
-"We explore how people decide whether to donate anonymized chatbot questions for AI language model research."
+"We explore how people decide whether to donate anonymized chat questions for AI language model research."
 
 **What to expect:**
 - About 8 minutes
@@ -304,13 +304,13 @@ The dashboard uses **progressive disclosure** - questions appear one at a time. 
   - "My questions and chatbot answers"
 
 **2. How may your data be used?**
-- Radio-style selection (optional)
+- Radio-style selection (required)
 - Options:
   - "Academic research only"
   - "Academic research and commercial use"
 
 **3. Where should your data be stored?**
-- Radio-style selection (optional)
+- Radio-style selection (required)
 - Options:
   - "Swiss servers only"
   - "Swiss or EU servers"
@@ -328,10 +328,9 @@ The dashboard uses **progressive disclosure** - questions appear one at a time. 
 "You can change these settings in your dashboard anytime."
 
 **Validation:**
-- Scope (Q1) is required
-- Retention (Q4) is required when scope is selected
-- Purpose and storage are optional
-- Error if required fields missing: "Please configure all privacy settings"
+- All 4 questions are required
+- Donate/Don't Donate buttons are disabled until all questions answered
+- Disabled buttons appear grayed out with cursor-not-allowed
 
 ---
 
@@ -357,8 +356,7 @@ The dashboard uses **progressive disclosure** - questions appear one at a time. 
 - Clear section headers with icons for visual hierarchy
 
 **Validation:**
-If user clicks "Donate Data" without filling all dashboard fields:
-→ Error: "Please configure all privacy settings"
+Both "Donate Data" and "Don't Donate" buttons are disabled until all 4 dashboard questions are answered. Disabled buttons appear grayed out (bg-gray-100, text-gray-400) with cursor-not-allowed.
 
 ---
 
@@ -370,6 +368,10 @@ If user clicks "Donate Data" without filling all dashboard fields:
 **Buttons (neutral styling, no color bias):**
 - [Donate Data] — Left button, filled gray (#E5E7EB), turns green on hover
 - [Don't Donate] — Right button, outlined white with gray border, turns gray-50 on hover
+
+**Button States (Conditions C & D only):**
+- **Disabled:** Both buttons disabled until all 4 dashboard questions answered (gray-100 bg, gray-400 text, cursor-not-allowed)
+- **Enabled:** Normal styling once all questions answered
 
 **Note:** Both buttons have equal visual weight with no color bias to avoid influencing participant decisions. Styling matches landing page buttons.
 
@@ -594,7 +596,7 @@ Shown after donation decision (donate OR decline)
 **Message:** "Finally, just a few questions about yourself..."
 
 **Important Reminder Box (blue background):**
-"REMINDER: The data donation was simulated for research purposes. Your chatbot questions were NOT actually stored."
+"REMINDER: The data donation was simulated for research purposes. Your chat questions were NOT actually stored."
 
 **Button:** [Next] (auto-enabled, no validation needed)
 
@@ -783,7 +785,7 @@ Shown after survey submission
 ### Important Notice (Yellow Box)
 
 **Text:**
-"**Important:** The data donation was SIMULATED. Your chatbot questions were NOT stored or used. Only your survey answers were recorded anonymously."
+"**Important:** The data donation was SIMULATED. Your chat questions were NOT stored or used. Only your survey answers were recorded anonymously."
 
 **Display:** Yellow background box (bg-yellow-50, border-yellow-400)
 
@@ -869,7 +871,7 @@ Shown after survey submission
 - **Required questions:** Q4-Q13 (all post-task questions except Q14-Q15)
 - **Optional questions:** Q14 (open feedback), Q15 (email)
 - **Minimum chat messages:** 2 questions before progression
-- **Dashboard validation:** Scope (Q1) and Retention (Q4) required in Conditions C/D when donating; Purpose and Storage are optional
+- **Dashboard validation:** All 4 questions (Scope, Purpose, Storage, Retention) required in Conditions C/D before Donate/Don't Donate buttons are enabled
 
 ### Button States
 - **Disabled state:** Gray background (#D1D5DB), no hover effect, gray text
