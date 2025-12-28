@@ -58,9 +58,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     education: null,
     eligibleToVoteCh: null,
     // Q13: Open Feedback (QUAL)
-    openFeedback: '',
-    // Q14: Email Notification (optional)
-    notifyEmail: ''
+    openFeedback: ''
   });
 
   // Build dynamic page structure
@@ -103,12 +101,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
     pages.push({ questionNum, type: 'eligibleToVoteCh', field: 'eligibleToVoteCh' });
     questionNum++;
 
-    // Q13: Open Feedback (QUAL)
+    // Q13: Open Feedback (QUAL) - this is the last page
     pages.push({ questionNum, type: 'openFeedback', field: 'openFeedback' });
-    questionNum++;
-
-    // Q14: Email Notification (optional)
-    pages.push({ questionNum, type: 'notifyEmail', field: 'notifyEmail' });
 
     return pages;
   }, []);
@@ -133,8 +127,8 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       return true;
     }
 
-    // Open feedback and email notification are optional
-    if (currentPageData.type === 'openFeedback' || currentPageData.type === 'notifyEmail') {
+    // Open feedback is optional
+    if (currentPageData.type === 'openFeedback') {
       return true;
     }
 
@@ -177,7 +171,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
   useEffect(() => {
     const currentPageData = pageStructure[currentPage - 1];
     // Don't add Enter key handler for text input pages
-    if (currentPageData?.type === 'openFeedback' || currentPageData?.type === 'notifyEmail') {
+    if (currentPageData?.type === 'openFeedback') {
       return;
     }
 
@@ -245,8 +239,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         primaryLanguage: answers.primaryLanguage!,
         education: answers.education!,
         eligibleToVoteCh: answers.eligibleToVoteCh!,
-        openFeedback: answers.openFeedback || '',
-        notifyEmail: answers.notifyEmail || ''
+        openFeedback: answers.openFeedback || ''
       };
 
       await api.submitSurvey(participantId, surveyData);
@@ -555,25 +548,6 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
             <p className="text-sm text-gray-400 mt-2 text-right">
               {(answers.openFeedback || '').length}/500
             </p>
-          </div>
-        );
-      case 'notifyEmail':
-        return (
-          <div>
-            <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">
-              {t('survey.notifyEmail.question')}
-            </p>
-            <p className="text-base text-gray-500 mb-4">
-              {t('survey.notifyEmail.note')}
-            </p>
-            <input
-              type="email"
-              value={answers.notifyEmail || ''}
-              onChange={(e) => updateAnswer('notifyEmail', e.target.value)}
-              maxLength={255}
-              className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 bg-white min-h-[52px]"
-              placeholder={t('survey.notifyEmail.placeholder')}
-            />
           </div>
         );
       default:

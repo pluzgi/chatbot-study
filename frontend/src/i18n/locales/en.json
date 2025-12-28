@@ -306,11 +306,6 @@
       "placeholder": "Type your response here...",
       "maxLength": "Maximum 500 characters"
     },
-    "notifyEmail": {
-      "question": "Would you like to receive the study results?",
-      "note": "(Optional. Enter your email to receive the results.)",
-      "placeholder": "your.email@example.com"
-    },
     "validationError": "Please answer all required questions before submitting",
     "submissionError": "Failed to submit survey. Please try again.",
     "submitting": "Submitting...",
@@ -322,6 +317,8 @@
     "simulationNote": "The data donation was SIMULATED. Your chat questions were NOT stored or used. Only your survey answers were recorded anonymously.",
     "whatWeStudy": "What We're Studying",
     "studyPurpose": "We're researching what makes Swiss citizens comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems.",
+    "emailPrompt": "Enter your email to receive the study results (optional):",
+    "emailPlaceholder": "your.email@example.com",
     "questions": "Questions?",
     "contactIntro": "Feel free to contact me:",
     "researcher": "Sabine Wildemann, hello@ailights.org",

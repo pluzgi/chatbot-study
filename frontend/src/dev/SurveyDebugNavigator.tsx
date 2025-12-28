@@ -165,8 +165,6 @@ export const SCREENS: ScreenConfig[] = [
     items: ['In your own words, what was the main reason for your decision?'],
     description: 'Optional open text feedback'
   },
-  { id: '17', name: 'Q14: Email', stage: 'survey', description: 'Optional email for results notification' },
-
   // ========== DEBRIEF STAGE ==========
   { id: '18', name: 'Debriefing', stage: 'debrief', description: 'Study explanation and thank you' },
 
@@ -186,7 +184,13 @@ const PreviewWrapper: React.FC<{
   title: string;
   tag?: HypothesisTag;
   construct?: string;
-}> = ({ children, title, tag, construct }) => {
+  showBack?: boolean;
+  showNext?: boolean;
+  showSubmit?: boolean;
+  backLabel?: string;
+  nextLabel?: string;
+  submitLabel?: string;
+}> = ({ children, title, tag, construct, showBack = true, showNext = true, showSubmit = false, backLabel = '← Back', nextLabel = 'Next →', submitLabel = 'Submit' }) => {
   const colors = tag ? TAG_COLORS[tag] : null;
 
   // Format step prefix in grey if title starts with "Step X of 3 —"
@@ -220,6 +224,41 @@ const PreviewWrapper: React.FC<{
           )}
           <h2 className="text-xl font-bold text-gray-900 mb-6">{renderTitle()}</h2>
           {children}
+
+          {/* Navigation Buttons */}
+          <div className="flex flex-col-reverse md:flex-row gap-3 justify-between items-stretch mt-6">
+            {/* Back Button */}
+            {showBack ? (
+              <button
+                type="button"
+                className="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+                disabled
+              >
+                {backLabel}
+              </button>
+            ) : (
+              <div></div>
+            )}
+
+            {/* Next/Submit Button */}
+            {showSubmit ? (
+              <button
+                type="button"
+                className="px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-200 text-black"
+                disabled
+              >
+                {submitLabel}
+              </button>
+            ) : showNext ? (
+              <button
+                type="button"
+                className="px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-200 text-black"
+                disabled
+              >
+                {nextLabel}
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
@@ -1064,18 +1103,6 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </div>
 
-        {/* ========== 17: Q14 EMAIL ========== */}
-        <ScreenDivider id="17" name="Q14: Email" />
-        <div className="bg-gray-50 py-4 rounded-lg border border-gray-200">
-          <div className="max-w-2xl mx-auto px-4">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">{t('survey.notifyEmail.question')}</p>
-              <p className="text-base text-gray-500 mb-4">{t('survey.notifyEmail.note')}</p>
-              <input type="email" className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]" placeholder={t('survey.notifyEmail.placeholder')} disabled />
-            </div>
-          </div>
-        </div>
-
         {/* ========== 18: DEBRIEFING ========== */}
         <ScreenDivider id="18" name="Debriefing" />
         <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
@@ -1487,6 +1514,7 @@ const SurveyDebugNavigator: React.FC = () => {
         );
 
         // Compact DNL for Condition D (reduces cognitive overload)
+        // @ts-ignore - Component defined for future use in Condition D display
         const CompactDNL = () => {
           const items = [
             { icon: '🇨🇭', title: 'Swiss-Made', value: 'Built by EPFL, ETH Zurich & CSCS in Switzerland' },
@@ -1663,7 +1691,6 @@ const SurveyDebugNavigator: React.FC = () => {
             onChange: (val: string) => void;
             name: string;
           }) => {
-            const isActive = activeStep === step;
             const isCompleted = activeStep > step;
             const isPending = activeStep < step;
 
@@ -2174,7 +2201,7 @@ const SurveyDebugNavigator: React.FC = () => {
           </PreviewWrapper>
         );
 
-      case '16': // Q13: Open Feedback
+      case '16': // Q13: Open Feedback (LAST PAGE - shows Submit button)
         return (
           <div className="min-h-screen bg-gray-50 py-6 md:py-10">
             <div className="max-w-2xl mx-auto px-4">
@@ -2191,23 +2218,24 @@ const SurveyDebugNavigator: React.FC = () => {
                   placeholder={t('survey.openFeedback.placeholder')}
                 />
                 <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
-              </div>
-            </div>
-          </div>
-        );
 
-      case '17': // Q14: Email
-        return (
-          <div className="min-h-screen bg-gray-50 py-6 md:py-10">
-            <div className="max-w-2xl mx-auto px-4">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-10">
-                <p className="text-lg md:text-xl text-gray-900 font-medium mb-1 leading-relaxed">{t('survey.notifyEmail.question')}</p>
-                <p className="text-base text-gray-500 mb-4">{t('survey.notifyEmail.note')}</p>
-                <input
-                  type="email"
-                  className="w-full max-w-md p-4 text-base border border-gray-300 rounded-md bg-white min-h-[52px]"
-                  placeholder={t('survey.notifyEmail.placeholder')}
-                />
+                {/* Navigation Buttons - Submit on last page */}
+                <div className="flex flex-col-reverse md:flex-row gap-3 justify-between items-stretch mt-6">
+                  <button
+                    type="button"
+                    className="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+                    disabled
+                  >
+                    ← {t('survey.navigation.back')}
+                  </button>
+                  <button
+                    type="button"
+                    className="px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-200 text-black"
+                    disabled
+                  >
+                    {t('survey.submit')}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -2321,8 +2349,7 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '15', step: 18, name: 'Q11: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
       { id: '15B', step: 19, name: 'Q12: Voting Eligibility', content: 'Are you eligible to vote in Switzerland? (Yes/No)', tag: 'DEMO' as HypothesisTag },
       { id: '16', step: 20, name: 'Q13: Feedback', content: 'Optional: "What was the main reason for your decision?"', tag: 'QUAL' as HypothesisTag },
-      { id: '17', step: 21, name: 'Q14: Email', content: 'Optional: Email for study results notification' },
-      { id: '18', step: 22, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info' },
+      { id: '18', step: 21, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
     ];
   };
 

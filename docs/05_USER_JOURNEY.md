@@ -3,7 +3,7 @@
 ## Overview
 This document describes the complete participant experience from landing page to debrief, including all text, questions, answer options, and scale types.
 
-**Total Phases:** 10
+**Total Phases:** 9
 1. Landing Page
 2. Consent Modal
 3. Baseline Questions (Q1-Q3)
@@ -11,9 +11,8 @@ This document describes the complete participant experience from landing page to
 5. Chat Interface
 6. Donation Decision Screen (varies by condition A/B/C/D)
 7. Confirmation Screen
-8. Post-Task Survey (Q4-Q14) — Hypothesis-Driven
-9. Email Notification (Q15) — Optional
-10. Debrief Screen
+8. Post-Task Survey (Q4-Q13) — Hypothesis-Driven
+9. Debrief Screen (includes optional email signup)
 
 ---
 
@@ -447,7 +446,7 @@ Shown after donation decision (donate OR decline)
 
 ---
 
-## 📍 PHASE 8: Post-Task Survey (Q4-Q14) — Hypothesis-Driven
+## 📍 PHASE 8: Post-Task Survey (Q4-Q13) — Hypothesis-Driven
 
 **Headline (shown on first page only):**
 "Step 3 of 3 — Your View on Data Use"
@@ -461,20 +460,19 @@ Shown after donation decision (donate OR decline)
 | Q6 | Risk Perception | OUT-RISK | H3 | Lowest in D, highest in A |
 | Q7 | Trust | OUT-TRUST | — | Supporting construct |
 | Q8 | Chatbot Question | — | — | Single-select recall |
-| Q9-Q13 | Demographics | DEMO | — | Covariates |
-| Q14 | Open Feedback | QUAL | — | Qualitative insight |
-| Q15 | Email Notification | — | — | Optional |
+| Q9-Q12 | Demographics | DEMO | — | Covariates |
+| Q13 | Open Feedback | QUAL | — | Qualitative insight |
 
 ### Survey Structure
-- **Total Questions:** 12 pages (10 required + 2 optional: Q14 feedback, Q15 email)
+- **Total Questions:** 11 pages (10 required + 1 optional: Q13 feedback)
 - **Core Likert Items:** 8 items across 4 constructs (2 items each)
 - **Display:** One question section per page
-- **Navigation:** Back button available, Next/Submit button
+- **Navigation:** Back button available, Next/Submit button (Submit on last page)
 - **Progress Bar:** 3px gray bar showing progress through questions
 
 **Note on Question Numbering:**
 - Baseline phase: Q1-Q3 (tech comfort, privacy concern, ballot familiarity)
-- Post-task survey: Q4-Q15 (starts at Q4 to continue from baseline)
+- Post-task survey: Q4-Q13 (starts at Q4 to continue from baseline)
 - This creates a continuous numbering scheme across the entire study
 
 ---
@@ -763,7 +761,7 @@ If "Other" is selected:
 
 ---
 
-### Question 14: Open Feedback (QUAL)
+### Question 13: Open Feedback (QUAL) — LAST SURVEY PAGE
 
 **Tag:** ⚫ QUAL — Qualitative Insight
 
@@ -784,31 +782,11 @@ If "Other" is selected:
 **Field:** `openFeedback`
 **Validation:** Optional (can leave empty)
 
----
-
-### Question 15: Email Notification (Optional)
-
-**Headline (displayed as main text):**
-"Would you like to receive the study results?"
-
-**Note (gray text below headline):**
-"Optional. Enter your email to receive the results."
-
-**Question Type:** Email input field
-
-**Input Field:**
-- Placeholder: "your.email@example.com"
-- Type: email (browser validation)
-- Max length: 255 characters
-
-**Field:** `notifyEmail`
-**Validation:** Optional (can leave empty), but if filled must be valid email format
-
-**Button:** [Submit] (submits entire survey)
+**Button:** [Submit] (submits entire survey → proceeds to Debrief)
 
 ---
 
-## 📍 PHASE 10: Debrief Screen
+## 📍 PHASE 9: Debrief Screen
 
 Shown after survey submission
 
@@ -827,6 +805,19 @@ Shown after survey submission
 
 **Text:**
 "We're researching what makes Swiss citizens comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems."
+
+### Email Signup (Optional)
+
+**Display:** Gray box below study purpose text
+
+**Prompt:**
+"Enter your email to receive the study results (optional):"
+
+**Input Field:**
+- Type: email
+- Placeholder: "your.email@example.com"
+
+**Note:** Email is submitted when user clicks "Close the study" button
 
 ### Contact Information
 
@@ -849,17 +840,16 @@ Shown after survey submission
   - Q2: Privacy concern
   - Q3: Ballot familiarity
 
-- **Post-Task Survey (Q4-Q15):**
+- **Post-Task Survey (Q4-Q13):**
   - Q4: Perceived Transparency (MC-T) — 2 items
   - Q5: Perceived User Control (MC-C) — 2 items
   - Q6: Risk Perception (OUT-RISK) — 2 items
   - Q7: Trust (OUT-TRUST) — 2 items
   - Q8: Chatbot Question (attention check)
-  - Q9-Q13: Demographics (DEMO) — age, gender, language, education, voting eligibility
-  - Q14: Open Feedback (QUAL) — optional
-  - Q15: Email notification — optional
+  - Q9-Q12: Demographics (DEMO) — age, gender, language, education, voting eligibility
+  - Q13: Open Feedback (QUAL) — optional
 
-- **Total:** 15 questions (Q14 and Q15 optional)
+- **Total:** 13 questions (Q13 optional, email signup moved to Debrief)
 - **Core Likert Items:** 8 items across 4 constructs
 
 ### Scale Types Used
@@ -877,11 +867,11 @@ Shown after survey submission
    - Validation: One selection required per question
 
 3. **Free Text:**
-   - Used in: Q10 (gender other), Q14 (open feedback)
+   - Used in: Q10 (gender other), Q13 (open feedback)
    - Validation: Optional
 
 4. **Email Input:**
-   - Used in: Q15
+   - Used in: Debrief page (optional email signup)
    - Validation: Optional, but must be valid format if provided
 
 ### Hypothesis-Construct Mapping
@@ -900,8 +890,8 @@ Shown after survey submission
 - **Back button:** Available throughout post-task survey
 
 ### Validation Rules
-- **Required questions:** Q4-Q13 (all post-task questions except Q14-Q15)
-- **Optional questions:** Q14 (open feedback), Q15 (email)
+- **Required questions:** Q4-Q12 (all post-task questions except Q13)
+- **Optional questions:** Q13 (open feedback), email signup on Debrief
 - **Minimum chat messages:** 2 questions before progression
 - **Dashboard validation:** All 4 questions (Scope, Purpose, Storage, Retention) required in Conditions C/D before Donate/Don't Donate buttons are enabled
 
@@ -932,8 +922,8 @@ Shown after survey submission
 - Chat Interface: ~2-3 minutes (minimum 2 questions)
 - Donation Decision: ~1-2 minutes (longer for C/D with dashboard)
 - Confirmation Screen: ~15 seconds
-- Post-Task Survey (Q4-Q15): ~3-4 minutes
-- Debrief: ~1 minute
+- Post-Task Survey (Q4-Q13): ~3-4 minutes
+- Debrief (with email signup): ~1 minute
 
 **Total:** 8-10 minutes
 
