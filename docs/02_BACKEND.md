@@ -298,18 +298,32 @@ class ExperimentService {
   async assignCondition() {
     // Block randomization
     const result = await pool.query(`
-      SELECT condition, COUNT(*) as count 
-      FROM participants 
+      SELECT condition, COUNT(*) as count
+      FROM participants
       GROUP BY condition
     `);
-    
+
     const counts = { A: 0, B: 0, C: 0, D: 0 };
     result.rows.forEach(r => counts[r.condition] = parseInt(r.count));
-    
+
     const minCount = Math.min(...Object.values(counts));
     const available = Object.keys(counts).filter(c => counts[c] === minCount);
-    
+
     return available[Math.floor(Math.random() * available.length)];
+  }
+
+  // Check for duplicate COMPLETED participation within 7 days
+  // Only blocks users who fully completed the survey - dropouts can restart
+  async checkDuplicateParticipation(fingerprint) {
+    const result = await pool.query(
+      `SELECT id FROM participants
+       WHERE fingerprint = $1
+       AND completed_at IS NOT NULL
+       AND created_at > NOW() - INTERVAL '7 days'
+       LIMIT 1`,
+      [fingerprint]
+    );
+    return result.rows.length > 0;
   }
 
   getConditionConfig(condition) {
@@ -321,7 +335,7 @@ class ExperimentService {
     }[condition];
   }
 
-  async createParticipant(lang = 'de') {
+  async createParticipant(lang = 'de', fingerprint = null) {
     const sessionId = uuidv4();
     const condition = await this.assignCondition();
     
@@ -387,14 +401,39 @@ export default router;
 ### src/routes/experiment.js
 ```javascript
 import express from 'express';
+import crypto from 'crypto';
 import experimentService from '../services/experiment.service.js';
 
 const router = express.Router();
 
+// Generate browser fingerprint for duplicate detection
+function generateFingerprint(req) {
+  const components = [
+    req.ip || req.connection.remoteAddress || '',
+    req.headers['user-agent'] || '',
+    req.headers['accept-language'] || '',
+    req.headers['accept-encoding'] || ''
+  ].join('|');
+  return crypto.createHash('sha256').update(components).digest('hex');
+}
+
 router.post('/initialize', async (req, res) => {
   try {
     const { language } = req.body;
-    const { participant, config } = await experimentService.createParticipant(language);
+    const fingerprint = generateFingerprint(req);
+
+    // Check for duplicate COMPLETED participation (within last 7 days)
+    // Users who dropped out can restart fresh - only completed surveys are blocked
+    const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
+
+    if (existingParticipation) {
+      return res.status(409).json({
+        error: 'already_participated',
+        message: 'You have already participated in this study recently.'
+      });
+    }
+
+    const { participant, config } = await experimentService.createParticipant(language, fingerprint);
 
     res.json({
       sessionId: participant.session_id,

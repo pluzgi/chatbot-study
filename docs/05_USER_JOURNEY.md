@@ -61,6 +61,38 @@ Shown when user clicks "Not Interested"
 
 ---
 
+## 📍 PHASE 1c: Already Participated Screen
+
+Shown when duplicate participation is detected (HTTP 409 response)
+
+**Title:** "Thanks for Your Interest!"
+
+**Message:** "Our records show you have already participated in this study recently."
+
+**Visual:** Centered layout with muted styling
+
+### Duplicate Detection Logic
+
+**How it works:**
+- Browser fingerprint generated from: IP + User-Agent + Accept-Language + Accept-Encoding
+- Fingerprint stored with each participant record
+- Duplicate check runs on `/experiment/initialize` API call
+
+**Completion-based blocking:**
+- Only **completed** participations trigger the block (where `completed_at IS NOT NULL`)
+- Users who dropped out mid-study can restart fresh
+- Block period: 7 days from original participation
+
+**Edge cases handled:**
+| Scenario | Behavior |
+|----------|----------|
+| Clicked "Not interested" | No fingerprint stored → can restart immediately |
+| Dropped out before survey completion | Can restart fresh (not blocked) |
+| Completed full survey | Blocked for 7 days |
+| Same device, different browser | New fingerprint → allowed (different User-Agent) |
+
+---
+
 ## 📍 PHASE 2: Consent Modal
 
 Triggered when user clicks "Start study"
