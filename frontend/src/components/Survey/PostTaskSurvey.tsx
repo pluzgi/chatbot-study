@@ -429,7 +429,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
       {/* Simulation Reminder */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-5 max-w-lg mx-auto">
-        <p className="text-sm text-blue-800 leading-relaxed">
+        <p className="text-base text-blue-800 leading-relaxed">
           {t('survey.transition.reminder')}
         </p>
       </div>
