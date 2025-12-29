@@ -32,6 +32,9 @@
     "declinedPage": {
       "tryApertus": "Want to use Apertus for your daily questions? Try it out!",
       "button": "Try Apertus"
+    },
+    "participantCounter": {
+      "label": "Participants so far"
     }
   },
   "baseline": {

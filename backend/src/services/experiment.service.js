@@ -204,6 +204,56 @@ class ExperimentService {
     `);
     return result.rows;
   }
+
+  /**
+   * Get participant count for the landing page counter.
+   * Counts completed participants (those who finished the survey).
+   * Uses study_config table for target and reset functionality.
+   */
+  async getParticipantCount() {
+    // Get count of completed participants since the counter reset date
+    const countResult = await pool.query(`
+      SELECT COUNT(*) as count
+      FROM participants
+      WHERE completed_at IS NOT NULL
+      AND created_at >= COALESCE(
+        (SELECT reset_at FROM study_config WHERE key = 'counter_reset'),
+        '1970-01-01'
+      )
+    `);
+
+    // Get target from study_config (default 200)
+    const targetResult = await pool.query(`
+      SELECT value FROM study_config WHERE key = 'participant_target'
+    `);
+
+    const count = parseInt(countResult.rows[0]?.count || 0);
+    const target = parseInt(targetResult.rows[0]?.value || 200);
+
+    return { count, target };
+  }
+
+  /**
+   * Reset the participant counter (sets new reset date).
+   */
+  async resetParticipantCounter() {
+    await pool.query(`
+      INSERT INTO study_config (key, value, reset_at)
+      VALUES ('counter_reset', 'reset', NOW())
+      ON CONFLICT (key) DO UPDATE SET reset_at = NOW()
+    `);
+  }
+
+  /**
+   * Update the participant target number.
+   */
+  async updateParticipantTarget(target) {
+    await pool.query(`
+      INSERT INTO study_config (key, value)
+      VALUES ('participant_target', $1)
+      ON CONFLICT (key) DO UPDATE SET value = $1
+    `, [target.toString()]);
+  }
 }
 
 export default new ExperimentService();

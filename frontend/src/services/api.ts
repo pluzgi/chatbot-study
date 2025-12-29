@@ -194,5 +194,21 @@ export const api = {
       console.warn('Track click failed:', error);
       return mockSuccess(); // Don't block user
     }
+  },
+
+  async getParticipantCount(): Promise<{ count: number; target: number }> {
+    if (isDevelopment) {
+      console.log('[DEV] Mock: getParticipantCount');
+      return { count: 0, target: 200 };
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/experiment/participant-count`);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      return res.json();
+    } catch (error) {
+      console.warn('Get participant count failed:', error);
+      return { count: 0, target: 200 }; // Fallback
+    }
   }
 };
