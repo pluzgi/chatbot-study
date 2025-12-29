@@ -1,47 +1,47 @@
 {
-  "_comment": "PLACEHOLDER - Translate to German after UI is finalized",
+  "_comment": "German (Deutsch)",
   "landing": {
     "title": "Swiss Civic AI Study",
-    "subtitle": "A short academic study on data donation and trust in open-source AI",
-    "whatWeStudy": "What this is about",
-    "whatWeStudyText": "We explore how people decide whether to share chatbot questions so Swiss researchers can improve AI systems.",
-    "whatToExpect": "What to expect",
-    "expect1": "About 8 minutes",
-    "expect2": "Anonymous participation",
-    "expect3": "Academic research only",
-    "requirements": "Who can participate",
+    "subtitle": "Eine kurze akademische Studie zu Datenspenden und Vertrauen in Open-Source-KI",
+    "whatWeStudy": "Worum es geht",
+    "whatWeStudyText": "Wir untersuchen, wie Menschen entscheiden, ob sie anonymisierte Chat-Fragen für die Forschung an KI-Sprachmodellen spenden möchten.",
+    "whatToExpect": "Was Sie erwartet",
+    "expect1": "Etwa 8 Minuten",
+    "expect2": "Anonyme Teilnahme",
+    "expect3": "Ausschliesslich akademische Forschung",
+    "requirements": "Wer kann teilnehmen",
     "req1": "18+",
-    "req2": "Eligible to vote in Switzerland",
-    "startButton": "Start study",
-    "declineButton": "Not interested",
-    "contact": "Questions?",
-    "emailLink": "Please send an email",
+    "req2": "Wohnhaft in der Schweiz",
+    "startButton": "Studie starten",
+    "declineButton": "Kein Interesse",
+    "contact": "Fragen?",
+    "emailLink": "Bitte senden Sie eine E-Mail",
     "researcher": "Sabine Wildemann, Data Science & Business Analytics",
     "program": "DBU Digital Business University of Applied Sciences · Prof. Daniel Ambach",
     "consentModal": {
-      "title": "Before we start",
-      "text": "By continuing, you confirm that:",
-      "age": "you are 18 years or older",
-      "vote": "you are eligible to vote in Switzerland",
-      "voluntary": "your participation is voluntary and you may stop at any time",
-      "confirm_checkbox": "I confirm the above and agree to participate",
-      "confirm": "Continue",
-      "back": "Go back"
+      "title": "Bevor wir beginnen",
+      "text": "Mit dem Fortfahren bestätigen Sie:",
+      "age": "Sie sind 18 Jahre oder älter",
+      "residence": "Sie wohnen derzeit in der Schweiz",
+      "voluntary": "Ihre Teilnahme ist freiwillig und Sie können jederzeit abbrechen",
+      "confirm_checkbox": "Ich bestätige das Obenstehende und stimme der Teilnahme zu",
+      "confirm": "Weiter",
+      "back": "Zurück"
     },
-    "declineMessage": "Thank you for your consideration.",
+    "declineMessage": "Vielen Dank für Ihr Interesse.",
     "declinedPage": {
-      "tryApertus": "Want to use Apertus for your daily questions? Try it out!",
-      "button": "Try Apertus"
+      "tryApertus": "Möchten Sie Apertus für Ihre täglichen Fragen nutzen? Probieren Sie es aus!",
+      "button": "Apertus ausprobieren"
     },
     "participantCounter": {
       "label": "Bisherige Teilnehmende"
     }
   },
   "baseline": {
-    "title": "Before We Start",
-    "subtitle": "Just 3 quick questions about you",
-    "progress": "Question {{current}} of 3",
-    "aboutYou": "Über dich",
+    "title": "Bevor wir beginnen",
+    "subtitle": "Nur 3 kurze Fragen über Sie",
+    "progress": "Frage {{current}} von 3",
+    "aboutYou": "Über Sie",
     "scale": {
       "disagree": "Stimme nicht zu",
       "agree": "Stimme zu",
@@ -49,227 +49,215 @@
       "veryFamiliar": "Sehr vertraut"
     },
     "techComfort": {
-      "question": "I am comfortable using new digital technology (like AI chatbots, new apps, or online tools).",
-      "stronglyDisagree": "Strongly disagree",
-      "disagree": "Disagree",
-      "somewhatDisagree": "Somewhat disagree",
-      "neither": "Neither agree nor disagree",
-      "somewhatAgree": "Somewhat agree",
-      "agree": "Agree",
-      "stronglyAgree": "Strongly agree"
+      "question": "Ich fühle mich wohl im Umgang mit neuen digitalen Technologien (wie KI-Chatbots, neue Apps oder Online-Tools).",
+      "stronglyDisagree": "Stimme überhaupt nicht zu",
+      "disagree": "Stimme nicht zu",
+      "somewhatDisagree": "Stimme eher nicht zu",
+      "neither": "Weder noch",
+      "somewhatAgree": "Stimme eher zu",
+      "agree": "Stimme zu",
+      "stronglyAgree": "Stimme voll und ganz zu"
     },
     "privacyConcern": {
-      "question": "In general, I am concerned about how my personal information is used online.",
-      "stronglyDisagree": "Strongly disagree",
-      "disagree": "Disagree",
-      "somewhatDisagree": "Somewhat disagree",
-      "neither": "Neither agree nor disagree",
-      "somewhatAgree": "Somewhat agree",
-      "agree": "Agree",
-      "stronglyAgree": "Strongly agree"
+      "question": "Im Allgemeinen mache ich mir Sorgen darüber, wie meine persönlichen Daten online verwendet werden.",
+      "stronglyDisagree": "Stimme überhaupt nicht zu",
+      "disagree": "Stimme nicht zu",
+      "somewhatDisagree": "Stimme eher nicht zu",
+      "neither": "Weder noch",
+      "somewhatAgree": "Stimme eher zu",
+      "agree": "Stimme zu",
+      "stronglyAgree": "Stimme voll und ganz zu"
     },
-    "continue": "Continue →",
-    "validationError": "Please answer this question to continue"
+    "ballotFamiliarity": {
+      "_tag": "COVARIATE",
+      "_purpose": "Baseline familiarity with Swiss ballot initiatives - covariate for analysis",
+      "question": "Wie vertraut sind Sie mit Schweizer Abstimmungsvorlagen?",
+      "notFamiliar": "Überhaupt nicht vertraut",
+      "veryFamiliar": "Sehr vertraut"
+    },
+    "continue": "Weiter →",
+    "validationError": "Bitte beantworten Sie diese Frage, um fortzufahren"
   },
   "instruction": {
-    "aboutTitle": "About this study",
-    "aboutText1": "In this study, we explore how people use a chatbot in a civic context and how they decide whether their anonymized chat questions may be used for academic AI research.",
-    "aboutText2": "To explore this, the study combines a short hands-on interaction with a chatbot and follow-up questions about your experience.",
-    "headline": "Step 1 of 3 — Try the Chatbot",
-    "text1": "As part of this study, you will interact with a chatbot designed to provide information about Swiss ballot initiatives.",
-    "text2": "The chatbot is based on a Swiss open-source AI language model. This type of AI system is trained to understand questions and generate text-based answers, similar to other chat-based tools you may already know.",
-    "text3": "The model used here, Apertus, is a Swiss open-source large language model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre.",
-    "task": "Please use the chatbot to ask at least 2 questions about Swiss ballot initiatives.",
-    "taskSubtitle": "This helps you get a sense of how the system works before continuing.",
-    "examplesLabel": "Example questions:",
-    "example1": "What is the Klimafonds Initiative about?",
-    "example2": "Explain the Cash Initiative and the counter-proposal.",
-    "example3": "What are the main arguments for and against the SRG Initiative?",
-    "button": "Start Chatbot"
+    "aboutTitle": "Über diese Studie",
+    "aboutText1": "In dieser Studie untersuchen wir, wie Menschen einen Chatbot im staatsbürgerlichen Kontext nutzen und wie sie entscheiden, ob ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
+    "aboutText2": "Dazu kombiniert die Studie eine kurze praktische Interaktion mit einem Chatbot und anschliessende Fragen zu Ihrer Erfahrung.",
+    "headline": "Schritt 1 von 3 — Chatbot ausprobieren",
+    "text1": "In diesem ersten Schritt interagieren Sie mit einem Chatbot, der Informationen zu Schweizer Abstimmungsvorlagen bereitstellt.",
+    "text2": "Der Chatbot basiert auf einem Schweizer Open-Source-KI-Sprachmodell. Solche Modelle werden trainiert, um Fragen zu verstehen und textbasierte Antworten zu generieren, ähnlich wie andere Chat-Tools, die Sie vielleicht bereits kennen.",
+    "text3": "Das für den Chatbot verwendete KI-Modell, Apertus, ist ein Schweizer Open-Source-Sprachmodell, das von der EPFL, der ETH Zürich und dem Swiss National Supercomputing Centre entwickelt wurde.",
+    "task": "Bitte stellen Sie 2–3 Fragen zu Schweizer Abstimmungsvorlagen.",
+    "taskSubtitle": "Dies hilft Ihnen, ein Gefühl für die Funktionsweise des Systems zu bekommen, bevor Sie mit der Studie fortfahren.",
+    "examplesLabel": "Beispielfragen",
+    "example1": "Worum geht es bei der Klimafonds-Initiative?",
+    "example2": "Erklären Sie die Bargeld-Initiative und den Gegenvorschlag.",
+    "example3": "Was sind die wichtigsten Argumente für und gegen die SRG-Initiative?",
+    "button": "Chatbot starten"
   },
   "chat": {
-    "title": "Volksinitiativen-Chatbot",
-    "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Abstimmungen (Antwort dauert ca. 20 Sek.)",
-    "placeholder": "Ask a question...",
-    "send": "Send",
-    "thinking": "Thinking...",
-    "minQuestions": "Please ask at least 2 questions ({{count}}/2)",
-    "continueButton": "Continue to Next Step →"
+    "title": "Schweizer Abstimmungs-Chatbot",
+    "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Abstimmungsvorlagen (Antwort dauert ca. 20 Sek.)",
+    "placeholder": "Stellen Sie eine Frage...",
+    "send": "Senden",
+    "thinking": "Denkt nach...",
+    "minQuestions": "Fragen ({{count}}/3)",
+    "maxReached": "Danke — Sie können nun zur Umfrage weitergehen.",
+    "continueButton": "Weiter zum nächsten Schritt →",
+    "validationError": "Bitte stellen Sie mindestens 2 Fragen, um fortzufahren."
   },
   "donation": {
-    "title": "Help Improve the Apertus Model",
-    "dnlIntro": "To help you decide, here are key facts about the Apertus model:",
-    "baselineText": "We would like to use your anonymized questions to improve the Apertus model. Your data will be handled securely and used only for research and model development.",
-    "baselineHelp": "Donating your questions helps train better AI models.",
-    "accept": "Donate Data",
-    "decline": "Don't Donate",
+    "eyebrow": "Schritt 2 von 3 — Entscheidung zur Datenspende",
+    "headline": "Schritt 2 von 3 — Ihre Entscheidung zur Datenspende",
+    "transition": "Sie haben gerade den Chatbot verwendet. Nun bitten wir Sie zu entscheiden, ob Ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
+    "conditionA": {
+      "text": "Ihre anonymisierten Chat-Fragen würden zur Verbesserung eines Schweizer Open-Source-KI-Modells für akademische Forschung verwendet. Die Daten würden sicher behandelt und nicht für kommerzielle Zwecke genutzt."
+    },
+    "conditionB": {
+      "intro": "Um Ihre Entscheidung zu unterstützen, finden Sie hier sachliche Informationen über den Chatbot und den Umgang mit Daten:"
+    },
+    "conditionC": {
+      "intro": "Sie können entscheiden, wie Ihre anonymisierten Chat-Fragen verwendet werden."
+    },
+    "conditionD": {
+      "intro": "Um Ihre Entscheidung zu unterstützen, können Sie Informationen über den Chatbot einsehen und anpassen, wie Ihre anonymisierten Daten verwendet werden."
+    },
+    "dashboardHelper": "Sie können die Standardeinstellungen beibehalten oder sie vor Ihrer Entscheidung anpassen.",
+    "decisionQuestion": "Möchten Sie Ihre anonymisierten Chat-Fragen für Forschungszwecke spenden?",
+    "accept": "Daten spenden",
+    "decline": "Nicht spenden",
     "confirmDonate": {
-      "title": "Thank You!",
-      "message": "Your contribution will help improve the Apertus model.",
-      "nextStep": "Next: Please answer a few questions about your experience.",
-      "button": "Continue to Survey →"
+      "title": "Vielen Dank!",
+      "message": "Ihr Beitrag wird helfen, das Apertus-Modell zu verbessern.",
+      "nextStep": "Weiter: Bitte beantworten Sie einige Fragen zu Ihrer Erfahrung.",
+      "button": "Weiter zur Umfrage →"
     },
     "confirmDecline": {
-      "title": "Choice Recorded",
-      "message": "Thank you for considering this request.",
-      "nextStep": "Next: Please answer a few questions about your experience.",
-      "button": "Continue to Survey →"
+      "title": "Entscheidung erfasst",
+      "message": "Vielen Dank für Ihre Überlegung.",
+      "nextStep": "Weiter: Bitte beantworten Sie einige Fragen zu Ihrer Erfahrung.",
+      "button": "Weiter zur Umfrage →"
     }
   },
   "dnl": {
-    "title": "About the Swiss Apertus Model",
-    "intro": "Here's the information you would receive about data handling before making your decision:",
+    "title": "Über das Schweizer Apertus-Modell",
+    "intro": "Hier sind die Informationen, die Sie über den Umgang mit Daten erhalten würden, bevor Sie Ihre Entscheidung treffen:",
     "provenance": "Swiss-Made",
-    "provenanceValue": "Built by EPFL, ETH Zurich & CSCS in Switzerland",
-    "ingredients": "Training Data",
-    "ingredientsValue": "Only publicly available data from 1,000+ languages & sources",
-    "protection": "Privacy Protection",
-    "protectionValue": "Personal data removed before training; respects opt-outs",
-    "compliance": "Legal Compliance",
-    "complianceValue": "Follows Swiss privacy & copyright laws, EU AI Act standards",
-    "freshness": "Multilingual & Current",
-    "freshnessValue": "Includes Swiss German & Romansh; data through January 2025"
+    "provenanceValue": "Entwickelt von EPFL, ETH Zürich & CSCS in der Schweiz",
+    "ingredients": "Trainingsdaten",
+    "ingredientsValue": "Nur öffentlich verfügbare Daten aus über 1'000 Sprachen & Quellen",
+    "protection": "Datenschutz",
+    "protectionValue": "Personenbezogene Daten vor dem Training entfernt; Opt-outs werden respektiert",
+    "compliance": "Rechtliche Konformität",
+    "complianceValue": "Entspricht Schweizer Datenschutz- & Urheberrechtsgesetzen, EU-KI-Verordnung",
+    "freshness": "Mehrsprachig & Aktuell",
+    "freshnessValue": "Enthält Schweizerdeutsch & Rätoromanisch; Daten bis Januar 2025"
   },
   "dashboard": {
-    "title": "Konfiguriere deine Datenspende",
-    "placeholder": "Wähle eine Option...",
+    "title": "Konfigurieren Sie Ihre Datenspende",
+    "placeholder": "Option auswählen...",
     "optional": "Optional",
     "required": "Erforderlich",
     "scope": {
-      "label": "Was möchtest du teilen?",
-      "topicsOnly": "Nur allgemeine Themen",
-      "topicsOnlyDesc": "Kein tatsächlicher Text geteilt",
+      "label": "Welche Daten möchten Sie teilen?",
+      "topicsOnly": "Nur übergeordnete Themen",
       "questionsOnly": "Meine Fragen",
-      "questionsOnlyDesc": "Nur Fragentext, keine KI-Antworten",
-      "full": "Vollständige Gespräche",
-      "fullDesc": "Sowohl Fragen als auch KI-Antworten"
+      "full": "Meine Fragen und Chatbot-Antworten"
     },
     "purpose": {
-      "label": "Wie werden die Daten verwendet",
+      "label": "Wie dürfen Ihre Daten verwendet werden?",
       "academic": "Nur akademische Forschung",
       "commercial": "Akademische Forschung und kommerzielle Nutzung"
     },
     "storage": {
-      "label": "Wo werden die Daten gespeichert",
+      "label": "Wo sollen Ihre Daten gespeichert werden?",
       "swiss": "Nur Schweizer Server",
-      "eu": "EU-Server erlaubt",
+      "swissOrEu": "Schweizer oder EU-Server",
       "noPreference": "Keine Präferenz"
     },
     "retention": {
-      "label": "Wie lange sollen die Daten aufbewahrt werden",
-      "1month": "1 Monat",
-      "3months": "3 Monate",
-      "6months": "6 Monate",
-      "1year": "1 Jahr",
+      "label": "Wie lange sollen Ihre Daten aufbewahrt werden?",
+      "untilFulfilled": "Bis der Forschungszweck erfüllt ist",
+      "6months": "Bis zu 6 Monate",
+      "1year": "Bis zu 1 Jahr",
       "indefinite": "Unbegrenzt"
     },
-    "revocability": "Du kannst diese Einstellungen jederzeit in deinem Dashboard ändern.",
-    "validationError": "Bitte konfiguriere alle Datenschutzeinstellungen"
+    "revocability": "Sie können diese Einstellungen jederzeit in Ihrem Dashboard ändern.",
+    "validationError": "Bitte konfigurieren Sie alle Datenschutzeinstellungen"
   },
   "survey": {
-    "title": "Final Questions",
-    "subtitle": "Please answer the following questions about your experience",
+    "_hypothesisMapping": {
+      "Q3_transparency": "MC-T: Manipulation check for H1 (Transparency). Expected: Higher in B & D (with DNL)",
+      "Q4_control": "MC-C: Manipulation check for H2 (User Control). Expected: Higher in C & D (with Dashboard)",
+      "Q5_risk": "OUT-RISK: H3 interaction mechanism. Expected: Lowest in D, highest in A",
+      "Q6_trust": "OUT-TRUST: Supporting construct for interpretation",
+      "Q12_openFeedback": "QUAL: Qualitative insight into decision reasoning"
+    },
+    "stepHeadline": "Schritt 3 von 3 — Ihre Meinung zur Datenverwendung",
+    "title": "Abschliessende Fragen",
+    "subtitle": "Bitte beantworten Sie die folgenden Fragen zu Ihrer Erfahrung",
     "progress": {
-      "question": "Question"
+      "question": "Frage"
+    },
+    "transition": {
+      "title": "Fast geschafft!",
+      "message": "Zum Schluss noch einige Fragen zu Ihrer Person...",
+      "reminder": "HINWEIS: Die Datenspende war simuliert. Ihre Chat-Fragen wurden NICHT tatsächlich gespeichert."
+    },
+    "navigation": {
+      "back": "Zurück",
+      "next": "Weiter"
     },
     "likert": {
-      "disagree": "Strongly disagree",
-      "agree": "Strongly agree",
-      "notImportant": "Not at all important",
-      "veryImportant": "Extremely important"
+      "disagree": "Stimme überhaupt nicht zu",
+      "agree": "Stimme voll und ganz zu"
     },
     "section": {
-      "finalQuestion": "Our last question"
-    },
-    "universal": {
-      "infoQuality1": "The information provided about data donation was clear",
-      "infoQuality2": "I had enough information to make an informed decision",
-      "attentionCheck": {
-        "question": "This chatbot helps users with questions about:",
-        "placeholder": "Select topic...",
-        "voting": "Swiss ballot initiatives",
-        "tax": "Swiss tax regulations",
-        "immigration": "Swiss immigration law",
-        "dontremember": "I don't remember"
-      }
+      "finalQuestion": "Unsere letzte Frage"
     },
     "transparency": {
-      "q1": "I understood where the Apertus model has been developed",
-      "q2": "I know what data the Apertus model was trained on",
-      "q3": "The transparency information about the model was helpful",
-      "q4": "I understood the privacy protections in place"
+      "_tag": "MC-T",
+      "_hypothesis": "H1",
+      "_expectedPattern": "Higher in B & D (with DNL) than A & C",
+      "intro": "Bitte geben Sie an, inwieweit Sie den folgenden Aussagen zustimmen:",
+      "q1": "Die Informationen darüber, wie meine anonymisierten Chat-Fragen verwendet werden könnten, waren klar.",
+      "q2": "Ich habe verstanden, was mit meinen anonymisierten Chat-Fragen passieren würde, wenn ich einer Weitergabe zustimme."
     },
     "control": {
-      "intro": "Please tell us about the choices you had:",
-      "q1": "I had control over what happens to my questions.",
-      "q2": "I could choose how my data would be used.",
-      "q3": "I had real options for how to donate.",
-      "q4": "The process gave me the flexibility I wanted."
+      "_tag": "MC-C",
+      "_hypothesis": "H2",
+      "_expectedPattern": "Higher in C & D (with Dashboard) than A & B",
+      "intro": "Bitte geben Sie an, inwieweit Sie den folgenden Aussagen zustimmen:",
+      "q1": "Ich hatte das Gefühl, Kontrolle darüber zu haben, wie meine anonymisierten Chat-Fragen verwendet werden könnten.",
+      "q2": "Ich hatte das Gefühl, sinnvolle Wahlmöglichkeiten bezüglich der Weitergabe meiner anonymisierten Chat-Fragen zu haben."
     },
     "risk": {
-      "intro": "When thinking about donating your questions, how concerned were you about:",
-      "privacy": "My questions could be traced back to me",
-      "misuse": "My data being used for things I don't agree with",
-      "companies": "Companies making money from my data",
-      "trust": "Not knowing who is really behind this",
-      "security": "My data being hacked or stolen"
-    },
-    "agency": {
-      "intro": "Please tell us how you felt about the data donation choice you just made:",
-      "q1": "I felt in control of what would happen to my questions.",
-      "q2": "My choices actually influenced what would happen to my data.",
-      "q3": "I felt able to make the right decision for myself."
+      "_tag": "OUT-RISK",
+      "_hypothesis": "H3",
+      "_expectedPattern": "Lowest in D (high transparency reduces risk), highest in A",
+      "intro": "Bitte geben Sie an, inwieweit Sie den folgenden Aussagen zustimmen:",
+      "traceability": "Selbst wenn anonymisiert, könnten meine Chat-Fragen auf mich zurückgeführt werden.",
+      "misuse": "Meine anonymisierten Chat-Fragen könnten auf Arten verwendet werden, denen ich nicht zustimmen würde."
     },
     "trust": {
-      "intro": "Please indicate your agreement:",
-      "q1": "I believe my data would be safe with this chatbot.",
-      "q2": "I trust the organization behind this chatbot to do the right thing."
+      "_tag": "OUT-TRUST",
+      "_hypothesis": "Interpretation",
+      "_expectedPattern": "Exploratory - not required for H1-H3 testing",
+      "q1": "Ich vertraue darauf, dass das System hinter diesem Chatbot verantwortungsvoll mit anonymisierten Fragen umgeht."
     },
-    "acceptableUse": {
-      "question": "What should donated questions be used for?",
-      "instruction": "Select all that apply",
-      "improveChatbot": "Improving this chatbot",
-      "academicResearch": "Academic research",
-      "commercialProducts": "Commercial products",
-      "nothing": "Nothing"
-    },
-    "modelKnowledge": {
-      "provenance": {
-        "question": "The Apertus model powering this chatbot was developed in:",
-        "placeholder": "Select country...",
-        "switzerland": "Switzerland",
-        "usa": "United States",
-        "china": "China",
-        "dontknow": "I don't know"
-      }
-    },
-    "privacyUnderstanding": {
-      "scope": {
-        "question": "When thinking about the exact questions you type into the chatbot, which statement comes closest to your view?",
-        "placeholder": "Select option...",
-        "summariesOnly": "Only general summaries should be used (e.g., \"100 people asked about taxes\"), not my exact questions",
-        "exactAnonymized": "My exact questions can be used, as long as they are made fully anonymous and cannot be traced back to me",
-        "exactNoProtection": "My exact questions can be used without any special privacy protection",
-        "notSure": "Not sure"
-      },
-      "purpose": {
-        "question": "Who should be allowed to use your anonymized data for training?",
-        "subInstruction": "Please select the most permissive option you are comfortable with.",
-        "placeholder": "Select option...",
-        "noOne": "No one should be allowed to use my anonymized data",
-        "swissNonprofitOnly": "ONLY the Swiss non-profit association that develops the chatbot",
-        "swissNonprofitAndResearchers": "The Swiss non-profit association AND Swiss public researchers (e.g., EPFL/ETH)",
-        "anyAcademic": "Any academic or non-profit researcher (Swiss or international)",
-        "anyoneCommercial": "Anyone (including commercial use)",
-        "notSure": "Not sure"
-      }
+    "chatbotQuestion": {
+      "header": "Eine Frage zum Chatbot",
+      "question": "Dieser Chatbot hilft Menschen bei Fragen zu:",
+      "voting": "Schweizer Abstimmungsvorlagen",
+      "tax": "Schweizer Steuerfragen",
+      "immigration": "Schweizer Einwanderungsregeln",
+      "dontremember": "Ich erinnere mich nicht"
     },
     "demographics": {
-      "header": "Ein paar Fragen zu Ihrer Person",
+      "header": "Einige Fragen zu Ihrer Person",
       "preferNotSay": "Keine Angabe",
       "age": {
-        "question": "What is your age?",
-        "placeholder": "Select age range...",
+        "question": "Wie alt sind Sie?",
+        "placeholder": "Altersgruppe auswählen...",
         "18-24": "18-24",
         "25-34": "25-34",
         "35-44": "35-44",
@@ -278,82 +266,67 @@
         "65+": "65+"
       },
       "gender": {
-        "question": "What is your gender?",
-        "placeholder": "Select gender...",
-        "female": "Female",
-        "male": "Male",
-        "nonBinary": "Non-binary",
-        "other": "Other"
+        "question": "Was ist Ihr Geschlecht?",
+        "placeholder": "Geschlecht auswählen...",
+        "female": "Weiblich",
+        "male": "Männlich",
+        "nonBinary": "Nicht-binär",
+        "other": "Anderes",
+        "otherPlaceholder": "Bitte angeben..."
       },
       "language": {
-        "question": "What is your primary language?",
-        "placeholder": "Select language...",
-        "english": "English",
-        "french": "French",
-        "german": "German / Swiss German",
-        "italian": "Italian",
-        "romansh": "Romansh",
-        "other": "Other"
+        "question": "Was ist Ihre Hauptsprache?",
+        "placeholder": "Sprache auswählen...",
+        "english": "Englisch",
+        "french": "Französisch",
+        "german": "Deutsch / Schweizerdeutsch",
+        "italian": "Italienisch",
+        "romansh": "Rätoromanisch",
+        "other": "Andere"
       },
       "education": {
-        "question": "What is your highest level of education?",
-        "placeholder": "Select education level...",
-        "mandatory": "Mandatory schooling",
-        "matura": "Matura / Baccalaureate",
-        "vocational": "Vocational training (Berufslehre)",
-        "higherVocational": "Higher vocational education",
-        "appliedSciences": "University of Applied Sciences",
-        "university": "University (Bachelor/Master/PhD)"
+        "question": "Was ist Ihr höchster Bildungsabschluss?",
+        "placeholder": "Bildungsniveau auswählen...",
+        "mandatory": "Obligatorische Schulzeit",
+        "matura": "Matura / Abitur",
+        "vocational": "Berufslehre",
+        "higherVocational": "Höhere Berufsbildung",
+        "appliedSciences": "Fachhochschule",
+        "university": "Universität (Bachelor/Master/Doktorat)"
       },
-      "voting": {
-        "question": "Are you eligible to vote in Swiss federal elections?",
-        "placeholder": "Select option...",
-        "yes": "Yes",
-        "no": "No"
+      "votingEligibility": {
+        "_tag": "DEMO",
+        "_purpose": "Voting eligibility - collected as demographic variable for analysis",
+        "question": "Sind Sie stimmberechtigt bei Schweizer Bundeswahlen?",
+        "eligible": "Ich bin stimmberechtigt bei Schweizer Bundeswahlen",
+        "notEligible": "Ich lebe in der Schweiz, bin aber nicht stimmberechtigt",
+        "notSure": "Ich bin mir nicht sicher"
       }
     },
-    "optional": {
-      "optional": "Optional",
-      "swissServer": "How important is it to you that the Apertus model is hosted on Swiss servers? (Optional)",
-      "comments": "Additional comments",
-      "commentsPlaceholder": "Share any additional thoughts or feedback..."
-    },
     "openFeedback": {
-      "question": "Was war der Hauptgrund für Ihre Entscheidung?",
-      "note": "Diese Frage ist optional, aber Ihre Gedanken helfen uns zu verstehen, wie Menschen diese Entscheidungen treffen.",
+      "question": "Was war für Ihre Entscheidung am wichtigsten?",
+      "note": "(Optional. Ihre Antwort hilft uns, Entscheidungsprozesse zu verstehen.)",
       "placeholder": "Schreiben Sie hier Ihre Antwort...",
       "maxLength": "Maximal 500 Zeichen"
     },
-    "notifyEmail": {
-      "question": "Möchten Sie die Studienergebnisse erhalten?",
-      "note": "(Optional. Geben Sie Ihre E-Mail-Adresse ein, wenn Sie benachrichtigt werden möchten, sobald die Ergebnisse veröffentlicht werden.)",
-      "placeholder": "ihre.email@beispiel.ch"
-    },
-    "validationError": "Please answer all required questions before submitting",
-    "submissionError": "Failed to submit survey. Please try again.",
-    "submitting": "Submitting...",
-    "submit": "Submit",
-    "transition": {
-      "title": "Almost done!",
-      "message": "Finally, just a few questions about yourself...",
-      "reminder": "REMINDER: The data donation was simulated for research purposes. Your chatbot questions were NOT actually stored."
-    },
-    "navigation": {
-      "back": "Back",
-      "next": "Next"
-    }
+    "validationError": "Bitte beantworten Sie alle erforderlichen Fragen, bevor Sie fortfahren",
+    "submissionError": "Die Umfrage konnte nicht übermittelt werden. Bitte versuchen Sie es erneut.",
+    "submitting": "Wird übermittelt...",
+    "submit": "Absenden"
   },
   "debrief": {
-    "title": "Thank You for Participating!",
-    "important": "Important:",
-    "simulationNote": "The data donation was SIMULATED. Your chatbot questions were NOT stored or used. Only your survey answers were recorded anonymously.",
-    "whatWeStudy": "What We're Studying",
-    "studyPurpose": "We're researching what makes Swiss citizens comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems.",
-    "questions": "Questions?",
-    "contactIntro": "Feel free to contact me:",
+    "title": "Vielen Dank für Ihre Teilnahme!",
+    "important": "Wichtig:",
+    "simulationNote": "Die Datenspende war SIMULIERT. Ihre Chat-Fragen wurden NICHT gespeichert oder verwendet. Nur Ihre Umfrageantworten wurden anonym erfasst.",
+    "whatWeStudy": "Was wir untersuchen",
+    "studyPurpose": "Wir erforschen, was Schweizer Bürgerinnen und Bürger dazu bewegt, ihre Daten für das Training von Open-Source-Sprachmodellen zu spenden. Ihre Antworten helfen dabei, datenschutzfreundlichere KI-Systeme zu gestalten.",
+    "emailPrompt": "Geben Sie Ihre E-Mail-Adresse ein, um die Studienergebnisse zu erhalten (optional):",
+    "emailPlaceholder": "ihre.email@beispiel.ch",
+    "questions": "Fragen?",
+    "contactIntro": "Kontaktieren Sie mich gerne:",
     "researcher": "Sabine Wildemann, hello@ailights.org",
     "institution": "Institution: Digital Business University of Applied Sciences",
-    "supervisor": "Supervisor: Prof. Daniel Ambach",
-    "close": "Close"
+    "supervisor": "Betreuung: Prof. Daniel Ambach",
+    "close": "Schliessen"
   }
 }
