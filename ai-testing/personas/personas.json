@@ -1,0 +1,340 @@
+{
+  "personas": [
+    {
+      "id": "A1_civic_optimist",
+      "name": "Civic Optimist",
+      "cluster": "A",
+      "description": "Engaged citizen who trusts institutions and sees data sharing as civic duty",
+      "demographics": {
+        "age": "45-54",
+        "gender": "male",
+        "education": "bachelor",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 2,
+        "institutional_trust": 6,
+        "data_sovereignty_salience": 2,
+        "civic_motivation": 6,
+        "cognitive_load_sensitivity": 3,
+        "ai_literacy": 4,
+        "ballot_familiarity": 5
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["voting recommendations", "ballot summary"],
+        "tone": "formal"
+      }
+    },
+    {
+      "id": "A2_young_idealist",
+      "name": "Young Idealist",
+      "cluster": "A",
+      "description": "First-time voter excited about democratic participation",
+      "demographics": {
+        "age": "18-24",
+        "gender": "female",
+        "education": "matura",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 2,
+        "institutional_trust": 5,
+        "data_sovereignty_salience": 2,
+        "civic_motivation": 7,
+        "cognitive_load_sensitivity": 4,
+        "ai_literacy": 5,
+        "ballot_familiarity": 2
+      },
+      "interactionStyle": {
+        "questionCount": 3,
+        "topics": ["how voting works", "youth perspectives", "climate initiatives"],
+        "tone": "curious"
+      }
+    },
+    {
+      "id": "A3_community_elder",
+      "name": "Community Elder",
+      "cluster": "A",
+      "description": "Retired community member with strong civic traditions",
+      "demographics": {
+        "age": "65+",
+        "gender": "male",
+        "education": "apprenticeship",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 2,
+        "institutional_trust": 6,
+        "data_sovereignty_salience": 3,
+        "civic_motivation": 6,
+        "cognitive_load_sensitivity": 5,
+        "ai_literacy": 2,
+        "ballot_familiarity": 7
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["ballot overview", "party positions"],
+        "tone": "formal"
+      }
+    },
+    {
+      "id": "B1_privacy_advocate",
+      "name": "Privacy Advocate",
+      "cluster": "B",
+      "description": "Tech-savvy professional who values both participation and data control",
+      "demographics": {
+        "age": "35-44",
+        "gender": "female",
+        "education": "master",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 7,
+        "institutional_trust": 3,
+        "data_sovereignty_salience": 7,
+        "civic_motivation": 6,
+        "cognitive_load_sensitivity": 2,
+        "ai_literacy": 6,
+        "ballot_familiarity": 5
+      },
+      "interactionStyle": {
+        "questionCount": 3,
+        "topics": ["data usage", "privacy policy", "voting deadline"],
+        "tone": "skeptical"
+      }
+    },
+    {
+      "id": "B2_informed_skeptic",
+      "name": "Informed Skeptic",
+      "cluster": "B",
+      "description": "Well-educated voter who questions but engages",
+      "demographics": {
+        "age": "45-54",
+        "gender": "male",
+        "education": "doctorate",
+        "language": "fr",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 6,
+        "institutional_trust": 4,
+        "data_sovereignty_salience": 6,
+        "civic_motivation": 5,
+        "cognitive_load_sensitivity": 2,
+        "ai_literacy": 5,
+        "ballot_familiarity": 6
+      },
+      "interactionStyle": {
+        "questionCount": 3,
+        "topics": ["AI transparency", "data retention", "ballot details"],
+        "tone": "skeptical"
+      }
+    },
+    {
+      "id": "B3_careful_parent",
+      "name": "Careful Parent",
+      "cluster": "B",
+      "description": "Family-oriented voter concerned about data legacy",
+      "demographics": {
+        "age": "35-44",
+        "gender": "female",
+        "education": "bachelor",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 6,
+        "institutional_trust": 4,
+        "data_sovereignty_salience": 5,
+        "civic_motivation": 5,
+        "cognitive_load_sensitivity": 4,
+        "ai_literacy": 4,
+        "ballot_familiarity": 4
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["family impact", "data storage"],
+        "tone": "formal"
+      }
+    },
+    {
+      "id": "C1_distrustful_avoider",
+      "name": "Distrustful Avoider",
+      "cluster": "C",
+      "description": "Highly skeptical of institutions and data collection",
+      "demographics": {
+        "age": "25-34",
+        "gender": "male",
+        "education": "apprenticeship",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 7,
+        "institutional_trust": 2,
+        "data_sovereignty_salience": 7,
+        "civic_motivation": 2,
+        "cognitive_load_sensitivity": 5,
+        "ai_literacy": 4,
+        "ballot_familiarity": 3
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["data risks", "who sees my data"],
+        "tone": "skeptical"
+      }
+    },
+    {
+      "id": "C2_overwhelmed_worker",
+      "name": "Overwhelmed Worker",
+      "cluster": "C",
+      "description": "Busy professional with little time or trust for civic engagement",
+      "demographics": {
+        "age": "35-44",
+        "gender": "female",
+        "education": "bachelor",
+        "language": "it",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 5,
+        "institutional_trust": 3,
+        "data_sovereignty_salience": 5,
+        "civic_motivation": 3,
+        "cognitive_load_sensitivity": 7,
+        "ai_literacy": 4,
+        "ballot_familiarity": 2
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["quick summary", "deadline"],
+        "tone": "casual"
+      }
+    },
+    {
+      "id": "C3_cynical_observer",
+      "name": "Cynical Observer",
+      "cluster": "C",
+      "description": "Disenchanted with politics, protective of personal data",
+      "demographics": {
+        "age": "55-64",
+        "gender": "male",
+        "education": "matura",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 6,
+        "institutional_trust": 2,
+        "data_sovereignty_salience": 6,
+        "civic_motivation": 2,
+        "cognitive_load_sensitivity": 4,
+        "ai_literacy": 3,
+        "ballot_familiarity": 5
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["why should I vote", "what's the point"],
+        "tone": "skeptical"
+      }
+    },
+    {
+      "id": "D1_passive_compliant",
+      "name": "Passive Compliant",
+      "cluster": "D",
+      "description": "Goes along with requests without strong opinions",
+      "demographics": {
+        "age": "25-34",
+        "gender": "female",
+        "education": "bachelor",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 3,
+        "institutional_trust": 4,
+        "data_sovereignty_salience": 2,
+        "civic_motivation": 3,
+        "cognitive_load_sensitivity": 5,
+        "ai_literacy": 4,
+        "ballot_familiarity": 3
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["what should I do", "is this important"],
+        "tone": "casual"
+      }
+    },
+    {
+      "id": "D2_disengaged_youth",
+      "name": "Disengaged Youth",
+      "cluster": "D",
+      "description": "Young adult with low political interest",
+      "demographics": {
+        "age": "18-24",
+        "gender": "non-binary",
+        "education": "matura",
+        "language": "de",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 3,
+        "institutional_trust": 4,
+        "data_sovereignty_salience": 2,
+        "civic_motivation": 2,
+        "cognitive_load_sensitivity": 4,
+        "ai_literacy": 6,
+        "ballot_familiarity": 1
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["what is this about", "do I have to vote"],
+        "tone": "casual"
+      }
+    },
+    {
+      "id": "D3_busy_pragmatist",
+      "name": "Busy Pragmatist",
+      "cluster": "D",
+      "description": "Focused on work, treats voting as checkbox task",
+      "demographics": {
+        "age": "45-54",
+        "gender": "male",
+        "education": "bachelor",
+        "language": "rm",
+        "eligibleToVote": true
+      },
+      "behavioralDrivers": {
+        "privacy_concern": 2,
+        "institutional_trust": 5,
+        "data_sovereignty_salience": 2,
+        "civic_motivation": 3,
+        "cognitive_load_sensitivity": 6,
+        "ai_literacy": 3,
+        "ballot_familiarity": 4
+      },
+      "interactionStyle": {
+        "questionCount": 2,
+        "topics": ["quick overview", "recommendation"],
+        "tone": "formal"
+      }
+    }
+  ],
+  "languageDistribution": {
+    "de": 0.63,
+    "fr": 0.23,
+    "it": 0.08,
+    "rm": 0.06
+  },
+  "clusterDistribution": {
+    "A": 0.25,
+    "B": 0.25,
+    "C": 0.25,
+    "D": 0.25
+  }
+}

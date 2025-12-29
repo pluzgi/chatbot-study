@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import ballotService from './ballot.service.js';
+import pool from '../config/database.js';
 
 class ApertusService {
   constructor() {
@@ -44,7 +45,10 @@ Your task: Neutral, factual information about Swiss popular votes.
     return prompts[lang] || prompts.de;
   }
 
-  async chat(messages, lang = 'de') {
+  async chat(messages, lang = 'de', participantId = null) {
+    const startTime = Date.now();
+    const model = 'swiss-ai/Apertus-70B-Instruct-2509';
+
     // Get comprehensive ballot context (includes all upcoming votes with full details)
     let ballotContext;
     try {
@@ -75,7 +79,7 @@ ${ballotContext}
       const response = await axios.post(
         `${this.baseUrl}/v1/chat/completions`,
         {
-          model: "swiss-ai/Apertus-70B-Instruct-2509",
+          model,
           messages: [
             { role: "system", content: systemPrompt },
             ...messages
@@ -92,14 +96,52 @@ ${ballotContext}
         }
       );
 
+      const responseTimeMs = Date.now() - startTime;
+      const usage = response.data.usage || {};
+
+      // Log successful API call
+      await this.logApiUsage({
+        participantId,
+        model,
+        promptTokens: usage.prompt_tokens,
+        completionTokens: usage.completion_tokens,
+        totalTokens: usage.total_tokens,
+        responseTimeMs,
+        success: true
+      });
+
       return response.data.choices[0].message.content;
     } catch (error) {
+      const responseTimeMs = Date.now() - startTime;
+
+      // Log failed API call
+      await this.logApiUsage({
+        participantId,
+        model,
+        responseTimeMs,
+        success: false,
+        errorMessage: error.response?.data?.error?.message || error.message
+      });
+
       // Log the full error details from Infomaniak
       console.error('[ApertusService] API Error:', {
         status: error.response?.status,
         data: JSON.stringify(error.response?.data, null, 2)
       });
       throw error;
+    }
+  }
+
+  async logApiUsage({ participantId, model, promptTokens, completionTokens, totalTokens, responseTimeMs, success, errorMessage }) {
+    try {
+      await pool.query(
+        `INSERT INTO api_usage_logs
+         (participant_id, model, prompt_tokens, completion_tokens, total_tokens, response_time_ms, success, error_message)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        [participantId, model, promptTokens || null, completionTokens || null, totalTokens || null, responseTimeMs, success, errorMessage || null]
+      );
+    } catch (err) {
+      console.error('[ApertusService] Failed to log API usage:', err.message);
     }
   }
 
