@@ -111,12 +111,57 @@ ON CONFLICT (key) DO NOTHING;
 -- CHANGE TARGET: UPDATE study_config SET value = '300' WHERE key = 'participant_target';
 -- ============================================================
 
+-- AI participant tracking columns (added via ALTER for backwards compatibility)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_name = 'participants' AND column_name = 'is_ai_participant') THEN
+        ALTER TABLE participants ADD COLUMN is_ai_participant BOOLEAN DEFAULT FALSE;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_name = 'participants' AND column_name = 'ai_persona_id') THEN
+        ALTER TABLE participants ADD COLUMN ai_persona_id VARCHAR(50);
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_name = 'participants' AND column_name = 'ai_run_id') THEN
+        ALTER TABLE participants ADD COLUMN ai_run_id VARCHAR(50);
+    END IF;
+END $$;
+
+-- Chat messages table: ONLY for AI participants
+-- Human participant messages are never stored (privacy by design)
+CREATE TABLE IF NOT EXISTS chat_messages (
+    id SERIAL PRIMARY KEY,
+    participant_id UUID NOT NULL REFERENCES participants(id),
+    role VARCHAR(10) NOT NULL CHECK (role IN ('user', 'assistant')),
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- API usage logs: Track all Apertus LLM API calls for monitoring
+CREATE TABLE IF NOT EXISTS api_usage_logs (
+    id SERIAL PRIMARY KEY,
+    participant_id UUID REFERENCES participants(id),
+    model VARCHAR(100) NOT NULL,
+    prompt_tokens INT,
+    completion_tokens INT,
+    total_tokens INT,
+    response_time_ms INT,
+    success BOOLEAN NOT NULL DEFAULT TRUE,
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
 -- Indexes for common queries
 CREATE INDEX IF NOT EXISTS idx_participants_condition ON participants(condition);
 CREATE INDEX IF NOT EXISTS idx_participants_language ON participants(language);
 CREATE INDEX IF NOT EXISTS idx_participants_fingerprint ON participants(fingerprint);
 CREATE INDEX IF NOT EXISTS idx_participants_phase ON participants(current_phase);
 CREATE INDEX IF NOT EXISTS idx_participants_created_at ON participants(created_at);
+CREATE INDEX IF NOT EXISTS idx_participants_is_ai ON participants(is_ai_participant);
+CREATE INDEX IF NOT EXISTS idx_chat_messages_participant ON chat_messages(participant_id);
+CREATE INDEX IF NOT EXISTS idx_api_usage_logs_created_at ON api_usage_logs(created_at);
+CREATE INDEX IF NOT EXISTS idx_api_usage_logs_participant ON api_usage_logs(participant_id);
 `;
 
 export async function runMigrations() {

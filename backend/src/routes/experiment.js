@@ -20,22 +20,29 @@ function generateFingerprint(req) {
 
 router.post('/initialize', async (req, res) => {
   try {
-    const { language } = req.body;
+    const { language, isAiParticipant, aiPersonaId, aiRunId } = req.body;
     const fingerprint = generateFingerprint(req);
 
-    // Check for duplicate COMPLETED participation (within last 7 days)
-    // Users who dropped out can restart fresh - only completed surveys are blocked
-    const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
+    // Skip duplicate check for AI participants (they need to create many sessions)
+    if (!isAiParticipant) {
+      // Check for duplicate COMPLETED participation (within last 7 days)
+      // Users who dropped out can restart fresh - only completed surveys are blocked
+      const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
 
-    if (existingParticipation) {
-      return res.status(409).json({
-        error: 'already_participated',
-        message: 'You have already participated in this study recently.'
-      });
+      if (existingParticipation) {
+        return res.status(409).json({
+          error: 'already_participated',
+          message: 'You have already participated in this study recently.'
+        });
+      }
     }
 
-    // Create new participant with fingerprint
-    const { participant, config } = await experimentService.createParticipant(language, fingerprint);
+    // Create new participant with fingerprint and AI metadata
+    const { participant, config } = await experimentService.createParticipant(
+      language,
+      fingerprint,
+      { isAiParticipant, aiPersonaId, aiRunId }
+    );
 
     res.json({
       sessionId: participant.session_id,

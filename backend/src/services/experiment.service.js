@@ -55,17 +55,19 @@ class ExperimentService {
   /**
    * Create new participant with assigned condition.
    * Records consent and sets initial phase to 'consent'.
+   * For AI participants, also stores persona and run metadata.
    */
-  async createParticipant(lang = 'de', fingerprint = null) {
+  async createParticipant(lang = 'de', fingerprint = null, aiMeta = {}) {
     const id = uuidv4();
     const sessionId = uuidv4();
     const condition = await this.assignCondition();
+    const { isAiParticipant, aiPersonaId, aiRunId } = aiMeta;
 
     const result = await pool.query(
-      `INSERT INTO participants (id, session_id, condition, language, fingerprint, current_phase, consent_given, consent_at)
-       VALUES ($1, $2, $3, $4, $5, 'consent', TRUE, NOW())
+      `INSERT INTO participants (id, session_id, condition, language, fingerprint, current_phase, consent_given, consent_at, is_ai_participant, ai_persona_id, ai_run_id)
+       VALUES ($1, $2, $3, $4, $5, 'consent', TRUE, NOW(), $6, $7, $8)
        RETURNING *`,
-      [id, sessionId, condition, lang, fingerprint]
+      [id, sessionId, condition, lang, fingerprint, isAiParticipant || false, aiPersonaId || null, aiRunId || null]
     );
 
     return {
@@ -207,15 +209,16 @@ class ExperimentService {
 
   /**
    * Get participant count for the landing page counter.
-   * Counts completed participants (those who finished the survey).
+   * Counts completed human participants (excludes AI participants).
    * Uses study_config table for target and reset functionality.
    */
   async getParticipantCount() {
-    // Get count of completed participants since the counter reset date
+    // Get count of completed human participants since the counter reset date
     const countResult = await pool.query(`
       SELECT COUNT(*) as count
       FROM participants
       WHERE completed_at IS NOT NULL
+      AND (is_ai_participant = FALSE OR is_ai_participant IS NULL)
       AND created_at >= COALESCE(
         (SELECT reset_at FROM study_config WHERE key = 'counter_reset'),
         '1970-01-01'

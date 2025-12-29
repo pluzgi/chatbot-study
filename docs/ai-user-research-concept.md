@@ -103,6 +103,38 @@ SELECT * FROM participants WHERE is_ai_participant = TRUE;
 SELECT * FROM participants WHERE ai_run_id = 'uuid';
 ```
 
+### Chat Message Storage (AI Only)
+
+**Privacy by design:** Chat messages are ONLY stored for AI participants. Human participant chat messages are never persisted to the database.
+
+```sql
+-- Chat messages table (stores AI participant conversations only)
+CREATE TABLE chat_messages (
+    id SERIAL PRIMARY KEY,
+    participant_id UUID NOT NULL REFERENCES participants(id),
+    role VARCHAR(10) NOT NULL CHECK (role IN ('user', 'assistant')),
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_chat_messages_participant ON chat_messages(participant_id);
+```
+
+The backend automatically checks `is_ai_participant` before saving messages:
+
+```javascript
+// In /chat/message endpoint
+if (participantId && rows[0]?.is_ai_participant) {
+  // Only save for AI participants
+  await pool.query(
+    'INSERT INTO chat_messages (participant_id, role, content) VALUES ($1, $2, $3), ($1, $4, $5)',
+    [participantId, 'user', message, 'assistant', response]
+  );
+}
+```
+
+This allows analysis of AI-generated conversations for validation while ensuring human participant privacy.
+
 ---
 
 ## 3. Persona System
@@ -533,19 +565,20 @@ export class ParticipantSimulator {
 }
 ```
 
-#### 3. LLM Client for Chat Generation (`llm-client.ts`)
+#### 3. Question Generator using Apertus (`llm-client.ts`)
+
+Uses the same Swiss Apertus LLM as the main chatbot to generate natural, varied questions based on persona traits.
 
 ```typescript
-import Anthropic from '@anthropic-ai/sdk';
+import axios from 'axios';
 
-export class LLMClient {
-  private client: Anthropic;
-
-  // MINIMAL system prompt - NO role-playing instructions like "You are a lawyer"
-  private readonly SYSTEM_PROMPT = "You are completing a study about Swiss voting information.";
+export class QuestionGenerator {
+  private baseUrl: string;
+  private apiKey: string;
 
   constructor() {
-    this.client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    this.baseUrl = process.env.INFOMANIAK_APERTUS_ENDPOINT || '';
+    this.apiKey = process.env.INFOMANIAK_API_KEY || '';
   }
 
   async generateChatQuestion(
@@ -553,32 +586,40 @@ export class LLMClient {
     history: Array<{role: string, content: string}>,
     questionIndex: number
   ): Promise<string> {
-    const topic = persona.interactionStyle.topics[questionIndex] || 'general voting information';
+    const topic = persona.interactionStyle.topics[questionIndex] || 'Swiss ballot initiatives';
     const tone = persona.interactionStyle.tone;
+    const lang = persona.demographics.language;
     const d = persona.behavioralDrivers;
 
-    // Generate question based on BEHAVIORAL DRIVERS, not role description
-    // This produces realistic variance without roleplay artifacts
-    const prompt = `Generate a question about "${topic}" for a Swiss voting chatbot.
+    const systemPrompt = `You are generating a realistic question that a Swiss citizen would ask a voting chatbot.
+Generate ONE short question (1-2 sentences) in ${lang === 'de' ? 'German' : lang === 'fr' ? 'French' : lang === 'it' ? 'Italian' : 'Romansh'}.
+Output ONLY the question, nothing else.`;
 
-Behavioral context (use to shape question style, NOT for roleplay):
-- Familiarity with voting: ${d.ballot_familiarity}/7
-- Tech/AI comfort: ${d.ai_literacy}/7
-- Privacy concern: ${d.privacy_concern}/7
-- Tone preference: ${tone}
+    const userPrompt = `Generate a question about "${topic}" for a Swiss ballot chatbot.
 
-${history.length > 0 ? `Previous messages:\n${history.map(m => `${m.role}: ${m.content}`).join('\n')}` : 'This is the first message.'}
+Person characteristics (shape the question style):
+- Voting familiarity: ${d.ballot_familiarity}/7 ${d.ballot_familiarity <= 3 ? '(beginner)' : '(experienced)'}
+- Privacy concern: ${d.privacy_concern}/7 ${d.privacy_concern >= 5 ? '(may ask about data handling)' : ''}
+- Tone: ${tone}
+- AI/tech comfort: ${d.ai_literacy}/7
 
-Write ONE realistic question (1-2 sentences). Output ONLY the question.`;
+${history.length > 0 ? `Previous exchange:\n${history.slice(-2).map(m => `${m.role}: ${m.content}`).join('\n')}\n\nAsk a follow-up or new question.` : 'This is the first question.'}`;
 
-    const response = await this.client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 150,
-      system: this.SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: prompt }]
-    });
+    const response = await axios.post(
+      `${this.baseUrl}/v1/chat/completions`,
+      {
+        model: 'swiss-ai/Apertus-70B-Instruct-2509',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.8,
+        max_tokens: 150
+      },
+      { headers: { 'Authorization': `Bearer ${this.apiKey}` } }
+    );
 
-    return response.content[0].text.trim();
+    return response.data.choices[0]?.message?.content?.trim();
   }
 }
 ```
@@ -1634,21 +1675,20 @@ ORDER BY condition;
 
 ### API Calls per Participant
 
-| Phase | API Calls | LLM Calls |
-|-------|-----------|-----------|
+| Phase | Backend API | Apertus LLM Calls |
+|-------|-------------|-------------------|
 | Initialize | 1 | 0 |
 | Baseline | 1 | 0 |
-| Chat (2-3 messages) | 2-3 | 2-3 (question generation) |
+| Chat (2-3 messages) | 2-3 | 4-6 (2-3 question gen + 2-3 responses) |
 | Donation | 1 | 0 |
 | Post-measures | 1 | 0 |
-| **Total** | **6-7** | **2-3** |
+| **Total** | **6-7** | **4-6** |
 
 ### For 1,000 Participants
 
 - Backend API calls: ~6,500
-- LLM calls (Claude Haiku for question generation): ~2,500
-- Estimated LLM cost: ~$2-5 (using Claude Haiku)
-- Apertus API calls: ~2,500 (your chatbot)
+- Apertus API calls: ~5,000 (question generation + chatbot responses)
+- All LLM calls use Infomaniak Apertus (Swiss infrastructure)
 - Time estimate: ~2-4 hours (with 10 concurrent participants)
 
 ---
