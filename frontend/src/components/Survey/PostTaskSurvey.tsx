@@ -468,6 +468,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'age':
         return <RadioQuestion
           field="age"
+          header={t('survey.demographics.header')}
           label={t('survey.demographics.age.question')}
           options={[
             { value: '18-24', label: t('survey.demographics.age.18-24') },
@@ -481,6 +482,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'gender':
         return <RadioQuestion
           field="gender"
+          header={t('survey.demographics.header')}
           label={t('survey.demographics.gender.question')}
           options={[
             { value: 'female', label: t('survey.demographics.gender.female') },
@@ -494,6 +496,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'primaryLanguage':
         return <RadioQuestion
           field="primaryLanguage"
+          header={t('survey.demographics.header')}
           label={t('survey.demographics.language.question')}
           options={[
             { value: 'german', label: t('survey.demographics.language.german') },
@@ -507,6 +510,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'education':
         return <RadioQuestion
           field="education"
+          header={t('survey.demographics.header')}
           label={t('survey.demographics.education.question')}
           options={[
             { value: 'mandatory', label: t('survey.demographics.education.mandatory') },
@@ -521,6 +525,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
       case 'eligibleToVoteCh':
         return <RadioQuestion
           field="eligibleToVoteCh"
+          header={t('survey.demographics.header')}
           label={t('survey.demographics.votingEligibility.question')}
           options={[
             { value: 'eligible', label: t('survey.demographics.votingEligibility.eligible') },

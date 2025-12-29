@@ -844,13 +844,13 @@ Shown after survey submission
   - Q4: Perceived Transparency (MC-T) — 2 items
   - Q5: Perceived User Control (MC-C) — 2 items
   - Q6: Risk Perception (OUT-RISK) — 2 items
-  - Q7: Trust (OUT-TRUST) — 2 items
+  - Q7: Trust (OUT-TRUST) — 1 item
   - Q8: Chatbot Question (attention check)
   - Q9-Q12: Demographics (DEMO) — age, gender, language, education, voting eligibility
   - Q13: Open Feedback (QUAL) — optional
 
 - **Total:** 13 questions (Q13 optional, email signup moved to Debrief)
-- **Core Likert Items:** 8 items across 4 constructs
+- **Core Likert Items:** 7 items across 4 constructs
 
 ### Scale Types Used
 1. **7-point Likert:**

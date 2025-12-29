@@ -43,7 +43,6 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
   };
 
   // Determine condition type
-  const isConditionA = !config.showDNL && !config.showDashboard;
   const isConditionB = config.showDNL && !config.showDashboard;
   const isConditionC = !config.showDNL && config.showDashboard;
   const isConditionD = config.showDNL && config.showDashboard;
@@ -109,46 +108,25 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
 
             {/* ===== CONDITION-SPECIFIC CONTENT ===== */}
 
-            {/* Condition A: Baseline (no DNL, no Dashboard) */}
-            {isConditionA && (
-              <div className="mb-6 md:mb-8">
-                <p className="text-base md:text-lg text-black leading-relaxed">
-                  {t('donation.conditionA.text')}
-                </p>
-              </div>
-            )}
+            {/* Condition A: Baseline - no extra content, just transition → decision */}
 
             {/* Condition B: DNL only */}
             {isConditionB && (
-              <div className="mb-6 md:mb-8">
-                <p className="text-base md:text-lg text-black mb-4 leading-relaxed">
-                  {t('donation.conditionB.intro')}
-                </p>
+              <div className="mb-6">
                 <DataNutritionLabel />
               </div>
             )}
 
             {/* Condition C: Dashboard only */}
             {isConditionC && (
-              <div className="mb-6 md:mb-8">
-                <p className="text-base md:text-lg text-black mb-4 leading-relaxed">
-                  {t('donation.conditionC.intro')}
-                </p>
+              <div className="mb-6">
                 <GranularDashboard onChange={setDashboardConfig} />
-                <p className="text-sm text-gray-500 mt-3 leading-relaxed">
-                  {t('donation.dashboardHelper')}
-                </p>
               </div>
             )}
 
-            {/* Condition D: DNL + Dashboard (stacked layout to reduce cognitive overload) */}
+            {/* Condition D: DNL + Dashboard */}
             {isConditionD && (
-              <div className="mb-6 md:mb-8">
-                <p className="text-base md:text-lg text-black mb-4 leading-relaxed">
-                  {t('donation.conditionD.intro')}
-                </p>
-
-                {/* Section 1: About the Model (compact DNL) */}
+              <>
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
                     <span className="text-xl">ℹ️</span>
@@ -157,18 +135,16 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
                   <DataNutritionLabel />
                 </div>
 
-                {/* Visual separator */}
                 <div className="border-t border-gray-200 my-6" />
 
-                {/* Section 2: Your Preferences (Dashboard) */}
-                <div>
+                <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
                     <span className="text-xl">⚙️</span>
                     {t('dashboard.title')}
                   </h3>
                   <GranularDashboard onChange={setDashboardConfig} />
                 </div>
-              </div>
+              </>
             )}
 
             {/* ===== DECISION SECTION (all conditions) ===== */}
