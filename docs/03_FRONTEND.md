@@ -515,7 +515,7 @@ const Debriefing: React.FC = () => {
       </div>
 
       <button
-        onClick={() => window.location.href = 'https://chat-study.ailights.org'}
+        onClick={() => window.location.href = 'https://luma.com/aiLights'}
         className="mt-6 w-full bg-blue-600 text-white py-2 rounded"
       >
         {t('debrief.close')}

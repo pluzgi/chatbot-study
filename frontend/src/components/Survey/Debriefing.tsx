@@ -14,7 +14,7 @@ const Debriefing: React.FC<DebriefingProps> = ({ onEmailSubmit }) => {
     if (onEmailSubmit && email.trim()) {
       onEmailSubmit(email.trim());
     }
-    window.location.href = 'https://ailights.org';
+    window.location.href = 'https://luma.com/aiLights';
   };
 
   return (
