@@ -53,8 +53,8 @@ const ChatInterface: React.FC<Props> = ({ participantId, onMinimumReached }) => 
   return (
     <div className="flex flex-col h-screen max-w-4xl mx-auto">
       <div className="bg-[#FF0000] text-white p-4 rounded-t-lg">
-        <h2 className="text-xl font-bold">{t('chat.title')}</h2>
-        <p className="text-sm">{t('chat.subtitle')}</p>
+        <h2 className="text-2xl font-bold">{t('chat.title')}</h2>
+        <p className="text-xl">{t('chat.subtitle')}</p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">

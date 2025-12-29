@@ -27,7 +27,7 @@ const InputField: React.FC<Props> = ({ onSend, disabled = false }) => {
           onChange={(e) => setInput(e.target.value)}
           placeholder={t('chat.placeholder')}
           disabled={disabled}
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 disabled:bg-gray-100 disabled:border-gray-200 min-h-[48px]"
+          className="flex-1 px-4 py-3 border-2 border-gray-400 rounded-md text-xl focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 disabled:bg-gray-100 disabled:border-gray-300 min-h-[48px]"
         />
         <button
           type="submit"

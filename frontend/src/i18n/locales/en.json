@@ -94,7 +94,7 @@
   },
   "chat": {
     "title": "Swiss Ballot Chatbot",
-    "subtitle": "Ask 2–3 questions about Swiss ballot initiatives",
+    "subtitle": "Ask 2–3 questions about Swiss ballot initiatives (answering takes about 20 sec)",
     "placeholder": "Ask a question...",
     "send": "Send",
     "thinking": "Thinking...",

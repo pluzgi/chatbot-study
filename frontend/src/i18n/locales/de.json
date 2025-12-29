@@ -86,7 +86,7 @@
   },
   "chat": {
     "title": "Volksinitiativen-Chatbot",
-    "subtitle": "Powered by Apertus - Swiss AI",
+    "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Abstimmungen (Antwort dauert ca. 20 Sek.)",
     "placeholder": "Ask a question...",
     "send": "Send",
     "thinking": "Thinking...",
