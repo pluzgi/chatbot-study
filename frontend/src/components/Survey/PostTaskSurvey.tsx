@@ -622,7 +622,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
                   : 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
               }`}
             >
-              {submitting ? t('survey.submitting') : t('survey.submit')}
+              {submitting ? t('survey.submitting') : <>{t('survey.navigation.next')} →</>}
             </button>
           )}
         </div>

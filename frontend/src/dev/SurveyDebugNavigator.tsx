@@ -2201,7 +2201,7 @@ const SurveyDebugNavigator: React.FC = () => {
           </PreviewWrapper>
         );
 
-      case '16': // Q13: Open Feedback (LAST PAGE - shows Submit button)
+      case '16': // Q13: Open Feedback (LAST PAGE - "Next" button submits survey)
         return (
           <div className="min-h-screen bg-gray-50 py-6 md:py-10">
             <div className="max-w-2xl mx-auto px-4">
@@ -2219,7 +2219,7 @@ const SurveyDebugNavigator: React.FC = () => {
                 />
                 <p className="text-sm text-gray-400 mt-2 text-right">0/500</p>
 
-                {/* Navigation Buttons - Submit on last page */}
+                {/* Navigation Buttons - "Next" submits on last page */}
                 <div className="flex flex-col-reverse md:flex-row gap-3 justify-between items-stretch mt-6">
                   <button
                     type="button"
@@ -2233,7 +2233,7 @@ const SurveyDebugNavigator: React.FC = () => {
                     className="px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-200 text-black"
                     disabled
                   >
-                    {t('survey.submit')}
+                    {t('survey.navigation.next')} →
                   </button>
                 </div>
               </div>

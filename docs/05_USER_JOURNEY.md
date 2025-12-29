@@ -782,7 +782,7 @@ If "Other" is selected:
 **Field:** `openFeedback`
 **Validation:** Optional (can leave empty)
 
-**Button:** [Submit] (submits entire survey → proceeds to Debrief)
+**Button:** [Next →] (submits entire survey → proceeds to Debrief)
 
 ---
 
