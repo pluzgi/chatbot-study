@@ -224,7 +224,7 @@ export class ApiClient {
     donates: boolean,
     config: DonationConfig | null
   ): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/experiment/donation`, {
+    const response = await fetch(`${this.baseUrl}/donation/decision`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -245,12 +245,12 @@ export class ApiClient {
    * Submit post-task survey measures
    */
   async submitPostMeasures(participantId: string, measures: PostTaskMeasures): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/experiment/post-measures`, {
+    const response = await fetch(`${this.baseUrl}/donation/post-measures`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         participantId,
-        ...measures
+        measures
       })
     });
 
