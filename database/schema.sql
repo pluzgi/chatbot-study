@@ -97,6 +97,39 @@ INSERT INTO click_counters (event_type, count) VALUES
     ('try_apertus', 0)
 ON CONFLICT (event_type) DO NOTHING;
 
+-- Study configuration for resettable counters and targets
+-- Used by the landing page participant counter (displays "X/200")
+CREATE TABLE study_config (
+    key VARCHAR(50) PRIMARY KEY,
+    value VARCHAR(255),
+    reset_at TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Insert default participant target
+INSERT INTO study_config (key, value) VALUES
+    ('participant_target', '200')
+ON CONFLICT (key) DO NOTHING;
+
+-- ============================================================
+-- PARTICIPANT COUNTER OPERATIONS
+-- ============================================================
+-- The landing page shows a counter: "Participants so far: X/200"
+-- It counts completed participants (completed_at IS NOT NULL)
+-- created after the reset date.
+--
+-- RESET COUNTER (start fresh, e.g., after testing):
+--   INSERT INTO study_config (key, value, reset_at)
+--   VALUES ('counter_reset', 'reset', NOW())
+--   ON CONFLICT (key) DO UPDATE SET reset_at = NOW();
+--
+-- CHANGE TARGET (e.g., from 200 to 300):
+--   UPDATE study_config SET value = '300' WHERE key = 'participant_target';
+--
+-- VIEW CURRENT SETTINGS:
+--   SELECT * FROM study_config;
+-- ============================================================
+
 -- Indexes for performance
 CREATE INDEX idx_participants_condition ON participants(condition);
 CREATE INDEX idx_participants_language ON participants(language);

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { api } from './services/api';
 import { Session } from './types';
 import LanguageSelector from './components/LanguageSelector';
+import ParticipantCounter from './components/ParticipantCounter';
 import ChatInterface from './components/Chat/ChatInterface';
 import ChatbotInstruction from './components/Chat/ChatbotInstruction';
 import DonationModal from './components/Donation/DonationModal';
@@ -151,6 +152,9 @@ function App() {
               <p>{t('landing.researcher')}</p>
               <p>{t('landing.program')}</p>
             </div>
+
+            {/* Participant Counter */}
+            <ParticipantCounter />
           </div>
         </div>
 

@@ -86,4 +86,15 @@ router.post('/track-click', async (req, res) => {
   }
 });
 
+// Get participant count for landing page counter
+router.get('/participant-count', async (req, res) => {
+  try {
+    const { count, target } = await experimentService.getParticipantCount();
+    res.json({ count, target });
+  } catch (error) {
+    console.error('Participant count error:', error);
+    res.status(500).json({ error: 'Failed to get participant count' });
+  }
+});
+
 export default router;
