@@ -262,7 +262,8 @@
       }
     },
     "demographics": {
-      "preferNotSay": "Prefer not to say",
+      "header": "Ein paar Fragen zu Ihrer Person",
+      "preferNotSay": "Keine Angabe",
       "age": {
         "question": "What is your age?",
         "placeholder": "Select age range...",

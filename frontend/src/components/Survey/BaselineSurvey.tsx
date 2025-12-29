@@ -45,7 +45,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-red-50 to-red-100">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-white">
       <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
         {/* Small header */}
         <p className="text-base text-black uppercase tracking-wide mb-8 md:mb-10">

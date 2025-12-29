@@ -37,31 +37,31 @@ CREATE TABLE IF NOT EXISTS participants (
     completed_at TIMESTAMP
 );
 
--- Post-task survey measures (Q3-Q14)
+-- Post-task survey measures (Q4-Q14)
 -- Separate table: logically distinct data collected after main experiment
 -- Aligned with hypothesis-driven survey structure
 CREATE TABLE IF NOT EXISTS post_task_measures (
     participant_id UUID PRIMARY KEY REFERENCES participants(id),
 
-    -- Q3: Perceived Transparency (MC-T) - H1 manipulation check - 2 items
+    -- Q4: Perceived Transparency (MC-T) - H1 manipulation check - 2 items
     transparency1 INT CHECK (transparency1 BETWEEN 1 AND 7),
     transparency2 INT CHECK (transparency2 BETWEEN 1 AND 7),
 
-    -- Q4: Perceived User Control (MC-C) - H2 manipulation check - 2 items
+    -- Q5: Perceived User Control (MC-C) - H2 manipulation check - 2 items
     control1 INT CHECK (control1 BETWEEN 1 AND 7),
     control2 INT CHECK (control2 BETWEEN 1 AND 7),
 
-    -- Q5: Risk Perception (OUT-RISK) - H3 interaction mechanism - 2 items
+    -- Q6: Risk Perception (OUT-RISK) - H3 interaction mechanism - 2 items
     risk_traceability INT CHECK (risk_traceability BETWEEN 1 AND 7),
     risk_misuse INT CHECK (risk_misuse BETWEEN 1 AND 7),
 
-    -- Q6: Trust (OUT-TRUST) - Supporting construct - 1 item
+    -- Q7: Trust (OUT-TRUST) - Supporting construct - 1 item
     trust1 INT CHECK (trust1 BETWEEN 1 AND 7),
 
-    -- Q7: Attention check
+    -- Q8: Attention check
     attention_check VARCHAR(50),
 
-    -- Q8-Q12: Demographics (checkbox-style selection, stored as strings)
+    -- Q9-Q13: Demographics (checkbox-style selection, stored as strings)
     age VARCHAR(20),
     gender VARCHAR(50),
     gender_other VARCHAR(255),
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS post_task_measures (
     education VARCHAR(100),
     eligible_to_vote_ch VARCHAR(20) CHECK (eligible_to_vote_ch IN ('eligible', 'not-eligible', 'not-sure')),
 
-    -- Q13: Open feedback (QUAL)
+    -- Q14: Open feedback (QUAL)
     open_feedback TEXT,
 
     created_at TIMESTAMP DEFAULT NOW()

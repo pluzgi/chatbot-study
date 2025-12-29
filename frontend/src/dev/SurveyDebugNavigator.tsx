@@ -82,7 +82,7 @@ export const SCREENS: ScreenConfig[] = [
   // ========== SURVEY STAGE (Hypothesis-Driven) ==========
   {
     id: '6',
-    name: 'Q3: Transparency',
+    name: 'Q4: Transparency',
     stage: 'survey',
     tag: 'MC-T',
     construct: 'Perceived Transparency',
@@ -96,7 +96,7 @@ export const SCREENS: ScreenConfig[] = [
   },
   {
     id: '7',
-    name: 'Q4: Control',
+    name: 'Q5: Control',
     stage: 'survey',
     tag: 'MC-C',
     construct: 'Perceived User Control',
@@ -110,7 +110,7 @@ export const SCREENS: ScreenConfig[] = [
   },
   {
     id: '8',
-    name: 'Q5: Risk',
+    name: 'Q6: Risk',
     stage: 'survey',
     tag: 'OUT-RISK',
     construct: 'Risk Perception',
@@ -124,7 +124,7 @@ export const SCREENS: ScreenConfig[] = [
   },
   {
     id: '9',
-    name: 'Q6: Trust',
+    name: 'Q7: Trust',
     stage: 'survey',
     tag: 'OUT-TRUST',
     construct: 'Trust',
@@ -138,7 +138,7 @@ export const SCREENS: ScreenConfig[] = [
   },
   {
     id: '10',
-    name: 'Q7: Attention Check',
+    name: 'Q8: Attention Check',
     stage: 'survey',
     tag: 'ATTN',
     construct: 'Data Quality',
@@ -150,14 +150,14 @@ export const SCREENS: ScreenConfig[] = [
     stage: 'survey',
     description: 'Transition screen before demographics'
   },
-  { id: '12', name: 'Q8: Age', stage: 'survey', tag: 'DEMO', description: 'Demographics - age range' },
-  { id: '13', name: 'Q9: Gender', stage: 'survey', tag: 'DEMO', description: 'Demographics - gender' },
-  { id: '14', name: 'Q10: Language', stage: 'survey', tag: 'DEMO', description: 'Demographics - primary language' },
-  { id: '15', name: 'Q11: Education', stage: 'survey', tag: 'DEMO', description: 'Demographics - education level' },
-  { id: '15B', name: 'Q12: Voting Eligibility', stage: 'survey', tag: 'DEMO', description: 'Are you eligible to vote in Switzerland? (Yes/No)' },
+  { id: '12', name: 'Q9: Age', stage: 'survey', tag: 'DEMO', description: 'Demographics - age range' },
+  { id: '13', name: 'Q10: Gender', stage: 'survey', tag: 'DEMO', description: 'Demographics - gender' },
+  { id: '14', name: 'Q11: Language', stage: 'survey', tag: 'DEMO', description: 'Demographics - primary language' },
+  { id: '15', name: 'Q12: Education', stage: 'survey', tag: 'DEMO', description: 'Demographics - education level' },
+  { id: '16', name: 'Q13: Voting Eligibility', stage: 'survey', tag: 'DEMO', description: 'Demographics - are you eligible to vote in Switzerland?' },
   {
-    id: '16',
-    name: 'Q13: Open Feedback',
+    id: '17',
+    name: 'Q14: Open Feedback',
     stage: 'survey',
     tag: 'QUAL',
     construct: 'Qualitative Insight',
@@ -898,8 +898,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </div>
 
-        {/* ========== 6: Q3 TRANSPARENCY (MC-T) ========== */}
-        <ScreenDivider id="6" name="Q3: Transparency" tag="MC-T" />
+        {/* ========== 6: Q4 TRANSPARENCY (MC-T) ========== */}
+        <ScreenDivider id="6" name="Q4: Transparency" tag="MC-T" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-T" construct="Perceived Transparency">
           <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.transparency.intro')}</p>
           <LikertItemPreview label={t('survey.transparency.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -909,8 +909,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 7: Q4 CONTROL (MC-C) ========== */}
-        <ScreenDivider id="7" name="Q4: Control" tag="MC-C" />
+        {/* ========== 7: Q5 CONTROL (MC-C) ========== */}
+        <ScreenDivider id="7" name="Q5: Control" tag="MC-C" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-C" construct="Perceived User Control">
           <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.control.intro')}</p>
           <LikertItemPreview label={t('survey.control.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -920,8 +920,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 8: Q5 RISK (OUT-RISK) ========== */}
-        <ScreenDivider id="8" name="Q5: Risk" tag="OUT-RISK" />
+        {/* ========== 8: Q6 RISK (OUT-RISK) ========== */}
+        <ScreenDivider id="8" name="Q6: Risk" tag="OUT-RISK" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-RISK" construct="Risk Perception">
           <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.risk.intro')}</p>
           <LikertItemPreview label={t('survey.risk.traceability')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -931,8 +931,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 9: Q6 TRUST (OUT-TRUST) ========== */}
-        <ScreenDivider id="9" name="Q6: Trust" tag="OUT-TRUST" />
+        {/* ========== 9: Q7 TRUST (OUT-TRUST) ========== */}
+        <ScreenDivider id="9" name="Q7: Trust" tag="OUT-TRUST" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-TRUST" construct="Trust">
           <LikertItemPreview label={t('survey.trust.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
@@ -940,8 +940,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 10: Q7 CHATBOT QUESTION ========== */}
-        <ScreenDivider id="10" name="Q7: Chatbot Question" />
+        {/* ========== 10: Q8 ATTENTION CHECK ========== */}
+        <ScreenDivider id="10" name="Q8: Attention Check" />
         <JourneyCard title={t('survey.chatbotQuestion.header')}>
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.chatbotQuestion.question')}</p>
           <div className="space-y-3">
@@ -981,8 +981,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </div>
 
-        {/* ========== 12: Q8 AGE ========== */}
-        <ScreenDivider id="12" name="Q8: Age" tag="DEMO" />
+        {/* ========== 12: Q9 AGE ========== */}
+        <ScreenDivider id="12" name="Q9: Age" tag="DEMO" />
         <JourneyCard title="A few questions about you" tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.age.question')}</p>
           <div className="space-y-3">
@@ -997,8 +997,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 13: Q9 GENDER ========== */}
-        <ScreenDivider id="13" name="Q9: Gender" tag="DEMO" />
+        {/* ========== 13: Q10 GENDER ========== */}
+        <ScreenDivider id="13" name="Q10: Gender" tag="DEMO" />
         <JourneyCard title="A few questions about you" tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.gender.question')}</p>
           <div className="space-y-3">
@@ -1019,8 +1019,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 14: Q10 LANGUAGE ========== */}
-        <ScreenDivider id="14" name="Q10: Language" tag="DEMO" />
+        {/* ========== 14: Q11 LANGUAGE ========== */}
+        <ScreenDivider id="14" name="Q11: Language" tag="DEMO" />
         <JourneyCard title="A few questions about you" tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.language.question')}</p>
           <div className="space-y-3">
@@ -1042,8 +1042,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 15: Q11 EDUCATION ========== */}
-        <ScreenDivider id="15" name="Q11: Education" tag="DEMO" />
+        {/* ========== 15: Q12 EDUCATION ========== */}
+        <ScreenDivider id="15" name="Q12: Education" tag="DEMO" />
         <JourneyCard title="A few questions about you" tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.education.question')}</p>
           <div className="space-y-3">
@@ -1066,8 +1066,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 15B: Q12 VOTING ELIGIBILITY ========== */}
-        <ScreenDivider id="15B" name="Q12: Voting Eligibility" tag="DEMO" />
+        {/* ========== 16: Q13 VOTING ELIGIBILITY ========== */}
+        <ScreenDivider id="16" name="Q13: Voting Eligibility" tag="DEMO" />
         <JourneyCard title="A few questions about you" tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.votingEligibility.question')}</p>
           <div className="space-y-3">
@@ -1086,8 +1086,8 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
-        {/* ========== 16: Q13 OPEN FEEDBACK ========== */}
-        <ScreenDivider id="16" name="Q13: Open Feedback" tag="QUAL" />
+        {/* ========== 17: Q14 OPEN FEEDBACK ========== */}
+        <ScreenDivider id="17" name="Q14: Open Feedback" tag="QUAL" />
         <div className="bg-gray-50 py-4 rounded-lg border border-gray-200">
           <div className="max-w-2xl mx-auto px-4">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 border-l-4 border-l-yellow-400">
@@ -1106,27 +1106,47 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         {/* ========== 18: DEBRIEFING ========== */}
         <ScreenDivider id="18" name="Debriefing" />
         <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <h1 className="text-2xl font-bold mb-6 text-black text-center">{t('debrief.title')}</h1>
-            <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4 mb-6">
-              <p className="text-base text-black leading-relaxed">
+          <div className="max-w-3xl mx-auto p-6 md:p-8 lg:p-10 bg-white rounded-lg shadow-lg">
+            {/* Title */}
+            <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-black text-center leading-tight">{t('debrief.title')}</h1>
+
+            {/* Important Notice - Yellow Box */}
+            <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4 md:p-6 mb-6 md:mb-8">
+              <p className="text-base md:text-lg text-black leading-relaxed">
                 <strong>{t('debrief.important')}</strong> {t('debrief.simulationNote')}
               </p>
             </div>
-            <div className="mb-6">
-              <h2 className="text-lg font-bold mb-3 text-black">{t('debrief.whatWeStudy')}</h2>
-              <p className="text-base text-black leading-relaxed">{t('debrief.studyPurpose')}</p>
+
+            {/* What We're Studying Section */}
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-bold mb-3 text-black">{t('debrief.whatWeStudy')}</h2>
+              <p className="text-base md:text-lg text-black leading-relaxed mb-4">{t('debrief.studyPurpose')}</p>
+
+              {/* Email Input */}
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <label className="block text-base text-black mb-2">{t('debrief.emailPrompt')}</label>
+                <input
+                  type="email"
+                  className="w-full max-w-md p-3 text-base border border-gray-300 rounded-md bg-white"
+                  placeholder={t('debrief.emailPlaceholder')}
+                  disabled
+                />
+              </div>
             </div>
-            <div className="mb-6">
-              <h2 className="text-lg font-bold mb-3 text-black">{t('debrief.questions')}</h2>
-              <p className="text-base text-black mb-3 leading-relaxed">{t('debrief.contactIntro')}</p>
-              <div className="space-y-1 text-base text-black">
+
+            {/* Questions/Contact Section */}
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-bold mb-3 text-black">{t('debrief.questions')}</h2>
+              <p className="text-base md:text-lg text-black mb-3 leading-relaxed">{t('debrief.contactIntro')}</p>
+              <div className="space-y-1 text-base md:text-lg text-black">
                 <p>{t('debrief.researcher')}</p>
                 <p>{t('debrief.institution')}</p>
                 <p>{t('debrief.supervisor')}</p>
               </div>
             </div>
-            <button className="w-full bg-gray-200 text-black py-4 rounded-lg font-semibold text-base min-h-[48px]">
+
+            {/* Close Button */}
+            <button className="w-full bg-gray-200 text-black py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition">
               {t('debrief.close')}
             </button>
           </div>
@@ -2169,7 +2189,7 @@ const SurveyDebugNavigator: React.FC = () => {
           </PreviewWrapper>
         );
 
-      case '15B': // Q12: Voting Eligibility
+      case '16': // Q13: Voting Eligibility
         return (
           <PreviewWrapper title="A few questions about you" tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
@@ -2201,7 +2221,7 @@ const SurveyDebugNavigator: React.FC = () => {
           </PreviewWrapper>
         );
 
-      case '16': // Q13: Open Feedback (LAST PAGE - "Next" button submits survey)
+      case '17': // Q14: Open Feedback (LAST PAGE - "Next" button submits survey)
         return (
           <div className="min-h-screen bg-gray-50 py-6 md:py-10">
             <div className="max-w-2xl mx-auto px-4">
@@ -2337,18 +2357,18 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '3', step: 6, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
       { id: '4', step: 7, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
       { id: '5', step: 8, name: 'Donation Modal', content: donationContent[condition], highlight: true },
-      { id: '6', step: 9, name: 'Q3: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
-      { id: '7', step: 10, name: 'Q4: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
-      { id: '8', step: 11, name: 'Q5: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
-      { id: '9', step: 12, name: 'Q6: Trust', content: '2 items: organization trust, data security', tag: 'OUT-TRUST' as HypothesisTag },
-      { id: '10', step: 13, name: 'Q7: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
+      { id: '6', step: 9, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
+      { id: '7', step: 10, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
+      { id: '8', step: 11, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
+      { id: '9', step: 12, name: 'Q7: Trust', content: '1 item: trust to handle data responsibly', tag: 'OUT-TRUST' as HypothesisTag },
+      { id: '10', step: 13, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
       { id: '11', step: 14, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
-      { id: '12', step: 15, name: 'Q8: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
-      { id: '13', step: 16, name: 'Q9: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
-      { id: '14', step: 17, name: 'Q10: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
-      { id: '15', step: 18, name: 'Q11: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
-      { id: '15B', step: 19, name: 'Q12: Voting Eligibility', content: 'Are you eligible to vote in Switzerland? (Yes/No)', tag: 'DEMO' as HypothesisTag },
-      { id: '16', step: 20, name: 'Q13: Feedback', content: 'Optional: "What was the main reason for your decision?"', tag: 'QUAL' as HypothesisTag },
+      { id: '12', step: 15, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
+      { id: '13', step: 16, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
+      { id: '14', step: 17, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
+      { id: '15', step: 18, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
+      { id: '16', step: 19, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
+      { id: '17', step: 20, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your decision?"', tag: 'QUAL' as HypothesisTag },
       { id: '18', step: 21, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
     ];
   };
