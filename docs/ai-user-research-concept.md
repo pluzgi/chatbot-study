@@ -103,6 +103,39 @@ SELECT * FROM participants WHERE is_ai_participant = TRUE;
 SELECT * FROM participants WHERE ai_run_id = 'uuid';
 ```
 
+### API Usage Monitoring
+
+All Apertus LLM API calls are logged for monitoring production usage:
+
+```sql
+CREATE TABLE api_usage_logs (
+    id SERIAL PRIMARY KEY,
+    participant_id UUID REFERENCES participants(id),
+    model VARCHAR(100) NOT NULL,
+    prompt_tokens INT,
+    completion_tokens INT,
+    total_tokens INT,
+    response_time_ms INT,
+    success BOOLEAN NOT NULL DEFAULT TRUE,
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+**Query examples:**
+
+```sql
+-- Today's API usage
+SELECT COUNT(*), SUM(total_tokens) FROM api_usage_logs
+WHERE created_at > NOW() - INTERVAL '1 day';
+
+-- Failed calls
+SELECT * FROM api_usage_logs WHERE success = false ORDER BY created_at DESC;
+
+-- Average response time
+SELECT AVG(response_time_ms) FROM api_usage_logs WHERE success = true;
+```
+
 ### Chat Message Storage (AI Only)
 
 **Privacy by design:** Chat messages are ONLY stored for AI participants. Human participant chat messages are never persisted to the database.
