@@ -431,16 +431,16 @@ Shown after donation decision (donate OR decline)
 
 **Visual:** ✓ Green checkmark icon (large, centered)
 
-**Title:** "Choice Recorded"
+**Title:** "Thank You!"
 
 **Message:**
-"Thank you for considering this request."
+"We appreciate your participation in this study."
 
 **Next Step Text:**
-"Next: Please answer a few questions about your experience."
+"Your feedback in the next step is valuable and will help us improve this chatbot."
 
 **Button:**
-[Continue to Survey →]
+[Share Your Thoughts →]
 
 **Note:** Confirmation screen does NOT auto-dismiss. User must click button to proceed.
 

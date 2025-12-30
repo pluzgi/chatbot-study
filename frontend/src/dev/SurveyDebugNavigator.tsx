@@ -78,7 +78,7 @@ export const SCREENS: ScreenConfig[] = [
 
   // ========== DONATION STAGE ==========
   { id: '5', name: 'Donation Modal', stage: 'donation', conditionDependent: true, description: 'Data donation decision (varies by condition A/B/C/D)' },
-  { id: '5B', name: 'Thank You Page', stage: 'donation', description: 'Confirmation screen after donation decision' },
+  { id: '5B', name: 'Thank You Page', stage: 'donation', description: 'Confirmation screen after confirming donation' },
   { id: '5C', name: 'Decline Confirmation', stage: 'donation', description: 'Confirmation screen after declining donation' },
 
   // ========== SURVEY STAGE (Hypothesis-Driven) ==========
@@ -2430,7 +2430,7 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '4', step: 7, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
       { id: '5', step: 8, name: 'Donation Modal', content: donationContent[condition], highlight: true },
       { id: '5B', step: 9, name: 'Thank You Page', content: 'Confirmation: "Your support helps us improve this ballot chatbot for everyone. Your feedback in the next step will make this tool even better for future users like you." Button: Share Your Thoughts →' },
-      { id: '5C', step: 10, name: 'Decline Confirmation', content: 'Confirmation: "Thank you for considering this request." Next: "Please answer a few questions about your experience." Button: Continue to Survey →' },
+      { id: '5C', step: 10, name: 'Decline Confirmation', content: 'Confirmation: "We appreciate your participation in this study. Your feedback in the next step is valuable and will help us improve this chatbot." Button: Share Your Thoughts →' },
       { id: '6', step: 11, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
       { id: '7', step: 12, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
       { id: '8', step: 13, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
