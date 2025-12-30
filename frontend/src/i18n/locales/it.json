@@ -110,10 +110,10 @@
       "button": "Condividi il Tuo Parere →"
     },
     "confirmDecline": {
-      "title": "Choice Recorded",
-      "message": "Thank you for considering this request.",
-      "nextStep": "Next: Please answer a few questions about your experience.",
-      "button": "Continue to Survey →"
+      "title": "Grazie!",
+      "message": "Apprezziamo la vostra partecipazione a questo studio.",
+      "nextStep": "Il vostro feedback nel prossimo passaggio è prezioso e ci aiuterà a migliorare questo chatbot.",
+      "button": "Condividi il Tuo Parere →"
     }
   },
   "dnl": {

@@ -133,10 +133,10 @@
       "button": "Share Your Thoughts →"
     },
     "confirmDecline": {
-      "title": "Choice Recorded",
-      "message": "Thank you for considering this request.",
-      "nextStep": "Next: Please answer a few questions about your experience.",
-      "button": "Continue to Survey →"
+      "title": "Thank You!",
+      "message": "We appreciate your participation in this study.",
+      "nextStep": "Your feedback in the next step is valuable and will help us improve this chatbot.",
+      "button": "Share Your Thoughts →"
     }
   },
   "dnl": {

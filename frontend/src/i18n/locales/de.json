@@ -132,10 +132,10 @@
       "button": "Teilen Sie Ihre Meinung →"
     },
     "confirmDecline": {
-      "title": "Entscheidung erfasst",
-      "message": "Vielen Dank für Ihre Überlegung.",
-      "nextStep": "Weiter: Bitte beantworten Sie einige Fragen zu Ihrer Erfahrung.",
-      "button": "Weiter zur Umfrage →"
+      "title": "Vielen Dank!",
+      "message": "Wir schätzen Ihre Teilnahme an dieser Studie.",
+      "nextStep": "Ihr Feedback im nächsten Schritt ist wertvoll und wird uns helfen, diesen Chatbot zu verbessern.",
+      "button": "Teilen Sie Ihre Meinung →"
     }
   },
   "dnl": {
