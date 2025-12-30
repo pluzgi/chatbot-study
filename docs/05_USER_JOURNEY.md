@@ -766,7 +766,7 @@ If "Other" is selected:
 **Tag:** ⚫ QUAL — Qualitative Insight
 
 **Headline (displayed as main text):**
-"What mattered most for your decision?"
+"What mattered most for your data donation decision?"
 
 **Note (gray text below headline):**
 "(Optional. Your answer helps us understand decision-making.)"
