@@ -104,4 +104,26 @@ router.get('/participant-count', async (req, res) => {
   }
 });
 
+// Admin: Delete AI test data only
+router.delete('/admin/ai-data', async (req, res) => {
+  try {
+    const result = await experimentService.deleteAiTestData();
+    res.json({ success: true, deleted: result });
+  } catch (error) {
+    console.error('Delete AI data error:', error);
+    res.status(500).json({ error: 'Failed to delete AI data' });
+  }
+});
+
+// Admin: Delete ALL data (use with caution)
+router.delete('/admin/all-data', async (req, res) => {
+  try {
+    const result = await experimentService.deleteAllData();
+    res.json({ success: true, deleted: result });
+  } catch (error) {
+    console.error('Delete all data error:', error);
+    res.status(500).json({ error: 'Failed to delete data' });
+  }
+});
+
 export default router;
