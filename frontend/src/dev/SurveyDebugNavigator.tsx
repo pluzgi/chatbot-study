@@ -68,6 +68,7 @@ export const SCREENS: ScreenConfig[] = [
   // ========== ONBOARDING STAGE ==========
   { id: '1', name: 'Landing Page', stage: 'onboarding', description: 'Welcome page with Start/Decline buttons' },
   { id: '1B', name: 'Consent Modal', stage: 'onboarding', description: 'Eligibility confirmation (18+, Swiss voter)' },
+  { id: '1C', name: 'Declined Page', stage: 'onboarding', description: 'Thank you message for users who decline study participation' },
   { id: '2A', name: 'Baseline Q1', stage: 'onboarding', description: 'Tech comfort question' },
   { id: '2B', name: 'Baseline Q2', stage: 'onboarding', description: 'Privacy concern question' },
   { id: '2C', name: 'Baseline Q3', stage: 'onboarding', tag: 'COV', construct: 'Ballot Familiarity', description: 'How familiar are you with Swiss ballot initiatives?' },
@@ -1375,6 +1376,28 @@ const SurveyDebugNavigator: React.FC = () => {
           </div>
         );
 
+      case '1C': // Declined Page - exact copy from App.tsx
+        return (
+          <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+            <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm text-center">
+              <div className="flex justify-end gap-2 mb-6 md:mb-8">
+                <LanguageSelector />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-black">
+                {t('landing.declineMessage')}
+              </h2>
+              <a
+                href="http://publicai.ch/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
+              >
+                {t('landing.declinedPage.button')}
+              </a>
+            </div>
+          </div>
+        );
+
       case '2A':
         return (
           <div className="min-h-screen flex items-center justify-center p-4 bg-white">
@@ -2423,27 +2446,28 @@ const SurveyDebugNavigator: React.FC = () => {
     return [
       { id: '1', step: 1, name: 'Landing Page', content: 'Study introduction, requirements (18+, Swiss resident), consent' },
       { id: '1B', step: 2, name: 'Consent Modal', content: 'Eligibility confirmation: 18+, Swiss voter, voluntary participation' },
-      { id: '2A', step: 3, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
-      { id: '2B', step: 4, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
-      { id: '2C', step: 5, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballot initiatives?"', tag: 'COV' as HypothesisTag },
-      { id: '3', step: 6, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
-      { id: '4', step: 7, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
-      { id: '5', step: 8, name: 'Donation Modal', content: donationContent[condition], highlight: true },
-      { id: '5B', step: 9, name: 'Thank You Page', content: 'Confirmation: "Your support helps us improve this ballot chatbot for everyone. Your feedback in the next step will make this tool even better for future users like you." Button: Share Your Thoughts →' },
-      { id: '5C', step: 10, name: 'Decline Confirmation', content: 'Confirmation: "We appreciate your participation in this study. Your feedback in the next step is valuable and will help us improve this chatbot." Button: Share Your Thoughts →' },
-      { id: '6', step: 11, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
-      { id: '7', step: 12, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
-      { id: '8', step: 13, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
-      { id: '9', step: 14, name: 'Q7: Trust', content: '1 item: trust to handle data responsibly', tag: 'OUT-TRUST' as HypothesisTag },
-      { id: '10', step: 15, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
-      { id: '11', step: 16, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
-      { id: '12', step: 17, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
-      { id: '13', step: 18, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
-      { id: '14', step: 19, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
-      { id: '15', step: 20, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
-      { id: '16', step: 21, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
-      { id: '17', step: 22, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your data donation decision?"', tag: 'QUAL' as HypothesisTag },
-      { id: '18', step: 23, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
+      { id: '1C', step: 3, name: 'Declined Page', content: 'Message: "Thank you for your consideration." Link to try Apertus chatbot at publicai.ch' },
+      { id: '2A', step: 4, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
+      { id: '2B', step: 5, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
+      { id: '2C', step: 6, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballot initiatives?"', tag: 'COV' as HypothesisTag },
+      { id: '3', step: 7, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
+      { id: '4', step: 8, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
+      { id: '5', step: 9, name: 'Donation Modal', content: donationContent[condition], highlight: true },
+      { id: '5B', step: 10, name: 'Thank You Page', content: 'Confirmation: "Your support helps us improve this ballot chatbot for everyone. Your feedback in the next step will make this tool even better for future users like you." Button: Share Your Thoughts →' },
+      { id: '5C', step: 11, name: 'Decline Confirmation', content: 'Confirmation: "We appreciate your participation in this study. Your feedback in the next step is valuable and will help us improve this chatbot." Button: Share Your Thoughts →' },
+      { id: '6', step: 12, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
+      { id: '7', step: 13, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
+      { id: '8', step: 14, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
+      { id: '9', step: 15, name: 'Q7: Trust', content: '1 item: trust to handle data responsibly', tag: 'OUT-TRUST' as HypothesisTag },
+      { id: '10', step: 16, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
+      { id: '11', step: 17, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
+      { id: '12', step: 18, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
+      { id: '13', step: 19, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
+      { id: '14', step: 20, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
+      { id: '15', step: 21, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
+      { id: '16', step: 22, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
+      { id: '17', step: 23, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your data donation decision?"', tag: 'QUAL' as HypothesisTag },
+      { id: '18', step: 24, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
     ];
   };
 
