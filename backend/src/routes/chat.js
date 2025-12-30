@@ -17,17 +17,22 @@ router.post('/message', async (req, res) => {
 
     // Save chat messages ONLY for AI participants (privacy by design)
     if (participantId) {
-      const { rows } = await pool.query(
-        'SELECT is_ai_participant FROM participants WHERE id = $1',
-        [participantId]
-      );
-
-      if (rows[0]?.is_ai_participant) {
-        // Save both user message and assistant response
-        await pool.query(
-          'INSERT INTO chat_messages (participant_id, role, content) VALUES ($1, $2, $3), ($1, $4, $5)',
-          [participantId, 'user', message, 'assistant', response]
+      try {
+        const { rows } = await pool.query(
+          'SELECT is_ai_participant FROM participants WHERE id = $1',
+          [participantId]
         );
+
+        if (rows[0]?.is_ai_participant) {
+          // Save both user message and assistant response
+          await pool.query(
+            'INSERT INTO chat_messages (participant_id, role, content) VALUES ($1, $2, $3), ($1, $4, $5)',
+            [participantId, 'user', message, 'assistant', response]
+          );
+        }
+      } catch (dbError) {
+        // Log but don't fail the request if chat message saving fails
+        console.log('[Chat] Skipping message save (participant not in DB or invalid ID)');
       }
     }
 
