@@ -130,8 +130,9 @@ npm install
 # Set environment variables
 nano .env
 # Add:
-# INFOMANIAK_APERTUS_ENDPOINT=...
+# INFOMANIAK_ENDPOINT=...
 # INFOMANIAK_API_KEY=...
+# INFOMANIAK_MODEL=swiss-ai/Apertus-70B-Instruct-2509
 # PYTHON_SERVICE_URL=http://thesis-python.jcloud-ver-jpe.ik-server.com
 # DATABASE_HOST=...
 # FRONTEND_URL=https://chat-study.ailights.org
@@ -452,8 +453,9 @@ Before launching study:
 **Backend (.env on thesis environment):**
 ```
 PORT=3000
-INFOMANIAK_APERTUS_ENDPOINT=https://api.infomaniak.com/2/ai/106600/openai
+INFOMANIAK_ENDPOINT=https://api.infomaniak.com/2/ai/106600/openai
 INFOMANIAK_API_KEY=your_key
+INFOMANIAK_MODEL=swiss-ai/Apertus-70B-Instruct-2509
 PYTHON_SERVICE_URL=http://thesis-python.jcloud-ver-jpe.ik-server.com
 DATABASE_HOST=10.101.29.52
 DATABASE_PORT=5432

@@ -43,7 +43,8 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 async function start() {
   try {
-    await runMigrations();
+    // Skip migrations for local testing (tables already exist in production DB)
+    // await runMigrations();
     app.listen(process.env.PORT || 3000, () => {
       console.log(`Backend running on port ${process.env.PORT || 3000}`);
     });

@@ -1,7 +1,7 @@
 import { Persona, ThrottleConfig, ChatMessage } from './types.js';
 import { ApiClient } from './api-client.js';
 import { ResponseGenerator } from './response-generator.js';
-import { QuestionGenerator } from './llm-client.js';
+import { QuestionGenerator, FeedbackGenerator } from './llm-client.js';
 import { ParticipantLogger } from './logger.js';
 
 export class ParticipantSimulator {
@@ -11,6 +11,7 @@ export class ParticipantSimulator {
   private api: ApiClient;
   private responseGen: ResponseGenerator;
   private questionGen: QuestionGenerator;
+  private feedbackGen: FeedbackGenerator;
   private logger: ParticipantLogger;
 
   constructor(persona: Persona, runId: string, config: ThrottleConfig) {
@@ -20,6 +21,7 @@ export class ParticipantSimulator {
     this.api = new ApiClient(config);
     this.responseGen = new ResponseGenerator(persona);
     this.questionGen = new QuestionGenerator();
+    this.feedbackGen = new FeedbackGenerator();
     this.logger = new ParticipantLogger(runId, persona.id);
   }
 
@@ -106,6 +108,9 @@ export class ParticipantSimulator {
       // Phase 5: Post-Task Survey
       const postMeasuresStart = Date.now();
       const postMeasures = this.responseGen.postTaskResponses(condition);
+
+      // Generate feedback via LLM in persona's language
+      postMeasures.openFeedback = await this.feedbackGen.generateFeedback(this.persona, donates);
 
       await this.api.request(() =>
         this.api.submitPostMeasures(participantId, postMeasures)

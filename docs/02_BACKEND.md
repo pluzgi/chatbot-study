@@ -6,7 +6,7 @@
 > - Option A: Function calling / tool use (LLM requests specific historical data)
 > - Option B: RAG (Retrieval Augmented Generation) with vector search
 > - Endpoints already exist: `/api/initiatives/search?historical=true`, `/api/initiatives/historical`
-> - See `apertus.service.js` for where to add historical context fetching
+> - See `llm.service.js` for where to add historical context fetching
 
 ## 1. Python Microservice (Your Existing Code)
 
@@ -86,7 +86,7 @@ backend/
 │   │   ├── database.js
 │   │   └── env.js
 │   ├── services/
-│   │   ├── apertus.service.js
+│   │   ├── llm.service.js
 │   │   ├── ballot.service.js
 │   │   └── experiment.service.js
 │   ├── routes/
@@ -101,9 +101,11 @@ backend/
 
 ### Environment Variables (.env)
 ```
-# Infomaniak AI API (use /2/ for beta models like Apertus)
-INFOMANIAK_APERTUS_ENDPOINT=https://api.infomaniak.com/2/ai/106600/openai
+# Infomaniak LLM API
+INFOMANIAK_ENDPOINT=https://api.infomaniak.com/2/ai/106600/openai
 INFOMANIAK_API_KEY=your_api_key
+# Available models: swiss-ai/Apertus-70B-Instruct-2509, qwen3, mixtral, mistral, deepseek, llama, granite
+INFOMANIAK_MODEL=swiss-ai/Apertus-70B-Instruct-2509
 
 # Python Service
 PYTHON_SERVICE_URL=http://localhost:5000
@@ -206,15 +208,16 @@ Positionen:
 export default new BallotService();
 ```
 
-### src/services/apertus.service.js
+### src/services/llm.service.js
 ```javascript
 import axios from 'axios';
 import ballotService from './ballot.service.js';
 
-class ApertusService {
+class LLMService {
   constructor() {
-    this.baseUrl = process.env.INFOMANIAK_APERTUS_ENDPOINT;
+    this.baseUrl = process.env.INFOMANIAK_ENDPOINT;
     this.apiKey = process.env.INFOMANIAK_API_KEY;
+    this.defaultModel = process.env.INFOMANIAK_MODEL || 'swiss-ai/Apertus-70B-Instruct-2509';
   }
 
   getSystemPrompt(lang) {
@@ -225,21 +228,21 @@ Ihre Aufgabe: Neutrale, sachliche Information über Schweizer Volksabstimmungen.
 - Beide Seiten fair darstellen
 - Quellen nennen wenn möglich
 - Kurz und klar antworten (max 200 Wörter)`,
-      
+
       fr: `Vous êtes un assistant de vote suisse propulsé par Apertus.
 Votre tâche: Information neutre et factuelle sur les votations suisses.
 - Pas d'opinion politique
 - Présenter les deux côtés équitablement
 - Citer les sources si possible
 - Réponses courtes et claires (max 200 mots)`,
-      
+
       it: `Lei è un assistente di voto svizzero alimentato da Apertus.
 Il suo compito: Informazioni neutrali e fattuali sulle votazioni svizzere.
 - Nessuna opinione politica
 - Presentare entrambe le parti equamente
 - Citare le fonti se possibile
 - Risposte brevi e chiare (max 200 parole)`,
-      
+
       en: `You are a Swiss voting assistant powered by Apertus.
 Your task: Neutral, factual information about Swiss popular votes.
 - No political opinion
@@ -250,10 +253,12 @@ Your task: Neutral, factual information about Swiss popular votes.
     return prompts[lang] || prompts.de;
   }
 
-  async chat(messages, lang = 'de') {
+  async chat(messages, lang = 'de', participantId = null, model = null) {
+    const selectedModel = model || this.defaultModel;
+
     // Enrich with ballot context
     const upcoming = await ballotService.getUpcoming();
-    const ballotContext = upcoming.slice(0, 3).map(v => 
+    const ballotContext = upcoming.slice(0, 3).map(v =>
       `- ${v.title} (${v.date})`
     ).join('\n');
 
@@ -265,7 +270,7 @@ ${ballotContext}`;
     const response = await axios.post(
       `${this.baseUrl}/v1/chat/completions`,
       {
-        model: "swiss-ai/Apertus-70B-Instruct-2509",
+        model: selectedModel,
         messages: [
           { role: "system", content: systemPrompt },
           ...messages
@@ -286,7 +291,7 @@ ${ballotContext}`;
   }
 }
 
-export default new ApertusService();
+export default new LLMService();
 ```
 
 ### src/services/experiment.service.js
@@ -371,20 +376,20 @@ export default new ExperimentService();
 ### src/routes/chat.js
 ```javascript
 import express from 'express';
-import apertusService from '../services/apertus.service.js';
+import llmService from '../services/llm.service.js';
 
 const router = express.Router();
 
 router.post('/message', async (req, res) => {
   try {
     const { participantId, message, conversationHistory, language } = req.body;
-    
+
     const messages = [
       ...conversationHistory,
       { role: 'user', content: message }
     ];
-    
-    const response = await apertusService.chat(messages, language || 'de');
+
+    const response = await llmService.chat(messages, language || 'de', participantId);
     
     // Log interaction (implement if needed)
     

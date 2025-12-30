@@ -182,8 +182,8 @@ export class ResponseGenerator {
       education: this.mapEducation(demo.education),
       eligibleToVoteCh: demo.eligibleToVote ? 'eligible' : 'not-eligible',
 
-      // Generated feedback
-      openFeedback: this.generateFeedback()
+      // Feedback is generated via LLM in participant-simulator.ts
+      openFeedback: ''
     };
   }
 
@@ -210,47 +210,6 @@ export class ResponseGenerator {
       'doctorate': 'university'
     };
     return mapping[education] || education;
-  }
-
-  private generateFeedback(): string {
-    const cluster = this.persona.cluster;
-    const d = this.drivers;
-
-    // Cluster-specific feedback pools
-    const feedbackPools: Record<string, string[]> = {
-      A: [
-        'Happy to contribute to Swiss research.',
-        'Clear and straightforward process.',
-        'Good initiative for democratic participation.',
-        'I trust Swiss institutions with this data.',
-        ''  // Some leave empty
-      ],
-      B: [
-        'Appreciated the transparency about data usage.',
-        'Would like even more control over data retention.',
-        'The privacy options were helpful.',
-        'Good to see Swiss data stays in Switzerland.',
-        'More details on who accesses the data would be helpful.',
-        ''
-      ],
-      C: [
-        'Still not sure who benefits from this.',
-        'Concerned about data being used beyond stated purposes.',
-        'Would prefer not to share any data.',
-        'Too many unknowns about long-term data use.',
-        ''
-      ],
-      D: [
-        'Interesting concept.',
-        'Quick and easy.',
-        'Not sure what difference my choice makes.',
-        '',
-        ''
-      ]
-    };
-
-    const pool = feedbackPools[cluster] || feedbackPools.D;
-    return pool[Math.floor(Math.random() * pool.length)];
   }
 
   /**

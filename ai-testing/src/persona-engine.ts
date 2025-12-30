@@ -6,6 +6,7 @@ export class PersonaEngine {
   private personas: Persona[];
   private languageDistribution: Record<string, number>;
   private clusterDistribution: Record<string, number>;
+  private eligibilityDistribution: Record<string, number>;
 
   constructor() {
     const filePath = path.join(process.cwd(), 'personas', 'personas.json');
@@ -14,6 +15,7 @@ export class PersonaEngine {
     this.personas = data.personas;
     this.languageDistribution = data.languageDistribution;
     this.clusterDistribution = data.clusterDistribution;
+    this.eligibilityDistribution = data.eligibilityDistribution || { eligible: 0.75, 'not-eligible': 0.25 };
   }
 
   /**
@@ -62,6 +64,9 @@ export class PersonaEngine {
           // Apply language distribution override
           jitteredPersona.demographics.language = this.sampleLanguage();
 
+          // Apply eligibility distribution (~25% non-eligible like Swiss demographics)
+          jitteredPersona.demographics.eligibleToVote = this.sampleEligibility();
+
           distribution.push(jitteredPersona);
         }
       }
@@ -91,6 +96,13 @@ export class PersonaEngine {
   private applyJitter(value: number): number {
     const jitter = Math.floor(Math.random() * 3) - 1; // -1, 0, or +1
     return Math.max(1, Math.min(7, value + jitter));
+  }
+
+  /**
+   * Sample eligibility according to Swiss demographic distribution (~75% eligible, ~25% foreign residents)
+   */
+  private sampleEligibility(): boolean {
+    return Math.random() < (this.eligibilityDistribution['eligible'] || 0.75);
   }
 
   /**

@@ -230,7 +230,7 @@ export class ApiClient {
       body: JSON.stringify({
         participantId,
         decision: donates ? 'donate' : 'decline',
-        config
+        configuration: config
       })
     });
 
