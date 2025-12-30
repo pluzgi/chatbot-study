@@ -126,10 +126,8 @@ ${ballotContext}
       });
 
       // Log the full error details from Infomaniak
-      console.error('[LLMService] API Error:', {
-        status: error.response?.status,
-        data: JSON.stringify(error.response?.data, null, 2)
-      });
+      console.error('[LLMService] API Error - Status:', error.response?.status);
+      console.error('[LLMService] API Error - Data:', JSON.stringify(error.response?.data, null, 2));
       throw error;
     }
   }
