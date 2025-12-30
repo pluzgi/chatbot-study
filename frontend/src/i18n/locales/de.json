@@ -127,9 +127,9 @@
     "decline": "Nicht spenden",
     "confirmDonate": {
       "title": "Vielen Dank!",
-      "message": "Ihr Beitrag wird helfen, das Apertus-Modell zu verbessern.",
-      "nextStep": "Weiter: Bitte beantworten Sie einige Fragen zu Ihrer Erfahrung.",
-      "button": "Weiter zur Umfrage →"
+      "message": "Ihre Unterstützung hilft uns, diesen Abstimmungs-Chatbot für alle zu verbessern.",
+      "nextStep": "Ihr Feedback im nächsten Schritt wird dieses Tool für zukünftige Nutzer wie Sie noch besser machen.",
+      "button": "Teilen Sie Ihre Meinung →"
     },
     "confirmDecline": {
       "title": "Entscheidung erfasst",

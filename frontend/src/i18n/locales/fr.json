@@ -104,10 +104,10 @@
     "accept": "Donate Data",
     "decline": "Don't Donate",
     "confirmDonate": {
-      "title": "Thank You!",
-      "message": "Your contribution will help improve the Apertus model.",
-      "nextStep": "Next: Please answer a few questions about your experience.",
-      "button": "Continue to Survey →"
+      "title": "Merci!",
+      "message": "Votre soutien nous aide à améliorer ce chatbot de votation pour tous.",
+      "nextStep": "Vos retours dans la prochaine étape rendront cet outil encore meilleur pour les futurs utilisateurs comme vous.",
+      "button": "Partagez Votre Avis →"
     },
     "confirmDecline": {
       "title": "Choice Recorded",

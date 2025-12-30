@@ -128,9 +128,9 @@
     "decline": "Don't Donate",
     "confirmDonate": {
       "title": "Thank You!",
-      "message": "Your contribution will help improve the Apertus model.",
-      "nextStep": "Next: Please answer a few questions about your experience.",
-      "button": "Continue to Survey →"
+      "message": "Your support helps us improve this ballot chatbot for everyone.",
+      "nextStep": "Your feedback in the next step will make this tool even better for future users like you.",
+      "button": "Share Your Thoughts →"
     },
     "confirmDecline": {
       "title": "Choice Recorded",
