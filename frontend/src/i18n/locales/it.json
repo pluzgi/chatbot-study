@@ -320,6 +320,12 @@
         "no": "No"
       }
     },
+    "openFeedback": {
+      "question": "Cosa è stato più importante per la vostra decisione di donare i dati?",
+      "note": "(Opzionale. La vostra risposta ci aiuta a comprendere il processo decisionale.)",
+      "placeholder": "Scrivete qui la vostra risposta...",
+      "maxLength": "Massimo 500 caratteri"
+    },
     "optional": {
       "optional": "Optional",
       "swissServer": "How important is it to you that the Apertus model is hosted on Swiss servers? (Optional)",

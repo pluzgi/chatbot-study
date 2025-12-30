@@ -304,7 +304,7 @@
       }
     },
     "openFeedback": {
-      "question": "Was war für Ihre Entscheidung am wichtigsten?",
+      "question": "Was war für Ihre Entscheidung zur Datenspende am wichtigsten?",
       "note": "(Optional. Ihre Antwort hilft uns, Entscheidungsprozesse zu verstehen.)",
       "placeholder": "Schreiben Sie hier Ihre Antwort...",
       "maxLength": "Maximal 500 Zeichen"

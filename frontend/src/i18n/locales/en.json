@@ -305,7 +305,7 @@
       }
     },
     "openFeedback": {
-      "question": "What mattered most for your decision?",
+      "question": "What mattered most for your data donation decision?",
       "note": "(Optional. Your answer helps us understand decision-making.)",
       "placeholder": "Type your response here...",
       "maxLength": "Maximum 500 characters"

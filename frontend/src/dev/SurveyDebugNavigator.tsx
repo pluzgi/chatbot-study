@@ -2442,7 +2442,7 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '14', step: 19, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
       { id: '15', step: 20, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
       { id: '16', step: 21, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
-      { id: '17', step: 22, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your decision?"', tag: 'QUAL' as HypothesisTag },
+      { id: '17', step: 22, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your data donation decision?"', tag: 'QUAL' as HypothesisTag },
       { id: '18', step: 23, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
     ];
   };
