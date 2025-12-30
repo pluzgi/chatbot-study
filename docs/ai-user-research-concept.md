@@ -1641,6 +1641,8 @@ cp .env.example .env
 
 ### Execute Test Run
 
+**Note:** The `--participants=N` flag is **required** - there is no default value.
+
 ```bash
 # Run 1,000 AI participants (10 concurrent)
 npm run test -- --participants=1000 --concurrency=10
@@ -1648,8 +1650,8 @@ npm run test -- --participants=1000 --concurrency=10
 # Run smaller test batch
 npm run test -- --participants=50 --concurrency=5
 
-# Run with specific persona distribution
-npm run test -- --participants=1000 --distribution=balanced
+# Dry run (preview without API calls)
+npm run test -- --participants=100 --dry-run
 ```
 
 ### Monitor Progress
@@ -1700,6 +1702,31 @@ JOIN post_task_measures ptm ON p.id = ptm.participant_id
 WHERE is_ai_participant = TRUE
 GROUP BY condition
 ORDER BY condition;
+```
+
+### Data Cleanup (Admin Endpoints)
+
+Two admin endpoints are available for cleaning up test data:
+
+```bash
+# Delete only AI test participants (preserves human data)
+curl -X DELETE https://thesis.jcloud-ver-jpe.ik-server.com/api/experiment/admin/ai-data
+
+# Delete ALL data (use with caution!)
+curl -X DELETE https://thesis.jcloud-ver-jpe.ik-server.com/api/experiment/admin/all-data
+```
+
+Both endpoints return the count of deleted rows:
+```json
+{
+  "success": true,
+  "deleted": {
+    "chatMessages": 150,
+    "apiLogs": 100,
+    "postMeasures": 50,
+    "participants": 50
+  }
+}
 ```
 
 ---
