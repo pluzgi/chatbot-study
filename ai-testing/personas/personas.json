@@ -336,5 +336,9 @@
     "B": 0.25,
     "C": 0.25,
     "D": 0.25
+  },
+  "eligibilityDistribution": {
+    "eligible": 0.75,
+    "not-eligible": 0.25
   }
 }

@@ -1,5 +1,5 @@
 import express from 'express';
-import apertusService from '../services/apertus.service.js';
+import llmService from '../services/llm.service.js';
 import pool from '../config/database.js';
 
 const router = express.Router();
@@ -13,7 +13,7 @@ router.post('/message', async (req, res) => {
       { role: 'user', content: message }
     ];
 
-    const response = await apertusService.chat(messages, language || 'de', participantId);
+    const response = await llmService.chat(messages, language || 'de', participantId);
 
     // Save chat messages ONLY for AI participants (privacy by design)
     if (participantId) {

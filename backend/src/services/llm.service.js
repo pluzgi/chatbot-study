@@ -5,11 +5,13 @@ dotenv.config();
 import ballotService from './ballot.service.js';
 import pool from '../config/database.js';
 
-class ApertusService {
+class LLMService {
   constructor() {
-    this.baseUrl = process.env.INFOMANIAK_APERTUS_ENDPOINT;
+    this.baseUrl = process.env.INFOMANIAK_ENDPOINT;
     this.apiKey = process.env.INFOMANIAK_API_KEY;
-    console.log('ApertusService using endpoint:', this.baseUrl);
+    this.defaultModel = process.env.INFOMANIAK_MODEL || 'swiss-ai/Apertus-70B-Instruct-2509';
+    console.log('LLMService using endpoint:', this.baseUrl);
+    console.log('LLMService default model:', this.defaultModel);
   }
 
   getSystemPrompt(lang) {
@@ -45,16 +47,16 @@ Your task: Neutral, factual information about Swiss popular votes.
     return prompts[lang] || prompts.de;
   }
 
-  async chat(messages, lang = 'de', participantId = null) {
+  async chat(messages, lang = 'de', participantId = null, model = null) {
     const startTime = Date.now();
-    const model = 'swiss-ai/Apertus-70B-Instruct-2509';
+    const selectedModel = model || this.defaultModel;
 
     // Get comprehensive ballot context (includes all upcoming votes with full details)
     let ballotContext;
     try {
       ballotContext = await ballotService.getUpcomingContext(lang);
     } catch (error) {
-      console.error('[ApertusService] Failed to get ballot context:', error);
+      console.error('[LLMService] Failed to get ballot context:', error);
       // Fallback to basic list
       const upcoming = await ballotService.getUpcoming(lang);
       ballotContext = upcoming.slice(0, 5).map(v =>
@@ -79,7 +81,7 @@ ${ballotContext}
       const response = await axios.post(
         `${this.baseUrl}/v1/chat/completions`,
         {
-          model,
+          model: selectedModel,
           messages: [
             { role: "system", content: systemPrompt },
             ...messages
@@ -102,7 +104,7 @@ ${ballotContext}
       // Log successful API call
       await this.logApiUsage({
         participantId,
-        model,
+        model: selectedModel,
         promptTokens: usage.prompt_tokens,
         completionTokens: usage.completion_tokens,
         totalTokens: usage.total_tokens,
@@ -117,14 +119,14 @@ ${ballotContext}
       // Log failed API call
       await this.logApiUsage({
         participantId,
-        model,
+        model: selectedModel,
         responseTimeMs,
         success: false,
         errorMessage: error.response?.data?.error?.message || error.message
       });
 
       // Log the full error details from Infomaniak
-      console.error('[ApertusService] API Error:', {
+      console.error('[LLMService] API Error:', {
         status: error.response?.status,
         data: JSON.stringify(error.response?.data, null, 2)
       });
@@ -141,7 +143,7 @@ ${ballotContext}
         [participantId, model, promptTokens || null, completionTokens || null, totalTokens || null, responseTimeMs, success, errorMessage || null]
       );
     } catch (err) {
-      console.error('[ApertusService] Failed to log API usage:', err.message);
+      console.error('[LLMService] Failed to log API usage:', err.message);
     }
   }
 
@@ -154,4 +156,4 @@ ${ballotContext}
   }
 }
 
-export default new ApertusService();
+export default new LLMService();

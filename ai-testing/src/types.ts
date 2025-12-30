@@ -145,4 +145,5 @@ export interface PersonaFile {
   personas: Persona[];
   languageDistribution: Record<string, number>;
   clusterDistribution: Record<string, number>;
+  eligibilityDistribution?: Record<string, number>;
 }

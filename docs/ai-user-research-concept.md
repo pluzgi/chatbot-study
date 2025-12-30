@@ -598,9 +598,13 @@ export class ParticipantSimulator {
 }
 ```
 
-#### 3. Question Generator using Apertus (`llm-client.ts`)
+#### 3. LLM Generators using Apertus (`llm-client.ts`)
 
-Uses the same Swiss Apertus LLM as the main chatbot to generate natural, varied questions based on persona traits.
+Uses the Swiss Apertus LLM to generate **all dynamic text content**:
+- **Chat questions**: Natural, varied questions based on persona traits
+- **Open feedback**: Survey feedback in the persona's language (DE/FR/IT/RM)
+
+All text generation respects the persona's language setting - no hardcoded text is used.
 
 ```typescript
 import axios from 'axios';
@@ -608,10 +612,12 @@ import axios from 'axios';
 export class QuestionGenerator {
   private baseUrl: string;
   private apiKey: string;
+  private model: string;
 
   constructor() {
-    this.baseUrl = process.env.INFOMANIAK_APERTUS_ENDPOINT || '';
+    this.baseUrl = process.env.INFOMANIAK_ENDPOINT || '';
     this.apiKey = process.env.INFOMANIAK_API_KEY || '';
+    this.model = process.env.INFOMANIAK_MODEL || 'swiss-ai/Apertus-70B-Instruct-2509';
   }
 
   async generateChatQuestion(
@@ -652,6 +658,29 @@ ${history.length > 0 ? `Previous exchange:\n${history.slice(-2).map(m => `${m.ro
       { headers: { 'Authorization': `Bearer ${this.apiKey}` } }
     );
 
+    return response.data.choices[0]?.message?.content?.trim();
+  }
+}
+
+/**
+ * Feedback generator - generates open-ended survey feedback in persona's language
+ */
+export class FeedbackGenerator {
+  async generateFeedback(persona: Persona, donated: boolean): Promise<string> {
+    // 30% chance of empty feedback (realistic)
+    if (Math.random() < 0.3) return '';
+
+    const systemPrompt = `Generate realistic feedback for a Swiss voting chatbot study.
+Write ONE short comment (1-2 sentences) in ${persona.demographics.language}.
+Output ONLY the feedback text.`;
+
+    const userPrompt = `Person profile:
+- Attitude: ${persona.cluster === 'A' ? 'trusting' : persona.cluster === 'B' ? 'privacy-conscious' : persona.cluster === 'C' ? 'skeptical' : 'indifferent'}
+- Decision: ${donated ? 'donated data' : 'declined'}
+
+Write ONE natural feedback comment in the persona's language.`;
+
+    // Call Apertus LLM...
     return response.data.choices[0]?.message?.content?.trim();
   }
 }
@@ -835,8 +864,8 @@ export class ResponseGenerator {
       education: this.persona.demographics.education,
       eligibleToVoteCh: this.persona.demographics.eligibleToVote,
 
-      // Generated feedback
-      openFeedback: this.generateFeedback()
+      // Feedback is generated via LLM in participant-simulator.ts
+      openFeedback: ''
     };
   }
 
@@ -851,19 +880,6 @@ export class ResponseGenerator {
     }
 
     return Math.max(1, Math.min(7, this.applyJitter(value)));
-  }
-
-  private generateFeedback(): string {
-    const feedbacks = [
-      'Interesting concept.',
-      'I found the chatbot helpful.',
-      'Would like more information about data usage.',
-      'Easy to use interface.',
-      'The voting information was clear.',
-      '', // Some participants leave empty
-      ''
-    ];
-    return feedbacks[Math.floor(Math.random() * feedbacks.length)];
   }
 }
 ```
@@ -1741,14 +1757,15 @@ Both endpoints return the count of deleted rows:
 | Baseline | 1 | 0 |
 | Chat (2-3 messages) | 2-3 | 4-6 (2-3 question gen + 2-3 responses) |
 | Donation | 1 | 0 |
-| Post-measures | 1 | 0 |
-| **Total** | **6-7** | **4-6** |
+| Post-measures | 1 | 1 (feedback generation) |
+| **Total** | **6-7** | **5-7** |
 
 ### For 1,000 Participants
 
 - Backend API calls: ~6,500
-- Apertus API calls: ~5,000 (question generation + chatbot responses)
+- Apertus API calls: ~6,000 (question generation + chatbot responses + feedback generation)
 - All LLM calls use Infomaniak Apertus (Swiss infrastructure)
+- All text (questions, feedback) generated in persona's language (DE/FR/IT/RM)
 - Time estimate: ~2-4 hours (with 10 concurrent participants)
 
 ---
