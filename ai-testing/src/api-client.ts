@@ -193,8 +193,11 @@ export class ApiClient {
     participantId: string,
     message: string,
     history: ChatMessage[],
-    language: string
+    language: string,
+    model?: string
   ): Promise<string> {
+    const backendModel = model || process.env.BACKEND_MODEL || undefined;
+
     const response = await fetch(`${this.baseUrl}/chat/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -202,7 +205,8 @@ export class ApiClient {
         participantId,
         message,
         conversationHistory: history,
-        language
+        language,
+        ...(backendModel && { model: backendModel })
       })
     });
 
