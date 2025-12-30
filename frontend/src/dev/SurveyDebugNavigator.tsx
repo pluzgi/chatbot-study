@@ -67,8 +67,8 @@ interface ScreenConfig {
 export const SCREENS: ScreenConfig[] = [
   // ========== ONBOARDING STAGE ==========
   { id: '1', name: 'Landing Page', stage: 'onboarding', description: 'Welcome page with Start/Decline buttons' },
-  { id: '1B', name: 'Consent Modal', stage: 'onboarding', description: 'Eligibility confirmation (18+, Swiss voter)' },
-  { id: '1C', name: 'Declined Page', stage: 'onboarding', description: 'Thank you message for users who decline study participation' },
+  { id: '1B', name: 'Declined Page', stage: 'onboarding', description: 'Thank you message for users who decline study participation' },
+  { id: '1C', name: 'Consent Modal', stage: 'onboarding', description: 'Eligibility confirmation (18+, Swiss voter)' },
   { id: '2A', name: 'Baseline Q1', stage: 'onboarding', description: 'Tech comfort question' },
   { id: '2B', name: 'Baseline Q2', stage: 'onboarding', description: 'Privacy concern question' },
   { id: '2C', name: 'Baseline Q3', stage: 'onboarding', tag: 'COV', construct: 'Ballot Familiarity', description: 'How familiar are you with Swiss ballot initiatives?' },
@@ -557,8 +557,29 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </div>
 
-        {/* ========== 1B: CONSENT MODAL ========== */}
-        <ScreenDivider id="1B" name="Consent Modal" />
+        {/* ========== 1B: DECLINED PAGE ========== */}
+        <ScreenDivider id="1B" name="Declined Page" />
+        <div className="min-h-[400px] flex items-center justify-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm text-center">
+            <div className="flex justify-end gap-2 mb-6 md:mb-8">
+              <span className="text-sm text-gray-500">[Language Selector]</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-black">
+              {t('landing.declineMessage')}
+            </h2>
+            <a
+              href="http://publicai.ch/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
+            >
+              {t('landing.declinedPage.button')}
+            </a>
+          </div>
+        </div>
+
+        {/* ========== 1C: CONSENT MODAL ========== */}
+        <ScreenDivider id="1C" name="Consent Modal" />
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <div className="bg-white rounded-lg max-w-md mx-auto p-6 md:p-8">
             <h2 className="text-xl md:text-2xl font-bold mb-4 text-black leading-tight">{t('landing.consentModal.title')}</h2>
@@ -580,27 +601,6 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
                 {t('landing.consentModal.back')}
               </button>
             </div>
-          </div>
-        </div>
-
-        {/* ========== 1C: DECLINED PAGE ========== */}
-        <ScreenDivider id="1C" name="Declined Page" />
-        <div className="min-h-[400px] flex items-center justify-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm text-center">
-            <div className="flex justify-end gap-2 mb-6 md:mb-8">
-              <span className="text-sm text-gray-500">[Language Selector]</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-black">
-              {t('landing.declineMessage')}
-            </h2>
-            <a
-              href="http://publicai.ch/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
-            >
-              {t('landing.declinedPage.button')}
-            </a>
           </div>
         </div>
 
@@ -1357,7 +1357,29 @@ const SurveyDebugNavigator: React.FC = () => {
           </div>
         );
 
-      case '1B': // Consent Modal - exact copy from App.tsx
+      case '1B': // Declined Page - exact copy from App.tsx
+        return (
+          <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+            <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm text-center">
+              <div className="flex justify-end gap-2 mb-6 md:mb-8">
+                <LanguageSelector />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-black">
+                {t('landing.declineMessage')}
+              </h2>
+              <a
+                href="http://publicai.ch/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
+              >
+                {t('landing.declinedPage.button')}
+              </a>
+            </div>
+          </div>
+        );
+
+      case '1C': // Consent Modal - exact copy from App.tsx
         return (
           <div className="fixed inset-0 bg-white flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-md w-full p-6 md:p-8">
@@ -1393,28 +1415,6 @@ const SurveyDebugNavigator: React.FC = () => {
                   {t('landing.consentModal.back')}
                 </button>
               </div>
-            </div>
-          </div>
-        );
-
-      case '1C': // Declined Page - exact copy from App.tsx
-        return (
-          <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-            <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm text-center">
-              <div className="flex justify-end gap-2 mb-6 md:mb-8">
-                <LanguageSelector />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-black">
-                {t('landing.declineMessage')}
-              </h2>
-              <a
-                href="http://publicai.ch/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
-              >
-                {t('landing.declinedPage.button')}
-              </a>
             </div>
           </div>
         );
@@ -2466,8 +2466,8 @@ const SurveyDebugNavigator: React.FC = () => {
 
     return [
       { id: '1', step: 1, name: 'Landing Page', content: 'Study introduction, requirements (18+, Swiss resident), consent' },
-      { id: '1B', step: 2, name: 'Consent Modal', content: 'Eligibility confirmation: 18+, Swiss voter, voluntary participation' },
-      { id: '1C', step: 3, name: 'Declined Page', content: 'Message: "Thank you for your consideration." Link to try Apertus chatbot at publicai.ch' },
+      { id: '1B', step: 2, name: 'Declined Page', content: 'Message: "Thank you for your consideration." Link to try Apertus chatbot at publicai.ch' },
+      { id: '1C', step: 3, name: 'Consent Modal', content: 'Eligibility confirmation: 18+, Swiss voter, voluntary participation' },
       { id: '2A', step: 4, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
       { id: '2B', step: 5, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
       { id: '2C', step: 6, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballot initiatives?"', tag: 'COV' as HypothesisTag },
