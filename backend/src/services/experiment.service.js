@@ -257,6 +257,56 @@ class ExperimentService {
       ON CONFLICT (key) DO UPDATE SET value = $1
     `, [target.toString()]);
   }
+
+  /**
+   * Delete all AI test participants and their related data.
+   * Use with caution - this permanently removes data.
+   */
+  async deleteAiTestData() {
+    // Delete in correct order due to foreign key constraints
+    const chatResult = await pool.query(`
+      DELETE FROM chat_messages
+      WHERE participant_id IN (SELECT id FROM participants WHERE is_ai_participant = TRUE)
+    `);
+
+    const apiResult = await pool.query(`
+      DELETE FROM api_usage_logs
+      WHERE participant_id IN (SELECT id FROM participants WHERE is_ai_participant = TRUE)
+    `);
+
+    const postResult = await pool.query(`
+      DELETE FROM post_task_measures
+      WHERE participant_id IN (SELECT id FROM participants WHERE is_ai_participant = TRUE)
+    `);
+
+    const participantResult = await pool.query(`
+      DELETE FROM participants WHERE is_ai_participant = TRUE
+    `);
+
+    return {
+      chatMessages: chatResult.rowCount,
+      apiLogs: apiResult.rowCount,
+      postMeasures: postResult.rowCount,
+      participants: participantResult.rowCount
+    };
+  }
+
+  /**
+   * Delete ALL data from all tables (use with extreme caution).
+   */
+  async deleteAllData() {
+    const chatResult = await pool.query(`DELETE FROM chat_messages`);
+    const apiResult = await pool.query(`DELETE FROM api_usage_logs`);
+    const postResult = await pool.query(`DELETE FROM post_task_measures`);
+    const participantResult = await pool.query(`DELETE FROM participants`);
+
+    return {
+      chatMessages: chatResult.rowCount,
+      apiLogs: apiResult.rowCount,
+      postMeasures: postResult.rowCount,
+      participants: participantResult.rowCount
+    };
+  }
 }
 
 export default new ExperimentService();
