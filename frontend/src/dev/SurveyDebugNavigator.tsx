@@ -79,6 +79,7 @@ export const SCREENS: ScreenConfig[] = [
   // ========== DONATION STAGE ==========
   { id: '5', name: 'Donation Modal', stage: 'donation', conditionDependent: true, description: 'Data donation decision (varies by condition A/B/C/D)' },
   { id: '5B', name: 'Thank You Page', stage: 'donation', description: 'Confirmation screen after donation decision' },
+  { id: '5C', name: 'Decline Confirmation', stage: 'donation', description: 'Confirmation screen after declining donation' },
 
   // ========== SURVEY STAGE (Hypothesis-Driven) ==========
   {
@@ -2405,19 +2406,20 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '4', step: 7, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
       { id: '5', step: 8, name: 'Donation Modal', content: donationContent[condition], highlight: true },
       { id: '5B', step: 9, name: 'Thank You Page', content: 'Confirmation: "Your support helps us improve this ballot chatbot for everyone. Your feedback in the next step will make this tool even better for future users like you." Button: Share Your Thoughts →' },
-      { id: '6', step: 10, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
-      { id: '7', step: 11, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
-      { id: '8', step: 12, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
-      { id: '9', step: 13, name: 'Q7: Trust', content: '1 item: trust to handle data responsibly', tag: 'OUT-TRUST' as HypothesisTag },
-      { id: '10', step: 14, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
-      { id: '11', step: 15, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
-      { id: '12', step: 16, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
-      { id: '13', step: 17, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
-      { id: '14', step: 18, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
-      { id: '15', step: 19, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
-      { id: '16', step: 20, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
-      { id: '17', step: 21, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your decision?"', tag: 'QUAL' as HypothesisTag },
-      { id: '18', step: 22, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
+      { id: '5C', step: 10, name: 'Decline Confirmation', content: 'Confirmation: "Thank you for considering this request." Next: "Please answer a few questions about your experience." Button: Continue to Survey →' },
+      { id: '6', step: 11, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
+      { id: '7', step: 12, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
+      { id: '8', step: 13, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
+      { id: '9', step: 14, name: 'Q7: Trust', content: '1 item: trust to handle data responsibly', tag: 'OUT-TRUST' as HypothesisTag },
+      { id: '10', step: 15, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
+      { id: '11', step: 16, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
+      { id: '12', step: 17, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
+      { id: '13', step: 18, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
+      { id: '14', step: 19, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
+      { id: '15', step: 20, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
+      { id: '16', step: 21, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
+      { id: '17', step: 22, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your decision?"', tag: 'QUAL' as HypothesisTag },
+      { id: '18', step: 23, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
     ];
   };
 
