@@ -1910,6 +1910,30 @@ const SurveyDebugNavigator: React.FC = () => {
         );
       }
 
+      // ========== THANK YOU PAGE ==========
+      case '5B':
+        return (
+          <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg max-w-2xl w-full p-8 md:p-12 shadow-sm text-center">
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold mb-6 text-black">{t('donation.confirmDonate.title')}</h2>
+              <p className="text-xl text-black mb-4 leading-relaxed">
+                {t('donation.confirmDonate.message')}
+              </p>
+              <p className="text-xl text-black mb-8 leading-relaxed">
+                {t('donation.confirmDonate.nextStep')}
+              </p>
+              <button className="px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+                {t('donation.confirmDonate.button')}
+              </button>
+            </div>
+          </div>
+        );
+
       // ========== SURVEY - HYPOTHESIS-DRIVEN PREVIEWS ==========
       case '6': // Q3: Perceived Transparency (MC-T)
         return (
