@@ -583,6 +583,27 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </div>
 
+        {/* ========== 1C: DECLINED PAGE ========== */}
+        <ScreenDivider id="1C" name="Declined Page" />
+        <div className="min-h-[400px] flex items-center justify-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg max-w-xl w-full p-6 md:p-10 lg:p-12 shadow-sm text-center">
+            <div className="flex justify-end gap-2 mb-6 md:mb-8">
+              <span className="text-sm text-gray-500">[Language Selector]</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-black">
+              {t('landing.declineMessage')}
+            </h2>
+            <a
+              href="http://publicai.ch/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
+            >
+              {t('landing.declinedPage.button')}
+            </a>
+          </div>
+        </div>
+
         {/* ========== 2A: BASELINE Q1 ========== */}
         <ScreenDivider id="2A" name="Baseline Q1" />
         <div className="min-h-[400px] flex items-center justify-center p-4 bg-white rounded-lg border border-gray-200">
