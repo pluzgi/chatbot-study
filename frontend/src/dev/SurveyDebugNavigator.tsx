@@ -78,6 +78,7 @@ export const SCREENS: ScreenConfig[] = [
 
   // ========== DONATION STAGE ==========
   { id: '5', name: 'Donation Modal', stage: 'donation', conditionDependent: true, description: 'Data donation decision (varies by condition A/B/C/D)' },
+  { id: '5B', name: 'Thank You Page', stage: 'donation', description: 'Confirmation screen after donation decision' },
 
   // ========== SURVEY STAGE (Hypothesis-Driven) ==========
   {
@@ -897,6 +898,28 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
             </div>
           </div>
         </div>
+
+        {/* ========== 5B: THANK YOU PAGE ========== */}
+        <ScreenDivider id="5B" name="Thank You Page" />
+        <JourneyCard title="Confirmation Screen">
+          <div className="text-center py-8">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold mb-6 text-black">{t('donation.confirmDonate.title')}</h2>
+            <p className="text-xl text-black mb-4 leading-relaxed">
+              {t('donation.confirmDonate.message')}
+            </p>
+            <p className="text-xl text-black mb-8 leading-relaxed">
+              {t('donation.confirmDonate.nextStep')}
+            </p>
+            <button className="px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+              {t('donation.confirmDonate.button')}
+            </button>
+          </div>
+        </JourneyCard>
 
         {/* ========== 6: Q4 TRANSPARENCY (MC-T) ========== */}
         <ScreenDivider id="6" name="Q4: Transparency" tag="MC-T" />
@@ -2357,19 +2380,20 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '3', step: 6, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
       { id: '4', step: 7, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
       { id: '5', step: 8, name: 'Donation Modal', content: donationContent[condition], highlight: true },
-      { id: '6', step: 9, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
-      { id: '7', step: 10, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
-      { id: '8', step: 11, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
-      { id: '9', step: 12, name: 'Q7: Trust', content: '1 item: trust to handle data responsibly', tag: 'OUT-TRUST' as HypothesisTag },
-      { id: '10', step: 13, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
-      { id: '11', step: 14, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
-      { id: '12', step: 15, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
-      { id: '13', step: 16, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
-      { id: '14', step: 17, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
-      { id: '15', step: 18, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
-      { id: '16', step: 19, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
-      { id: '17', step: 20, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your decision?"', tag: 'QUAL' as HypothesisTag },
-      { id: '18', step: 21, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
+      { id: '5B', step: 9, name: 'Thank You Page', content: 'Confirmation: "Your support helps us improve this ballot chatbot for everyone. Your feedback in the next step will make this tool even better for future users like you." Button: Share Your Thoughts →' },
+      { id: '6', step: 10, name: 'Q4: Transparency', content: '2 items: information clarity, understood consequences', tag: 'MC-T' as HypothesisTag },
+      { id: '7', step: 11, name: 'Q5: Control', content: '2 items: control over use, meaningful choices', tag: 'MC-C' as HypothesisTag },
+      { id: '8', step: 12, name: 'Q6: Risk', content: '2 items: traceability, misuse concerns', tag: 'OUT-RISK' as HypothesisTag },
+      { id: '9', step: 13, name: 'Q7: Trust', content: '1 item: trust to handle data responsibly', tag: 'OUT-TRUST' as HypothesisTag },
+      { id: '10', step: 14, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
+      { id: '11', step: 15, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
+      { id: '12', step: 16, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
+      { id: '13', step: 17, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
+      { id: '14', step: 18, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
+      { id: '15', step: 19, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
+      { id: '16', step: 20, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
+      { id: '17', step: 21, name: 'Q14: Feedback', content: 'Optional: "What mattered most for your decision?"', tag: 'QUAL' as HypothesisTag },
+      { id: '18', step: 22, name: 'Debriefing', content: 'Thank you, simulation disclosure, contact info, email signup' },
     ];
   };
 
