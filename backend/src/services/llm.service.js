@@ -77,7 +77,9 @@ ${ballotContext}
 - Für detaillierte Informationen verweisen Sie auf swissvotes.ch`;
 
     try {
-      // Use /2/ API endpoint with /v1/ path for beta models like Apertus
+      // Use /2/ai/.../v1/chat/completions endpoint (works for all models)
+      console.log('[LLMService] Using model:', selectedModel);
+
       const response = await axios.post(
         `${this.baseUrl}/v1/chat/completions`,
         {
