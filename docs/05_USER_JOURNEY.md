@@ -419,13 +419,13 @@ Shown after donation decision (donate OR decline)
 **Title:** "Thank You!"
 
 **Message:**
-"Your contribution will help improve the Apertus model."
+"Your support helps us improve this ballot chatbot for everyone."
 
 **Next Step Text:**
-"Next: Please answer a few questions about your experience."
+"Your feedback in the next step will make this tool even better for future users like you."
 
 **Button:**
-[Continue to Survey →]
+[Share Your Thoughts →]
 
 ### If User Chose "Don't Donate":
 
