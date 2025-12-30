@@ -6,14 +6,14 @@ const router = express.Router();
 
 router.post('/message', async (req, res) => {
   try {
-    const { participantId, message, conversationHistory, language } = req.body;
+    const { participantId, message, conversationHistory, language, model } = req.body;
 
     const messages = [
       ...conversationHistory,
       { role: 'user', content: message }
     ];
 
-    const response = await llmService.chat(messages, language || 'de', participantId);
+    const response = await llmService.chat(messages, language || 'de', participantId, model);
 
     // Save chat messages ONLY for AI participants (privacy by design)
     if (participantId) {

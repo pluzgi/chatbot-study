@@ -382,15 +382,17 @@ const router = express.Router();
 
 router.post('/message', async (req, res) => {
   try {
-    const { participantId, message, conversationHistory, language } = req.body;
+    const { participantId, message, conversationHistory, language, model } = req.body;
+    // model is optional - if not provided, uses INFOMANIAK_MODEL from .env
+    // useful for testing different models without changing production settings
 
     const messages = [
       ...conversationHistory,
       { role: 'user', content: message }
     ];
 
-    const response = await llmService.chat(messages, language || 'de', participantId);
-    
+    const response = await llmService.chat(messages, language || 'de', participantId, model);
+
     // Log interaction (implement if needed)
     
     res.json({ response, timestamp: new Date().toISOString() });
