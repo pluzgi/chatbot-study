@@ -83,9 +83,9 @@
     "aboutText1": "In dieser Studie untersuchen wir, wie Menschen einen Chatbot im staatsbürgerlichen Kontext nutzen und wie sie entscheiden, ob ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
     "aboutText2": "Dazu kombiniert die Studie eine kurze praktische Interaktion mit einem Chatbot und anschliessende Fragen zu Ihrer Erfahrung.",
     "headline": "Schritt 1 von 3 — Chatbot ausprobieren",
-    "text1": "In diesem ersten Schritt interagieren Sie mit einem Chatbot, der Informationen zu Schweizer Abstimmungsvorlagen bereitstellt.",
-    "text2": "Der Chatbot basiert auf einem Schweizer Open-Source-KI-Sprachmodell. Solche Modelle werden trainiert, um Fragen zu verstehen und textbasierte Antworten zu generieren, ähnlich wie andere Chat-Tools, die Sie vielleicht bereits kennen.",
-    "text3": "Das für den Chatbot verwendete KI-Modell, Apertus, ist ein Schweizer Open-Source-Sprachmodell, das von der EPFL, der ETH Zürich und dem Swiss National Supercomputing Centre entwickelt wurde.",
+    "text1": "In diesem ersten Schritt testen Sie einen Chatbot, der Informationen zu Schweizer Abstimmungsvorlagen bereitstellt.",
+    "text2": "Der Chatbot nutzt Apertus, ein Schweizer Open-Source-KI-Sprachmodell, entwickelt von EPFL, ETH Zürich und dem Swiss National Supercomputing Centre. Wie andere KI-Chatbots lernt er, Fragen zu beantworten, indem er grosse Textmengen analysiert.",
+    "text3": "Um solche Modelle weiter zu verbessern, werden echte Fragen von Chatbot-Nutzern als Trainingsdaten benötigt.",
     "task": "Bitte stellen Sie 2–3 Fragen zu Schweizer Abstimmungsvorlagen.",
     "taskSubtitle": "Dies hilft Ihnen, ein Gefühl für die Funktionsweise des Systems zu bekommen, bevor Sie mit der Studie fortfahren.",
     "examplesLabel": "Beispielfragen",
@@ -327,6 +327,6 @@
     "researcher": "Sabine Wildemann, hello@ailights.org",
     "institution": "Institution: Digital Business University of Applied Sciences",
     "supervisor": "Betreuung: Prof. Daniel Ambach",
-    "close": "Schliessen"
+    "submit": "Absenden"
   }
 }

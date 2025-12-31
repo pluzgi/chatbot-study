@@ -77,7 +77,7 @@ const Debriefing: React.FC<DebriefingProps> = ({ onEmailSubmit }) => {
           onClick={handleClose}
           className="w-full bg-gray-200 text-black py-4 rounded-lg font-semibold text-base md:text-lg min-h-[48px] hover:bg-green-600 hover:text-white transition"
         >
-          {t('debrief.close')}
+          {t('debrief.submit')}
         </button>
       </div>
     </div>

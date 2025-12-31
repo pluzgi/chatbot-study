@@ -83,9 +83,9 @@
     "aboutText1": "In this study, we explore how people use a chatbot in a civic context and how they decide whether their anonymized chat questions may be used for academic AI research.",
     "aboutText2": "To explore this, the study combines a short hands-on interaction with a chatbot and follow-up questions about your experience.",
     "headline": "Step 1 of 3 — Try the Chatbot",
-    "text1": "In this first step, you will interact with a chatbot designed to provide information about Swiss ballot initiatives.",
-    "text2": "The chatbot is based on a Swiss open-source AI language model. Such models are trained to understand questions and generate text-based answers, similar to other chat-based tools you may already know.",
-    "text3": "The AI model used for the chatbot, Apertus, is a Swiss open-source large language model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre.",
+    "text1": "In this first step, you will try a chatbot that provides information about Swiss ballot initiatives.",
+    "text2": "The chatbot uses Apertus, a Swiss open-source AI language model developed by EPFL, ETH Zurich, and the Swiss National Supercomputing Centre. Like other AI chatbots, it learns to answer questions by analyzing large amounts of text.",
+    "text3": "To further improve models like this, real questions from chatbot users are needed as training data.",
     "task": "Please ask 2–3 questions about Swiss ballot initiatives.",
     "taskSubtitle": "This helps you get a sense of how the system works before continuing with the study.",
     "examplesLabel": "Example questions",
@@ -328,6 +328,6 @@
     "researcher": "Sabine Wildemann, hello@ailights.org",
     "institution": "Institution: Digital Business University of Applied Sciences",
     "supervisor": "Supervisor: Prof. Daniel Ambach",
-    "close": "Close"
+    "submit": "Submit"
   }
 }
