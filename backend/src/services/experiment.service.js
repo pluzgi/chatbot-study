@@ -299,12 +299,15 @@ class ExperimentService {
     const apiResult = await pool.query(`DELETE FROM api_usage_logs`);
     const postResult = await pool.query(`DELETE FROM post_task_measures`);
     const participantResult = await pool.query(`DELETE FROM participants`);
+    // Reset click counters to 0
+    const clickResult = await pool.query(`UPDATE click_counters SET count = 0, last_clicked_at = NOW()`);
 
     return {
       chatMessages: chatResult.rowCount,
       apiLogs: apiResult.rowCount,
       postMeasures: postResult.rowCount,
-      participants: participantResult.rowCount
+      participants: participantResult.rowCount,
+      clickCountersReset: clickResult.rowCount
     };
   }
 }
