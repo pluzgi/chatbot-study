@@ -99,7 +99,7 @@
     "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Abstimmungsvorlagen (Antwort dauert bis zu 20 Sek.)",
     "placeholder": "Stellen Sie eine Frage...",
     "send": "Senden",
-    "thinking": "Denkt nach...",
+    "thinking": "Suche Daten... dauert bis zu 20 Sek.",
     "minQuestions": "Fragen ({{count}}/3)",
     "maxReached": "Danke — Sie können nun zur Umfrage weitergehen.",
     "continueButton": "Weiter zum nächsten Schritt →",

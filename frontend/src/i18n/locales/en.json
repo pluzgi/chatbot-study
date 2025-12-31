@@ -100,7 +100,7 @@
     "subtitle": "Ask 2–3 questions about Swiss ballot initiatives (answering takes up to 20 sec)",
     "placeholder": "Ask a question...",
     "send": "Send",
-    "thinking": "Thinking...",
+    "thinking": "Searching data... takes up to 20 sec",
     "minQuestions": "Questions ({{count}}/3)",
     "maxReached": "Thanks — you can now continue to the survey.",
     "continueButton": "Continue to Next Step →",
