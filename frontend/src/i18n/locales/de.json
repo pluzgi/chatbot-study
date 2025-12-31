@@ -110,16 +110,17 @@
     "headline": "Schritt 2 von 3 — Ihre Entscheidung zur Datenspende",
     "transition": "Sie haben gerade den Chatbot verwendet. Nun bitten wir Sie zu entscheiden, ob Ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
     "conditionA": {
+      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden.",
       "text": "Ihre anonymisierten Chat-Fragen würden zur Verbesserung eines Schweizer Open-Source-KI-Modells für akademische Forschung verwendet. Die Daten würden sicher behandelt und nicht für kommerzielle Zwecke genutzt."
     },
     "conditionB": {
-      "intro": "Um Ihre Entscheidung zu unterstützen, finden Sie hier sachliche Informationen über den Chatbot und den Umgang mit Daten:"
+      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden.\nBitte prüfen Sie die folgenden Datenfakten, um eine informierte Entscheidung zu treffen:"
     },
     "conditionC": {
-      "intro": "Sie können entscheiden, wie Ihre anonymisierten Chat-Fragen verwendet werden."
+      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden. Zunächst können Sie konfigurieren, wie Ihre Daten verwendet werden."
     },
     "conditionD": {
-      "intro": "Um Ihre Entscheidung zu unterstützen, können Sie Informationen über den Chatbot einsehen und anpassen, wie Ihre anonymisierten Daten verwendet werden."
+      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden. Bitte prüfen Sie die folgenden Datenfakten. Sie können auch konfigurieren, wie Ihre Daten verwendet werden."
     },
     "dashboardHelper": "Sie können die Standardeinstellungen beibehalten oder sie vor Ihrer Entscheidung anpassen.",
     "decisionQuestion": "Möchten Sie Ihre anonymisierten Chat-Fragen für Forschungszwecke spenden?",
@@ -139,16 +140,15 @@
     }
   },
   "dnl": {
-    "title": "Über das Schweizer Apertus-Modell",
-    "intro": "Hier sind die Informationen, die Sie über den Umgang mit Daten erhalten würden, bevor Sie Ihre Entscheidung treffen:",
+    "title": "KI-Modell-Fakten",
     "provenance": "Swiss-Made",
     "provenanceValue": "Entwickelt von EPFL, ETH Zürich & CSCS in der Schweiz",
     "ingredients": "Trainingsdaten",
     "ingredientsValue": "Nur öffentlich verfügbare Daten aus über 1'000 Sprachen & Quellen",
     "protection": "Datenschutz",
-    "protectionValue": "Personenbezogene Daten vor dem Training entfernt; Opt-outs werden respektiert",
-    "compliance": "Rechtliche Konformität",
-    "complianceValue": "Entspricht Schweizer Datenschutz- & Urheberrechtsgesetzen, EU-KI-Verordnung",
+    "protectionValue": "Personendaten vor dem Training entfernt; Opt-outs werden respektiert",
+    "compliance": "Rechtskonformität",
+    "complianceValue": "Entspricht Schweizer Datenschutz- & Urheberrecht, EU AI Act Standards",
     "freshness": "Mehrsprachig & Aktuell",
     "freshnessValue": "Enthält Schweizerdeutsch & Rätoromanisch; Daten bis Januar 2025"
   },
