@@ -101,9 +101,12 @@ const DonationModal: React.FC<Props> = ({ config, onDecision }) => {
               {t('donation.headline').replace('Step 2 of 3 — ', '')}
             </h2>
 
-            {/* Transition Sentence */}
-            <p className="text-base md:text-lg text-gray-700 mb-6 md:mb-8 leading-relaxed">
-              {t('donation.transition')}
+            {/* Transition Sentence - condition-specific intro text */}
+            <p className="text-base md:text-lg text-gray-700 mb-6 md:mb-8 leading-relaxed whitespace-pre-line font-semibold">
+              {isConditionD ? t('donation.conditionD.intro') :
+               isConditionC ? t('donation.conditionC.intro') :
+               isConditionB ? t('donation.conditionB.intro') :
+               t('donation.conditionA.intro')}
             </p>
 
             {/* ===== CONDITION-SPECIFIC CONTENT ===== */}

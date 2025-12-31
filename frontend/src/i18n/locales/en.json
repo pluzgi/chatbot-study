@@ -111,16 +111,17 @@
     "headline": "Step 2 of 3 — Your decision about data donation",
     "transition": "You have just used the chatbot. Now we ask you to decide whether your anonymized chat questions may be used for academic AI research.",
     "conditionA": {
+      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions.",
       "text": "Your anonymized chat questions would be used to improve a Swiss open-source AI model for academic research. Data would be handled securely and not used for commercial purposes."
     },
     "conditionB": {
-      "intro": "To support your decision, here is factual information about the chatbot and how data is handled:"
+      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions.\nPlease review the data facts below to make an informed decision:"
     },
     "conditionC": {
-      "intro": "You can decide how your anonymized chat questions would be used."
+      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. First, you can configure how your data will be used."
     },
     "conditionD": {
-      "intro": "To support your decision, you can review information about the chatbot and adjust how your anonymized data would be used."
+      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. Please review the data facts below. You can also configure how your data will be used."
     },
     "dashboardHelper": "You can leave the default settings or adjust them before deciding.",
     "decisionQuestion": "Do you want to donate your anonymized chat questions for research purposes?",
@@ -140,8 +141,7 @@
     }
   },
   "dnl": {
-    "title": "About the Swiss Apertus Model",
-    "intro": "Here's the information you would receive about data handling before making your decision:",
+    "title": "AI Model Facts",
     "provenance": "Swiss-Made",
     "provenanceValue": "Built by EPFL, ETH Zurich & CSCS in Switzerland",
     "ingredients": "Training Data",
@@ -320,7 +320,7 @@
     "important": "Important:",
     "simulationNote": "The data donation was SIMULATED. Your chat questions were NOT stored or used. Only your survey answers were recorded anonymously.",
     "whatWeStudy": "What We're Studying",
-    "studyPurpose": "We're researching what makes Swiss citizens comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems.",
+    "studyPurpose": "We're researching what makes people comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems.",
     "emailPrompt": "Enter your email to receive the study results (optional):",
     "emailPlaceholder": "your.email@example.com",
     "questions": "Questions?",

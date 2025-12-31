@@ -28,6 +28,7 @@ import LikertScale from '../components/Survey/LikertScale';
 import ChatbotInstruction from '../components/Chat/ChatbotInstruction';
 import ChatInterface from '../components/Chat/ChatInterface';
 import Debriefing from '../components/Survey/Debriefing';
+import DataNutritionLabel from '../components/Donation/DataNutritionLabel';
 
 // ============================================
 // HYPOTHESIS TAGS AND COLORS
@@ -79,6 +80,7 @@ export const SCREENS: ScreenConfig[] = [
 
   // ========== DONATION STAGE ==========
   { id: '5', name: 'Donation Modal', stage: 'donation', conditionDependent: true, description: 'Data donation decision (varies by condition A/B/C/D)' },
+  { id: '5-DNL', name: 'Model Data Facts', stage: 'donation', description: 'Standalone preview of the Model Data Facts label (Condition B/D)' },
   { id: '5B', name: 'Thank You Page', stage: 'donation', description: 'Confirmation screen after confirming donation' },
   { id: '5C', name: 'Decline Confirmation', stage: 'donation', description: 'Confirmation screen after declining donation' },
 
@@ -768,45 +770,16 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               <span className="text-gray-500 font-normal">Step 2 of 3 — </span>
               Your decision about data donation
             </h2>
-            <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
-              {t('donation.transition')}
+            <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed whitespace-pre-line font-semibold">
+              {t(`donation.condition${condition}.intro`)}
             </p>
 
-            {/* Condition A: Baseline */}
-            {condition === 'A' && (
-              <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
-                <p className="text-black">{t('donation.conditionA.text')}</p>
-              </div>
-            )}
+            {/* Condition A: Baseline - no extra content, just intro → decision */}
 
             {/* Condition B: DNL only */}
             {condition === 'B' && (
-              <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-white">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                  {[
-                    { icon: '🇨🇭', title: t('dnl.provenance'), value: t('dnl.provenanceValue') },
-                    { icon: '📖', title: t('dnl.ingredients'), value: t('dnl.ingredientsValue') },
-                    { icon: '🛡️', title: t('dnl.protection'), value: t('dnl.protectionValue') }
-                  ].map(item => (
-                    <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
-                      <div className="text-2xl mb-2">{item.icon}</div>
-                      <div className="text-base font-medium text-black mb-1">{item.title}</div>
-                      <div className="text-sm text-black">{item.value}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg mx-auto">
-                  {[
-                    { icon: '✅', title: t('dnl.compliance'), value: t('dnl.complianceValue') },
-                    { icon: '📅', title: t('dnl.freshness'), value: t('dnl.freshnessValue') }
-                  ].map(item => (
-                    <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
-                      <div className="text-2xl mb-2">{item.icon}</div>
-                      <div className="text-base font-medium text-black mb-1">{item.title}</div>
-                      <div className="text-sm text-black">{item.value}</div>
-                    </div>
-                  ))}
-                </div>
+              <div className="mb-6">
+                <DataNutritionLabel />
               </div>
             )}
 
@@ -840,38 +813,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
             {condition === 'D' && (
               <>
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
-                    <span className="text-xl">ℹ️</span>
-                    {t('dnl.title')}
-                  </h3>
-                  {/* Same DNL grid layout as Condition B */}
-                  <div className="border border-gray-200 rounded-lg p-4 bg-white">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                      {[
-                        { icon: '🇨🇭', title: t('dnl.provenance'), value: t('dnl.provenanceValue') },
-                        { icon: '📖', title: t('dnl.ingredients'), value: t('dnl.ingredientsValue') },
-                        { icon: '🛡️', title: t('dnl.protection'), value: t('dnl.protectionValue') }
-                      ].map(item => (
-                        <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
-                          <div className="text-2xl mb-2">{item.icon}</div>
-                          <div className="text-base font-medium text-black mb-1">{item.title}</div>
-                          <div className="text-sm text-black">{item.value}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg mx-auto">
-                      {[
-                        { icon: '✅', title: t('dnl.compliance'), value: t('dnl.complianceValue') },
-                        { icon: '📅', title: t('dnl.freshness'), value: t('dnl.freshnessValue') }
-                      ].map(item => (
-                        <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
-                          <div className="text-2xl mb-2">{item.icon}</div>
-                          <div className="text-base font-medium text-black mb-1">{item.title}</div>
-                          <div className="text-sm text-black">{item.value}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <DataNutritionLabel />
                 </div>
                 <div className="border-t border-gray-200 my-6" />
                 <div className="mb-6">
@@ -1535,8 +1477,14 @@ const SurveyDebugNavigator: React.FC = () => {
         );
 
         const IntroText = () => (
-          <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
-            You have just used the chatbot. Please decide whether your anonymized chat questions may be used for academic AI research.
+          <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed whitespace-pre-line font-semibold">
+            {isConditionD
+              ? "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. Please review the data facts below. You can also configure how your data will be used."
+              : isConditionC
+              ? "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. First, you can configure how your data will be used."
+              : isConditionB
+              ? "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions.\nPlease review the data facts below to make an informed decision:"
+              : "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions."}
           </p>
         );
 
@@ -1569,64 +1517,6 @@ const SurveyDebugNavigator: React.FC = () => {
             </div>
           </div>
         );
-
-        // DNL cards (exact experimental stimuli - DO NOT CHANGE TEXT)
-        const SimplifiedDNL = () => (
-          <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-white">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-              {[
-                { icon: '🇨🇭', title: 'Swiss-Made', value: 'Built by EPFL, ETH Zurich & CSCS in Switzerland' },
-                { icon: '📖', title: 'Training Data', value: 'Only publicly available data from 1,000+ languages & sources' },
-                { icon: '🛡️', title: 'Privacy Protection', value: 'Personal data removed before training; respects opt-outs' }
-              ].map(item => (
-                <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
-                  <div className="text-2xl mb-2">{item.icon}</div>
-                  <div className="text-base font-medium text-black mb-1">{item.title}</div>
-                  <div className="text-sm text-black">{item.value}</div>
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg mx-auto">
-              {[
-                { icon: '✅', title: 'Legal Compliance', value: 'Follows Swiss privacy & copyright laws, EU AI Act standards' },
-                { icon: '📅', title: 'Multilingual & Current', value: 'Includes Swiss German & Romansh; data through January 2025' }
-              ].map(item => (
-                <div key={item.title} className="border border-gray-200 rounded-lg p-3 text-center">
-                  <div className="text-2xl mb-2">{item.icon}</div>
-                  <div className="text-base font-medium text-black mb-1">{item.title}</div>
-                  <div className="text-sm text-black">{item.value}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-
-        // Compact DNL for Condition D (reduces cognitive overload)
-        // @ts-ignore - Component defined for future use in Condition D display
-        const CompactDNL = () => {
-          const items = [
-            { icon: '🇨🇭', title: 'Swiss-Made', value: 'Built by EPFL, ETH Zurich & CSCS in Switzerland' },
-            { icon: '📖', title: 'Training Data', value: 'Only publicly available data from 1,000+ languages & sources' },
-            { icon: '🛡️', title: 'Privacy Protection', value: 'Personal data removed before training; respects opt-outs' },
-            { icon: '✅', title: 'Legal Compliance', value: 'Follows Swiss privacy & copyright laws, EU AI Act standards' },
-            { icon: '📅', title: 'Multilingual & Current', value: 'Includes Swiss German & Romansh; data through January 2025' }
-          ];
-          return (
-            <div className="bg-white border-2 border-gray-300 rounded-lg p-3 md:p-4">
-              <div className="space-y-3">
-                {items.map(item => (
-                  <div key={item.title} className="flex items-start gap-2 md:gap-3 pb-3 border-b border-gray-200 last:border-0 last:pb-0">
-                    <div className="text-xl md:text-2xl flex-shrink-0 mt-0.5">{item.icon}</div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm md:text-base font-semibold text-black mb-1 leading-tight">{item.title}</div>
-                      <div className="text-xs md:text-sm text-black leading-relaxed">{item.value}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        };
 
         // ========== DASHBOARD: TRUE PROGRESSIVE DISCLOSURE ==========
         const SimplifiedDashboard = ({ onAllAnswered }: { onAllAnswered?: (complete: boolean) => void }) => {
@@ -1898,11 +1788,7 @@ const SurveyDebugNavigator: React.FC = () => {
             <>
               {/* Section 1: About the Model (same DNL as condition B) */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
-                  <span className="text-xl">ℹ️</span>
-                  About the Swiss Apertus Model
-                </h3>
-                <SimplifiedDNL />
+                <DataNutritionLabel />
               </div>
 
               {/* Visual separator */}
@@ -1936,7 +1822,7 @@ const SurveyDebugNavigator: React.FC = () => {
               {/* Condition B: DNL + binary question */}
               {isConditionB && (
                 <>
-                  <SimplifiedDNL />
+                  <DataNutritionLabel />
                   <DecisionSection />
                 </>
               )}
@@ -1954,6 +1840,21 @@ const SurveyDebugNavigator: React.FC = () => {
           </div>
         );
       }
+
+      // ========== MODEL DATA FACTS (Standalone Preview) ==========
+      case '5-DNL':
+        return (
+          <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+            <div className="w-full max-w-lg">
+              <div className="text-center mb-6">
+                <span className="text-sm text-gray-500 uppercase tracking-wide">Component Preview</span>
+                <h2 className="text-xl font-bold text-black mt-1">Model Data Facts</h2>
+                <p className="text-sm text-gray-600 mt-2">Shown in Condition B and D</p>
+              </div>
+              <DataNutritionLabel />
+            </div>
+          </div>
+        );
 
       // ========== THANK YOU PAGE ==========
       case '5B':
