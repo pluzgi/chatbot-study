@@ -92,7 +92,7 @@
     "subtitle": "Powered by Apertus - Swiss AI",
     "placeholder": "Ask a question...",
     "send": "Send",
-    "thinking": "Thinking...",
+    "thinking": "Searching data... takes up to 20 sec",
     "minQuestions": "Please ask at least 2 questions ({{count}}/2)",
     "continueButton": "Continue to Next Step →"
   },
