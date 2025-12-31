@@ -804,7 +804,7 @@ Shown after survey submission
 **Section Header:** "What We're Studying"
 
 **Text:**
-"We're researching what makes Swiss citizens comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems."
+"We're researching what makes people comfortable donating their data to train open-source artificial intelligent models. Your responses help design better privacy-respecting AI systems."
 
 ### Email Signup (Optional)
 
