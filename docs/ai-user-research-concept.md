@@ -8,7 +8,7 @@ This document outlines the architecture and implementation approach for conducti
 
 ## 1. Architecture Options
 
-### Option A: Direct API Testing (Recommended)
+### Option A: Direct API Testing
 **Approach:** A standalone test runner that calls your existing backend APIs directly, bypassing the frontend UI.
 
 ```
