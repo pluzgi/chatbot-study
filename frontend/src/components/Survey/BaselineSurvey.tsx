@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import LikertScale from './LikertScale';
 
@@ -11,6 +11,11 @@ interface Props {
 const BaselineSurvey: React.FC<Props> = ({ onComplete, onBack }) => {
   const { t } = useTranslation();
   const [currentQuestion, setCurrentQuestion] = useState<1 | 2 | 3>(1);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [techComfort, setTechComfort] = useState<number | null>(null);
   const [privacyConcern, setPrivacyConcern] = useState<number | null>(null);
   const [ballotFamiliarity, setBallotFamiliarity] = useState<number | null>(null);

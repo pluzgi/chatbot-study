@@ -109,9 +109,9 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
   const totalPages = pageStructure.length;
 
-  // Scroll to top when page changes
+  // Scroll to top when page changes (instant for immediate effect)
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo(0, 0);
   }, [currentPage]);
 
   const updateAnswer = (field: keyof SurveyData, value: any) => {
