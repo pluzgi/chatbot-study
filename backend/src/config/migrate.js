@@ -87,7 +87,10 @@ CREATE TABLE IF NOT EXISTS click_counters (
 -- Insert initial counter rows
 INSERT INTO click_counters (event_type, count) VALUES
     ('decline_study', 0),
-    ('try_apertus', 0)
+    ('try_apertus', 0),
+    ('survey_completed', 0),
+    ('donation_accepted', 0),
+    ('donation_declined', 0)
 ON CONFLICT (event_type) DO NOTHING;
 
 -- Study configuration for resettable counters and targets

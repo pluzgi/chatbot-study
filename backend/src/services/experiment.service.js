@@ -111,6 +111,10 @@ class ExperimentService {
        WHERE id = $3`,
       [decision, configValue, participantId]
     );
+
+    // Increment donation counter
+    const counterType = decision === 'donate' ? 'donation_accepted' : 'donation_declined';
+    await this.incrementClickCounter(counterType);
   }
 
   /**
@@ -159,6 +163,19 @@ class ExperimentService {
        WHERE id = $2`,
       [measures.notifyEmail || null, participantId]
     );
+
+    // Increment survey completed counter
+    await this.incrementClickCounter('survey_completed');
+  }
+
+  /**
+   * Update notify email (called from debriefing page).
+   */
+  async updateNotifyEmail(participantId, email) {
+    await pool.query(
+      `UPDATE participants SET notify_email = $1 WHERE id = $2`,
+      [email || null, participantId]
+    );
   }
 
   /**
@@ -184,7 +201,7 @@ class ExperimentService {
 
   /**
    * Increment a click counter (anonymous tracking).
-   * Used for tracking "Not interested" and "Try Apertus" button clicks.
+   * Event types: decline_study, try_apertus, survey_completed, donation_accepted, donation_declined
    */
   async incrementClickCounter(eventType) {
     await pool.query(

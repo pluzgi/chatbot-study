@@ -172,11 +172,67 @@ FROM participants;
 
 ---
 
+## Table: click_counters
+
+Anonymous click counters for tracking button interactions and key events without personal data.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | SERIAL | PRIMARY KEY | Auto-increment ID |
+| event_type | VARCHAR(50) | UNIQUE NOT NULL | Event identifier |
+| count | INTEGER | DEFAULT 0 | Number of occurrences |
+| last_clicked_at | TIMESTAMP | DEFAULT NOW() | Last occurrence timestamp |
+| created_at | TIMESTAMP | DEFAULT NOW() | Record creation |
+
+### Event Types
+
+| Event Type | Description | Triggered By |
+|------------|-------------|--------------|
+| `decline_study` | User clicked "Not Interested" on landing | `POST /experiment/track-click` |
+| `try_apertus` | User clicked "Try Apertus" on landing | `POST /experiment/track-click` |
+| `survey_completed` | User completed the post-task survey | Auto-incremented in `recordPostMeasures()` |
+| `donation_accepted` | User chose to donate data | Auto-incremented in `recordDonation()` |
+| `donation_declined` | User declined to donate data | Auto-incremented in `recordDonation()` |
+
+### Query Click Statistics
+
+```sql
+SELECT event_type, count, last_clicked_at
+FROM click_counters
+ORDER BY event_type;
+```
+
+---
+
+## Email Flow
+
+The optional email for study results (`notify_email`) is collected on the **Debriefing page** (after survey completion).
+
+| Step | Frontend | Backend | Storage |
+|------|----------|---------|---------|
+| 1 | User enters email on Debriefing page | - | - |
+| 2 | User clicks "Close" button | `POST /donation/notify-email` | - |
+| 3 | - | `updateNotifyEmail()` | `participants.notify_email` |
+
+**Note:** Email is separate from survey submission. The survey is submitted first (`POST /donation/post-measures`), then the email is sent from the Debriefing page.
+
+---
+
 ## Migration
 
 ### Fresh Install
 
 The schema is automatically created on backend startup via `backend/src/config/migrate.js`.
+
+### Add New Click Counters (for existing databases)
+
+```sql
+INSERT INTO click_counters (event_type, count) VALUES
+  ('survey_completed', 0),
+  ('donation_accepted', 0),
+  ('donation_declined', 0)
+ON CONFLICT (event_type) DO NOTHING;
+```
 
 ### Reset Existing Database
 
@@ -184,6 +240,7 @@ The schema is automatically created on backend startup via `backend/src/config/m
 DROP TABLE IF EXISTS post_task_measures CASCADE;
 DROP TABLE IF EXISTS donation_decisions CASCADE;  -- Old table
 DROP TABLE IF EXISTS participants CASCADE;
+DROP TABLE IF EXISTS click_counters CASCADE;
 ```
 
 Then restart the backend to recreate tables.

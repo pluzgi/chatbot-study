@@ -29,4 +29,18 @@ router.post('/post-measures', async (req, res) => {
   }
 });
 
+// Update notify email (called from debriefing page)
+router.post('/notify-email', async (req, res) => {
+  try {
+    const { participantId, email } = req.body;
+
+    await experimentService.updateNotifyEmail(participantId, email);
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Notify email error:', error);
+    res.status(500).json({ error: 'Failed to save email' });
+  }
+});
+
 export default router;

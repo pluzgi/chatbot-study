@@ -10,7 +10,7 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue, onBack }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-white">
+    <div className="min-h-screen flex items-start md:items-center justify-center p-4 pt-6 md:pt-4 bg-white">
       <div className="bg-white rounded-lg max-w-2xl w-full p-6 md:p-8 lg:p-12 shadow-lg">
         {/* About this study - Main Headline */}
         <div className="mb-8 md:mb-10 text-left">

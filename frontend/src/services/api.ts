@@ -210,5 +210,28 @@ export const api = {
       console.warn('Get participant count failed:', error);
       return { count: 0, target: 200 }; // Fallback
     }
+  },
+
+  async submitNotifyEmail(participantId: string, email: string) {
+    const data = { participantId, email };
+    saveToLocalStorage('notify_email', data);
+
+    if (isDevelopment) {
+      console.log('[DEV] Mock: submitNotifyEmail', data);
+      return mockSuccess();
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/donation/notify-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      return res.json();
+    } catch (error) {
+      console.warn('API failed, data saved locally:', error);
+      return mockSuccess();
+    }
   }
 };
