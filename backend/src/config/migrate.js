@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS participants (
 -- Separate table: logically distinct data collected after main experiment
 -- Aligned with hypothesis-driven survey structure
 CREATE TABLE IF NOT EXISTS post_task_measures (
-    participant_id UUID PRIMARY KEY REFERENCES participants(id),
+    participant_id UUID PRIMARY KEY REFERENCES participants(id) ON DELETE CASCADE,
 
     -- Q4: Perceived Transparency (MC-T) - H1 manipulation check - 2 items
     transparency1 INT CHECK (transparency1 BETWEEN 1 AND 7),
@@ -135,7 +135,7 @@ END $$;
 -- Human participant messages are never stored (privacy by design)
 CREATE TABLE IF NOT EXISTS chat_messages (
     id SERIAL PRIMARY KEY,
-    participant_id UUID NOT NULL REFERENCES participants(id),
+    participant_id UUID NOT NULL REFERENCES participants(id) ON DELETE CASCADE,
     role VARCHAR(10) NOT NULL CHECK (role IN ('user', 'assistant')),
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 -- API usage logs: Track all Apertus LLM API calls for monitoring
 CREATE TABLE IF NOT EXISTS api_usage_logs (
     id SERIAL PRIMARY KEY,
-    participant_id UUID REFERENCES participants(id),
+    participant_id UUID REFERENCES participants(id) ON DELETE CASCADE,
     model VARCHAR(100) NOT NULL,
     prompt_tokens INT,
     completion_tokens INT,
@@ -165,6 +165,38 @@ CREATE INDEX IF NOT EXISTS idx_participants_is_ai ON participants(is_ai_particip
 CREATE INDEX IF NOT EXISTS idx_chat_messages_participant ON chat_messages(participant_id);
 CREATE INDEX IF NOT EXISTS idx_api_usage_logs_created_at ON api_usage_logs(created_at);
 CREATE INDEX IF NOT EXISTS idx_api_usage_logs_participant ON api_usage_logs(participant_id);
+
+-- Update existing foreign keys to add ON DELETE CASCADE
+-- (for existing databases where tables were created without CASCADE)
+DO $$
+BEGIN
+    -- post_task_measures
+    IF EXISTS (SELECT 1 FROM information_schema.table_constraints
+               WHERE constraint_name = 'post_task_measures_participant_id_fkey'
+               AND table_name = 'post_task_measures') THEN
+        ALTER TABLE post_task_measures DROP CONSTRAINT post_task_measures_participant_id_fkey;
+        ALTER TABLE post_task_measures ADD CONSTRAINT post_task_measures_participant_id_fkey
+            FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
+    END IF;
+
+    -- chat_messages
+    IF EXISTS (SELECT 1 FROM information_schema.table_constraints
+               WHERE constraint_name = 'chat_messages_participant_id_fkey'
+               AND table_name = 'chat_messages') THEN
+        ALTER TABLE chat_messages DROP CONSTRAINT chat_messages_participant_id_fkey;
+        ALTER TABLE chat_messages ADD CONSTRAINT chat_messages_participant_id_fkey
+            FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
+    END IF;
+
+    -- api_usage_logs
+    IF EXISTS (SELECT 1 FROM information_schema.table_constraints
+               WHERE constraint_name = 'api_usage_logs_participant_id_fkey'
+               AND table_name = 'api_usage_logs') THEN
+        ALTER TABLE api_usage_logs DROP CONSTRAINT api_usage_logs_participant_id_fkey;
+        ALTER TABLE api_usage_logs ADD CONSTRAINT api_usage_logs_participant_id_fkey
+            FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
+    END IF;
+END $$;
 `;
 
 export async function runMigrations() {
