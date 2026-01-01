@@ -112,9 +112,12 @@ class ExperimentService {
       [decision, configValue, participantId]
     );
 
-    // Increment donation counter
-    const counterType = decision === 'donate' ? 'donation_accepted' : 'donation_declined';
-    await this.incrementClickCounter(counterType);
+    // Increment donation counter (only for human participants)
+    const isAi = await this.isAiParticipant(participantId);
+    if (!isAi) {
+      const counterType = decision === 'donate' ? 'donation_accepted' : 'donation_declined';
+      await this.incrementClickCounter(counterType);
+    }
   }
 
   /**
@@ -164,8 +167,11 @@ class ExperimentService {
       [measures.notifyEmail || null, participantId]
     );
 
-    // Increment survey completed counter
-    await this.incrementClickCounter('survey_completed');
+    // Increment survey completed counter (only for human participants)
+    const isAi = await this.isAiParticipant(participantId);
+    if (!isAi) {
+      await this.incrementClickCounter('survey_completed');
+    }
   }
 
   /**
@@ -200,6 +206,17 @@ class ExperimentService {
   }
 
   /**
+   * Check if a participant is an AI participant.
+   */
+  async isAiParticipant(participantId) {
+    const result = await pool.query(
+      `SELECT is_ai_participant FROM participants WHERE id = $1`,
+      [participantId]
+    );
+    return result.rows[0]?.is_ai_participant === true;
+  }
+
+  /**
    * Increment a click counter (anonymous tracking).
    * Event types: decline_study, try_apertus, survey_completed, donation_accepted, donation_declined
    */
@@ -222,6 +239,51 @@ class ExperimentService {
       ORDER BY event_type
     `);
     return result.rows;
+  }
+
+  /**
+   * Recalculate click counters from actual human participant data.
+   * Use this to fix counters after deleting participants or if AI was incorrectly counted.
+   */
+  async recalculateClickCounters() {
+    // Count human donations accepted
+    const donateResult = await pool.query(`
+      SELECT COUNT(*) as count FROM participants
+      WHERE donation_decision = 'donate'
+      AND (is_ai_participant = FALSE OR is_ai_participant IS NULL)
+    `);
+    await pool.query(
+      `UPDATE click_counters SET count = $1 WHERE event_type = 'donation_accepted'`,
+      [parseInt(donateResult.rows[0].count)]
+    );
+
+    // Count human donations declined
+    const declineResult = await pool.query(`
+      SELECT COUNT(*) as count FROM participants
+      WHERE donation_decision = 'decline'
+      AND (is_ai_participant = FALSE OR is_ai_participant IS NULL)
+    `);
+    await pool.query(
+      `UPDATE click_counters SET count = $1 WHERE event_type = 'donation_declined'`,
+      [parseInt(declineResult.rows[0].count)]
+    );
+
+    // Count human surveys completed
+    const surveyResult = await pool.query(`
+      SELECT COUNT(*) as count FROM participants
+      WHERE completed_at IS NOT NULL
+      AND (is_ai_participant = FALSE OR is_ai_participant IS NULL)
+    `);
+    await pool.query(
+      `UPDATE click_counters SET count = $1 WHERE event_type = 'survey_completed'`,
+      [parseInt(surveyResult.rows[0].count)]
+    );
+
+    return {
+      donation_accepted: parseInt(donateResult.rows[0].count),
+      donation_declined: parseInt(declineResult.rows[0].count),
+      survey_completed: parseInt(surveyResult.rows[0].count)
+    };
   }
 
   /**
