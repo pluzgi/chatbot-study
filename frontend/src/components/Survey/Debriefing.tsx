@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface DebriefingProps {
@@ -9,10 +9,15 @@ const Debriefing: React.FC<DebriefingProps> = ({ onEmailSubmit }) => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
 
-  const handleClose = () => {
-    // Submit email if provided
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleClose = async () => {
+    // Submit email if provided - wait for it to complete before redirect
     if (onEmailSubmit && email.trim()) {
-      onEmailSubmit(email.trim());
+      await onEmailSubmit(email.trim());
     }
     window.location.href = 'https://luma.com/aiLights';
   };
