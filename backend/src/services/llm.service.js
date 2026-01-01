@@ -18,6 +18,7 @@ class LLMService {
     const prompts = {
       de: `Sie sind ein Schweizer Abstimmungsassistent powered by Apertus.
 Ihre Aufgabe: Neutrale, sachliche Information über Schweizer Volksabstimmungen.
+Aktuelles Jahr: 2026
 
 WICHTIGE REGELN:
 - Die unten bereitgestellten Abstimmungsinformationen sind AKTUELL und REAL aus der offiziellen Swissvotes-Datenbank
@@ -30,6 +31,7 @@ WICHTIGE REGELN:
 
       fr: `Vous êtes un assistant de vote suisse propulsé par Apertus.
 Votre tâche: Information neutre et factuelle sur les votations suisses.
+Année actuelle: 2026
 
 RÈGLES IMPORTANTES:
 - Les informations de vote fournies ci-dessous sont ACTUELLES et RÉELLES de la base de données officielle Swissvotes
@@ -42,6 +44,7 @@ RÈGLES IMPORTANTES:
 
       it: `Lei è un assistente di voto svizzero alimentato da Apertus.
 Il suo compito: Informazioni neutrali e fattuali sulle votazioni svizzere.
+Anno corrente: 2026
 
 REGOLE IMPORTANTI:
 - Le informazioni di voto fornite di seguito sono ATTUALI e REALI dal database ufficiale Swissvotes
@@ -54,6 +57,7 @@ REGOLE IMPORTANTI:
 
       en: `You are a Swiss voting assistant powered by Apertus.
 Your task: Neutral, factual information about Swiss popular votes.
+Current year: 2026
 
 IMPORTANT RULES:
 - The voting information provided below is CURRENT and REAL from the official Swissvotes database
@@ -84,17 +88,49 @@ IMPORTANT RULES:
       ).join('\n');
     }
 
-    const systemPrompt = this.getSystemPrompt(lang) + `
+    const contextSection = {
+      de: `
 
 === AKTUELLE ABSTIMMUNGEN ===
 ${ballotContext}
 
 === HINWEISE ===
-- Die obigen Informationen stammen aus der offiziellen Swissvotes-Datenbank
 - Parteiparolen: Ja = Partei empfiehlt Ja, Nein = Partei empfiehlt Nein
 - Position Bundesrat: Die offizielle Empfehlung des Bundesrats
-- Umfrageprognose: Aktuelle Umfragewerte (falls verfügbar)
-- Für detaillierte Informationen verweisen Sie auf swissvotes.ch`;
+- Für detaillierte Informationen verweisen Sie auf swissvotes.ch`,
+
+      fr: `
+
+=== VOTATIONS ACTUELLES ===
+${ballotContext}
+
+=== NOTES ===
+- Mots d'ordre des partis: Oui = le parti recommande Oui, Non = le parti recommande Non
+- Position du Conseil fédéral: La recommandation officielle du Conseil fédéral
+- Pour des informations détaillées, consultez swissvotes.ch`,
+
+      it: `
+
+=== VOTAZIONI ATTUALI ===
+${ballotContext}
+
+=== NOTE ===
+- Parole d'ordine dei partiti: Sì = il partito raccomanda Sì, No = il partito raccomanda No
+- Posizione del Consiglio federale: La raccomandazione ufficiale del Consiglio federale
+- Per informazioni dettagliate, consultare swissvotes.ch`,
+
+      en: `
+
+=== CURRENT VOTES ===
+${ballotContext}
+
+=== NOTES ===
+- Party recommendations: Yes = party recommends Yes, No = party recommends No
+- Federal Council position: The official recommendation of the Federal Council
+- For detailed information, refer to swissvotes.ch`
+    };
+
+    const systemPrompt = this.getSystemPrompt(lang) + (contextSection[lang] || contextSection.de);
 
     try {
       // Use /2/ai/.../v1/chat/completions endpoint (works for all models)
