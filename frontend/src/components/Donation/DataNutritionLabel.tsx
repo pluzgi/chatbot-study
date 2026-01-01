@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Swiss Flag Icon (Red background, white cross)
 const SwissFlag: React.FC<{ className?: string }> = ({ className }) => (
@@ -35,30 +36,32 @@ const LockIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const DataNutritionLabel: React.FC = () => {
+  const { t } = useTranslation();
+
   const rows = [
     {
       id: 'origin',
       icon: <SwissFlag className="w-7 h-7" />,
-      headline: 'SWISS PUBLIC SCIENCE',
-      subtext: 'Non-profit research (EPFL & ETH)',
+      headline: t('dnl.label.origin'),
+      subtext: t('dnl.label.originValue'),
     },
     {
       id: 'source',
       icon: <BookIcon className="w-7 h-7 text-gray-800" />,
-      headline: 'PUBLIC SOURCES ONLY',
-      subtext: 'Wikipedia, Science & Open Gov Data',
+      headline: t('dnl.label.source'),
+      subtext: t('dnl.label.sourceValue'),
     },
     {
       id: 'privacy',
       icon: <ShieldCheckIcon className="w-7 h-7 text-emerald-500" />,
-      headline: 'IDENTITY REMOVED',
-      subtext: 'Personal information are deleted',
+      headline: t('dnl.label.privacy'),
+      subtext: t('dnl.label.privacyValue'),
     },
     {
       id: 'safety',
       icon: <LockIcon className="w-7 h-7 text-emerald-500" />,
-      headline: 'NO DATA STORAGE',
-      subtext: 'Your questions are not saved',
+      headline: t('dnl.label.safety'),
+      subtext: t('dnl.label.safetyValue'),
     },
   ];
 
@@ -67,7 +70,7 @@ const DataNutritionLabel: React.FC = () => {
       {/* Header - Black bar with white text */}
       <div className="bg-black px-4 py-3">
         <h3 className="text-white text-center font-extrabold text-xl tracking-wide">
-          MODEL DATA FACTS
+          {t('dnl.label.header')}
         </h3>
       </div>
 
@@ -95,7 +98,7 @@ const DataNutritionLabel: React.FC = () => {
       <div className="px-3 py-2 border-t border-black">
         <div className="flex items-center gap-1 text-[13px] text-gray-700">
           <span className="text-emerald-500 font-bold">✓</span>
-          <span>Compliant with Swiss Data Protection Law</span>
+          <span>{t('dnl.label.footer')}</span>
         </div>
       </div>
     </div>

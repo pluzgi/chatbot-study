@@ -130,13 +130,13 @@
       "title": "Vielen Dank!",
       "message": "Vielen Dank für Ihre Datenspende. Sie hilft uns, diesen Chatbot zu verbessern.",
       "nextStep": "Im nächsten Schritt beantworten Sie bitte einige kurze Fragen zu Ihrer Entscheidung.",
-      "button": "Teilen Sie Ihre Meinung →"
+      "button": "Teilen Sie Ihre Gedanken →"
     },
     "confirmDecline": {
       "title": "Vielen Dank!",
       "message": "Auch Ihre Teilnahme ohne Datenspende ist für diese Studie von grossem Wert.",
       "nextStep": "Im nächsten Schritt helfen uns Ihre Antworten, Ihre Entscheidung besser einzuordnen.",
-      "button": "Teilen Sie Ihre Meinung →"
+      "button": "Teilen Sie Ihre Gedanken →"
     }
   },
   "dnl": {
@@ -150,7 +150,19 @@
     "compliance": "Rechtskonformität",
     "complianceValue": "Entspricht Schweizer Datenschutz- & Urheberrecht, EU AI Act Standards",
     "freshness": "Mehrsprachig & Aktuell",
-    "freshnessValue": "Enthält Schweizerdeutsch & Rätoromanisch; Daten bis Januar 2025"
+    "freshnessValue": "Enthält Schweizerdeutsch & Rätoromanisch; Daten bis Januar 2025",
+    "label": {
+      "header": "FAKTEN ZU DEN MODELLDATEN",
+      "origin": "SCHWEIZER FORSCHUNG",
+      "originValue": "Gemeinnützige Forschung (EPFL & ETH)",
+      "source": "NUR ÖFFENTLICHE QUELLEN",
+      "sourceValue": "Wikipedia, Forschung & offene Behördendaten",
+      "privacy": "IDENTITÄT ENTFERNT",
+      "privacyValue": "Persönliche Daten werden gelöscht",
+      "safety": "KEINE TEXTKOPIEN",
+      "safetyValue": "Antworten werden generiert, nicht reproduziert",
+      "footer": "Konform mit dem Schweizer Datenschutzgesetz"
+    }
   },
   "dashboard": {
     "title": "Konfigurieren Sie Ihre Datenspende",

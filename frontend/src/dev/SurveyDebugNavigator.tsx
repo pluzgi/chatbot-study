@@ -69,7 +69,7 @@ export const SCREENS: ScreenConfig[] = [
   // ========== ONBOARDING STAGE ==========
   { id: '1', name: 'Landing Page', stage: 'onboarding', description: 'Welcome page with Start/Decline buttons' },
   { id: '1B', name: 'Declined Page', stage: 'onboarding', description: 'Thank you message for users who decline study participation' },
-  { id: '1C', name: 'Consent Modal', stage: 'onboarding', description: 'Eligibility confirmation (18+, Swiss voter)' },
+  { id: '1C', name: 'Consent Modal', stage: 'onboarding', description: 'Eligibility confirmation (18+, Swiss resident)' },
   { id: '2A', name: 'Baseline Q1', stage: 'onboarding', description: 'Tech comfort question' },
   { id: '2B', name: 'Baseline Q2', stage: 'onboarding', description: 'Privacy concern question' },
   { id: '2C', name: 'Baseline Q3', stage: 'onboarding', tag: 'COV', construct: 'Ballot Familiarity', description: 'How familiar are you with Swiss ballots?' },
@@ -2402,7 +2402,7 @@ const SurveyDebugNavigator: React.FC = () => {
   // Journey steps with condition-specific content
   const getJourneySteps = (condition: 'A' | 'B' | 'C' | 'D') => {
     const donationContent = {
-      A: 'Simple text asking to donate data. Binary choice: Donate / Don\'t Donate',
+      A: 'Simple text asking to donate data',
       B: 'Data Nutrition Label shown with model transparency info. Binary choice.',
       C: 'Granular Dashboard with 4 configurable options (scope, purpose, storage, retention).',
       D: 'Both DNL and Dashboard shown side-by-side. Full transparency + control.',
@@ -2411,7 +2411,7 @@ const SurveyDebugNavigator: React.FC = () => {
     return [
       { id: '1', step: 1, name: 'Landing Page', content: 'Study introduction, requirements (18+, Swiss resident), consent' },
       { id: '1B', step: 2, name: 'Declined Page', content: 'Message: "Thank you for your consideration." Link to try Apertus chatbot at publicai.ch' },
-      { id: '1C', step: 3, name: 'Consent Modal', content: 'Eligibility confirmation: 18+, Swiss voter, voluntary participation' },
+      { id: '1C', step: 3, name: 'Consent Modal', content: 'Eligibility confirmation: 18+, Swiss resident, voluntary participation' },
       { id: '2A', step: 4, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
       { id: '2B', step: 5, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
       { id: '2C', step: 6, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballots?"', tag: 'COV' as HypothesisTag },
@@ -2427,7 +2427,7 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '10', step: 16, name: 'Q8: Attention', content: '"This chatbot helps with questions about:" checkbox selection', tag: 'ATTN' as HypothesisTag },
       { id: '11', step: 17, name: 'Transition', content: '"Almost done!" reminder that donation was simulated' },
       { id: '12', step: 18, name: 'Q9: Age', content: 'Age range dropdown (18-24 to 65+)', tag: 'DEMO' as HypothesisTag },
-      { id: '13', step: 19, name: 'Q10: Gender', content: 'Gender dropdown with "Other" option', tag: 'DEMO' as HypothesisTag },
+      { id: '13', step: 19, name: 'Q10: Gender', content: 'Gender dropdown', tag: 'DEMO' as HypothesisTag },
       { id: '14', step: 20, name: 'Q11: Language', content: 'Primary language (DE/FR/IT/EN/Romansh)', tag: 'DEMO' as HypothesisTag },
       { id: '15', step: 21, name: 'Q12: Education', content: 'Education level dropdown', tag: 'DEMO' as HypothesisTag },
       { id: '16', step: 22, name: 'Q13: Voting Eligibility', content: 'Are you eligible to vote in Switzerland?', tag: 'DEMO' as HypothesisTag },
@@ -2565,10 +2565,6 @@ const SurveyDebugNavigator: React.FC = () => {
               <div className="flex justify-between items-start mb-8">
                 <div>
                   <h1 className="text-3xl font-bold text-gray-900 mb-2">Survey Debug Navigator</h1>
-                  <p className="text-gray-600">Click any screen to preview. Deep-link:</p>
-                  <code className="text-sm bg-gray-100 px-2 py-1 rounded mt-2 inline-block">
-                    ?debug=survey&screen=7&condition=D
-                  </code>
                 </div>
                 <LanguageSelector />
               </div>
