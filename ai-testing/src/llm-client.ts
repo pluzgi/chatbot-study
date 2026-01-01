@@ -71,7 +71,7 @@ Write ONE natural question in ${languageNames[lang] || 'German'}.`;
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
           ],
-          temperature: 0.8,
+          temperature: 0.7,
           max_tokens: 150
         },
         {
@@ -199,7 +199,7 @@ Match the tone to their attitude (${cluster === 'A' ? 'positive' : cluster === '
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
           ],
-          temperature: 0.9,
+          temperature: 0.7,
           max_tokens: 100
         },
         {
