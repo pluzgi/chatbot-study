@@ -1,10 +1,10 @@
 {
   "_comment": "German (Deutsch)",
   "landing": {
-    "title": "Swiss Civic AI Study",
+    "title": "Schweizer Studie zu KI im demokratischen Kontext",
     "subtitle": "Eine kurze akademische Studie zu Datenspenden und Vertrauen in Open-Source-KI",
     "whatWeStudy": "Worum es geht",
-    "whatWeStudyText": "Wir untersuchen, wie Menschen entscheiden, ob sie anonymisierte Chat-Fragen für die Forschung an KI-Sprachmodellen spenden möchten.",
+    "whatWeStudyText": "Wir untersuchen, welche Faktoren Menschen dazu bewegen, anonymisierte Chat-Fragen für die Forschung an KI-Sprachmodellen zur Verfügung zu stellen.",
     "whatToExpect": "Was Sie erwartet",
     "expect1": "Etwa 8 Minuten",
     "expect2": "Anonyme Teilnahme",
@@ -71,7 +71,7 @@
     "ballotFamiliarity": {
       "_tag": "COVARIATE",
       "_purpose": "Baseline familiarity with Swiss ballot initiatives - covariate for analysis",
-      "question": "Wie vertraut sind Sie mit Schweizer Abstimmungsvorlagen?",
+      "question": "Wie vertraut sind Sie mit Schweizer Volksinitiativen?",
       "notFamiliar": "Überhaupt nicht vertraut",
       "veryFamiliar": "Sehr vertraut"
     },
@@ -83,20 +83,20 @@
     "aboutText1": "In dieser Studie untersuchen wir, wie Menschen einen Chatbot im staatsbürgerlichen Kontext nutzen und wie sie entscheiden, ob ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
     "aboutText2": "Dazu kombiniert die Studie eine kurze praktische Interaktion mit einem Chatbot und anschliessende Fragen zu Ihrer Erfahrung.",
     "headline": "Schritt 1 von 3 — Chatbot ausprobieren",
-    "text1": "In diesem ersten Schritt testen Sie einen Chatbot, der Informationen zu Schweizer Abstimmungsvorlagen bereitstellt.",
+    "text1": "In diesem ersten Schritt testen Sie einen Chatbot, der Informationen zu Schweizer Volksinitiativen bereitstellt.",
     "text2": "Der Chatbot nutzt Apertus, ein Schweizer Open-Source-KI-Sprachmodell, entwickelt von EPFL, ETH Zürich und dem Swiss National Supercomputing Centre. Wie andere KI-Chatbots lernt er, Fragen zu beantworten, indem er grosse Textmengen analysiert.",
-    "text3": "Um solche Modelle weiter zu verbessern, werden echte Fragen von Chatbot-Nutzern als Trainingsdaten benötigt.",
-    "task": "Bitte stellen Sie 2–3 Fragen zu Schweizer Abstimmungsvorlagen.",
+    "text3": "Um solche Modelle weiter zu verbessern, werden reale Fragen von Chatbot-Nutzer:innen als Trainingsdaten benötigt.",
+    "task": "Bitte stellen Sie 2–3 Fragen zu Schweizer Volksinitiativen.",
     "taskSubtitle": "Dies hilft Ihnen, ein Gefühl für die Funktionsweise des Systems zu bekommen, bevor Sie mit der Studie fortfahren.",
     "examplesLabel": "Beispielfragen",
     "example1": "Worum geht es bei der Klimafonds-Initiative?",
-    "example2": "Erklären Sie die Bargeld-Initiative und den Gegenvorschlag.",
+    "example2": "Erkläre die Bargeld-Initiative und den Gegenvorschlag.",
     "example3": "Was sind die wichtigsten Argumente für und gegen die SRG-Initiative?",
     "button": "Chatbot starten"
   },
   "chat": {
-    "title": "Schweizer Abstimmungs-Chatbot",
-    "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Abstimmungsvorlagen (Antwort dauert bis zu 20 Sek.)",
+    "title": "Chatbot zu Schweizer Volksinitiativen",
+    "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Volksinitiativen (Antwortzeit bis zu 20 Sek.)",
     "placeholder": "Stellen Sie eine Frage...",
     "send": "Senden",
     "thinking": "Suche Daten... dauert bis zu 20 Sek.",
@@ -312,7 +312,7 @@
     "validationError": "Bitte beantworten Sie alle erforderlichen Fragen, bevor Sie fortfahren",
     "submissionError": "Die Umfrage konnte nicht übermittelt werden. Bitte versuchen Sie es erneut.",
     "submitting": "Wird übermittelt...",
-    "submit": "Absenden"
+    "submit": "Senden"
   },
   "debrief": {
     "title": "Vielen Dank für Ihre Teilnahme!",
@@ -327,6 +327,6 @@
     "researcher": "Sabine Wildemann, hello@ailights.org",
     "institution": "Institution: Digital Business University of Applied Sciences",
     "supervisor": "Betreuung: Prof. Daniel Ambach",
-    "submit": "Absenden"
+    "submit": "Senden"
   }
 }
