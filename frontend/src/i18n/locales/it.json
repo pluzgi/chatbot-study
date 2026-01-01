@@ -97,12 +97,26 @@
     "continueButton": "Continue to Next Step →"
   },
   "donation": {
-    "title": "Help Improve the Apertus Model",
-    "dnlIntro": "To help you decide, here are key facts about the Apertus model:",
-    "baselineText": "We would like to use your anonymized questions to improve the Apertus model. Your data will be handled securely and used only for research and model development.",
-    "baselineHelp": "Donating your questions helps train better AI models.",
-    "accept": "Donate Data",
-    "decline": "Don't Donate",
+    "eyebrow": "Passo 2 di 3 — Decisione sulla donazione dei dati",
+    "headline": "Passo 2 di 3 — La vostra decisione sulla donazione dei dati",
+    "transition": "Avete appena utilizzato il chatbot. Vi chiediamo ora di decidere se le vostre domande anonimizzate possono essere utilizzate per la ricerca accademica sull'IA.",
+    "conditionA": {
+      "intro": "Avete appena testato il chatbot. Per migliorarne la qualità, vi invitiamo a donare le vostre domande anonimizzate.",
+      "text": "Le vostre domande anonimizzate verrebbero utilizzate per migliorare un modello di IA open-source svizzero per la ricerca accademica. I dati sarebbero trattati in modo sicuro e non utilizzati per scopi commerciali."
+    },
+    "conditionB": {
+      "intro": "Avete appena testato il chatbot. Per migliorarne la qualità, vi invitiamo a donare le vostre domande anonimizzate.\nConsultate le informazioni sui dati qui sotto per prendere una decisione informata:"
+    },
+    "conditionC": {
+      "intro": "Avete appena testato il chatbot. Per migliorarne la qualità, vi invitiamo a donare le vostre domande anonimizzate. Prima potete configurare come verranno utilizzati i vostri dati."
+    },
+    "conditionD": {
+      "intro": "Avete appena testato il chatbot. Per migliorarne la qualità, vi invitiamo a donare le vostre domande anonimizzate. Consultate le informazioni sui dati qui sotto. Potete anche configurare come verranno utilizzati i vostri dati."
+    },
+    "dashboardHelper": "Potete mantenere le impostazioni predefinite o modificarle prima di decidere.",
+    "decisionQuestion": "Volete donare le vostre domande anonimizzate per scopi di ricerca?",
+    "accept": "Dona i dati",
+    "decline": "Non donare",
     "confirmDonate": {
       "title": "Grazie!",
       "message": "Il vostro sostegno ci aiuta a migliorare questo chatbot di voto per tutti.",
