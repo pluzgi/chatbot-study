@@ -126,4 +126,20 @@ router.delete('/admin/all-data', async (req, res) => {
   }
 });
 
+// Admin: Delete data since a specific date
+// Usage: DELETE /admin/data-since?date=2025-01-01
+router.delete('/admin/data-since', async (req, res) => {
+  try {
+    const { date } = req.query;
+    if (!date) {
+      return res.status(400).json({ error: 'Missing required query parameter: date (e.g., ?date=2025-01-01)' });
+    }
+    const result = await experimentService.deleteDataSinceDate(date);
+    res.json({ success: true, deleted: result });
+  } catch (error) {
+    console.error('Delete data since date error:', error);
+    res.status(500).json({ error: 'Failed to delete data' });
+  }
+});
+
 export default router;

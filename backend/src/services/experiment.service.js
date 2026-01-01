@@ -310,6 +310,37 @@ class ExperimentService {
       clickCountersReset: clickResult.rowCount
     };
   }
+
+  /**
+   * Delete data created since a specific date.
+   * @param {string} sinceDate - ISO date string (e.g., '2025-01-01')
+   */
+  async deleteDataSinceDate(sinceDate) {
+    const chatResult = await pool.query(
+      `DELETE FROM chat_messages WHERE participant_id IN (SELECT id FROM participants WHERE created_at >= $1)`,
+      [sinceDate]
+    );
+    const apiResult = await pool.query(
+      `DELETE FROM api_usage_logs WHERE participant_id IN (SELECT id FROM participants WHERE created_at >= $1)`,
+      [sinceDate]
+    );
+    const postResult = await pool.query(
+      `DELETE FROM post_task_measures WHERE participant_id IN (SELECT id FROM participants WHERE created_at >= $1)`,
+      [sinceDate]
+    );
+    const participantResult = await pool.query(
+      `DELETE FROM participants WHERE created_at >= $1`,
+      [sinceDate]
+    );
+
+    return {
+      chatMessages: chatResult.rowCount,
+      apiLogs: apiResult.rowCount,
+      postMeasures: postResult.rowCount,
+      participants: participantResult.rowCount,
+      sinceDate
+    };
+  }
 }
 
 export default new ExperimentService();
