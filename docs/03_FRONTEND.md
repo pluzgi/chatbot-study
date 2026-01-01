@@ -629,12 +629,12 @@ export default App;
 ```json
 {
   "landing": {
-    "title": "Volksinitiativen-Chatbot",
+    "title": "Volksabstimmungen-Chatbot",
     "description": "Helfen Sie uns zu verstehen, wie Bürger mit KI-Systemen interagieren.",
     "start": "Studie starten"
   },
   "chat": {
-    "title": "Volksinitiativen-Chatbot",
+    "title": "Volksabstimmungen-Chatbot",
     "subtitle": "Unterstützt durch Apertus - Swiss AI",
     "placeholder": "Stellen Sie eine Frage...",
     "send": "Senden",
