@@ -150,7 +150,19 @@
     "compliance": "Conformità legale",
     "complianceValue": "Conforme alle leggi svizzere sulla privacy e sul copyright, standard EU AI Act",
     "freshness": "Multilingue e attuale",
-    "freshnessValue": "Include svizzero tedesco e romancio; dati fino a gennaio 2025"
+    "freshnessValue": "Include svizzero tedesco e romancio; dati fino a gennaio 2025",
+    "label": {
+      "header": "FATTI SUL MODELLO",
+      "origin": "SCIENZA PUBBLICA SVIZZERA",
+      "originValue": "Ricerca senza scopo di lucro (EPFL & ETH)",
+      "source": "SOLO FONTI PUBBLICHE",
+      "sourceValue": "Wikipedia, Scienza & Dati Gov aperti",
+      "privacy": "IDENTITÀ RIMOSSA",
+      "privacyValue": "Le informazioni personali vengono eliminate",
+      "safety": "NESSUN TESTO COPIATO",
+      "safetyValue": "Le risposte sono generate, non riprodotte",
+      "footer": "Conforme alla legge svizzera sulla protezione dei dati"
+    }
   },
   "dashboard": {
     "title": "Configura la tua donazione dati",
