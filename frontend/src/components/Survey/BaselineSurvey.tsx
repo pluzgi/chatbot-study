@@ -5,15 +5,28 @@ import LikertScale from './LikertScale';
 interface Props {
   participantId: string;
   onComplete: (data: { techComfort: number; privacyConcern: number; ballotFamiliarity: number }) => void;
+  onBack?: () => void;
 }
 
-const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
+const BaselineSurvey: React.FC<Props> = ({ onComplete, onBack }) => {
   const { t } = useTranslation();
   const [currentQuestion, setCurrentQuestion] = useState<1 | 2 | 3>(1);
   const [techComfort, setTechComfort] = useState<number | null>(null);
   const [privacyConcern, setPrivacyConcern] = useState<number | null>(null);
   const [ballotFamiliarity, setBallotFamiliarity] = useState<number | null>(null);
   const [error, setError] = useState(false);
+
+  const handleBack = () => {
+    setError(false);
+    if (currentQuestion === 1) {
+      // Go back to landing page
+      if (onBack) onBack();
+    } else if (currentQuestion === 2) {
+      setCurrentQuestion(1);
+    } else {
+      setCurrentQuestion(2);
+    }
+  };
 
   const handleContinue = () => {
     if (currentQuestion === 1) {
@@ -122,13 +135,26 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete }) => {
           </p>
         )}
 
-        {/* Continue Button */}
-        <div className="mt-8 md:mt-12 flex justify-end">
+        {/* Navigation Buttons */}
+        <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
+          {/* Back Button */}
+          {(currentQuestion > 1 || onBack) ? (
+            <button
+              onClick={handleBack}
+              className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+            >
+              ← {t('survey.navigation.back')}
+            </button>
+          ) : (
+            <div></div>
+          )}
+
+          {/* Continue Button */}
           <button
             onClick={handleContinue}
             className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
           >
-            {currentQuestion === 3 ? t('baseline.continue') : t('survey.navigation.next')}
+            {currentQuestion === 3 ? t('baseline.continue') : `${t('survey.navigation.next')} →`}
           </button>
         </div>
       </div>

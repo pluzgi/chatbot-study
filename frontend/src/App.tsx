@@ -216,6 +216,7 @@ function App() {
       <BaselineSurvey
         participantId={session?.participantId || ''}
         onComplete={handleBaselineComplete}
+        onBack={() => setPhase('landing')}
       />
     );
   }
@@ -225,6 +226,7 @@ function App() {
     return (
       <ChatbotInstruction
         onContinue={() => setPhase('chat')}
+        onBack={() => setPhase('baseline')}
       />
     );
   }
