@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 
 interface Props {
   onContinue: () => void;
+  onBack?: () => void;
 }
 
-const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
+const ChatbotInstruction: React.FC<Props> = ({ onContinue, onBack }) => {
   const { t } = useTranslation();
 
   return (
@@ -75,8 +76,21 @@ const ChatbotInstruction: React.FC<Props> = ({ onContinue }) => {
           </ul>
         </div>
 
-        {/* Button */}
-        <div className="flex justify-end">
+        {/* Navigation Buttons */}
+        <div className="flex flex-col-reverse md:flex-row gap-3 justify-between">
+          {/* Back Button */}
+          {onBack ? (
+            <button
+              onClick={onBack}
+              className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+            >
+              ← {t('survey.navigation.back')}
+            </button>
+          ) : (
+            <div></div>
+          )}
+
+          {/* Continue Button */}
           <button
             onClick={onContinue}
             className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition"
