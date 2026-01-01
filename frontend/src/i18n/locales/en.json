@@ -129,8 +129,8 @@
     "decline": "Don't Donate",
     "confirmDonate": {
       "title": "Thank You!",
-      "message": "Your support helps us improve this ballot chatbot for everyone.",
-      "nextStep": "Your feedback in the next step will make this tool even better for future users like you.",
+      "message": "Thank you for your data donation. It contributes to improving this ballot chatbot.",
+      "nextStep": "In the next step, we ask a few brief questions to better understand your decision.",
       "button": "Share Your Thoughts →"
     },
     "confirmDecline": {

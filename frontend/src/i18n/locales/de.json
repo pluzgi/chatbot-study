@@ -19,12 +19,12 @@
     "researcher": "Sabine Wildemann, Data Science & Business Analytics",
     "program": "DBU Digital Business University of Applied Sciences · Prof. Daniel Ambach",
     "consentModal": {
-      "title": "Bevor wir beginnen",
+      "title": "Bevor wir starten",
       "text": "Mit dem Fortfahren bestätigen Sie:",
-      "age": "Sie sind 18 Jahre oder älter",
-      "residence": "Sie wohnen derzeit in der Schweiz",
-      "voluntary": "Ihre Teilnahme ist freiwillig und Sie können jederzeit abbrechen",
-      "confirm_checkbox": "Ich bestätige das Obenstehende und stimme der Teilnahme zu",
+      "age": "Sie sind 18 Jahre oder älter.",
+      "residence": "Sie wohnen derzeit in der Schweiz.",
+      "voluntary": "Ihre Teilnahme ist freiwillig und Sie können die Studie jederzeit abbrechen.",
+      "confirm_checkbox": "Ich habe die oben genannten Punkte gelesen und stimme der Teilnahme zu.",
       "confirm": "Weiter",
       "back": "Zurück"
     },
@@ -71,7 +71,7 @@
     "ballotFamiliarity": {
       "_tag": "COVARIATE",
       "_purpose": "Baseline familiarity with Swiss ballot initiatives - covariate for analysis",
-      "question": "Wie vertraut sind Sie mit Schweizer Volksinitiativen?",
+      "question": "Wie vertraut sind Sie mit Schweizer Volksabstimmungen?",
       "notFamiliar": "Überhaupt nicht vertraut",
       "veryFamiliar": "Sehr vertraut"
     },
@@ -80,13 +80,13 @@
   },
   "instruction": {
     "aboutTitle": "Über diese Studie",
-    "aboutText1": "In dieser Studie untersuchen wir, wie Menschen einen Chatbot im staatsbürgerlichen Kontext nutzen und wie sie entscheiden, ob ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
+    "aboutText1": "In dieser Studie untersuchen wir, wie Menschen einen Chatbot im demokratischen Kontext nutzen und wie sie entscheiden, ob ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
     "aboutText2": "Dazu kombiniert die Studie eine kurze praktische Interaktion mit einem Chatbot und anschliessende Fragen zu Ihrer Erfahrung.",
     "headline": "Schritt 1 von 3 — Chatbot ausprobieren",
-    "text1": "In diesem ersten Schritt testen Sie einen Chatbot, der Informationen zu Schweizer Volksinitiativen bereitstellt.",
+    "text1": "In diesem ersten Schritt testen Sie einen Chatbot, der Informationen zu Schweizer Volksabstimmungen bereitstellt.",
     "text2": "Der Chatbot nutzt Apertus, ein Schweizer Open-Source-KI-Sprachmodell, entwickelt von EPFL, ETH Zürich und dem Swiss National Supercomputing Centre. Wie andere KI-Chatbots lernt er, Fragen zu beantworten, indem er grosse Textmengen analysiert.",
     "text3": "Um solche Modelle weiter zu verbessern, werden reale Fragen von Chatbot-Nutzer:innen als Trainingsdaten benötigt.",
-    "task": "Bitte stellen Sie 2–3 Fragen zu Schweizer Volksinitiativen.",
+    "task": "Bitte stellen Sie 2–3 Fragen zu Schweizer Volksabstimmungen.",
     "taskSubtitle": "Dies hilft Ihnen, ein Gefühl für die Funktionsweise des Systems zu bekommen, bevor Sie mit der Studie fortfahren.",
     "examplesLabel": "Beispielfragen",
     "example1": "Worum geht es bei der Klimafonds-Initiative?",
@@ -95,8 +95,8 @@
     "button": "Chatbot starten"
   },
   "chat": {
-    "title": "Chatbot zu Schweizer Volksinitiativen",
-    "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Volksinitiativen (Antwortzeit bis zu 20 Sek.)",
+    "title": "Chatbot zu Schweizer Volksabstimmungen",
+    "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Volksabstimmungen (Antwortzeit bis zu 20 Sek.)",
     "placeholder": "Stellen Sie eine Frage...",
     "send": "Senden",
     "thinking": "Suche Daten... dauert bis zu 20 Sek.",
@@ -128,14 +128,14 @@
     "decline": "Nicht spenden",
     "confirmDonate": {
       "title": "Vielen Dank!",
-      "message": "Ihre Unterstützung hilft uns, diesen Abstimmungs-Chatbot für alle zu verbessern.",
-      "nextStep": "Ihr Feedback im nächsten Schritt wird dieses Tool für zukünftige Nutzer wie Sie noch besser machen.",
+      "message": "Vielen Dank für Ihre Datenspende. Sie hilft uns, diesen Chatbot zu verbessern.",
+      "nextStep": "Im nächsten Schritt beantworten Sie bitte einige kurze Fragen zu Ihrer Entscheidung.",
       "button": "Teilen Sie Ihre Meinung →"
     },
     "confirmDecline": {
       "title": "Vielen Dank!",
-      "message": "Wir schätzen Ihre Teilnahme an dieser Studie.",
-      "nextStep": "Ihr Feedback im nächsten Schritt ist wertvoll und wird uns helfen, diesen Chatbot zu verbessern.",
+      "message": "Auch Ihre Teilnahme ohne Datenspende ist für diese Studie von grossem Wert.",
+      "nextStep": "Im nächsten Schritt helfen uns Ihre Antworten, Ihre Entscheidung besser einzuordnen.",
       "button": "Teilen Sie Ihre Meinung →"
     }
   },
@@ -201,7 +201,7 @@
     "transition": {
       "title": "Fast geschafft!",
       "message": "Zum Schluss noch einige Fragen zu Ihrer Person...",
-      "reminder": "HINWEIS: Die Datenspende war simuliert. Ihre Chat-Fragen wurden NICHT tatsächlich gespeichert."
+      "reminder": "HINWEIS: Die Datenspende war simuliert. Ihre Chat-Fragen wurden NICHT gespeichert."
     },
     "navigation": {
       "back": "Zurück",
@@ -247,7 +247,7 @@
     "chatbotQuestion": {
       "header": "Eine Frage zum Chatbot",
       "question": "Dieser Chatbot hilft Menschen bei Fragen zu:",
-      "voting": "Schweizer Abstimmungsvorlagen",
+      "voting": "Schweizer Volksabstimmungen",
       "tax": "Schweizer Steuerfragen",
       "immigration": "Schweizer Einwanderungsregeln",
       "dontremember": "Ich erinnere mich nicht"
@@ -271,11 +271,11 @@
         "female": "Weiblich",
         "male": "Männlich",
         "nonBinary": "Nicht-binär",
-        "other": "Anderes",
+        "other": "Andere",
         "otherPlaceholder": "Bitte angeben..."
       },
       "language": {
-        "question": "Was ist Ihre Hauptsprache?",
+        "question": "Was ist Ihre primäre Sprache?",
         "placeholder": "Sprache auswählen...",
         "english": "Englisch",
         "french": "Französisch",
@@ -297,8 +297,8 @@
       "votingEligibility": {
         "_tag": "DEMO",
         "_purpose": "Voting eligibility - collected as demographic variable for analysis",
-        "question": "Sind Sie stimmberechtigt bei Schweizer Bundeswahlen?",
-        "eligible": "Ich bin stimmberechtigt bei Schweizer Bundeswahlen",
+        "question": "Sind Sie bei den Schweizer Bundeswahlen stimmberechtigt?",
+        "eligible": "Ich bin bei den Schweizer Bundeswahlen stimmberechtigt",
         "notEligible": "Ich lebe in der Schweiz, bin aber nicht stimmberechtigt",
         "notSure": "Ich bin mir nicht sicher"
       }
@@ -319,7 +319,7 @@
     "important": "Wichtig:",
     "simulationNote": "Die Datenspende war SIMULIERT. Ihre Chat-Fragen wurden NICHT gespeichert oder verwendet. Nur Ihre Umfrageantworten wurden anonym erfasst.",
     "whatWeStudy": "Was wir untersuchen",
-    "studyPurpose": "Wir erforschen, was Schweizer Bürgerinnen und Bürger dazu bewegt, ihre Daten für das Training von Open-Source-Sprachmodellen zu spenden. Ihre Antworten helfen dabei, datenschutzfreundlichere KI-Systeme zu gestalten.",
+    "studyPurpose": "Wir erforschen, was Menschen in der Schweiz dazu bewegt, ihre Daten für das Training von Open-Source-Sprachmodellen zu spenden. Ihre Antworten helfen dabei, datenschutzfreundlichere KI-Systeme zu gestalten.",
     "emailPrompt": "Geben Sie Ihre E-Mail-Adresse ein, um die Studienergebnisse zu erhalten (optional):",
     "emailPlaceholder": "ihre.email@beispiel.ch",
     "questions": "Fragen?",

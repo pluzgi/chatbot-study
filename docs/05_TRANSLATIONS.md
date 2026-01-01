@@ -7,7 +7,7 @@
 ```json
 {
 he english    "subtitle": "Powered by Apertus 🇨🇭",
-    "placeholder": "Stellen Sie eine Frage zu Schweizer Volksinitiativen...",
+    "placeholder": "Stellen Sie eine Frage zu Schweizer Volksabstimmungen...",
     "send": "Senden",
     "thinking": "Denke nach...",
     "error": "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",

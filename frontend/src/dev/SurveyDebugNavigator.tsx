@@ -72,7 +72,7 @@ export const SCREENS: ScreenConfig[] = [
   { id: '1C', name: 'Consent Modal', stage: 'onboarding', description: 'Eligibility confirmation (18+, Swiss voter)' },
   { id: '2A', name: 'Baseline Q1', stage: 'onboarding', description: 'Tech comfort question' },
   { id: '2B', name: 'Baseline Q2', stage: 'onboarding', description: 'Privacy concern question' },
-  { id: '2C', name: 'Baseline Q3', stage: 'onboarding', tag: 'COV', construct: 'Ballot Familiarity', description: 'How familiar are you with Swiss ballot initiatives?' },
+  { id: '2C', name: 'Baseline Q3', stage: 'onboarding', tag: 'COV', construct: 'Ballot Familiarity', description: 'How familiar are you with Swiss ballots?' },
   { id: '3', name: 'Instruction', stage: 'onboarding', description: 'Chatbot introduction and task explanation' },
 
   // ========== TASK STAGE ==========
@@ -195,8 +195,14 @@ const PreviewWrapper: React.FC<{
   backLabel?: string;
   nextLabel?: string;
   submitLabel?: string;
-}> = ({ children, title, tag, construct, showBack = true, showNext = true, showSubmit = false, backLabel = '← Back', nextLabel = 'Next →', submitLabel = 'Submit' }) => {
+}> = ({ children, title, tag, construct, showBack = true, showNext = true, showSubmit = false, backLabel, nextLabel, submitLabel }) => {
+  const { t } = useTranslation();
   const colors = tag ? TAG_COLORS[tag] : null;
+
+  // Use translations as defaults for button labels
+  const resolvedBackLabel = backLabel ?? `← ${t('survey.navigation.back')}`;
+  const resolvedNextLabel = nextLabel ?? `${t('survey.navigation.next')} →`;
+  const resolvedSubmitLabel = submitLabel ?? t('survey.submit');
 
   // Format step prefix in grey if title starts with "Step X of 3 —"
   const stepMatch = title.match(/^(Step \d+ of \d+ — )(.*)/);
@@ -239,7 +245,7 @@ const PreviewWrapper: React.FC<{
                 className="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
                 disabled
               >
-                {backLabel}
+                {resolvedBackLabel}
               </button>
             ) : (
               <div></div>
@@ -252,7 +258,7 @@ const PreviewWrapper: React.FC<{
                 className="px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-200 text-black"
                 disabled
               >
-                {submitLabel}
+                {resolvedSubmitLabel}
               </button>
             ) : showNext ? (
               <button
@@ -260,7 +266,7 @@ const PreviewWrapper: React.FC<{
                 className="px-8 py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-200 text-black"
                 disabled
               >
-                {nextLabel}
+                {resolvedNextLabel}
               </button>
             ) : null}
           </div>
@@ -2408,9 +2414,9 @@ const SurveyDebugNavigator: React.FC = () => {
       { id: '1C', step: 3, name: 'Consent Modal', content: 'Eligibility confirmation: 18+, Swiss voter, voluntary participation' },
       { id: '2A', step: 4, name: 'Baseline Q1', content: 'Tech comfort: "I am comfortable using new digital technology..."' },
       { id: '2B', step: 5, name: 'Baseline Q2', content: 'Privacy concern: "I am concerned about how my personal information..."' },
-      { id: '2C', step: 6, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballot initiatives?"', tag: 'COV' as HypothesisTag },
+      { id: '2C', step: 6, name: 'Baseline Q3', content: 'Ballot familiarity: "How familiar are you with Swiss ballots?"', tag: 'COV' as HypothesisTag },
       { id: '3', step: 7, name: 'Instruction', content: 'About Apertus, task explanation, example questions' },
-      { id: '4', step: 8, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballot initiatives' },
+      { id: '4', step: 8, name: 'Chat Interface', content: 'Ask minimum 2 questions about Swiss ballots' },
       { id: '5', step: 9, name: 'Donation Modal', content: donationContent[condition], highlight: true },
       { id: '5B', step: 10, name: 'Thank You Page', content: 'Confirmation: "Your support helps us improve this ballot chatbot for everyone. Your feedback in the next step will make this tool even better for future users like you." Button: Share Your Thoughts →' },
       { id: '5C', step: 11, name: 'Decline Confirmation', content: 'Confirmation: "We appreciate your participation in this study. Your feedback in the next step is valuable and will help us improve this chatbot." Button: Share Your Thoughts →' },

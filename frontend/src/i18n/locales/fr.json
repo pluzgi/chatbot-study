@@ -128,8 +128,8 @@
     "decline": "Ne pas donner",
     "confirmDonate": {
       "title": "Merci!",
-      "message": "Votre soutien nous aide à améliorer ce chatbot de vote pour tous.",
-      "nextStep": "Vos retours dans la prochaine étape rendront cet outil encore meilleur pour les futurs utilisateurs comme vous.",
+      "message": "Merci pour votre don de données. Il contribue à améliorer ce chatbot sur les votations.",
+      "nextStep": "Dans la prochaine étape, nous vous posons quelques brèves questions pour mieux comprendre votre décision.",
       "button": "Partagez votre avis →"
     },
     "confirmDecline": {
