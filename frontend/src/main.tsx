@@ -4,11 +4,19 @@ import App from './App.tsx'
 import SurveyDebugNavigator from './dev/SurveyDebugNavigator.tsx'
 import './index.css'
 
-// Check for debug mode via URL params (dev only)
+// Check for debug mode via URL params
+// In production, requires secret key: ?debug=survey&key=apertus
 const isDebugMode = () => {
-  if (import.meta.env.PROD) return false; // Never in production
   const params = new URLSearchParams(window.location.search);
-  return params.get('debug') === 'survey';
+  const isDebugSurvey = params.get('debug') === 'survey';
+
+  if (import.meta.env.PROD) {
+    // In production, require secret key
+    return isDebugSurvey && params.get('key') === 'apertus';
+  }
+
+  // In development, no key required
+  return isDebugSurvey;
 };
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
