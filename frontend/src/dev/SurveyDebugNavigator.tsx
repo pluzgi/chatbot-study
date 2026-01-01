@@ -777,8 +777,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <div className={`bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 mx-auto ${condition === 'D' ? 'max-w-3xl' : 'max-w-2xl'}`}>
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">
-              <span className="text-gray-500 font-normal">Step 2 of 3 — </span>
-              Your decision about data donation
+              {t('donation.headline')}
             </h2>
             <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed whitespace-pre-line font-semibold">
               {t(`donation.condition${condition}.intro`)}
@@ -920,7 +919,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 6: Q4 TRANSPARENCY (MC-T) ========== */}
         <ScreenDivider id="6" name="Q4: Transparency" tag="MC-T" />
-        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-T" construct="Perceived Transparency">
+        <JourneyCard title={t('survey.stepHeadline')} tag="MC-T" construct="Perceived Transparency">
           <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed font-semibold">{t('survey.transparency.intro')}</p>
           <LikertItemPreview label={t('survey.transparency.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.transparency.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -931,7 +930,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 7: Q5 CONTROL (MC-C) ========== */}
         <ScreenDivider id="7" name="Q5: Control" tag="MC-C" />
-        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-C" construct="Perceived User Control">
+        <JourneyCard title={t('survey.stepHeadline')} tag="MC-C" construct="Perceived User Control">
           <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed font-semibold">{t('survey.control.intro')}</p>
           <LikertItemPreview label={t('survey.control.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.control.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -942,7 +941,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 8: Q6 RISK (OUT-RISK) ========== */}
         <ScreenDivider id="8" name="Q6: Risk" tag="OUT-RISK" />
-        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-RISK" construct="Risk Perception">
+        <JourneyCard title={t('survey.stepHeadline')} tag="OUT-RISK" construct="Risk Perception">
           <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed font-semibold">{t('survey.risk.intro')}</p>
           <LikertItemPreview label={t('survey.risk.traceability')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.risk.misuse')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
@@ -953,7 +952,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 9: Q7 TRUST (OUT-TRUST) ========== */}
         <ScreenDivider id="9" name="Q7: Trust" tag="OUT-TRUST" />
-        <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-TRUST" construct="Trust">
+        <JourneyCard title={t('survey.stepHeadline')} tag="OUT-TRUST" construct="Trust">
           <LikertItemPreview label={t('survey.trust.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
             <strong>Note:</strong> Exploratory - not required for H1-H3 testing
@@ -1003,7 +1002,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 12: Q9 AGE ========== */}
         <ScreenDivider id="12" name="Q9: Age" tag="DEMO" />
-        <JourneyCard title="A few questions about you" tag="DEMO">
+        <JourneyCard title={t('survey.demographics.header')} tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.age.question')}</p>
           <div className="space-y-3">
             {['18-24', '25-34', '35-44', '45-54', '55-64', '65+'].map((age) => (
@@ -1019,7 +1018,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 13: Q10 GENDER ========== */}
         <ScreenDivider id="13" name="Q10: Gender" tag="DEMO" />
-        <JourneyCard title="A few questions about you" tag="DEMO">
+        <JourneyCard title={t('survey.demographics.header')} tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.gender.question')}</p>
           <div className="space-y-3">
             {[
@@ -1041,7 +1040,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 14: Q11 LANGUAGE ========== */}
         <ScreenDivider id="14" name="Q11: Language" tag="DEMO" />
-        <JourneyCard title="A few questions about you" tag="DEMO">
+        <JourneyCard title={t('survey.demographics.header')} tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.language.question')}</p>
           <div className="space-y-3">
             {[
@@ -1064,7 +1063,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 15: Q12 EDUCATION ========== */}
         <ScreenDivider id="15" name="Q12: Education" tag="DEMO" />
-        <JourneyCard title="A few questions about you" tag="DEMO">
+        <JourneyCard title={t('survey.demographics.header')} tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.education.question')}</p>
           <div className="space-y-3">
             {[
@@ -1088,7 +1087,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
 
         {/* ========== 16: Q13 VOTING ELIGIBILITY ========== */}
         <ScreenDivider id="16" name="Q13: Voting Eligibility" tag="DEMO" />
-        <JourneyCard title="A few questions about you" tag="DEMO">
+        <JourneyCard title={t('survey.demographics.header')} tag="DEMO">
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.votingEligibility.question')}</p>
           <div className="space-y-3">
             {[
@@ -1211,7 +1210,7 @@ const SurveyDebugNavigator: React.FC = () => {
     if (screenParam) {
       setSelectedScreen(screenParam);
     }
-    if (langParam && ['en', 'de', 'fr'].includes(langParam)) {
+    if (langParam && ['en', 'de', 'fr', 'it'].includes(langParam)) {
       i18n.changeLanguage(langParam);
     }
     if (conditionParam && ['A', 'B', 'C', 'D'].includes(conditionParam)) {
@@ -1510,27 +1509,26 @@ const SurveyDebugNavigator: React.FC = () => {
         // Shared components
         const Headline = () => (
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black leading-tight">
-            <span className="text-gray-500 font-normal">Step 2 of 3 — </span>
-            Your decision about data donation
+            {t('donation.headline')}
           </h2>
         );
 
         const IntroText = () => (
           <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed whitespace-pre-line font-semibold">
             {isConditionD
-              ? "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions. Please review the data facts below. You can also configure how your data will be used."
+              ? t('donation.conditionD.intro')
               : isConditionC
-              ? "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions. First, you can configure how your data will be used."
+              ? t('donation.conditionC.intro')
               : isConditionB
-              ? "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions.\nPlease review the data facts below to make an informed decision:"
-              : "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions."}
+              ? t('donation.conditionB.intro')
+              : t('donation.conditionA.intro')}
           </p>
         );
 
         const DecisionSection = ({ disabled = false }: { disabled?: boolean }) => (
           <div className="mt-8">
             <p className="text-xl md:text-2xl font-semibold text-black mb-6 leading-relaxed">
-              Do you want to donate your anonymized chat questions for academic research?
+              {t('donation.decisionQuestion')}
             </p>
             <div className="flex flex-col md:flex-row gap-3 md:gap-4">
               <button
@@ -1541,7 +1539,7 @@ const SurveyDebugNavigator: React.FC = () => {
                     : 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
                 }`}
               >
-                Donate Data
+                {t('donation.accept')}
               </button>
               <button
                 disabled={disabled}
@@ -1551,7 +1549,7 @@ const SurveyDebugNavigator: React.FC = () => {
                     : 'bg-white text-black border border-gray-300 hover:bg-gray-100'
                 }`}
               >
-                Don't Donate
+                {t('donation.decline')}
               </button>
             </div>
           </div>
@@ -1947,7 +1945,7 @@ const SurveyDebugNavigator: React.FC = () => {
       case '6': // Q3: Perceived Transparency (MC-T)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Your View on Data Use"
+            title={t('survey.stepHeadline')}
             tag="MC-T"
             construct="Perceived Transparency"
           >
@@ -1975,7 +1973,7 @@ const SurveyDebugNavigator: React.FC = () => {
       case '7': // Q4: Perceived User Control (MC-C)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Your View on Data Use"
+            title={t('survey.stepHeadline')}
             tag="MC-C"
             construct="Perceived User Control"
           >
@@ -2003,7 +2001,7 @@ const SurveyDebugNavigator: React.FC = () => {
       case '8': // Q5: Risk Perception (OUT-RISK)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Your View on Data Use"
+            title={t('survey.stepHeadline')}
             tag="OUT-RISK"
             construct="Risk Perception"
           >
@@ -2031,7 +2029,7 @@ const SurveyDebugNavigator: React.FC = () => {
       case '9': // Q6: Trust (OUT-TRUST)
         return (
           <PreviewWrapper
-            title="Step 3 of 3 — Your View on Data Use"
+            title={t('survey.stepHeadline')}
             tag="OUT-TRUST"
             construct="Trust"
           >
@@ -2114,7 +2112,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '12': // Q8: Age
         return (
-          <PreviewWrapper title="A few questions about you" tag="DEMO">
+          <PreviewWrapper title={t('survey.demographics.header')} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.age.question')}
             </p>
@@ -2142,7 +2140,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '13': // Q9: Gender
         return (
-          <PreviewWrapper title="A few questions about you" tag="DEMO">
+          <PreviewWrapper title={t('survey.demographics.header')} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.gender.question')}
             </p>
@@ -2176,7 +2174,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '14': // Q10: Language
         return (
-          <PreviewWrapper title="A few questions about you" tag="DEMO">
+          <PreviewWrapper title={t('survey.demographics.header')} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.language.question')}
             </p>
@@ -2211,7 +2209,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '15': // Q11: Education
         return (
-          <PreviewWrapper title="A few questions about you" tag="DEMO">
+          <PreviewWrapper title={t('survey.demographics.header')} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.education.question')}
             </p>
@@ -2247,7 +2245,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '16': // Q13: Voting Eligibility
         return (
-          <PreviewWrapper title="A few questions about you" tag="DEMO">
+          <PreviewWrapper title={t('survey.demographics.header')} tag="DEMO">
             <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">
               {t('survey.demographics.votingEligibility.question')}
             </p>
