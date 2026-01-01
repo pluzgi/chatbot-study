@@ -110,17 +110,17 @@
     "headline": "Schritt 2 von 3 — Ihre Entscheidung zur Datenspende",
     "transition": "Sie haben gerade den Chatbot verwendet. Nun bitten wir Sie zu entscheiden, ob Ihre anonymisierten Chat-Fragen für akademische KI-Forschung verwendet werden dürfen.",
     "conditionA": {
-      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden.",
+      "intro": "Sie haben gerade den Chatbot getestet. Um die Qualität zu verbessern, laden wir Sie ein, Ihre anonymisierten Chat-Fragen zu spenden.",
       "text": "Ihre anonymisierten Chat-Fragen würden zur Verbesserung eines Schweizer Open-Source-KI-Modells für akademische Forschung verwendet. Die Daten würden sicher behandelt und nicht für kommerzielle Zwecke genutzt."
     },
     "conditionB": {
-      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden.\nBitte prüfen Sie die folgenden Datenfakten, um eine informierte Entscheidung zu treffen:"
+      "intro": "Sie haben gerade den Chatbot getestet. Um die Qualität zu verbessern, laden wir Sie ein, Ihre anonymisierten Chat-Fragen zu spenden.\nBitte prüfen Sie die folgenden Datenfakten, um eine informierte Entscheidung zu treffen:"
     },
     "conditionC": {
-      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden. Zunächst können Sie konfigurieren, wie Ihre Daten verwendet werden."
+      "intro": "Sie haben gerade den Chatbot getestet. Um die Qualität zu verbessern, laden wir Sie ein, Ihre anonymisierten Chat-Fragen zu spenden. Zunächst können Sie konfigurieren, wie Ihre Daten verwendet werden."
     },
     "conditionD": {
-      "intro": "Sie haben gerade den Chatbot getestet. Um dieses Schweizer Open-Source-Modell zu verbessern, laden wir Sie ein, Ihre anonymisierten Chatbot-Fragen zu spenden. Bitte prüfen Sie die folgenden Datenfakten. Sie können auch konfigurieren, wie Ihre Daten verwendet werden."
+      "intro": "Sie haben gerade den Chatbot getestet. Um die Qualität zu verbessern, laden wir Sie ein, Ihre anonymisierten Chat-Fragen zu spenden. Bitte prüfen Sie die folgenden Datenfakten. Sie können auch konfigurieren, wie Ihre Daten verwendet werden."
     },
     "dashboardHelper": "Sie können die Standardeinstellungen beibehalten oder sie vor Ihrer Entscheidung anpassen.",
     "decisionQuestion": "Möchten Sie Ihre anonymisierten Chat-Fragen für Forschungszwecke spenden?",

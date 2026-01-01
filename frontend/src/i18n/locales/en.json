@@ -111,17 +111,17 @@
     "headline": "Step 2 of 3 — Your decision about data donation",
     "transition": "You have just used the chatbot. Now we ask you to decide whether your anonymized chat questions may be used for academic AI research.",
     "conditionA": {
-      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions.",
+      "intro": "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions.",
       "text": "Your anonymized chat questions would be used to improve a Swiss open-source AI model for academic research. Data would be handled securely and not used for commercial purposes."
     },
     "conditionB": {
-      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions.\nPlease review the data facts below to make an informed decision:"
+      "intro": "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions.\nPlease review the data facts below to make an informed decision:"
     },
     "conditionC": {
-      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. First, you can configure how your data will be used."
+      "intro": "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions. First, you can configure how your data will be used."
     },
     "conditionD": {
-      "intro": "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. Please review the data facts below. You can also configure how your data will be used."
+      "intro": "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions. Please review the data facts below. You can also configure how your data will be used."
     },
     "dashboardHelper": "You can leave the default settings or adjust them before deciding.",
     "decisionQuestion": "Do you want to donate your anonymized chat questions for research purposes?",

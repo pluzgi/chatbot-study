@@ -1518,12 +1518,12 @@ const SurveyDebugNavigator: React.FC = () => {
         const IntroText = () => (
           <p className="text-base md:text-lg text-gray-700 mb-6 leading-relaxed whitespace-pre-line font-semibold">
             {isConditionD
-              ? "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. Please review the data facts below. You can also configure how your data will be used."
+              ? "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions. Please review the data facts below. You can also configure how your data will be used."
               : isConditionC
-              ? "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions. First, you can configure how your data will be used."
+              ? "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions. First, you can configure how your data will be used."
               : isConditionB
-              ? "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions.\nPlease review the data facts below to make an informed decision:"
-              : "You have just finished testing the chatbot. To help improve this Swiss open-source model, we invite you to donate your anonymized chatbot questions."}
+              ? "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions.\nPlease review the data facts below to make an informed decision:"
+              : "You have just finished testing the chatbot. To help improve its quality, we invite you to donate your anonymized chat questions."}
           </p>
         );
 
