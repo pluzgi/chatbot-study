@@ -624,9 +624,10 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               rightLabel={t('baseline.techComfort.stronglyAgree')}
               points={7}
             />
-            <div className="mt-8 md:mt-12 flex justify-end">
+            <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
+              <div></div>
               <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
-                {t('survey.navigation.next')}
+                {t('survey.navigation.next')} →
               </button>
             </div>
           </div>
@@ -650,9 +651,12 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               rightLabel={t('baseline.privacyConcern.stronglyAgree')}
               points={7}
             />
-            <div className="mt-8 md:mt-12 flex justify-end">
+            <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
+              <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+                ← {t('survey.navigation.back')}
+              </button>
               <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
-                {t('survey.navigation.next')}
+                {t('survey.navigation.next')} →
               </button>
             </div>
           </div>
@@ -680,7 +684,10 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
               points={7}
             />
-            <div className="mt-8 md:mt-12 flex justify-end">
+            <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
+              <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+                ← {t('survey.navigation.back')}
+              </button>
               <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
                 {t('baseline.continue')}
               </button>
@@ -701,7 +708,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
             </div>
             <h2 className="text-lg font-bold mb-3 text-black text-left">
               <span className="text-gray-500 font-normal">Step 1 of 3 — </span>
-              Try the Chatbot
+              {t('instruction.headline').replace('Step 1 of 3 — ', '')}
             </h2>
             <div className="mb-6 space-y-4 text-left">
               <p className="text-base text-black leading-relaxed">{t('instruction.text1')}</p>
@@ -720,7 +727,10 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
                 <li className="text-sm text-black pl-3 border-l-2 border-gray-300">{t('instruction.example3')}</li>
               </ul>
             </div>
-            <div className="flex justify-end">
+            <div className="flex flex-col-reverse md:flex-row gap-3 justify-between">
+              <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+                ← {t('survey.navigation.back')}
+              </button>
               <button className="bg-gray-200 text-black px-8 py-3 rounded-lg font-medium text-base min-h-[48px]">
                 {t('instruction.button')}
               </button>
@@ -886,10 +896,32 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           </div>
         </JourneyCard>
 
+        {/* ========== 5C: DECLINE CONFIRMATION ========== */}
+        <ScreenDivider id="5C" name="Decline Confirmation" />
+        <JourneyCard title="Confirmation Screen">
+          <div className="text-center py-8">
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold mb-6 text-black">{t('donation.confirmDecline.title')}</h2>
+            <p className="text-xl text-black mb-4 leading-relaxed">
+              {t('donation.confirmDecline.message')}
+            </p>
+            <p className="text-xl text-black mb-8 leading-relaxed">
+              {t('donation.confirmDecline.nextStep')}
+            </p>
+            <button className="px-8 py-4 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
+              {t('donation.confirmDecline.button')}
+            </button>
+          </div>
+        </JourneyCard>
+
         {/* ========== 6: Q4 TRANSPARENCY (MC-T) ========== */}
         <ScreenDivider id="6" name="Q4: Transparency" tag="MC-T" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-T" construct="Perceived Transparency">
-          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.transparency.intro')}</p>
+          <p className="text-lg md:text-xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.transparency.intro')}</p>
           <LikertItemPreview label={t('survey.transparency.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.transparency.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-blue-50 rounded text-sm text-blue-700">
@@ -900,7 +932,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         {/* ========== 7: Q5 CONTROL (MC-C) ========== */}
         <ScreenDivider id="7" name="Q5: Control" tag="MC-C" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-C" construct="Perceived User Control">
-          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.control.intro')}</p>
+          <p className="text-lg md:text-xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.control.intro')}</p>
           <LikertItemPreview label={t('survey.control.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.control.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-green-50 rounded text-sm text-green-700">
@@ -911,7 +943,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         {/* ========== 8: Q6 RISK (OUT-RISK) ========== */}
         <ScreenDivider id="8" name="Q6: Risk" tag="OUT-RISK" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-RISK" construct="Risk Perception">
-          <p className="text-base text-gray-900 mb-6 leading-relaxed">{t('survey.risk.intro')}</p>
+          <p className="text-lg md:text-xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.risk.intro')}</p>
           <LikertItemPreview label={t('survey.risk.traceability')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.risk.misuse')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
@@ -1379,9 +1411,10 @@ const SurveyDebugNavigator: React.FC = () => {
                 rightLabel={t('baseline.techComfort.stronglyAgree')}
                 points={7}
               />
-              <div className="mt-8 md:mt-12 flex justify-end">
+              <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
+                <div></div>
                 <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
-                  {t('survey.navigation.next')}
+                  {t('survey.navigation.next')} →
                 </button>
               </div>
             </div>
@@ -1406,9 +1439,12 @@ const SurveyDebugNavigator: React.FC = () => {
                 rightLabel={t('baseline.privacyConcern.stronglyAgree')}
                 points={7}
               />
-              <div className="mt-8 md:mt-12 flex justify-end">
+              <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
+                <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+                  ← {t('survey.navigation.back')}
+                </button>
                 <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
-                  {t('survey.navigation.next')}
+                  {t('survey.navigation.next')} →
                 </button>
               </div>
             </div>
@@ -1437,7 +1473,10 @@ const SurveyDebugNavigator: React.FC = () => {
                 rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
                 points={7}
               />
-              <div className="mt-8 md:mt-12 flex justify-end">
+              <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
+                <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+                  ← {t('survey.navigation.back')}
+                </button>
                 <button className="w-full md:w-auto bg-gray-200 text-black px-8 py-4 md:py-3 rounded-lg font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
                   {t('baseline.continue')}
                 </button>
@@ -1447,7 +1486,7 @@ const SurveyDebugNavigator: React.FC = () => {
         );
 
       case '3':
-        return <ChatbotInstruction onContinue={noop} />;
+        return <ChatbotInstruction onContinue={noop} onBack={noop} />;
 
       // ========== TASK ==========
       case '4':
