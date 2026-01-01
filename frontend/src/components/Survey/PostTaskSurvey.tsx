@@ -282,7 +282,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
 
   const QuestionBlock = ({ intro, children }: { intro: string; children: React.ReactNode }) => (
     <div>
-      <p className="text-lg md:text-xl text-gray-900 mb-6 leading-relaxed font-medium">
+      <p className="text-xl md:text-2xl text-gray-900 mb-6 leading-relaxed font-medium">
         {intro}
       </p>
       <div>

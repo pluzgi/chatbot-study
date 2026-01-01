@@ -921,7 +921,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         {/* ========== 6: Q4 TRANSPARENCY (MC-T) ========== */}
         <ScreenDivider id="6" name="Q4: Transparency" tag="MC-T" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-T" construct="Perceived Transparency">
-          <p className="text-lg md:text-xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.transparency.intro')}</p>
+          <p className="text-xl md:text-2xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.transparency.intro')}</p>
           <LikertItemPreview label={t('survey.transparency.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.transparency.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-blue-50 rounded text-sm text-blue-700">
@@ -932,7 +932,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         {/* ========== 7: Q5 CONTROL (MC-C) ========== */}
         <ScreenDivider id="7" name="Q5: Control" tag="MC-C" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="MC-C" construct="Perceived User Control">
-          <p className="text-lg md:text-xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.control.intro')}</p>
+          <p className="text-xl md:text-2xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.control.intro')}</p>
           <LikertItemPreview label={t('survey.control.q1')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.control.q2')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-green-50 rounded text-sm text-green-700">
@@ -943,7 +943,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         {/* ========== 8: Q6 RISK (OUT-RISK) ========== */}
         <ScreenDivider id="8" name="Q6: Risk" tag="OUT-RISK" />
         <JourneyCard title="Step 3 of 3 — Your View on Data Use" tag="OUT-RISK" construct="Risk Perception">
-          <p className="text-lg md:text-xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.risk.intro')}</p>
+          <p className="text-xl md:text-2xl text-gray-900 mb-6 leading-relaxed font-medium">{t('survey.risk.intro')}</p>
           <LikertItemPreview label={t('survey.risk.traceability')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <LikertItemPreview label={t('survey.risk.misuse')} leftLabel={t('survey.likert.disagree')} rightLabel={t('survey.likert.agree')} />
           <div className="mt-6 p-3 bg-yellow-50 rounded text-sm text-yellow-700">
@@ -1951,7 +1951,7 @@ const SurveyDebugNavigator: React.FC = () => {
             tag="MC-T"
             construct="Perceived Transparency"
           >
-            <p className="text-base text-gray-900 mb-6 leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-900 mb-6 leading-relaxed font-medium">
               {t('survey.transparency.intro')}
             </p>
             <LikertItemPreview
@@ -1979,7 +1979,7 @@ const SurveyDebugNavigator: React.FC = () => {
             tag="MC-C"
             construct="Perceived User Control"
           >
-            <p className="text-base text-gray-900 mb-6 leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-900 mb-6 leading-relaxed font-medium">
               {t('survey.control.intro')}
             </p>
             <LikertItemPreview
@@ -2007,7 +2007,7 @@ const SurveyDebugNavigator: React.FC = () => {
             tag="OUT-RISK"
             construct="Risk Perception"
           >
-            <p className="text-base text-gray-900 mb-6 leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-900 mb-6 leading-relaxed font-medium">
               {t('survey.risk.intro')}
             </p>
             <LikertItemPreview
