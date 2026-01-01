@@ -142,4 +142,16 @@ router.delete('/admin/data-since', async (req, res) => {
   }
 });
 
+// Admin: Recalculate click counters from actual human participant data
+// Use after deleting participants or to fix AI counts
+router.post('/admin/recalculate-counters', async (req, res) => {
+  try {
+    const result = await experimentService.recalculateClickCounters();
+    res.json({ success: true, counters: result });
+  } catch (error) {
+    console.error('Recalculate counters error:', error);
+    res.status(500).json({ error: 'Failed to recalculate counters' });
+  }
+});
+
 export default router;
