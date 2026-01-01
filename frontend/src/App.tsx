@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from './services/api';
 import { Session } from './types';
@@ -23,6 +23,11 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [consentConfirmed, setConsentConfirmed] = useState(false);
   const [_baselineData, setBaselineData] = useState<{ techComfort: number; privacyConcern: number; ballotFamiliarity: number } | null>(null);
+
+  // Scroll to top when phase changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [phase]);
 
   const startExperiment = async () => {
     setLoading(true);
@@ -266,7 +271,12 @@ function App() {
 
   // Debriefing Phase
   if (phase === 'debrief') {
-    return <Debriefing />;
+    const handleEmailSubmit = async (email: string) => {
+      if (session?.participantId && email) {
+        await api.submitNotifyEmail(session.participantId, email);
+      }
+    };
+    return <Debriefing onEmailSubmit={handleEmailSubmit} />;
   }
 
   // Already Participated Phase

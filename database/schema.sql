@@ -94,7 +94,10 @@ CREATE TABLE click_counters (
 -- Insert initial counter rows
 INSERT INTO click_counters (event_type, count) VALUES
     ('decline_study', 0),
-    ('try_apertus', 0)
+    ('try_apertus', 0),
+    ('survey_completed', 0),
+    ('donation_accepted', 0),
+    ('donation_declined', 0)
 ON CONFLICT (event_type) DO NOTHING;
 
 -- Study configuration for resettable counters and targets
@@ -140,7 +143,7 @@ CREATE INDEX idx_participants_created_at ON participants(created_at);
 -- Comments for documentation
 COMMENT ON TABLE participants IS 'Stores experiment participants with dropout tracking and donation decision';
 COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses (Q4-Q14)';
-COMMENT ON TABLE click_counters IS 'Anonymous click counters for tracking button interactions without personal data';
+COMMENT ON TABLE click_counters IS 'Anonymous counters: decline_study, try_apertus, survey_completed, donation_accepted, donation_declined';
 COMMENT ON COLUMN participants.condition IS 'Experimental condition: A (low/low), B (high/low), C (low/high), D (high/high)';
 COMMENT ON COLUMN participants.current_phase IS 'Dropout tracking: consent → baseline → chatbot → decision → survey → complete';
 COMMENT ON COLUMN participants.consent_given IS 'TRUE when participant confirmed consent checkbox';

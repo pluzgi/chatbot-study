@@ -19,7 +19,7 @@ const InputField: React.FC<Props> = ({ onSend, disabled = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 pb-8 border-t bg-white">
+    <form onSubmit={handleSubmit} className="p-3 md:p-4 bg-white">
       <div className="flex gap-2">
         <input
           type="text"
