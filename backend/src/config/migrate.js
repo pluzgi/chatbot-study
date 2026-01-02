@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS participants (
     consent_given BOOLEAN NOT NULL DEFAULT FALSE,
     consent_at TIMESTAMP,
 
-    -- Baseline measures (Q1-Q3)
-    tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 7),
-    baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 7),
-    ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 7),
+    -- Baseline measures (Q1-Q3) - 6-point Likert scale
+    tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 6),
+    baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 6),
+    ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 6),
 
     -- Donation decision (merged from donation_decisions table)
     donation_decision VARCHAR(10) CHECK (donation_decision IN ('donate', 'decline')),
@@ -31,6 +31,11 @@ CREATE TABLE IF NOT EXISTS participants (
 
     -- Optional: participant wants study results
     notify_email VARCHAR(255),
+
+    -- AI participant tracking
+    is_ai_participant BOOLEAN DEFAULT FALSE,
+    ai_persona_id VARCHAR(50),
+    ai_run_id VARCHAR(50),
 
     -- Timestamps
     created_at TIMESTAMP DEFAULT NOW(),
@@ -44,19 +49,19 @@ CREATE TABLE IF NOT EXISTS post_task_measures (
     participant_id UUID PRIMARY KEY REFERENCES participants(id) ON DELETE CASCADE,
 
     -- Q4: Perceived Transparency (MC-T) - H1 manipulation check - 2 items
-    transparency1 INT CHECK (transparency1 BETWEEN 1 AND 7),
-    transparency2 INT CHECK (transparency2 BETWEEN 1 AND 7),
+    transparency1 INT CHECK (transparency1 BETWEEN 1 AND 6),
+    transparency2 INT CHECK (transparency2 BETWEEN 1 AND 6),
 
     -- Q5: Perceived User Control (MC-C) - H2 manipulation check - 2 items
-    control1 INT CHECK (control1 BETWEEN 1 AND 7),
-    control2 INT CHECK (control2 BETWEEN 1 AND 7),
+    control1 INT CHECK (control1 BETWEEN 1 AND 6),
+    control2 INT CHECK (control2 BETWEEN 1 AND 6),
 
     -- Q6: Risk Perception (OUT-RISK) - H3 interaction mechanism - 2 items
-    risk_traceability INT CHECK (risk_traceability BETWEEN 1 AND 7),
-    risk_misuse INT CHECK (risk_misuse BETWEEN 1 AND 7),
+    risk_traceability INT CHECK (risk_traceability BETWEEN 1 AND 6),
+    risk_misuse INT CHECK (risk_misuse BETWEEN 1 AND 6),
 
     -- Q7: Trust (OUT-TRUST) - Supporting construct - 1 item
-    trust1 INT CHECK (trust1 BETWEEN 1 AND 7),
+    trust1 INT CHECK (trust1 BETWEEN 1 AND 6),
 
     -- Q8: Attention check
     attention_check VARCHAR(50),
@@ -107,30 +112,6 @@ INSERT INTO study_config (key, value) VALUES
     ('participant_target', '200')
 ON CONFLICT (key) DO NOTHING;
 
--- ============================================================
--- PARTICIPANT COUNTER OPERATIONS
--- ============================================================
--- RESET COUNTER: INSERT INTO study_config (key, value, reset_at) VALUES ('counter_reset', 'reset', NOW()) ON CONFLICT (key) DO UPDATE SET reset_at = NOW();
--- CHANGE TARGET: UPDATE study_config SET value = '300' WHERE key = 'participant_target';
--- ============================================================
-
--- AI participant tracking columns (added via ALTER for backwards compatibility)
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
-                   WHERE table_name = 'participants' AND column_name = 'is_ai_participant') THEN
-        ALTER TABLE participants ADD COLUMN is_ai_participant BOOLEAN DEFAULT FALSE;
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
-                   WHERE table_name = 'participants' AND column_name = 'ai_persona_id') THEN
-        ALTER TABLE participants ADD COLUMN ai_persona_id VARCHAR(50);
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
-                   WHERE table_name = 'participants' AND column_name = 'ai_run_id') THEN
-        ALTER TABLE participants ADD COLUMN ai_run_id VARCHAR(50);
-    END IF;
-END $$;
-
 -- Chat messages table: ONLY for AI participants
 -- Human participant messages are never stored (privacy by design)
 CREATE TABLE IF NOT EXISTS chat_messages (
@@ -156,15 +137,6 @@ CREATE TABLE IF NOT EXISTS api_usage_logs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- Add response_model column if missing (for existing databases)
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
-                   WHERE table_name = 'api_usage_logs' AND column_name = 'response_model') THEN
-        ALTER TABLE api_usage_logs ADD COLUMN response_model VARCHAR(100);
-    END IF;
-END $$;
-
 -- Indexes for common queries
 CREATE INDEX IF NOT EXISTS idx_participants_condition ON participants(condition);
 CREATE INDEX IF NOT EXISTS idx_participants_language ON participants(language);
@@ -175,38 +147,6 @@ CREATE INDEX IF NOT EXISTS idx_participants_is_ai ON participants(is_ai_particip
 CREATE INDEX IF NOT EXISTS idx_chat_messages_participant ON chat_messages(participant_id);
 CREATE INDEX IF NOT EXISTS idx_api_usage_logs_created_at ON api_usage_logs(created_at);
 CREATE INDEX IF NOT EXISTS idx_api_usage_logs_participant ON api_usage_logs(participant_id);
-
--- Update existing foreign keys to add ON DELETE CASCADE
--- (for existing databases where tables were created without CASCADE)
-DO $$
-BEGIN
-    -- post_task_measures
-    IF EXISTS (SELECT 1 FROM information_schema.table_constraints
-               WHERE constraint_name = 'post_task_measures_participant_id_fkey'
-               AND table_name = 'post_task_measures') THEN
-        ALTER TABLE post_task_measures DROP CONSTRAINT post_task_measures_participant_id_fkey;
-        ALTER TABLE post_task_measures ADD CONSTRAINT post_task_measures_participant_id_fkey
-            FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
-    END IF;
-
-    -- chat_messages
-    IF EXISTS (SELECT 1 FROM information_schema.table_constraints
-               WHERE constraint_name = 'chat_messages_participant_id_fkey'
-               AND table_name = 'chat_messages') THEN
-        ALTER TABLE chat_messages DROP CONSTRAINT chat_messages_participant_id_fkey;
-        ALTER TABLE chat_messages ADD CONSTRAINT chat_messages_participant_id_fkey
-            FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
-    END IF;
-
-    -- api_usage_logs
-    IF EXISTS (SELECT 1 FROM information_schema.table_constraints
-               WHERE constraint_name = 'api_usage_logs_participant_id_fkey'
-               AND table_name = 'api_usage_logs') THEN
-        ALTER TABLE api_usage_logs DROP CONSTRAINT api_usage_logs_participant_id_fkey;
-        ALTER TABLE api_usage_logs ADD CONSTRAINT api_usage_logs_participant_id_fkey
-            FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
-    END IF;
-END $$;
 `;
 
 export async function runMigrations() {
