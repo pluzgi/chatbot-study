@@ -1,10 +1,10 @@
 {
   "_comment": "Italian (Italiano)",
   "landing": {
-    "title": "Swiss Civic AI Study",
+    "title": "Studio svizzero sull'IA civica",
     "subtitle": "Un breve studio accademico sulla donazione di dati e la fiducia nell'IA open-source",
     "whatWeStudy": "Di cosa si tratta",
-    "whatWeStudyText": "Studiamo se le persone donano domande anonimizzate da un chatbot svizzero sulle votazioni per sostenere la ricerca sui modelli di IA open source.",
+    "whatWeStudyText": "Studiamo se le persone sono disposte a donare, in forma anonimizzata, le proprie domande poste a un chatbot svizzero sulle votazioni, per sostenere la ricerca accademica sui modelli di IA open source.",
     "whatToExpect": "Cosa aspettarsi",
     "expect1": "Circa 8 minuti",
     "expect2": "Partecipazione anonima",
@@ -24,7 +24,7 @@
       "age": "hai 18 anni o più",
       "residence": "risiedi attualmente in Svizzera",
       "voluntary": "la tua partecipazione è volontaria e puoi interrompere in qualsiasi momento",
-      "confirm_checkbox": "Confermo quanto sopra e accetto di partecipare",
+      "confirm_checkbox": "Confermo quanto sopra e acconsento a partecipare allo studio",
       "confirm": "Continua",
       "back": "Indietro"
     },
@@ -80,7 +80,7 @@
   },
   "instruction": {
     "aboutTitle": "Informazioni su questo studio",
-    "aboutText1": "In questo studio, esploriamo come le persone usano un chatbot in un contesto civico e come decidono se le loro domande di chat anonimizzate possono essere utilizzate per la ricerca accademica sull'IA.",
+    "aboutText1": "In questo studio esploriamo come le persone utilizzano un chatbot in un contesto civico e come decidono se le proprie domande, in forma anonimizzata, possano essere utilizzate per la ricerca accademica sull'IA.",
     "aboutText2": "Per esplorare questo, lo studio combina una breve interazione pratica con un chatbot e domande di follow-up sulla tua esperienza.",
     "headline": "Passo 1 di 3 — Prova il Chatbot",
     "text1": "In questo primo passo, proverai un chatbot che fornisce informazioni sulle iniziative di voto svizzere.",
