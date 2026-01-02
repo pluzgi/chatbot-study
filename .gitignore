@@ -31,3 +31,6 @@ npm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Analysis output (regenerated from notebooks)
+analysis/output/
