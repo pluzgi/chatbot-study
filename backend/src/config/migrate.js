@@ -146,6 +146,7 @@ CREATE TABLE IF NOT EXISTS api_usage_logs (
     id SERIAL PRIMARY KEY,
     participant_id UUID REFERENCES participants(id) ON DELETE CASCADE,
     model VARCHAR(100) NOT NULL,
+    response_model VARCHAR(100),
     prompt_tokens INT,
     completion_tokens INT,
     total_tokens INT,
@@ -154,6 +155,15 @@ CREATE TABLE IF NOT EXISTS api_usage_logs (
     error_message TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+-- Add response_model column if missing (for existing databases)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_name = 'api_usage_logs' AND column_name = 'response_model') THEN
+        ALTER TABLE api_usage_logs ADD COLUMN response_model VARCHAR(100);
+    END IF;
+END $$;
 
 -- Indexes for common queries
 CREATE INDEX IF NOT EXISTS idx_participants_condition ON participants(condition);

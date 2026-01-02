@@ -168,6 +168,7 @@ ${ballotContext}
       await this.logApiUsage({
         participantId,
         model: selectedModel,
+        responseModel: response.data.model,
         promptTokens: usage.prompt_tokens,
         completionTokens: usage.completion_tokens,
         totalTokens: usage.total_tokens,
@@ -195,13 +196,13 @@ ${ballotContext}
     }
   }
 
-  async logApiUsage({ participantId, model, promptTokens, completionTokens, totalTokens, responseTimeMs, success, errorMessage }) {
+  async logApiUsage({ participantId, model, responseModel, promptTokens, completionTokens, totalTokens, responseTimeMs, success, errorMessage }) {
     try {
       await pool.query(
         `INSERT INTO api_usage_logs
-         (participant_id, model, prompt_tokens, completion_tokens, total_tokens, response_time_ms, success, error_message)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-        [participantId, model, promptTokens || null, completionTokens || null, totalTokens || null, responseTimeMs, success, errorMessage || null]
+         (participant_id, model, response_model, prompt_tokens, completion_tokens, total_tokens, response_time_ms, success, error_message)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+        [participantId, model, responseModel || null, promptTokens || null, completionTokens || null, totalTokens || null, responseTimeMs, success, errorMessage || null]
       );
     } catch (err) {
       console.error('[LLMService] Failed to log API usage:', err.message);
