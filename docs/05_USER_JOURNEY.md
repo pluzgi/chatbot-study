@@ -26,7 +26,7 @@ This document describes the complete participant experience from landing page to
 "A short academic study on data donation and trust in open-source AI"
 
 **What this is about:**
-"We explore how people decide whether to donate anonymized chat questions for AI language model research."
+"We explore whether people donate anonymized questions from a Swiss ballot chatbot to support open-source AI model research."
 
 **What to expect:**
 - About 8 minutes
