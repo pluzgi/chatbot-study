@@ -274,7 +274,7 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
         onChange={(value) => updateAnswer(field, value)}
         leftLabel={leftLabel}
         rightLabel={rightLabel}
-        points={7}
+        points={6}
         compact={true}
       />
     </div>
@@ -499,11 +499,11 @@ const PostTaskSurvey: React.FC<Props> = ({ participantId, onComplete }) => {
           header={t('survey.demographics.header')}
           label={t('survey.demographics.language.question')}
           options={[
-            { value: 'german', label: t('survey.demographics.language.german') },
-            { value: 'french', label: t('survey.demographics.language.french') },
-            { value: 'italian', label: t('survey.demographics.language.italian') },
-            { value: 'english', label: t('survey.demographics.language.english') },
-            { value: 'romansh', label: t('survey.demographics.language.romansh') },
+            { value: 'de', label: t('survey.demographics.language.german') },
+            { value: 'fr', label: t('survey.demographics.language.french') },
+            { value: 'it', label: t('survey.demographics.language.italian') },
+            { value: 'en', label: t('survey.demographics.language.english') },
+            { value: 'rm', label: t('survey.demographics.language.romansh') },
             { value: 'other', label: t('survey.demographics.language.other') }
           ]}
         />;

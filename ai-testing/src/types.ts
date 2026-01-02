@@ -18,13 +18,13 @@ export interface Demographics {
 }
 
 export interface BehavioralDrivers {
-  privacy_concern: number;           // 1-7
-  institutional_trust: number;       // 1-7
-  data_sovereignty_salience: number; // 1-7
-  civic_motivation: number;          // 1-7
-  cognitive_load_sensitivity: number;// 1-7
-  ai_literacy: number;               // 1-7
-  ballot_familiarity: number;        // 1-7
+  privacy_concern: number;           // 1-6
+  institutional_trust: number;       // 1-6
+  data_sovereignty_salience: number; // 1-6
+  civic_motivation: number;          // 1-6
+  cognitive_load_sensitivity: number;// 1-6
+  ai_literacy: number;               // 1-6
+  ballot_familiarity: number;        // 1-6
 }
 
 export interface InteractionStyle {

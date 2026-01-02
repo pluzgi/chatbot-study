@@ -43,7 +43,7 @@ export interface SurveyData {
   // ============================================
   // Q3: Perceived Transparency (MC-T) - H1 manipulation check
   // Expected: Higher in conditions B & D (with DNL)
-  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // Scale: 1-6 (Strongly disagree → Strongly agree)
   // ============================================
   transparency1: number | null;  // "The information about how my anonymized chat questions may be used was clear."
   transparency2: number | null;  // "I understood what would happen to my anonymized chat questions if I agreed to share them."
@@ -51,7 +51,7 @@ export interface SurveyData {
   // ============================================
   // Q4: Perceived User Control (MC-C) - H2 manipulation check
   // Expected: Higher in conditions C & D (with Dashboard)
-  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // Scale: 1-6 (Strongly disagree → Strongly agree)
   // ============================================
   control1: number | null;  // "I felt I had control over how my anonymized chat questions could be used."
   control2: number | null;  // "I felt I had meaningful choices about sharing my anonymized chat questions."
@@ -59,14 +59,14 @@ export interface SurveyData {
   // ============================================
   // Q5: Risk Perception (OUT-RISK) - H3 interaction mechanism
   // Expected: Lowest in D (high transparency reduces risk), highest in A
-  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // Scale: 1-6 (Strongly disagree → Strongly agree)
   // ============================================
   riskTraceability: number | null;  // "Even if anonymized, my chat questions could be traced back to me."
   riskMisuse: number | null;        // "My anonymized chat questions could be used in ways I would not agree with."
 
   // ============================================
   // Q6: Trust (OUT-TRUST) - Supporting construct for interpretation
-  // Scale: 1-7 (Strongly disagree → Strongly agree)
+  // Scale: 1-6 (Strongly disagree → Strongly agree)
   // ============================================
   trust1: number | null;  // "I trust the system behind this chatbot to handle anonymized questions responsibly."
 

@@ -289,7 +289,7 @@ const LikertItemPreview: React.FC<{ label: string; leftLabel: string; rightLabel
       onChange={() => {}}
       leftLabel={leftLabel}
       rightLabel={rightLabel}
-      points={7}
+      points={6}
       compact={true}
     />
   </div>
@@ -628,7 +628,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               onChange={() => {}}
               leftLabel={t('baseline.techComfort.stronglyDisagree')}
               rightLabel={t('baseline.techComfort.stronglyAgree')}
-              points={7}
+              points={6}
             />
             <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
               <div></div>
@@ -655,7 +655,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               onChange={() => {}}
               leftLabel={t('baseline.privacyConcern.stronglyDisagree')}
               rightLabel={t('baseline.privacyConcern.stronglyAgree')}
-              points={7}
+              points={6}
             />
             <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
               <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
@@ -688,7 +688,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               onChange={() => {}}
               leftLabel={t('baseline.ballotFamiliarity.notFamiliar')}
               rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
-              points={7}
+              points={6}
             />
             <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
               <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
@@ -1050,11 +1050,11 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
           <p className="text-lg md:text-xl text-gray-900 font-medium mb-6 leading-relaxed">{t('survey.demographics.language.question')}</p>
           <div className="space-y-3">
             {[
-              { key: 'german', label: t('survey.demographics.language.german') },
-              { key: 'french', label: t('survey.demographics.language.french') },
-              { key: 'italian', label: t('survey.demographics.language.italian') },
-              { key: 'english', label: t('survey.demographics.language.english') },
-              { key: 'romansh', label: t('survey.demographics.language.romansh') },
+              { key: 'de', label: t('survey.demographics.language.german') },
+              { key: 'fr', label: t('survey.demographics.language.french') },
+              { key: 'it', label: t('survey.demographics.language.italian') },
+              { key: 'en', label: t('survey.demographics.language.english') },
+              { key: 'rm', label: t('survey.demographics.language.romansh') },
               { key: 'other', label: t('survey.demographics.language.other') }
             ].map((opt) => (
               <button key={opt.key} type="button" className="w-full text-left px-5 py-4 rounded-lg border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 transition-all duration-150 min-h-[52px]">
@@ -1414,7 +1414,7 @@ const SurveyDebugNavigator: React.FC = () => {
                 onChange={() => {}}
                 leftLabel={t('baseline.techComfort.stronglyDisagree')}
                 rightLabel={t('baseline.techComfort.stronglyAgree')}
-                points={7}
+                points={6}
               />
               <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
                 <div></div>
@@ -1442,7 +1442,7 @@ const SurveyDebugNavigator: React.FC = () => {
                 onChange={() => {}}
                 leftLabel={t('baseline.privacyConcern.stronglyDisagree')}
                 rightLabel={t('baseline.privacyConcern.stronglyAgree')}
-                points={7}
+                points={6}
               />
               <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
                 <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
@@ -1476,7 +1476,7 @@ const SurveyDebugNavigator: React.FC = () => {
                 onChange={() => {}}
                 leftLabel={t('baseline.ballotFamiliarity.notFamiliar')}
                 rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
-                points={7}
+                points={6}
               />
               <div className="mt-8 md:mt-12 flex flex-col-reverse md:flex-row gap-3 justify-between">
                 <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
@@ -2186,11 +2186,11 @@ const SurveyDebugNavigator: React.FC = () => {
             </p>
             <div className="space-y-3">
               {[
-                { key: 'german', label: t('survey.demographics.language.german') },
-                { key: 'french', label: t('survey.demographics.language.french') },
-                { key: 'italian', label: t('survey.demographics.language.italian') },
-                { key: 'english', label: t('survey.demographics.language.english') },
-                { key: 'romansh', label: t('survey.demographics.language.romansh') },
+                { key: 'de', label: t('survey.demographics.language.german') },
+                { key: 'fr', label: t('survey.demographics.language.french') },
+                { key: 'it', label: t('survey.demographics.language.italian') },
+                { key: 'en', label: t('survey.demographics.language.english') },
+                { key: 'rm', label: t('survey.demographics.language.romansh') },
                 { key: 'other', label: t('survey.demographics.language.other') }
               ].map((opt) => (
                 <button
