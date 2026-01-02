@@ -18,7 +18,7 @@ const LikertScale: React.FC<LikertScaleProps> = ({
   onChange,
   leftLabel,
   rightLabel,
-  points = 7,
+  points = 6,
   compact = false,
   minimal = false,
   showLabels = true

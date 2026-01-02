@@ -200,15 +200,15 @@ interface Persona {
     eligibleToVote: boolean;
   };
 
-  // Behavioral drivers (all 1-7 Likert scale)
+  // Behavioral drivers (all 1-6 Likert scale)
   behavioralDrivers: {
-    privacy_concern: number;           // 1-7: How concerned about data privacy
-    institutional_trust: number;       // 1-7: Trust in institutions/government
-    data_sovereignty_salience: number; // 1-7: Importance of data control
-    civic_motivation: number;          // 1-7: Motivation to participate in civic duties
-    cognitive_load_sensitivity: number;// 1-7: How easily overwhelmed by complexity
-    ai_literacy: number;               // 1-7: Understanding of AI/tech systems
-    ballot_familiarity: number;        // 1-7: Familiarity with Swiss voting
+    privacy_concern: number;           // 1-6: How concerned about data privacy
+    institutional_trust: number;       // 1-6: Trust in institutions/government
+    data_sovereignty_salience: number; // 1-6: Importance of data control
+    civic_motivation: number;          // 1-6: Motivation to participate in civic duties
+    cognitive_load_sensitivity: number;// 1-6: How easily overwhelmed by complexity
+    ai_literacy: number;               // 1-6: Understanding of AI/tech systems
+    ballot_familiarity: number;        // 1-6: Familiarity with Swiss voting
   };
 
   // Interaction style (influences chat behavior)
@@ -698,7 +698,7 @@ export class ResponseGenerator {
     this.drivers = persona.behavioralDrivers;
   }
 
-  // Generate Likert response (1-7) with ±1 jitter
+  // Generate Likert response (1-6) with ±1 jitter
   likert(driver: keyof Persona['behavioralDrivers']): number {
     const base = this.drivers[driver];
     return this.applyJitter(base);
@@ -1518,10 +1518,10 @@ CREATE TABLE participants (
   -- Participant journey tracking
   current_phase VARCHAR(20) DEFAULT 'consent',
 
-  -- Baseline measures (1-7 Likert)
-  tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 7),
-  baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 7),
-  ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 7),
+  -- Baseline measures (1-6 Likert)
+  tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 6),
+  baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 6),
+  ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 6),
 
   -- Donation decision
   donation_decision BOOLEAN,

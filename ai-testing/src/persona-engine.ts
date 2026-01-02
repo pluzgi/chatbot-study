@@ -91,11 +91,11 @@ export class PersonaEngine {
   }
 
   /**
-   * Apply ±1 jitter to a value, clamping to 1-7 range
+   * Apply ±1 jitter to a value, clamping to 1-6 range
    */
   private applyJitter(value: number): number {
     const jitter = Math.floor(Math.random() * 3) - 1; // -1, 0, or +1
-    return Math.max(1, Math.min(7, value + jitter));
+    return Math.max(1, Math.min(6, value + jitter));
   }
 
   /**

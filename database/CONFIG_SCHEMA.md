@@ -26,9 +26,9 @@ Stores all participant data including baseline measures, dropout tracking, and d
 | current_phase | VARCHAR(20) | DEFAULT 'consent' | Dropout tracking phase |
 | consent_given | BOOLEAN | NOT NULL DEFAULT FALSE | TRUE when participant confirmed consent |
 | consent_at | TIMESTAMP | | When consent was given |
-| tech_comfort | INT | CHECK (1-7) | Q1: Technology comfort |
-| baseline_privacy_concern | INT | CHECK (1-7) | Q2: Privacy concern |
-| ballot_familiarity | INT | CHECK (1-7) | Q3: Familiarity with Swiss ballot initiatives |
+| tech_comfort | INT | CHECK (1-6) | Q1: Technology comfort |
+| baseline_privacy_concern | INT | CHECK (1-6) | Q2: Privacy concern |
+| ballot_familiarity | INT | CHECK (1-6) | Q3: Familiarity with Swiss ballot initiatives |
 | donation_decision | VARCHAR(10) | CHECK (donate, decline) | User's donation choice |
 | donation_config | JSONB | DEFAULT NULL | Dashboard selections (C/D only) |
 | decision_at | TIMESTAMP | | When donation decision was made |
@@ -54,13 +54,13 @@ Note: Q14 (notify_email) is stored in participants table.
 | Column | Type | Constraints | Description |
 |--------|------|-------------|-------------|
 | participant_id | UUID | PRIMARY KEY, FK | Links to participants.id |
-| transparency1 | INT | CHECK (1-7) | Q3.1: Perceived Transparency (MC-T) |
-| transparency2 | INT | CHECK (1-7) | Q3.2: Perceived Transparency (MC-T) |
-| control1 | INT | CHECK (1-7) | Q4.1: Perceived User Control (MC-C) |
-| control2 | INT | CHECK (1-7) | Q4.2: Perceived User Control (MC-C) |
-| risk_traceability | INT | CHECK (1-7) | Q5.1: Risk Perception (OUT-RISK) |
-| risk_misuse | INT | CHECK (1-7) | Q5.2: Risk Perception (OUT-RISK) |
-| trust1 | INT | CHECK (1-7) | Q6: Trust (OUT-TRUST) - single item |
+| transparency1 | INT | CHECK (1-6) | Q3.1: Perceived Transparency (MC-T) |
+| transparency2 | INT | CHECK (1-6) | Q3.2: Perceived Transparency (MC-T) |
+| control1 | INT | CHECK (1-6) | Q4.1: Perceived User Control (MC-C) |
+| control2 | INT | CHECK (1-6) | Q4.2: Perceived User Control (MC-C) |
+| risk_traceability | INT | CHECK (1-6) | Q5.1: Risk Perception (OUT-RISK) |
+| risk_misuse | INT | CHECK (1-6) | Q5.2: Risk Perception (OUT-RISK) |
+| trust1 | INT | CHECK (1-6) | Q6: Trust (OUT-TRUST) - single item |
 | attention_check | VARCHAR(50) | | Q7: Chatbot topic (voting, tax, immigration, dontremember) |
 | age | VARCHAR(20) | | Q8: Age range |
 | gender | VARCHAR(50) | | Q9: Gender |

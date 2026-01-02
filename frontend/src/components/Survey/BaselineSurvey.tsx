@@ -86,7 +86,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete, onBack }) => {
               }}
               leftLabel={t('baseline.techComfort.stronglyDisagree')}
               rightLabel={t('baseline.techComfort.stronglyAgree')}
-              points={7}
+              points={6}
             />
           </div>
         )}
@@ -107,7 +107,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete, onBack }) => {
               }}
               leftLabel={t('baseline.privacyConcern.stronglyDisagree')}
               rightLabel={t('baseline.privacyConcern.stronglyAgree')}
-              points={7}
+              points={6}
             />
           </div>
         )}
@@ -128,7 +128,7 @@ const BaselineSurvey: React.FC<Props> = ({ onComplete, onBack }) => {
               }}
               leftLabel={t('baseline.ballotFamiliarity.notFamiliar')}
               rightLabel={t('baseline.ballotFamiliarity.veryFamiliar')}
-              points={7}
+              points={6}
             />
           </div>
         )}

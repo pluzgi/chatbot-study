@@ -26,9 +26,9 @@ CREATE TABLE participants (
     consent_at TIMESTAMP,
 
     -- Baseline measures (Q1-Q3)
-    tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 7),
-    baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 7),
-    ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 7),
+    tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 6),
+    baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 6),
+    ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 6),
 
     -- Donation decision (merged from donation_decisions table)
     donation_decision VARCHAR(10) CHECK (donation_decision IN ('donate', 'decline')),
@@ -50,19 +50,19 @@ CREATE TABLE post_task_measures (
     participant_id UUID PRIMARY KEY REFERENCES participants(id),
 
     -- Q4: Perceived Transparency (MC-T) - H1 manipulation check - 2 items
-    transparency1 INT CHECK (transparency1 BETWEEN 1 AND 7),
-    transparency2 INT CHECK (transparency2 BETWEEN 1 AND 7),
+    transparency1 INT CHECK (transparency1 BETWEEN 1 AND 6),
+    transparency2 INT CHECK (transparency2 BETWEEN 1 AND 6),
 
     -- Q5: Perceived User Control (MC-C) - H2 manipulation check - 2 items
-    control1 INT CHECK (control1 BETWEEN 1 AND 7),
-    control2 INT CHECK (control2 BETWEEN 1 AND 7),
+    control1 INT CHECK (control1 BETWEEN 1 AND 6),
+    control2 INT CHECK (control2 BETWEEN 1 AND 6),
 
     -- Q6: Risk Perception (OUT-RISK) - H3 interaction mechanism - 2 items
-    risk_traceability INT CHECK (risk_traceability BETWEEN 1 AND 7),
-    risk_misuse INT CHECK (risk_misuse BETWEEN 1 AND 7),
+    risk_traceability INT CHECK (risk_traceability BETWEEN 1 AND 6),
+    risk_misuse INT CHECK (risk_misuse BETWEEN 1 AND 6),
 
     -- Q7: Trust (OUT-TRUST) - Supporting construct - 1 item
-    trust1 INT CHECK (trust1 BETWEEN 1 AND 7),
+    trust1 INT CHECK (trust1 BETWEEN 1 AND 6),
 
     -- Q8: Attention check
     attention_check VARCHAR(50),

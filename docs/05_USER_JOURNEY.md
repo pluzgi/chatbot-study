@@ -136,7 +136,7 @@ When participant clicks Continue with checkbox checked:
 **Question Text:**
 "I am comfortable using new digital technology (like AI chatbots, new apps, or online tools)."
 
-**Scale Type:** 7-point Likert scale
+**Scale Type:** 6-point Likert scale
 **Scale Endpoints:**
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
@@ -152,7 +152,7 @@ When participant clicks Continue with checkbox checked:
 **Question Text:**
 "In general, I am concerned about how my personal information is used online."
 
-**Scale Type:** 7-point Likert scale
+**Scale Type:** 6-point Likert scale
 **Scale Endpoints:**
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
@@ -168,7 +168,7 @@ When participant clicks Continue with checkbox checked:
 **Question Text:**
 "How familiar are you with Swiss ballot initiatives?"
 
-**Scale Type:** 7-point Likert scale
+**Scale Type:** 6-point Likert scale
 **Scale Endpoints:**
 - Left: "Not at all familiar"
 - Right: "Very familiar"
@@ -488,7 +488,7 @@ Shown after donation decision (donate OR decline)
 
 **Question Type:** 2 Likert items on one page
 
-**Scale Type:** 7-point Likert
+**Scale Type:** 6-point Likert
 **Scale Endpoints:**
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
@@ -496,11 +496,11 @@ Shown after donation decision (donate OR decline)
 **Items:**
 
 **4.1** "The information about how my anonymized chat questions may be used was clear."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Scale: 1-6 (Strongly disagree → Strongly agree)
 - Field: `transparency1`
 
 **4.2** "I understood what would happen to my anonymized chat questions if I agreed to share them."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Scale: 1-6 (Strongly disagree → Strongly agree)
 - Field: `transparency2`
 
 **Validation:** Both items required
@@ -518,7 +518,7 @@ Shown after donation decision (donate OR decline)
 
 **Question Type:** 2 Likert items on one page
 
-**Scale Type:** 7-point Likert
+**Scale Type:** 6-point Likert
 **Scale Endpoints:**
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
@@ -526,11 +526,11 @@ Shown after donation decision (donate OR decline)
 **Items:**
 
 **5.1** "I felt I had control over how my anonymized chat questions could be used."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Scale: 1-6 (Strongly disagree → Strongly agree)
 - Field: `control1`
 
 **5.2** "I felt I had meaningful choices about sharing my anonymized chat questions."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Scale: 1-6 (Strongly disagree → Strongly agree)
 - Field: `control2`
 
 **Validation:** Both items required
@@ -548,7 +548,7 @@ Shown after donation decision (donate OR decline)
 
 **Question Type:** 2 Likert items on one page
 
-**Scale Type:** 7-point Likert
+**Scale Type:** 6-point Likert
 **Scale Endpoints:**
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
@@ -556,11 +556,11 @@ Shown after donation decision (donate OR decline)
 **Items:**
 
 **6.1** "Even if anonymized, my chat questions could be traced back to me."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Scale: 1-6 (Strongly disagree → Strongly agree)
 - Field: `riskTraceability`
 
 **6.2** "My anonymized chat questions could be used in ways I would not agree with."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Scale: 1-6 (Strongly disagree → Strongly agree)
 - Field: `riskMisuse`
 
 **Validation:** Both items required
@@ -578,7 +578,7 @@ Shown after donation decision (donate OR decline)
 
 **Question Type:** 2 Likert items on one page
 
-**Scale Type:** 7-point Likert
+**Scale Type:** 6-point Likert
 **Scale Endpoints:**
 - Left: "Strongly disagree"
 - Right: "Strongly agree"
@@ -586,7 +586,7 @@ Shown after donation decision (donate OR decline)
 **Item:**
 
 **7.1** "I trust the system behind this chatbot to handle anonymized questions responsibly."
-- Scale: 1-7 (Strongly disagree → Strongly agree)
+- Scale: 1-6 (Strongly disagree → Strongly agree)
 - Field: `trust1`
 
 **Validation:** Item required
@@ -853,7 +853,7 @@ Shown after survey submission
 - **Core Likert Items:** 7 items across 4 constructs
 
 ### Scale Types Used
-1. **7-point Likert:**
+1. **6-point Likert:**
    - Used in: Q1, Q2, Q3 (baseline), Q4-Q7 (post-task survey)
    - Baseline endpoints: "Strongly disagree" → "Strongly agree" (Q1-Q2), "Not at all familiar" → "Very familiar" (Q3)
    - Post-task endpoints: Strongly disagree (1) → Strongly agree (7)

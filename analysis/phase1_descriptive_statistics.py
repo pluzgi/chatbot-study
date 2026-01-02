@@ -600,8 +600,8 @@ def compute_risk_trust(df: pd.DataFrame) -> pd.DataFrame:
     Compute Risk and Trust descriptive statistics by condition.
 
     Variables:
-        - out_risk: Composite of risk_traceability and risk_misuse (Likert 1-7)
-        - trust1: Single trust item (Likert 1-7)
+        - out_risk: Composite of risk_traceability and risk_misuse (Likert 1-6)
+        - trust1: Single trust item (Likert 1-6)
 
     Args:
         df: Filtered participant DataFrame

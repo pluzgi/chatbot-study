@@ -10,7 +10,7 @@ export class ResponseGenerator {
   }
 
   /**
-   * Generate Likert response (1-7) with ±1 jitter
+   * Generate Likert response (1-6) with ±1 jitter
    */
   likert(driver: keyof BehavioralDrivers): number {
     const base = this.drivers[driver];
@@ -19,7 +19,7 @@ export class ResponseGenerator {
 
   private applyJitter(value: number): number {
     const jitter = Math.floor(Math.random() * 3) - 1; // -1, 0, or +1
-    return Math.max(1, Math.min(7, value + jitter));
+    return Math.max(1, Math.min(6, value + jitter));
   }
 
   /**
@@ -166,8 +166,8 @@ export class ResponseGenerator {
       control2: this.adjustForCondition(4, condition, 'control'),
 
       // Risk perception (inversely related to trust)
-      riskTraceability: this.applyJitter(8 - d.institutional_trust),
-      riskMisuse: this.applyJitter(8 - d.institutional_trust),
+      riskTraceability: this.applyJitter(7 - d.institutional_trust),
+      riskMisuse: this.applyJitter(7 - d.institutional_trust),
 
       // Trust
       trust1: this.applyJitter(d.institutional_trust),
@@ -197,7 +197,7 @@ export class ResponseGenerator {
       value += 2; // Dashboard increases perceived control
     }
 
-    return Math.max(1, Math.min(7, this.applyJitter(value)));
+    return Math.max(1, Math.min(6, this.applyJitter(value)));
   }
 
   private mapEducation(education: string): string {
