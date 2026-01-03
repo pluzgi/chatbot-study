@@ -648,7 +648,7 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               <span className="text-base text-black leading-relaxed">{t('landing.consentModal.confirm_checkbox')}</span>
             </label>
             <div className="flex flex-col md:flex-row gap-4">
-              <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+              <button className="w-full md:flex-1 px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
                 ← {t('landing.consentModal.back')}
               </button>
               <button className="w-full md:flex-1 px-6 py-4 md:py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-100 text-gray-400 cursor-not-allowed">
@@ -1456,7 +1456,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
               <div className="flex flex-col md:flex-row gap-4">
                 <button
-                  className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+                  className="w-full md:flex-1 px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
                 >
                   ← {t('landing.consentModal.back')}
                 </button>

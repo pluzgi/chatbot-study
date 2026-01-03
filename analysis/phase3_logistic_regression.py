@@ -14,9 +14,10 @@ This script performs:
 
 Outputs per model:
     - Coefficient table: OR with 95% CI, p-value, direction
-    - Model fit: log-likelihood, AIC, Nagelkerke R², Hosmer-Lemeshow p
+    - Model fit: log-likelihood, AIC
     - Overall model test: Wald χ² with p-value
     - Model comparisons: Likelihood Ratio Tests (nested models)
+    - Effect sizes: Cohen's d (group differences), Phi coefficient (2×2)
     - Visualization: predicted probabilities for A/B/C/D
 
 Author: Chatbot Study Analysis Pipeline
@@ -54,74 +55,148 @@ from phase1_descriptive_statistics import (
 ALPHA = 0.05
 
 # =============================================================================
-# HELPER FUNCTIONS
+# EFFECT SIZE FUNCTIONS
 # =============================================================================
 
-def nagelkerke_r2(model, y_true: np.ndarray) -> float:
+def cohens_d(group1: np.ndarray, group2: np.ndarray) -> Tuple[float, str]:
     """
-    Calculate Nagelkerke's pseudo R² for logistic regression.
+    Calculate Cohen's d for two independent groups.
 
-    R²_N = R²_CS / R²_max
-    where R²_CS = 1 - (L(0)/L(M))^(2/n)
-    and R²_max = 1 - L(0)^(2/n)
+    Cohen's d = (M1 - M2) / pooled_SD
+
+    Returns: (d, interpretation)
+
+    Interpretation thresholds (Cohen, 1988):
+        |d| < 0.2: negligible
+        0.2 ≤ |d| < 0.5: small
+        0.5 ≤ |d| < 0.8: medium
+        |d| ≥ 0.8: large
     """
-    n = len(y_true)
-    ll_model = model.llf  # Log-likelihood of fitted model
-    ll_null = model.llnull  # Log-likelihood of null model
+    n1, n2 = len(group1), len(group2)
+    var1, var2 = group1.var(ddof=1), group2.var(ddof=1)
 
-    # Cox-Snell R²
-    r2_cs = 1 - np.exp((2/n) * (ll_null - ll_model))
+    # Pooled standard deviation
+    pooled_std = np.sqrt(((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2))
 
-    # Maximum R² (denominator for Nagelkerke)
-    r2_max = 1 - np.exp((2/n) * ll_null)
+    # Cohen's d
+    d = (group1.mean() - group2.mean()) / pooled_std if pooled_std > 0 else 0
 
-    # Nagelkerke R²
-    r2_n = r2_cs / r2_max if r2_max != 0 else 0
+    # Interpretation
+    abs_d = abs(d)
+    if abs_d < 0.2:
+        interpretation = "negligible"
+    elif abs_d < 0.5:
+        interpretation = "small"
+    elif abs_d < 0.8:
+        interpretation = "medium"
+    else:
+        interpretation = "large"
 
-    return r2_n
+    return d, interpretation
 
 
-def hosmer_lemeshow_test(y_true: np.ndarray, y_pred_prob: np.ndarray,
-                          n_groups: int = 10) -> Tuple[float, float, int]:
+def phi_coefficient(contingency_table: np.ndarray) -> Tuple[float, str]:
     """
-    Perform Hosmer-Lemeshow goodness-of-fit test.
+    Calculate Phi coefficient for a 2×2 contingency table.
 
-    Returns: (chi2 statistic, p-value, degrees of freedom)
+    Phi = (ad - bc) / sqrt((a+b)(c+d)(a+c)(b+d))
+
+    For a table:
+        |  a  |  b  |
+        |  c  |  d  |
+
+    Returns: (phi, interpretation)
+
+    Interpretation thresholds:
+        |φ| < 0.1: negligible
+        0.1 ≤ |φ| < 0.3: small
+        0.3 ≤ |φ| < 0.5: medium
+        |φ| ≥ 0.5: large
     """
-    # Sort by predicted probability
-    df = pd.DataFrame({'y': y_true, 'p': y_pred_prob})
-    df = df.sort_values('p')
+    a, b = contingency_table[0, 0], contingency_table[0, 1]
+    c, d = contingency_table[1, 0], contingency_table[1, 1]
 
-    # Create decile groups
-    df['group'] = pd.qcut(df['p'], n_groups, labels=False, duplicates='drop')
-    actual_groups = df['group'].nunique()
+    numerator = (a * d) - (b * c)
+    denominator = np.sqrt((a + b) * (c + d) * (a + c) * (b + d))
 
-    # Calculate observed and expected for each group
-    grouped = df.groupby('group').agg(
-        obs_1=('y', 'sum'),
-        n=('y', 'count'),
-        mean_p=('p', 'mean')
-    )
+    phi = numerator / denominator if denominator > 0 else 0
 
-    grouped['obs_0'] = grouped['n'] - grouped['obs_1']
-    grouped['exp_1'] = grouped['n'] * grouped['mean_p']
-    grouped['exp_0'] = grouped['n'] * (1 - grouped['mean_p'])
+    # Interpretation
+    abs_phi = abs(phi)
+    if abs_phi < 0.1:
+        interpretation = "negligible"
+    elif abs_phi < 0.3:
+        interpretation = "small"
+    elif abs_phi < 0.5:
+        interpretation = "medium"
+    else:
+        interpretation = "large"
 
-    # Calculate chi-square statistic
-    # Avoid division by zero
-    chi2 = 0
-    for _, row in grouped.iterrows():
-        if row['exp_1'] > 0:
-            chi2 += (row['obs_1'] - row['exp_1'])**2 / row['exp_1']
-        if row['exp_0'] > 0:
-            chi2 += (row['obs_0'] - row['exp_0'])**2 / row['exp_0']
+    return phi, interpretation
 
-    # Degrees of freedom = n_groups - 2
-    dof = actual_groups - 2
-    p_value = 1 - stats.chi2.cdf(chi2, dof) if dof > 0 else 1.0
 
-    return chi2, p_value, dof
+def compute_effect_sizes(df: pd.DataFrame) -> Dict:
+    """
+    Compute effect sizes for the main experimental factors.
 
+    Returns dictionary with:
+        - Cohen's d for T (comparing T0 vs T1)
+        - Cohen's d for C (comparing C0 vs C1)
+        - Phi coefficient for donation × transparency
+        - Phi coefficient for donation × control
+    """
+    results = {}
+
+    # Cohen's d for Transparency effect
+    t0_donations = df[df['transparency_level'] == 0]['donation_decision'].values
+    t1_donations = df[df['transparency_level'] == 1]['donation_decision'].values
+    d_t, interp_t = cohens_d(t1_donations, t0_donations)
+    results['cohens_d_transparency'] = {
+        'd': d_t,
+        'interpretation': interp_t,
+        'n_t0': len(t0_donations),
+        'n_t1': len(t1_donations),
+        'mean_t0': t0_donations.mean(),
+        'mean_t1': t1_donations.mean()
+    }
+
+    # Cohen's d for Control effect
+    c0_donations = df[df['control_level'] == 0]['donation_decision'].values
+    c1_donations = df[df['control_level'] == 1]['donation_decision'].values
+    d_c, interp_c = cohens_d(c1_donations, c0_donations)
+    results['cohens_d_control'] = {
+        'd': d_c,
+        'interpretation': interp_c,
+        'n_c0': len(c0_donations),
+        'n_c1': len(c1_donations),
+        'mean_c0': c0_donations.mean(),
+        'mean_c1': c1_donations.mean()
+    }
+
+    # Phi coefficient for Donation × Transparency
+    ct_t = pd.crosstab(df['donation_decision'], df['transparency_level']).values
+    phi_t, interp_phi_t = phi_coefficient(ct_t)
+    results['phi_transparency'] = {
+        'phi': phi_t,
+        'interpretation': interp_phi_t,
+        'contingency_table': ct_t
+    }
+
+    # Phi coefficient for Donation × Control
+    ct_c = pd.crosstab(df['donation_decision'], df['control_level']).values
+    phi_c, interp_phi_c = phi_coefficient(ct_c)
+    results['phi_control'] = {
+        'phi': phi_c,
+        'interpretation': interp_phi_c,
+        'contingency_table': ct_c
+    }
+
+    return results
+
+
+# =============================================================================
+# HELPER FUNCTIONS
+# =============================================================================
 
 def calculate_vif(X: pd.DataFrame) -> pd.DataFrame:
     """
@@ -199,13 +274,6 @@ def fit_logistic_model(y: np.ndarray, X: pd.DataFrame,
         lambda x: 'Increases' if x > 1 else 'Decreases' if x < 1 else 'No effect'
     )
 
-    # Model fit statistics
-    nagelkerke = nagelkerke_r2(result, y)
-
-    # Hosmer-Lemeshow test
-    y_pred_prob = result.predict(X)
-    hl_chi2, hl_p, hl_df = hosmer_lemeshow_test(y, y_pred_prob)
-
     # VIF (multicollinearity check) - only if more than 1 predictor
     vif_df = None
     if X.shape[1] > 2:  # More than just constant + 1 predictor
@@ -213,6 +281,9 @@ def fit_logistic_model(y: np.ndarray, X: pd.DataFrame,
             vif_df = calculate_vif(X)
         except:
             pass
+
+    # Predicted probabilities
+    y_pred_prob = result.predict(X)
 
     return {
         'name': model_name,
@@ -223,10 +294,6 @@ def fit_logistic_model(y: np.ndarray, X: pd.DataFrame,
         'll_null': result.llnull,
         'aic': result.aic,
         'bic': result.bic,
-        'nagelkerke_r2': nagelkerke,
-        'hl_chi2': hl_chi2,
-        'hl_p': hl_p,
-        'hl_df': hl_df,
         'wald_chi2': result.llr,  # Likelihood ratio chi2 (overall model test)
         'wald_p': result.llr_pvalue,
         'df_model': result.df_model,
@@ -424,6 +491,34 @@ def run_phase3_analysis(df: pd.DataFrame) -> Dict:
     results['df_with_cov'] = df_with_cov
 
     # -------------------------------------------------------------------------
+    # Effect Sizes (Cohen's d and Phi coefficient)
+    # -------------------------------------------------------------------------
+    print("\n" + "="*70)
+    print("EFFECT SIZES")
+    print("="*70)
+
+    effect_sizes = compute_effect_sizes(df)
+    results['effect_sizes'] = effect_sizes
+
+    print("\nCohen's d (Group Differences):")
+    print("-"*50)
+    es_t = effect_sizes['cohens_d_transparency']
+    print(f"  Transparency (T1 vs T0): d = {es_t['d']:.3f} ({es_t['interpretation']})")
+    print(f"    Mean T0: {es_t['mean_t0']:.3f}, Mean T1: {es_t['mean_t1']:.3f}")
+
+    es_c = effect_sizes['cohens_d_control']
+    print(f"  Control (C1 vs C0): d = {es_c['d']:.3f} ({es_c['interpretation']})")
+    print(f"    Mean C0: {es_c['mean_c0']:.3f}, Mean C1: {es_c['mean_c1']:.3f}")
+
+    print("\nPhi Coefficient (2×2 Association):")
+    print("-"*50)
+    phi_t = effect_sizes['phi_transparency']
+    print(f"  Donation × Transparency: φ = {phi_t['phi']:.3f} ({phi_t['interpretation']})")
+
+    phi_c = effect_sizes['phi_control']
+    print(f"  Donation × Control: φ = {phi_c['phi']:.3f} ({phi_c['interpretation']})")
+
+    # -------------------------------------------------------------------------
     # Model Comparisons (Likelihood Ratio Tests)
     # -------------------------------------------------------------------------
     print("\n" + "="*70)
@@ -491,29 +586,68 @@ def run_phase3_analysis(df: pd.DataFrame) -> Dict:
     results['predicted_m5'] = pred_m5
 
     # -------------------------------------------------------------------------
-    # Summary Table
+    # Corrected Summary Table (All Relevant Models)
     # -------------------------------------------------------------------------
     print("\n" + "="*70)
-    print("PHASE 3 SUMMARY")
+    print("MODEL SUMMARY TABLE")
     print("="*70)
 
     summary_data = []
     for model_key in ['model1', 'model2', 'model3', 'model4', 'model5']:
         m = results[model_key]
+
+        # Get T significance from coefficient table
+        t_sig = '-'
+        c_sig = '-'
+        txc_sig = '-'
+
+        for _, row in m['coef_table'].iterrows():
+            if row['Variable'] == 'transparency_level':
+                t_sig = 'Yes' if row['p'] < ALPHA else 'No'
+            elif row['Variable'] == 'control_level':
+                c_sig = 'Yes' if row['p'] < ALPHA else 'No'
+            elif row['Variable'] == 'T_x_C':
+                txc_sig = 'Yes' if row['p'] < ALPHA else 'No'
+
         summary_data.append({
-            'Model': m['name'],
-            'N': m['n'],
-            'LL': round(m['ll'], 2),
+            'Model': m['name'].replace('Model ', 'M').replace('Donation ~ ', '').replace(': ', ': '),
             'AIC': round(m['aic'], 1),
-            'Nagelkerke R²': round(m['nagelkerke_r2'], 3),
+            'T sig.': t_sig,
+            'C sig.': c_sig,
+            'T×C sig.': txc_sig,
             'Wald χ²': round(m['wald_chi2'], 2),
-            'p': f"{m['wald_p']:.4f}",
-            'H-L p': f"{m['hl_p']:.3f}"
+            'Wald p': f"{m['wald_p']:.4f}"
         })
 
     summary_df = pd.DataFrame(summary_data)
     print(summary_df.to_string(index=False))
     results['summary'] = summary_df
+
+    # -------------------------------------------------------------------------
+    # Effect Size Summary Table
+    # -------------------------------------------------------------------------
+    print("\n" + "-"*70)
+    print("EFFECT SIZE SUMMARY")
+    print("-"*70)
+
+    effect_summary = pd.DataFrame([
+        {
+            'Effect': 'Transparency (T)',
+            "Cohen's d": f"{effect_sizes['cohens_d_transparency']['d']:.3f}",
+            'd Interpretation': effect_sizes['cohens_d_transparency']['interpretation'],
+            'Phi (φ)': f"{effect_sizes['phi_transparency']['phi']:.3f}",
+            'φ Interpretation': effect_sizes['phi_transparency']['interpretation']
+        },
+        {
+            'Effect': 'Control (C)',
+            "Cohen's d": f"{effect_sizes['cohens_d_control']['d']:.3f}",
+            'd Interpretation': effect_sizes['cohens_d_control']['interpretation'],
+            'Phi (φ)': f"{effect_sizes['phi_control']['phi']:.3f}",
+            'φ Interpretation': effect_sizes['phi_control']['interpretation']
+        }
+    ])
+    print(effect_summary.to_string(index=False))
+    results['effect_summary'] = effect_summary
 
     # -------------------------------------------------------------------------
     # Validation Criteria Check
@@ -532,12 +666,10 @@ def run_phase3_analysis(df: pd.DataFrame) -> Dict:
         print(f"Multicollinearity (VIF): {'✓ All VIF < 5' if max_vif < 5 else f'⚠ Max VIF = {max_vif:.2f}'}")
         print(results['model5']['vif'].to_string(index=False))
 
-    # Check Hosmer-Lemeshow for key models
-    print(f"\nHosmer-Lemeshow calibration:")
-    for model_key in ['model4', 'model5']:
-        m = results[model_key]
-        status = '✓ Good fit' if m['hl_p'] > 0.05 else '⚠ Poor fit'
-        print(f"  {m['name']}: p = {m['hl_p']:.3f} ({status})")
+    # Best model by AIC
+    aics = {f'model{i}': results[f'model{i}']['aic'] for i in range(1, 6)}
+    best_model = min(aics, key=aics.get)
+    print(f"\nBest model by AIC: {results[best_model]['name']} (AIC = {aics[best_model]:.1f})")
 
     return results
 
@@ -556,9 +688,7 @@ def print_model_results(model: Dict):
     print(f"\nModel Fit:")
     print(f"  Log-likelihood: {model['ll']:.2f}")
     print(f"  AIC: {model['aic']:.1f}")
-    print(f"  Nagelkerke R²: {model['nagelkerke_r2']:.3f}")
     print(f"  Overall test: Wald χ² = {model['wald_chi2']:.2f}, p = {model['wald_p']:.4f}")
-    print(f"  Hosmer-Lemeshow: χ² = {model['hl_chi2']:.2f}, df = {model['hl_df']}, p = {model['hl_p']:.3f}")
     print(f"  Converged: {'Yes' if model['converged'] else 'No'}")
 
 
@@ -724,6 +854,58 @@ def create_phase3_visualizations(results: Dict, df: pd.DataFrame,
     plt.savefig(f'{output_dir}/fig_model_comparison.png', dpi=150, bbox_inches='tight')
     plt.close()
 
+    # -------------------------------------------------------------------------
+    # Figure 5: Effect Sizes
+    # -------------------------------------------------------------------------
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+    # Cohen's d
+    ax1 = axes[0]
+    effects = ['Transparency', 'Control']
+    d_values = [
+        results['effect_sizes']['cohens_d_transparency']['d'],
+        results['effect_sizes']['cohens_d_control']['d']
+    ]
+    colors_d = ['#3498db' if d > 0 else '#e74c3c' for d in d_values]
+
+    bars = ax1.barh(effects, d_values, color=colors_d, edgecolor='black')
+    ax1.axvline(x=0, color='black', linewidth=1)
+    ax1.axvline(x=0.2, color='gray', linestyle='--', alpha=0.5)
+    ax1.axvline(x=-0.2, color='gray', linestyle='--', alpha=0.5)
+    ax1.axvline(x=0.5, color='gray', linestyle=':', alpha=0.5)
+    ax1.axvline(x=-0.5, color='gray', linestyle=':', alpha=0.5)
+    ax1.set_xlabel("Cohen's d", fontsize=12)
+    ax1.set_title("Cohen's d Effect Sizes\n(|d|: 0.2=small, 0.5=medium, 0.8=large)", fontsize=11)
+
+    for bar, d in zip(bars, d_values):
+        ax1.text(d + 0.02 if d > 0 else d - 0.02, bar.get_y() + bar.get_height()/2,
+                f'd={d:.3f}', va='center', ha='left' if d > 0 else 'right', fontsize=10)
+
+    # Phi coefficient
+    ax2 = axes[1]
+    phi_values = [
+        results['effect_sizes']['phi_transparency']['phi'],
+        results['effect_sizes']['phi_control']['phi']
+    ]
+    colors_phi = ['#3498db' if p > 0 else '#e74c3c' for p in phi_values]
+
+    bars = ax2.barh(effects, phi_values, color=colors_phi, edgecolor='black')
+    ax2.axvline(x=0, color='black', linewidth=1)
+    ax2.axvline(x=0.1, color='gray', linestyle='--', alpha=0.5)
+    ax2.axvline(x=-0.1, color='gray', linestyle='--', alpha=0.5)
+    ax2.axvline(x=0.3, color='gray', linestyle=':', alpha=0.5)
+    ax2.axvline(x=-0.3, color='gray', linestyle=':', alpha=0.5)
+    ax2.set_xlabel('Phi (φ)', fontsize=12)
+    ax2.set_title("Phi Coefficient (2×2 Association)\n(|φ|: 0.1=small, 0.3=medium, 0.5=large)", fontsize=11)
+
+    for bar, phi in zip(bars, phi_values):
+        ax2.text(phi + 0.02 if phi > 0 else phi - 0.02, bar.get_y() + bar.get_height()/2,
+                f'φ={phi:.3f}', va='center', ha='left' if phi > 0 else 'right', fontsize=10)
+
+    plt.tight_layout()
+    plt.savefig(f'{output_dir}/fig_effect_sizes.png', dpi=150, bbox_inches='tight')
+    plt.close()
+
     print(f"\nVisualizations saved to {output_dir}/")
 
 
@@ -755,11 +937,20 @@ def save_results(results: Dict, output_dir: str = './output/phase3',
     results['predicted_m4'].to_csv(f"{output_dir}/phase3_predicted_m4_{participant_type}.csv", index=False)
     results['predicted_m5'].to_csv(f"{output_dir}/phase3_predicted_m5_{participant_type}.csv", index=False)
 
+    # Save effect sizes summary
+    results['effect_summary'].to_csv(f"{output_dir}/phase3_effect_sizes_{participant_type}.csv", index=False)
+
     # Save JSON summary
     summary_json = {
         'participant_type': participant_type,
         'analysis_phase': 'Phase 3: Logistic Regression',
-        'models': {}
+        'models': {},
+        'effect_sizes': {
+            'cohens_d_transparency': results['effect_sizes']['cohens_d_transparency']['d'],
+            'cohens_d_control': results['effect_sizes']['cohens_d_control']['d'],
+            'phi_transparency': results['effect_sizes']['phi_transparency']['phi'],
+            'phi_control': results['effect_sizes']['phi_control']['phi']
+        }
     }
 
     for model_key in ['model1', 'model2', 'model3', 'model4', 'model5']:
@@ -768,7 +959,6 @@ def save_results(results: Dict, output_dir: str = './output/phase3',
             'name': m['name'],
             'n': int(m['n']),
             'aic': float(m['aic']),
-            'nagelkerke_r2': float(m['nagelkerke_r2']),
             'wald_chi2': float(m['wald_chi2']),
             'wald_p': float(m['wald_p']),
             'converged': bool(m['converged'])
