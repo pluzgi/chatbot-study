@@ -207,7 +207,7 @@ function App() {
               <div className="flex flex-col md:flex-row gap-4">
                 <button
                   onClick={() => setShowConsentModal(false)}
-                  className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+                  className="w-full md:flex-1 px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
                 >
                   ← {t('landing.consentModal.back')}
                 </button>
@@ -219,7 +219,7 @@ function App() {
                   disabled={!allConsented || loading}
                   className={`w-full md:flex-1 px-6 py-4 md:py-3 rounded-md font-medium text-base min-h-[48px] transition ${
                     allConsented && !loading
-                      ? 'bg-gray-200 text-black hover:bg-gray-300'
+                      ? 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
                       : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   }`}
                 >
