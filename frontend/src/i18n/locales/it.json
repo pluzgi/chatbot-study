@@ -17,7 +17,8 @@
     "contact": "Domande?",
     "emailLink": "Invia un'e-mail",
     "researcher": "Sabine Wildemann, Data Science & Business Analytics",
-    "program": "DBU Digital Business University of Applied Sciences · Prof. Daniel Ambach",
+    "university": "DBU Digital Business University of Applied Sciences",
+    "professor": "Supervisore: Prof. Daniel Ambach",
     "consentModal": {
       "title": "Prima di iniziare",
       "text": "Continuando, confermi che:",

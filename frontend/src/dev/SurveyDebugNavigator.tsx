@@ -135,11 +135,10 @@ export const SCREENS: ScreenConfig[] = [
     construct: 'Trust',
     hypothesis: 'Interpretation',
     items: [
-      'I trust the organization behind this study to handle my data responsibly.',
-      'I believe my anonymized data would be handled securely.'
+      'I trust the organization behind this study to handle my data responsibly.'
     ],
     expectedPattern: 'Exploratory - not required for H1-H3 testing',
-    description: '2 Likert items - Supporting construct'
+    description: '1 Likert item - Supporting construct'
   },
   {
     id: '10',
@@ -337,12 +336,22 @@ const Step3Documentation: React.FC<{ isOpen: boolean; onToggle: () => void }> = 
             </li>
             <li className="flex items-center gap-2">
               <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-yellow-100 text-yellow-700">OUT-TRUST</span>
-              Trust (2 items) — Supporting construct
+              Trust (1 item) — Supporting construct
             </li>
             <li className="flex items-center gap-2">
               <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-gray-100 text-gray-600">QUAL</span>
               Open Text — Qualitative reasoning
             </li>
+          </ul>
+        </div>
+
+        {/* Key Terminology */}
+        <div>
+          <h4 className="font-bold text-gray-900 mb-1">Key Terminology</h4>
+          <ul className="text-gray-600 list-disc pl-5 space-y-1">
+            <li><strong>DNL (Data Nutrition Label)</strong> — A transparency mechanism showing how data will be used, stored, and processed (shown in conditions B & D)</li>
+            <li><strong>T0/T1</strong> — Transparency level: T0 = Low (no DNL), T1 = High (with DNL)</li>
+            <li><strong>C0/C1</strong> — Control level: C0 = Low (binary choice), C1 = High (dashboard with options)</li>
           </ul>
         </div>
 
@@ -356,45 +365,56 @@ const Step3Documentation: React.FC<{ isOpen: boolean; onToggle: () => void }> = 
           </ul>
         </div>
 
-        {/* Expected patterns */}
+        {/* Expected patterns - 2x2 Grid */}
         <div>
-          <h4 className="font-bold text-gray-900 mb-1">Expected Condition Patterns</h4>
+          <h4 className="font-bold text-gray-900 mb-2">Expected Condition Patterns</h4>
           <div className="overflow-x-auto">
-            <table className="w-full text-xs">
+            <table className="w-full text-xs border-collapse">
               <thead>
-                <tr className="border-b">
-                  <th className="text-left py-1 pr-2">Construct</th>
-                  <th className="text-center py-1 px-2">A</th>
-                  <th className="text-center py-1 px-2">B</th>
-                  <th className="text-center py-1 px-2">C</th>
-                  <th className="text-center py-1 px-2">D</th>
+                <tr>
+                  <th className="w-20"></th>
+                  <th className="text-center py-1 px-2 font-bold text-gray-700 border-b-2 border-gray-300">C0<br/><span className="font-normal text-gray-500">Low Control<br/>(Binary Choice)</span></th>
+                  <th className="text-center py-1 px-2 font-bold text-gray-700 border-b-2 border-gray-300">C1<br/><span className="font-normal text-gray-500">High Control<br/>(Granular Dashboard)</span></th>
                 </tr>
               </thead>
-              <tbody className="text-gray-600">
-                <tr className="border-b">
-                  <td className="py-1 pr-2">Transparency</td>
-                  <td className="text-center py-1 px-2">Low</td>
-                  <td className="text-center py-1 px-2 font-bold text-blue-600">High</td>
-                  <td className="text-center py-1 px-2">Low</td>
-                  <td className="text-center py-1 px-2 font-bold text-blue-600">High</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-1 pr-2">User Control</td>
-                  <td className="text-center py-1 px-2">Low</td>
-                  <td className="text-center py-1 px-2">Low</td>
-                  <td className="text-center py-1 px-2 font-bold text-green-600">High</td>
-                  <td className="text-center py-1 px-2 font-bold text-green-600">High</td>
-                </tr>
-                <tr className="border-b">
-                  <td className="py-1 pr-2">Risk Perception</td>
-                  <td className="text-center py-1 px-2 font-bold text-red-600">Highest</td>
-                  <td className="text-center py-1 px-2">Medium</td>
-                  <td className="text-center py-1 px-2">Medium</td>
-                  <td className="text-center py-1 px-2 font-bold text-green-600">Lowest</td>
+              <tbody>
+                <tr>
+                  <td className="py-1 pr-2 font-bold text-gray-700 border-r-2 border-gray-300 align-top">T0<br/><span className="font-normal text-gray-500">Low<br/>Transparency</span></td>
+                  <td className="p-2 border border-gray-200 bg-gray-50 align-top">
+                    <div className="font-bold text-gray-800">A — Baseline</div>
+                    <div className="text-gray-600 mt-1">
+                      <div>DNL: ❌</div>
+                      <div>Dashboard: ❌</div>
+                    </div>
+                    <div className="mt-1 font-medium">🔴 Risk: Highest</div>
+                  </td>
+                  <td className="p-2 border border-gray-200 bg-green-50 align-top">
+                    <div className="font-bold text-gray-800">C — Agency</div>
+                    <div className="text-gray-600 mt-1">
+                      <div>DNL: ❌</div>
+                      <div>Dashboard: ✅</div>
+                    </div>
+                    <div className="mt-1 font-medium">🟡 Risk: Medium</div>
+                  </td>
                 </tr>
                 <tr>
-                  <td className="py-1 pr-2">Trust</td>
-                  <td className="text-center py-1 px-2 text-gray-400" colSpan={4}>Exploratory — not required for H1-H3</td>
+                  <td className="py-1 pr-2 font-bold text-gray-700 border-r-2 border-gray-300 align-top">T1<br/><span className="font-normal text-gray-500">High<br/>Transparency</span></td>
+                  <td className="p-2 border border-gray-200 bg-blue-50 align-top">
+                    <div className="font-bold text-gray-800">B — Transparency</div>
+                    <div className="text-gray-600 mt-1">
+                      <div>DNL: ✅</div>
+                      <div>Dashboard: ❌</div>
+                    </div>
+                    <div className="mt-1 font-medium">🟡 Risk: Medium</div>
+                  </td>
+                  <td className="p-2 border border-gray-200 bg-purple-50 align-top">
+                    <div className="font-bold text-gray-800">D — Trustworthy AI</div>
+                    <div className="text-gray-600 mt-1">
+                      <div>DNL: ✅</div>
+                      <div>Dashboard: ✅</div>
+                    </div>
+                    <div className="mt-1 font-medium">🟢 Risk: Lowest</div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -404,7 +424,7 @@ const Step3Documentation: React.FC<{ isOpen: boolean; onToggle: () => void }> = 
         {/* Item count */}
         <div className="pt-2 border-t">
           <p className="text-gray-600">
-            <strong>Total items:</strong> 8 core Likert items + 1 attention check + 4 demographics + 1 optional text + 1 optional email
+            <strong>Total items:</strong> 7 core Likert items + 1 attention check + 4 demographics + 1 optional text + 1 optional email
           </p>
         </div>
       </div>
@@ -2565,6 +2585,7 @@ const SurveyDebugNavigator: React.FC = () => {
               <div className="flex justify-between items-start mb-8">
                 <div>
                   <h1 className="text-3xl font-bold text-gray-900 mb-2">Survey Debug Navigator</h1>
+                  <p className="text-gray-600">This study examines whether transparency about data usage and having more detailed privacy options influence people's willingness to donate their chatbot conversation data for AI model research.</p>
                 </div>
                 <LanguageSelector />
               </div>
@@ -2590,25 +2611,25 @@ const SurveyDebugNavigator: React.FC = () => {
                     </thead>
                     <tbody className="text-yellow-800">
                       <tr className={`border-b border-yellow-200 ${debugState.condition === 'A' ? 'bg-yellow-100' : ''}`}>
-                        <td className="py-2 pr-4 font-mono font-bold">A</td>
+                        <td className="py-2 pr-4 font-mono font-bold">A (T0C0)</td>
                         <td className="py-2 px-4">❌</td>
                         <td className="py-2 px-4">❌</td>
                         <td className="py-2 pl-4">Baseline - minimal info, binary choice</td>
                       </tr>
                       <tr className={`border-b border-yellow-200 ${debugState.condition === 'B' ? 'bg-yellow-100' : ''}`}>
-                        <td className="py-2 pr-4 font-mono font-bold">B</td>
+                        <td className="py-2 pr-4 font-mono font-bold">B (T1C0)</td>
                         <td className="py-2 px-4">✅</td>
                         <td className="py-2 px-4">❌</td>
                         <td className="py-2 pl-4">Transparency only</td>
                       </tr>
                       <tr className={`border-b border-yellow-200 ${debugState.condition === 'C' ? 'bg-yellow-100' : ''}`}>
-                        <td className="py-2 pr-4 font-mono font-bold">C</td>
+                        <td className="py-2 pr-4 font-mono font-bold">C (T0C1)</td>
                         <td className="py-2 px-4">❌</td>
                         <td className="py-2 px-4">✅</td>
                         <td className="py-2 pl-4">Control only</td>
                       </tr>
                       <tr className={`${debugState.condition === 'D' ? 'bg-yellow-100' : ''}`}>
-                        <td className="py-2 pr-4 font-mono font-bold">D</td>
+                        <td className="py-2 pr-4 font-mono font-bold">D (T1C1)</td>
                         <td className="py-2 px-4">✅</td>
                         <td className="py-2 px-4">✅</td>
                         <td className="py-2 pl-4">Full (both)</td>

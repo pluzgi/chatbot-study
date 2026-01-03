@@ -155,7 +155,13 @@ function App() {
                 {t('landing.contact')} <a href="mailto:hello@ailights.org" className="text-black hover:underline">{t('landing.emailLink')}</a>
               </p>
               <p>{t('landing.researcher')}</p>
-              <p>{t('landing.program')}</p>
+              <p className="flex items-center gap-2">
+                <a href="https://dbuas.de/" target="_blank" rel="noopener noreferrer">
+                  <img src="/DBU_Digital_Business_University_of_Applied_Sciences_2024_logo.svg" alt="DBU Logo" className="h-5 w-auto" />
+                </a>
+                {t('landing.university')}
+              </p>
+              <p>{t('landing.professor')}</p>
             </div>
 
             {/* Participant Counter */}
