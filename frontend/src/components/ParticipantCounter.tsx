@@ -28,20 +28,9 @@ export default function ParticipantCounter() {
     return null;
   }
 
-  const percentage = Math.min((count / target) * 100, 100);
-
   return (
-    <div className="mt-8 pt-6 border-t border-gray-200">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm text-gray-600">{t('landing.participantCounter.label')}</span>
-        <span className="text-sm font-medium text-gray-900">{count}/{target}</span>
-      </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
-        <div
-          className="bg-green-600 h-2 rounded-full transition-all duration-500"
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
-    </div>
+    <span className="inline-block px-2 py-0.5 text-xs text-gray-500 bg-gray-100 rounded-full whitespace-nowrap">
+      {count}/{target} {t('landing.participantCounter.joined')}
+    </span>
   );
 }

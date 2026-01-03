@@ -6,12 +6,16 @@
     "whatWeStudy": "Di cosa si tratta",
     "whatWeStudyText": "Studiamo se le persone sono disposte a donare, in forma anonimizzata, le proprie domande poste a un chatbot svizzero sulle votazioni, per sostenere la ricerca accademica sui modelli di IA open source.",
     "whatToExpect": "Cosa aspettarsi",
-    "expect1": "Circa 8 minuti",
-    "expect2": "Partecipazione anonima",
-    "expect3": "Solo ricerca accademica",
+    "expect1": "Sondaggio con breve interazione chatbot",
+    "expect2": "Durata ~ 8 minuti",
+    "dataProtection": "Protezione dei dati & Etica",
+    "dp1": "Anonimo, nessun identificatore personale memorizzato",
+    "dp2": "Dati utilizzati esclusivamente per scopi accademici",
+    "dp3": "Dati archiviati su server svizzeri presso Infomaniak",
+    "dp4": "Ritiro possibile in qualsiasi momento, senza domande",
+    "dpFooter": "Questo studio segue i principi FAIR ed è stato verificato internamente per la conformità etica.",
     "requirements": "Chi può partecipare",
-    "req1": "18+",
-    "req2": "Residente in Svizzera",
+    "req1": "18+ e residente in Svizzera",
     "startButton": "Inizia lo studio",
     "declineButton": "Non interessato",
     "contact": "Domande?",
@@ -35,7 +39,8 @@
       "button": "Prova Apertus"
     },
     "participantCounter": {
-      "label": "Partecipanti finora"
+      "label": "Partecipanti finora",
+      "joined": "iscritti"
     }
   },
   "baseline": {
@@ -98,6 +103,7 @@
   "chat": {
     "title": "Chatbot Votazioni Svizzere",
     "subtitle": "Fai 2–3 domande sulle iniziative di voto svizzere (la risposta richiede fino a 20 sec)",
+    "welcome": "Ciao! Sono qui per rispondere alle tue domande sulle prossime iniziative di voto svizzere. Cosa vorresti sapere?",
     "placeholder": "Fai una domanda...",
     "send": "Invia",
     "thinking": "Ricerca dati... richiede fino a 20 sec",

@@ -106,28 +106,38 @@ function App() {
             </p>
 
             {/* What we study */}
-            <div className="mb-6">
-              <p className="font-semibold text-base md:text-lg text-black mb-2">{t('landing.whatWeStudy')}</p>
-              <p className="text-[15px] md:text-base text-black leading-relaxed">{t('landing.whatWeStudyText')}</p>
+            <div className="mb-4">
+              <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.whatWeStudy')}</p>
+              <p className="text-[15px] md:text-base text-black leading-snug">{t('landing.whatWeStudyText')}</p>
             </div>
 
             {/* What to expect */}
-            <div className="mb-6">
-              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.whatToExpect')}</p>
-              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+            <div className="mb-4">
+              <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.whatToExpect')}</p>
+              <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
                 <li>{t('landing.expect1')}</li>
                 <li>{t('landing.expect2')}</li>
-                <li>{t('landing.expect3')}</li>
               </ul>
             </div>
 
             {/* Who can participate */}
-            <div className="mb-8">
-              <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.requirements')}</p>
-              <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+            <div className="mb-4">
+              <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.requirements')}</p>
+              <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
                 <li>{t('landing.req1')}</li>
-                <li>{t('landing.req2')}</li>
               </ul>
+            </div>
+
+            {/* Data Protection & Ethics */}
+            <div className="mb-6">
+              <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.dataProtection')}</p>
+              <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
+                <li>{t('landing.dp1')}</li>
+                <li>{t('landing.dp2')}</li>
+                <li>{t('landing.dp3')}</li>
+                <li>{t('landing.dp4')}</li>
+              </ul>
+              <p className="text-sm text-gray-600 mt-1">{t('landing.dpFooter')}</p>
             </div>
 
             {/* Action Buttons */}
@@ -161,11 +171,11 @@ function App() {
                 </a>
                 {t('landing.university')}
               </p>
-              <p>{t('landing.professor')}</p>
+              <p className="flex items-center justify-between gap-2">
+                <span>{t('landing.professor')}</span>
+                <ParticipantCounter />
+              </p>
             </div>
-
-            {/* Participant Counter */}
-            <ParticipantCounter />
           </div>
         </div>
 
@@ -194,24 +204,24 @@ function App() {
 
               <div className="flex flex-col md:flex-row gap-4">
                 <button
+                  onClick={() => setShowConsentModal(false)}
+                  className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
+                >
+                  ← {t('landing.consentModal.back')}
+                </button>
+                <button
                   onClick={() => {
                     setShowConsentModal(false);
                     startExperiment();
                   }}
                   disabled={!allConsented || loading}
-                  className={`w-full md:flex-1 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] transition ${
+                  className={`w-full md:flex-1 px-6 py-4 md:py-3 rounded-md font-medium text-base min-h-[48px] transition ${
                     allConsented && !loading
-                      ? 'bg-gray-200 text-black hover:bg-green-600 hover:text-white'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ? 'bg-gray-200 text-black hover:bg-gray-300'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   }`}
                 >
-                  {loading ? '...' : t('landing.consentModal.confirm')}
-                </button>
-                <button
-                  onClick={() => setShowConsentModal(false)}
-                  className="w-full md:flex-1 bg-gray-300 text-black px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition"
-                >
-                  {t('landing.consentModal.back')}
+                  {loading ? '...' : t('landing.consentModal.confirm')} →
                 </button>
               </div>
             </div>
