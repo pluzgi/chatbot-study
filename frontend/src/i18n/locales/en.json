@@ -6,12 +6,16 @@
     "whatWeStudy": "What this is about",
     "whatWeStudyText": "We explore whether people donate anonymized questions from a Swiss ballot chatbot to support open-source AI model research.",
     "whatToExpect": "What to expect",
-    "expect1": "About 8 minutes",
-    "expect2": "Anonymous participation",
-    "expect3": "Academic research only",
+    "expect1": "Survey with brief chatbot interaction",
+    "expect2": "Takes ~ 8 minutes",
+    "dataProtection": "Data Protection & Ethics",
+    "dp1": "Anonymous, no personal identifiers stored",
+    "dp2": "Data used solely for academic purposes",
+    "dp3": "Data stored on Swiss servers at Infomaniak",
+    "dp4": "Withdraw anytime, no questions asked",
+    "dpFooter": "This study follows FAIR data principles and was internally reviewed for ethical compliance.",
     "requirements": "Who can participate",
-    "req1": "18+",
-    "req2": "Live in Switzerland",
+    "req1": "18+ and live in Switzerland",
     "startButton": "Start study",
     "declineButton": "Not interested",
     "contact": "Questions?",
@@ -35,7 +39,8 @@
       "button": "Try Apertus"
     },
     "participantCounter": {
-      "label": "Participants so far"
+      "label": "Participants so far",
+      "joined": "joined"
     }
   },
   "baseline": {
@@ -99,6 +104,7 @@
   "chat": {
     "title": "Swiss Ballot Chatbot",
     "subtitle": "Ask 2–3 questions about Swiss ballot initiatives (answering takes up to 20 sec)",
+    "welcome": "Hello! I'm here to answer your questions about the upcoming Swiss ballot initiatives. What would you like to know?",
     "placeholder": "Ask a question...",
     "send": "Send",
     "thinking": "Searching data... takes up to 20 sec",

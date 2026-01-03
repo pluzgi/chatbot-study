@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Message } from '../types';
 import { api } from '../services/api';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +6,14 @@ import { useTranslation } from 'react-i18next';
 export const useChat = (participantId: string | null) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
+
+  // Add welcome message on mount
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([{ role: 'assistant', content: t('chat.welcome') }]);
+    }
+  }, []);
 
   const sendMessage = useCallback(async (content: string) => {
     if (!participantId) return;

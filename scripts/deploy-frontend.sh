@@ -33,6 +33,14 @@ with open('analysis/phase2_chi_square_analysis.ipynb', 'r') as f:
 with open('frontend/public/results/phase2_chi_square_analysis.html', 'w') as f:
     f.write(body)
 print('  - phase2_chi_square_analysis.html exported')
+
+# Export Phase 3 notebook
+with open('analysis/phase3_logistic_regression.ipynb', 'r') as f:
+    nb = nbformat.read(f, as_version=4)
+(body, _) = html_exporter.from_notebook_node(nb)
+with open('frontend/public/results/phase3_logistic_regression.html', 'w') as f:
+    f.write(body)
+print('  - phase3_logistic_regression.html exported')
 "
 
 echo ""
@@ -53,3 +61,4 @@ echo "Visit: https://chat-study.ailights.org"
 echo "Reports:"
 echo "  - Phase 1: https://chat-study.ailights.org/results/phase1_descriptive_statistics.html"
 echo "  - Phase 2: https://chat-study.ailights.org/results/phase2_chi_square_analysis.html"
+echo "  - Phase 3: https://chat-study.ailights.org/results/phase3_logistic_regression.html"

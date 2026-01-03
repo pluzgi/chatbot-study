@@ -554,24 +554,32 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
                 {t('landing.subtitle')}
               </p>
-              <div className="mb-6">
-                <p className="font-semibold text-base md:text-lg text-black mb-2">{t('landing.whatWeStudy')}</p>
-                <p className="text-[15px] md:text-base text-black leading-relaxed">{t('landing.whatWeStudyText')}</p>
+              <div className="mb-4">
+                <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.whatWeStudy')}</p>
+                <p className="text-[15px] md:text-base text-black leading-snug">{t('landing.whatWeStudyText')}</p>
               </div>
-              <div className="mb-6">
-                <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.whatToExpect')}</p>
-                <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+              <div className="mb-4">
+                <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.whatToExpect')}</p>
+                <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
                   <li>{t('landing.expect1')}</li>
                   <li>{t('landing.expect2')}</li>
-                  <li>{t('landing.expect3')}</li>
                 </ul>
               </div>
-              <div className="mb-8">
-                <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.requirements')}</p>
-                <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+              <div className="mb-4">
+                <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.requirements')}</p>
+                <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
                   <li>{t('landing.req1')}</li>
-                  <li>{t('landing.req2')}</li>
                 </ul>
+              </div>
+              <div className="mb-6">
+                <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.dataProtection')}</p>
+                <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
+                  <li>{t('landing.dp1')}</li>
+                  <li>{t('landing.dp2')}</li>
+                  <li>{t('landing.dp3')}</li>
+                  <li>{t('landing.dp4')}</li>
+                </ul>
+                <p className="text-sm text-gray-600 mt-1">{t('landing.dpFooter')}</p>
               </div>
               <div className="flex flex-col md:flex-row gap-3 mb-8">
                 <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
@@ -580,6 +588,23 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
                 <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-black border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
                   {t('landing.declineButton')}
                 </button>
+              </div>
+              {/* Contact */}
+              <div className="text-sm text-black space-y-1">
+                <p>
+                  {t('landing.contact')} <a href="mailto:hello@ailights.org" className="text-black hover:underline">{t('landing.emailLink')}</a>
+                </p>
+                <p>{t('landing.researcher')}</p>
+                <p className="flex items-center gap-2">
+                  <a href="https://dbuas.de/" target="_blank" rel="noopener noreferrer">
+                    <img src="/DBU_Digital_Business_University_of_Applied_Sciences_2024_logo.svg" alt="DBU Logo" className="h-5 w-auto" />
+                  </a>
+                  {t('landing.university')}
+                </p>
+                <p className="flex items-center justify-between gap-2">
+                  <span>{t('landing.professor')}</span>
+                  <span className="inline-block px-2 py-0.5 text-xs text-gray-500 bg-gray-100 rounded-full whitespace-nowrap">1/200 {t('landing.participantCounter.joined')}</span>
+                </p>
               </div>
             </div>
           </div>
@@ -622,11 +647,11 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
               <span className="text-base text-black leading-relaxed">{t('landing.consentModal.confirm_checkbox')}</span>
             </label>
             <div className="flex flex-col md:flex-row gap-4">
-              <button className="w-full md:flex-1 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] transition bg-gray-300 text-gray-500 cursor-not-allowed">
-                {t('landing.consentModal.confirm')}
+              <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
+                ← {t('landing.consentModal.back')}
               </button>
-              <button className="w-full md:flex-1 bg-gray-300 text-black px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition">
-                {t('landing.consentModal.back')}
+              <button className="w-full md:flex-1 px-6 py-4 md:py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-100 text-gray-400 cursor-not-allowed">
+                {t('landing.consentModal.confirm')} →
               </button>
             </div>
           </div>
@@ -1324,24 +1349,32 @@ const SurveyDebugNavigator: React.FC = () => {
                 <p className="text-base md:text-lg text-black mb-6 leading-relaxed">
                   {t('landing.subtitle')}
                 </p>
-                <div className="mb-6">
-                  <p className="font-semibold text-base md:text-lg text-black mb-2">{t('landing.whatWeStudy')}</p>
-                  <p className="text-[15px] md:text-base text-black leading-relaxed">{t('landing.whatWeStudyText')}</p>
+                <div className="mb-4">
+                  <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.whatWeStudy')}</p>
+                  <p className="text-[15px] md:text-base text-black leading-snug">{t('landing.whatWeStudyText')}</p>
                 </div>
-                <div className="mb-6">
-                  <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.whatToExpect')}</p>
-                  <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+                <div className="mb-4">
+                  <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.whatToExpect')}</p>
+                  <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
                     <li>{t('landing.expect1')}</li>
                     <li>{t('landing.expect2')}</li>
-                    <li>{t('landing.expect3')}</li>
                   </ul>
                 </div>
-                <div className="mb-8">
-                  <p className="font-semibold text-base md:text-lg text-black mb-3">{t('landing.requirements')}</p>
-                  <ul className="list-disc pl-5 space-y-2 text-[15px] md:text-base text-black leading-relaxed">
+                <div className="mb-4">
+                  <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.requirements')}</p>
+                  <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
                     <li>{t('landing.req1')}</li>
-                    <li>{t('landing.req2')}</li>
                   </ul>
+                </div>
+                <div className="mb-6">
+                  <p className="font-semibold text-base md:text-lg text-black mb-1">{t('landing.dataProtection')}</p>
+                  <ul className="list-disc pl-5 space-y-0.5 text-[15px] md:text-base text-black leading-snug">
+                    <li>{t('landing.dp1')}</li>
+                    <li>{t('landing.dp2')}</li>
+                    <li>{t('landing.dp3')}</li>
+                    <li>{t('landing.dp4')}</li>
+                  </ul>
+                  <p className="text-sm text-gray-600 mt-1">{t('landing.dpFooter')}</p>
                 </div>
                 <div className="flex flex-col md:flex-row gap-3 mb-8">
                   <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-gray-200 text-black rounded-md font-medium text-base min-h-[48px] hover:bg-green-600 hover:text-white transition">
@@ -1350,6 +1383,23 @@ const SurveyDebugNavigator: React.FC = () => {
                   <button className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-black border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition">
                     {t('landing.declineButton')}
                   </button>
+                </div>
+                {/* Contact */}
+                <div className="text-sm text-black space-y-1">
+                  <p>
+                    {t('landing.contact')} <a href="mailto:hello@ailights.org" className="text-black hover:underline">{t('landing.emailLink')}</a>
+                  </p>
+                  <p>{t('landing.researcher')}</p>
+                  <p className="flex items-center gap-2">
+                    <a href="https://dbuas.de/" target="_blank" rel="noopener noreferrer">
+                      <img src="/DBU_Digital_Business_University_of_Applied_Sciences_2024_logo.svg" alt="DBU Logo" className="h-5 w-auto" />
+                    </a>
+                    {t('landing.university')}
+                  </p>
+                  <p className="flex items-center justify-between gap-2">
+                    <span>{t('landing.professor')}</span>
+                    <span className="inline-block px-2 py-0.5 text-xs text-gray-500 bg-gray-100 rounded-full whitespace-nowrap">1/200 {t('landing.participantCounter.joined')}</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1403,15 +1453,15 @@ const SurveyDebugNavigator: React.FC = () => {
 
               <div className="flex flex-col md:flex-row gap-4">
                 <button
-                  disabled={true}
-                  className="w-full md:flex-1 px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] transition bg-gray-300 text-gray-500 cursor-not-allowed"
+                  className="w-full md:w-auto px-6 py-4 md:py-3 bg-white text-gray-700 border border-gray-300 rounded-md font-medium text-base min-h-[48px] hover:bg-gray-50 transition"
                 >
-                  {t('landing.consentModal.confirm')}
+                  ← {t('landing.consentModal.back')}
                 </button>
                 <button
-                  className="w-full md:flex-1 bg-gray-300 text-black px-6 py-4 md:py-3 rounded-lg font-semibold text-base min-h-[48px] hover:bg-gray-400 transition"
+                  disabled={true}
+                  className="w-full md:flex-1 px-6 py-4 md:py-3 rounded-md font-medium text-base min-h-[48px] transition bg-gray-100 text-gray-400 cursor-not-allowed"
                 >
-                  {t('landing.consentModal.back')}
+                  {t('landing.consentModal.confirm')} →
                 </button>
               </div>
             </div>

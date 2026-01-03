@@ -6,12 +6,16 @@
     "whatWeStudy": "Worum es geht",
     "whatWeStudyText": "Wir untersuchen, ob Menschen anonymisierte Fragen aus einem Chatbot zu Schweizer Volksabstimmungen spenden würden, um die Forschung an Open-Source KI-Sprachmodellen zu unterstützen.",
     "whatToExpect": "Was Sie erwartet",
-    "expect1": "Etwa 8 Minuten",
-    "expect2": "Anonyme Teilnahme",
-    "expect3": "Ausschliesslich akademische Forschung",
+    "expect1": "Umfrage mit kurzer Chatbot-Interaktion",
+    "expect2": "Dauert ~ 8 Minuten",
+    "dataProtection": "Datenschutz & Ethik",
+    "dp1": "Anonym, keine Speicherung persönlicher Daten",
+    "dp2": "Datennutzung ausschliesslich für akademische Zwecke",
+    "dp3": "Datenspeicherung auf Schweizer Servern bei Infomaniak",
+    "dp4": "Abbruch jederzeit möglich, ohne Angabe von Gründen",
+    "dpFooter": "Diese Studie folgt den FAIR-Datenprinzipien und wurde intern auf ethische Konformität geprüft.",
     "requirements": "Wer kann teilnehmen",
-    "req1": "18+",
-    "req2": "Wohnhaft in der Schweiz",
+    "req1": "18+ und wohnhaft in der Schweiz",
     "startButton": "Studie starten",
     "declineButton": "Kein Interesse",
     "contact": "Fragen?",
@@ -35,7 +39,8 @@
       "button": "Apertus ausprobieren"
     },
     "participantCounter": {
-      "label": "Bisherige Teilnehmende"
+      "label": "Bisherige Teilnehmende",
+      "joined": "dabei"
     }
   },
   "baseline": {
@@ -98,6 +103,7 @@
   "chat": {
     "title": "Chatbot zu Schweizer Volksabstimmungen",
     "subtitle": "Stellen Sie 2–3 Fragen zu Schweizer Volksabstimmungen (Antwortzeit bis zu 20 Sek.)",
+    "welcome": "Hallo! Ich bin hier, um Ihre Fragen zu den kommenden Schweizer Volksabstimmungen zu beantworten. Was möchten Sie wissen?",
     "placeholder": "Stellen Sie eine Frage...",
     "send": "Senden",
     "thinking": "Suche Daten... dauert bis zu 20 Sek.",
