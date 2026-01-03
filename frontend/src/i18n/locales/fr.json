@@ -28,7 +28,8 @@
       "text": "En continuant, vous confirmez que:",
       "age": "vous avez 18 ans ou plus",
       "residence": "vous résidez actuellement en Suisse",
-      "voluntary": "votre participation est volontaire et vous pouvez arrêter à tout moment",
+      "dataUse": "vos réponses anonymes peuvent être utilisées pour la recherche",
+      "voluntaryNote": "Votre participation est volontaire et vous pouvez arrêter à tout moment.",
       "confirm_checkbox": "Je confirme ce qui précède et j'accepte de participer",
       "confirm": "Continuer",
       "back": "Retour"

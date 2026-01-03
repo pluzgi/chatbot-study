@@ -28,7 +28,8 @@
       "text": "Continuando, confermi che:",
       "age": "hai 18 anni o più",
       "residence": "risiedi attualmente in Svizzera",
-      "voluntary": "la tua partecipazione è volontaria e puoi interrompere in qualsiasi momento",
+      "dataUse": "le tue risposte anonime possono essere utilizzate per la ricerca",
+      "voluntaryNote": "La partecipazione è volontaria e puoi interrompere in qualsiasi momento.",
       "confirm_checkbox": "Confermo quanto sopra e acconsento a partecipare allo studio",
       "confirm": "Continua",
       "back": "Indietro"

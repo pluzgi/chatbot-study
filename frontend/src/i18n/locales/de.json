@@ -28,7 +28,8 @@
       "text": "Mit dem Fortfahren bestätigen Sie:",
       "age": "Sie sind 18 Jahre oder älter.",
       "residence": "Sie wohnen derzeit in der Schweiz.",
-      "voluntary": "Ihre Teilnahme ist freiwillig und Sie können die Studie jederzeit abbrechen.",
+      "dataUse": "Ihre anonymen Antworten dürfen für Forschungszwecke verwendet werden.",
+      "voluntaryNote": "Die Teilnahme ist freiwillig und kann jederzeit abgebrochen werden.",
       "confirm_checkbox": "Ich habe die oben genannten Punkte gelesen und stimme der Teilnahme zu.",
       "confirm": "Weiter",
       "back": "Zurück"
@@ -40,7 +41,7 @@
     },
     "participantCounter": {
       "label": "Bisherige Teilnehmende",
-      "joined": "dabei"
+      "joined": "bisher"
     }
   },
   "baseline": {

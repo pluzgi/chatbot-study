@@ -173,7 +173,7 @@ export const api = {
     }
   },
 
-  async trackClick(eventType: 'decline_study' | 'try_apertus') {
+  async trackClick(eventType: 'decline_study' | 'try_apertus' | 'chatbot_started') {
     const data = { eventType };
     saveToLocalStorage(`click_${eventType}`, data);
 
