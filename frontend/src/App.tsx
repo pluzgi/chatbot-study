@@ -186,11 +186,13 @@ function App() {
               <h2 className="text-xl md:text-2xl font-bold mb-4 text-black leading-tight">{t('landing.consentModal.title')}</h2>
               <p className="text-base md:text-lg text-black mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>
 
-              <ul className="list-disc pl-5 space-y-2 text-base text-black mb-6 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-2 text-base text-black mb-4 leading-relaxed">
                 <li>{t('landing.consentModal.age')}</li>
                 <li>{t('landing.consentModal.residence')}</li>
-                <li>{t('landing.consentModal.voluntary')}</li>
+                <li>{t('landing.consentModal.dataUse')}</li>
               </ul>
+
+              <p className="text-sm text-gray-600 mb-6">{t('landing.consentModal.voluntaryNote')}</p>
 
               <label className="flex items-start gap-3 cursor-pointer min-h-[44px] items-center mb-8">
                 <input
@@ -246,7 +248,10 @@ function App() {
   if (phase === 'instruction') {
     return (
       <ChatbotInstruction
-        onContinue={() => setPhase('chat')}
+        onContinue={() => {
+          api.trackClick('chatbot_started');
+          setPhase('chat');
+        }}
         onBack={() => setPhase('baseline')}
       />
     );
