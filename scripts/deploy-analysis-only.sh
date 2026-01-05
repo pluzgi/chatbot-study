@@ -42,10 +42,20 @@ with open('analysis/phase3_logistic_regression.ipynb', 'r') as f:
 with open('frontend/public/results/phase3_logistic_regression.html', 'w') as f:
     f.write(body)
 print('  - phase3_logistic_regression.html exported')
+
 "
 
 echo ""
-echo "=== Step 2: Deploy ONLY results folder (no frontend rebuild) ==="
+echo "=== Step 2: Convert MEASUREMENT_PLAN.md to HTML ==="
+pandoc analysis/MEASUREMENT_PLAN.md \
+  -o frontend/public/results/MEASUREMENT_PLAN.html \
+  --standalone \
+  --metadata title="Measurement & Analysis Plan" \
+  --include-in-header=<(echo "<style>$(cat analysis/measurement_plan.css)</style>")
+echo "  - MEASUREMENT_PLAN.html generated from MD"
+
+echo ""
+echo "=== Step 3: Deploy ONLY results folder (no frontend rebuild) ==="
 rsync -avz \
   -e "ssh -i ~/.ssh/id_jelastic -p 3022" \
   frontend/public/results/ \
@@ -57,3 +67,4 @@ echo "Analysis reports updated (frontend unchanged):"
 echo "  - Phase 1: https://chat-study.ailights.org/results/phase1_descriptive_statistics.html"
 echo "  - Phase 2: https://chat-study.ailights.org/results/phase2_chi_square_analysis.html"
 echo "  - Phase 3: https://chat-study.ailights.org/results/phase3_logistic_regression.html"
+echo "  - Measurement Plan: https://chat-study.ailights.org/results/MEASUREMENT_PLAN.html"

@@ -23,12 +23,11 @@ router.post('/initialize', async (req, res) => {
     const { language, isAiParticipant, aiPersonaId, aiRunId } = req.body;
     const fingerprint = generateFingerprint(req);
 
-    // Skip duplicate check for AI participants (they need to create many sessions)
+    // DISABLED: Duplicate check - fingerprint still saved for post-hoc analysis
+    // To re-enable, uncomment the block below:
+    /*
     if (!isAiParticipant) {
-      // Check for duplicate COMPLETED participation (within last 7 days)
-      // Users who dropped out can restart fresh - only completed surveys are blocked
       const existingParticipation = await experimentService.checkDuplicateParticipation(fingerprint);
-
       if (existingParticipation) {
         return res.status(409).json({
           error: 'already_participated',
@@ -36,6 +35,7 @@ router.post('/initialize', async (req, res) => {
         });
       }
     }
+    */
 
     // Create new participant with fingerprint and AI metadata
     const { participant, config } = await experimentService.createParticipant(
