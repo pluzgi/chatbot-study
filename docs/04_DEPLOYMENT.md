@@ -388,33 +388,98 @@ SELECT language, COUNT(*) FROM participants GROUP BY language;
 
 ## Monitoring
 
-### Logs
+### Quick Health Checks
 
-**Backend logs:**
+| What to check | Where | Action |
+|---------------|-------|--------|
+| **Chatbot API health** | Browser | Visit: `https://thesis.jcloud-ver-jpe.ik-server.com/health` |
+| **Python service health** | Browser | Visit: `https://thesis-python.jcloud-ver-jpe.ik-server.com/health` |
+| **Frontend** | Browser | Visit: `https://chat-study.ailights.org` |
+
+### Backend Monitoring (via SSH)
+
+**How to access:**
+1. Jelastic dashboard → `thesis` environment → Node.js node (ID: 191576)
+2. Click the **terminal icon** (Web SSH)
+
+**Commands:**
 ```bash
-pm2 logs voting-backend
+# Check if backend is running
+pm2 list
+
+# View recent logs
+pm2 logs voting-backend --lines 100
+
+# View error logs only
+pm2 logs voting-backend --lines 200 --err
+
+# Restart backend
+pm2 restart voting-backend
+
+# Save PM2 configuration
+pm2 save
 ```
 
-**Python service logs:**
-```bash
-pm2 logs swiss-voting
-```
+**Understanding PM2 status:**
+- `status: online` = running normally
+- `↺` column = number of restarts (crashes that PM2 auto-recovered)
+- `uptime` = time since last restart
 
-**Database queries:**
+### Database Monitoring (via phpPgAdmin)
+
+**How to access:**
+1. Jelastic dashboard → PostgreSQL node → **Open in Browser** (phpPgAdmin)
+2. Navigate: PostgreSQL → chatbot_study → Tables
+
+**Check for API errors:**
+Click on `api_usage_logs` → SQL tab → run:
 ```sql
--- Active participants in last hour
-SELECT COUNT(*) FROM participants 
-WHERE created_at > NOW() - INTERVAL '1 hour';
+SELECT created_at, success, error_message, response_time_ms
+FROM api_usage_logs
+WHERE success = false
+ORDER BY created_at DESC;
+```
 
--- Donation rate by condition
-SELECT 
+**Active participants in last hour:**
+```sql
+SELECT COUNT(*) FROM participants
+WHERE created_at > NOW() - INTERVAL '1 hour';
+```
+
+**Donation rate by condition:**
+```sql
+SELECT
   condition,
   COUNT(*) as total,
-  SUM(CASE WHEN decision = 'donate' THEN 1 ELSE 0 END) as donated,
-  ROUND(100.0 * SUM(CASE WHEN decision = 'donate' THEN 1 ELSE 0 END) / COUNT(*), 2) as rate
-FROM donation_decisions
+  SUM(CASE WHEN donation_decision = 'donate' THEN 1 ELSE 0 END) as donated,
+  ROUND(100.0 * SUM(CASE WHEN donation_decision = 'donate' THEN 1 ELSE 0 END) / COUNT(*), 2) as rate
+FROM participants
+WHERE donation_decision IS NOT NULL
 GROUP BY condition;
 ```
+
+**Server restarts (backend crash history):**
+```sql
+SELECT * FROM server_restarts ORDER BY started_at DESC;
+```
+This table logs every backend restart with timestamp and Node.js version. Use this to track PM2 restarts that external monitoring tools miss.
+
+### External Monitoring (UptimeRobot)
+
+**URL:** https://uptimerobot.com (requires login)
+
+Monitors `https://thesis.jcloud-ver-jpe.ik-server.com/health` every 5 minutes. Shows downtime if the backend is unreachable for extended periods.
+
+**Limitations:** Quick PM2 restarts (seconds) are not detected. Use the `server_restarts` database table for complete restart history.
+
+### Environment Reference
+
+| Environment | Type | Purpose | URL |
+|-------------|------|---------|-----|
+| `thesis` | Node.js | Backend API | thesis.jcloud-ver-jpe.ik-server.com |
+| `thesis-python` | Apache Python | Python microservice | thesis-python.jcloud-ver-jpe.ik-server.com |
+| `chat-study` | Apache PHP | Frontend | chat-study.ailights.org |
+| PostgreSQL | Database | Data storage | Access via phpPgAdmin |
 
 ---
 
