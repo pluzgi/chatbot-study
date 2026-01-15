@@ -7,6 +7,7 @@ import chatRoutes from './routes/chat.js';
 import experimentRoutes from './routes/experiment.js';
 import donationRoutes from './routes/donation.js';
 import runMigrations from './config/migrate.js';
+import pool from './config/database.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -39,11 +40,24 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/experiment', experimentRoutes);
 app.use('/api/donation', donationRoutes);
 
-app.get('/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+
+async function logServerRestart() {
+  try {
+    await pool.query(
+      `INSERT INTO server_restarts (started_at, node_version, reason) VALUES (NOW(), $1, $2)`,
+      [process.version, 'PM2 restart']
+    );
+    console.log('[Server] Restart logged to database');
+  } catch (err) {
+    console.log('[Server] Could not log restart:', err.message);
+  }
+}
 
 async function start() {
   try {
     await runMigrations();
+    await logServerRestart();
     app.listen(process.env.PORT || 3000, () => {
       console.log(`Backend running on port ${process.env.PORT || 3000}`);
     });
