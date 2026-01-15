@@ -3,7 +3,47 @@
 **Swiss Ballot Chatbot Study**
 **2x2 Factorial Design: Transparency (T0/T1) x Control (C0/C1)**
 
-*Last updated: January 3, 2025*
+*Last updated: January 5, 2025*
+
+---
+
+## Study Overview
+
+This study examines whether transparency about data usage and having more detailed privacy options influence people's willingness to donate their chatbot conversation data for AI model research.
+
+### Research Questions
+
+| Hypothesis | Question | Experimental Test |
+|------------|----------|-------------------|
+| **H1** | Does transparency increase data donation? | T1 (with DNL) vs T0 (without) |
+| **H2** | Does user control increase data donation? | C1 (with dashboard) vs C0 (without) |
+| **H3** | Do transparency and control interact synergistically? | T×C interaction term |
+
+### Experimental Design
+
+**2×2 factorial design** with random assignment to one of four conditions:
+
+| Condition | Transparency | Control | What User Sees |
+|-----------|-------------|---------|----------------|
+| A | Low (T0) | Low (C0) | Generic text + binary choice |
+| B | High (T1) | Low (C0) | Data Nutrition Label + binary choice |
+| C | Low (T0) | High (C1) | Generic text + granular dashboard |
+| D | High (T1) | High (C1) | Data Nutrition Label + dashboard |
+
+### Primary Outcome
+
+**Donation decision** (binary: donate=1, decline=0) — whether participant agrees to share anonymized chat conversations for open-source model AI research.
+
+### Analysis Phases Summary
+
+| Phase | Purpose | Key Methods |
+|-------|---------|-------------|
+| **1. Descriptive** | Sample overview, donation rates, demographics | Wilson CI, frequencies |
+| **2. Chi-Square** | Bivariate tests of T and C effects | χ², Cramér's V, Bonferroni |
+| **3. Logistic Regression** | Main hypothesis tests (H1, H2, H3) | OR, AIC, LR tests, Cohen's d, φ |
+| **4. Effect Analysis** | Predicted probabilities, simple effects | Marginal effects, interaction plots |
+| **5. Manipulation Checks** | Verify T and C manipulations worked | t-test/Mann-Whitney, Cohen's d |
+| **6. Exploratory** | Dashboard preferences, qualitative themes | Frequencies, thematic coding |
 
 ---
 

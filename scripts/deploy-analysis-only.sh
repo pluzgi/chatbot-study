@@ -50,7 +50,6 @@ echo "=== Step 2: Convert MEASUREMENT_PLAN.md to HTML ==="
 pandoc analysis/MEASUREMENT_PLAN.md \
   -o frontend/public/results/MEASUREMENT_PLAN.html \
   --standalone \
-  --metadata title="Measurement & Analysis Plan" \
   --include-in-header=<(echo "<style>$(cat analysis/measurement_plan.css)</style>")
 echo "  - MEASUREMENT_PLAN.html generated from MD"
 
