@@ -137,6 +137,14 @@ CREATE TABLE IF NOT EXISTS api_usage_logs (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Server restarts: Track backend restarts for monitoring
+CREATE TABLE IF NOT EXISTS server_restarts (
+    id SERIAL PRIMARY KEY,
+    started_at TIMESTAMP DEFAULT NOW(),
+    node_version VARCHAR(20),
+    reason TEXT
+);
+
 -- Indexes for common queries
 CREATE INDEX IF NOT EXISTS idx_participants_condition ON participants(condition);
 CREATE INDEX IF NOT EXISTS idx_participants_language ON participants(language);
