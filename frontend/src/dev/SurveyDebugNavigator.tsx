@@ -794,31 +794,31 @@ const FullJourneyView: React.FC<FullJourneyViewProps> = ({ condition, onBack }) 
         <ScreenDivider id="4" name="Chat Interface" />
         <div className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden" style={{ height: '600px' }}>
           <div className="flex flex-col h-full max-w-4xl mx-auto">
-            <div className="bg-[#FF0000] text-white p-4">
-              <h2 className="text-xl font-bold">{t('chat.title')}</h2>
-              <p className="text-sm">{t('chat.subtitle')}</p>
+            <div className="bg-gray-500 text-white p-3 md:p-4">
+              <h2 className="text-xl md:text-2xl font-bold">{t('chat.title')}</h2>
+              <p className="text-base md:text-xl">{t('chat.subtitle')}</p>
             </div>
-            <div className="flex-1 p-4 overflow-y-auto">
-              <div className="space-y-4">
+            <div className="flex-1 p-3 md:p-4 overflow-y-auto">
+              <div className="space-y-3 md:space-y-4">
                 <div className="flex justify-end">
-                  <div className="bg-blue-500 text-white px-4 py-2 rounded-lg max-w-xs">
-                    What is the Klimafonds Initiative about?
+                  <div className="max-w-[70%] rounded-lg px-4 py-2 bg-gray-600 text-white">
+                    <p className="whitespace-pre-wrap">What is the Klimafonds Initiative about?</p>
                   </div>
                 </div>
                 <div className="flex justify-start">
-                  <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg max-w-md">
-                    The Klimafonds Initiative proposes establishing a climate fund to invest in renewable energy and climate protection measures...
+                  <div className="max-w-[70%] rounded-lg px-4 py-2 bg-gray-200 text-gray-900">
+                    <p className="whitespace-pre-wrap">The Klimafonds Initiative proposes establishing a climate fund to invest in renewable energy and climate protection measures...</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-3 md:p-4 bg-white border-t border-gray-200">
               <div className="flex gap-2">
-                <input type="text" placeholder={t('chat.placeholder')} className="flex-1 p-3 border border-gray-300 rounded-lg" disabled />
-                <button className="px-6 py-3 bg-blue-500 text-white rounded-lg">{t('chat.send')}</button>
+                <input type="text" placeholder={t('chat.placeholder')} className="flex-1 px-4 py-3 border-2 border-gray-400 rounded-md text-xl min-h-[48px]" disabled />
+                <button className="px-6 py-3 bg-gray-200 text-black rounded-md font-medium min-h-[48px]">{t('chat.send')}</button>
               </div>
             </div>
-            <div className="p-2 text-center text-sm text-gray-500 bg-yellow-50 border-t border-yellow-200">
+            <div className="px-4 py-2 text-center text-sm text-gray-500 bg-yellow-50 border-t border-yellow-200">
               {t('chat.minQuestions', { count: 1 })}
             </div>
           </div>
@@ -1431,7 +1431,7 @@ const SurveyDebugNavigator: React.FC = () => {
 
       case '1C': // Consent Modal - exact copy from App.tsx
         return (
-          <div className="fixed inset-0 bg-white flex items-center justify-center p-4 z-50">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-md w-full p-6 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold mb-4 text-black leading-tight">{t('landing.consentModal.title')}</h2>
               <p className="text-base md:text-lg text-black mb-6 leading-relaxed">{t('landing.consentModal.text')}</p>

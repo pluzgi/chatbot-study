@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Measurement &amp; Analysis Plan</title>
+  <title>MEASUREMENT_PLAN</title>
   <style>
     html {
       color: #1a1a1a;
@@ -262,13 +262,137 @@
   }</style>
 </head>
 <body>
-<header id="title-block-header">
-<h1 class="title">Measurement &amp; Analysis Plan</h1>
-</header>
 <h1 id="measurement-analysis-plan">Measurement &amp; Analysis Plan</h1>
 <p><strong>Swiss Ballot Chatbot Study</strong> <strong>2x2 Factorial
 Design: Transparency (T0/T1) x Control (C0/C1)</strong></p>
-<p><em>Last updated: January 3, 2025</em></p>
+<p><em>Last updated: January 5, 2025</em></p>
+<hr />
+<h2 id="study-overview">Study Overview</h2>
+<p>This study examines whether transparency about data usage and having
+more detailed privacy options influence people’s willingness to donate
+their chatbot conversation data for AI model research.</p>
+<h3 id="research-questions">Research Questions</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 24%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>Hypothesis</th>
+<th>Question</th>
+<th>Experimental Test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>H1</strong></td>
+<td>Does transparency increase data donation?</td>
+<td>T1 (with DNL) vs T0 (without)</td>
+</tr>
+<tr>
+<td><strong>H2</strong></td>
+<td>Does user control increase data donation?</td>
+<td>C1 (with dashboard) vs C0 (without)</td>
+</tr>
+<tr>
+<td><strong>H3</strong></td>
+<td>Do transparency and control interact synergistically?</td>
+<td>T×C interaction term</td>
+</tr>
+</tbody>
+</table>
+<h3 id="experimental-design">Experimental Design</h3>
+<p><strong>2×2 factorial design</strong> with random assignment to one
+of four conditions:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Transparency</th>
+<th>Control</th>
+<th>What User Sees</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Low (T0)</td>
+<td>Low (C0)</td>
+<td>Generic text + binary choice</td>
+</tr>
+<tr>
+<td>B</td>
+<td>High (T1)</td>
+<td>Low (C0)</td>
+<td>Data Nutrition Label + binary choice</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Low (T0)</td>
+<td>High (C1)</td>
+<td>Generic text + granular dashboard</td>
+</tr>
+<tr>
+<td>D</td>
+<td>High (T1)</td>
+<td>High (C1)</td>
+<td>Data Nutrition Label + dashboard</td>
+</tr>
+</tbody>
+</table>
+<h3 id="primary-outcome">Primary Outcome</h3>
+<p><strong>Donation decision</strong> (binary: donate=1, decline=0) —
+whether participant agrees to share anonymized chat conversations for
+open-source model AI research.</p>
+<h3 id="analysis-phases-summary">Analysis Phases Summary</h3>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 31%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Purpose</th>
+<th>Key Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Descriptive</strong></td>
+<td>Sample overview, donation rates, demographics</td>
+<td>Wilson CI, frequencies</td>
+</tr>
+<tr>
+<td><strong>2. Chi-Square</strong></td>
+<td>Bivariate tests of T and C effects</td>
+<td>χ², Cramér’s V, Bonferroni</td>
+</tr>
+<tr>
+<td><strong>3. Logistic Regression</strong></td>
+<td>Main hypothesis tests (H1, H2, H3)</td>
+<td>OR, AIC, LR tests, Cohen’s d, φ</td>
+</tr>
+<tr>
+<td><strong>4. Effect Analysis</strong></td>
+<td>Predicted probabilities, simple effects</td>
+<td>Marginal effects, interaction plots</td>
+</tr>
+<tr>
+<td><strong>5. Manipulation Checks</strong></td>
+<td>Verify T and C manipulations worked</td>
+<td>t-test/Mann-Whitney, Cohen’s d</td>
+</tr>
+<tr>
+<td><strong>6. Exploratory</strong></td>
+<td>Dashboard preferences, qualitative themes</td>
+<td>Frequencies, thematic coding</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="data-variables-input-to-analysis">Data &amp; Variables (input to
 analysis)</h2>
