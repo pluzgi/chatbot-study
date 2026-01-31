@@ -1,10 +1,15 @@
 -- Swiss Ballot Chatbot Database Schema
 -- 2×2 Factorial Design: Transparency (Low/High) × Control (Low/High)
 -- Source of truth: backend/src/config/migrate.js
+-- Last updated: January 31, 2026
 
 -- Drop existing tables if they exist
+DROP TABLE IF EXISTS server_restarts CASCADE;
+DROP TABLE IF EXISTS api_usage_logs CASCADE;
+DROP TABLE IF EXISTS chat_messages CASCADE;
 DROP TABLE IF EXISTS post_task_measures CASCADE;
-DROP TABLE IF EXISTS donation_decisions CASCADE;
+DROP TABLE IF EXISTS click_counters CASCADE;
+DROP TABLE IF EXISTS study_config CASCADE;
 DROP TABLE IF EXISTS participants CASCADE;
 
 -- Participants table (normalized: includes donation decision)
@@ -25,7 +30,7 @@ CREATE TABLE participants (
     consent_given BOOLEAN NOT NULL DEFAULT FALSE,
     consent_at TIMESTAMP,
 
-    -- Baseline measures (Q1-Q3)
+    -- Baseline measures (Q1-Q3) - 6-point Likert scale
     tech_comfort INT CHECK (tech_comfort BETWEEN 1 AND 6),
     baseline_privacy_concern INT CHECK (baseline_privacy_concern BETWEEN 1 AND 6),
     ballot_familiarity INT CHECK (ballot_familiarity BETWEEN 1 AND 6),
@@ -38,6 +43,11 @@ CREATE TABLE participants (
     -- Optional: participant wants study results
     notify_email VARCHAR(255),
 
+    -- AI participant tracking
+    is_ai_participant BOOLEAN DEFAULT FALSE,
+    ai_persona_id VARCHAR(50),
+    ai_run_id VARCHAR(50),
+
     -- Timestamps
     created_at TIMESTAMP DEFAULT NOW(),
     completed_at TIMESTAMP
@@ -47,7 +57,7 @@ CREATE TABLE participants (
 -- Separate table: logically distinct data collected after main experiment
 -- Aligned with hypothesis-driven survey structure
 CREATE TABLE post_task_measures (
-    participant_id UUID PRIMARY KEY REFERENCES participants(id),
+    participant_id UUID PRIMARY KEY REFERENCES participants(id) ON DELETE CASCADE,
 
     -- Q4: Perceived Transparency (MC-T) - H1 manipulation check - 2 items
     transparency1 INT CHECK (transparency1 BETWEEN 1 AND 6),
@@ -114,6 +124,64 @@ INSERT INTO study_config (key, value) VALUES
     ('participant_target', '200')
 ON CONFLICT (key) DO NOTHING;
 
+-- Chat messages table: ONLY for AI participants
+-- Human participant messages are never stored (privacy by design)
+CREATE TABLE chat_messages (
+    id SERIAL PRIMARY KEY,
+    participant_id UUID NOT NULL REFERENCES participants(id) ON DELETE CASCADE,
+    role VARCHAR(10) NOT NULL CHECK (role IN ('user', 'assistant')),
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- API usage logs: Track all Apertus LLM API calls for monitoring
+CREATE TABLE api_usage_logs (
+    id SERIAL PRIMARY KEY,
+    participant_id UUID REFERENCES participants(id) ON DELETE CASCADE,
+    model VARCHAR(100) NOT NULL,
+    response_model VARCHAR(100),
+    prompt_tokens INT,
+    completion_tokens INT,
+    total_tokens INT,
+    response_time_ms INT,
+    success BOOLEAN NOT NULL DEFAULT TRUE,
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Server restarts: Track backend restarts for monitoring
+CREATE TABLE server_restarts (
+    id SERIAL PRIMARY KEY,
+    started_at TIMESTAMP DEFAULT NOW(),
+    node_version VARCHAR(20),
+    reason TEXT
+);
+
+-- Indexes for common queries
+CREATE INDEX idx_participants_condition ON participants(condition);
+CREATE INDEX idx_participants_language ON participants(language);
+CREATE INDEX idx_participants_fingerprint ON participants(fingerprint);
+CREATE INDEX idx_participants_phase ON participants(current_phase);
+CREATE INDEX idx_participants_created_at ON participants(created_at);
+CREATE INDEX idx_participants_is_ai ON participants(is_ai_participant);
+CREATE INDEX idx_chat_messages_participant ON chat_messages(participant_id);
+CREATE INDEX idx_api_usage_logs_created_at ON api_usage_logs(created_at);
+CREATE INDEX idx_api_usage_logs_participant ON api_usage_logs(participant_id);
+
+-- ============================================================
+-- COMMENTS FOR DOCUMENTATION
+-- ============================================================
+COMMENT ON TABLE participants IS 'Stores experiment participants with dropout tracking and donation decision';
+COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses (Q4-Q14)';
+COMMENT ON TABLE click_counters IS 'Anonymous counters: decline_study, try_apertus, survey_completed, donation_accepted, donation_declined';
+COMMENT ON TABLE chat_messages IS 'Chat history for AI participants only - human messages never stored';
+COMMENT ON TABLE api_usage_logs IS 'Tracks Apertus LLM API calls for monitoring and cost tracking';
+COMMENT ON TABLE server_restarts IS 'Tracks backend server restarts for uptime monitoring';
+COMMENT ON COLUMN participants.condition IS 'Experimental condition: A (T0/C0), B (T1/C0), C (T0/C1), D (T1/C1)';
+COMMENT ON COLUMN participants.current_phase IS 'Dropout tracking: consent → baseline → chatbot → decision → survey → complete';
+COMMENT ON COLUMN participants.donation_config IS 'Dashboard configuration for C/D: {"scope","purpose","storage","retention"}';
+COMMENT ON COLUMN participants.is_ai_participant IS 'TRUE for synthetic AI test participants';
+
 -- ============================================================
 -- PARTICIPANT COUNTER OPERATIONS
 -- ============================================================
@@ -132,20 +200,3 @@ ON CONFLICT (key) DO NOTHING;
 -- VIEW CURRENT SETTINGS:
 --   SELECT * FROM study_config;
 -- ============================================================
-
--- Indexes for performance
-CREATE INDEX idx_participants_condition ON participants(condition);
-CREATE INDEX idx_participants_language ON participants(language);
-CREATE INDEX idx_participants_fingerprint ON participants(fingerprint);
-CREATE INDEX idx_participants_phase ON participants(current_phase);
-CREATE INDEX idx_participants_created_at ON participants(created_at);
-
--- Comments for documentation
-COMMENT ON TABLE participants IS 'Stores experiment participants with dropout tracking and donation decision';
-COMMENT ON TABLE post_task_measures IS 'Stores post-task survey responses (Q4-Q14)';
-COMMENT ON TABLE click_counters IS 'Anonymous counters: decline_study, try_apertus, survey_completed, donation_accepted, donation_declined';
-COMMENT ON COLUMN participants.condition IS 'Experimental condition: A (low/low), B (high/low), C (low/high), D (high/high)';
-COMMENT ON COLUMN participants.current_phase IS 'Dropout tracking: consent → baseline → chatbot → decision → survey → complete';
-COMMENT ON COLUMN participants.consent_given IS 'TRUE when participant confirmed consent checkbox';
-COMMENT ON COLUMN participants.consent_at IS 'Timestamp when consent was given';
-COMMENT ON COLUMN participants.donation_config IS 'Dashboard configuration for C/D: {"scope","purpose","storage","retention"}';
