@@ -43,6 +43,30 @@ with open('frontend/public/results/phase3_logistic_regression.html', 'w') as f:
     f.write(body)
 print('  - phase3_logistic_regression.html exported')
 
+# Export Phase 4 notebook
+with open('analysis/phase4_effect_analysis.ipynb', 'r') as f:
+    nb = nbformat.read(f, as_version=4)
+(body, _) = html_exporter.from_notebook_node(nb)
+with open('frontend/public/results/phase4_effect_analysis.html', 'w') as f:
+    f.write(body)
+print('  - phase4_effect_analysis.html exported')
+
+# Export Phase 5 notebook
+with open('analysis/phase5_manipulation_checks.ipynb', 'r') as f:
+    nb = nbformat.read(f, as_version=4)
+(body, _) = html_exporter.from_notebook_node(nb)
+with open('frontend/public/results/phase5_manipulation_checks.html', 'w') as f:
+    f.write(body)
+print('  - phase5_manipulation_checks.html exported')
+
+# Export Phase 6 notebook
+with open('analysis/phase6_exploratory_analysis.ipynb', 'r') as f:
+    nb = nbformat.read(f, as_version=4)
+(body, _) = html_exporter.from_notebook_node(nb)
+with open('frontend/public/results/phase6_exploratory_analysis.html', 'w') as f:
+    f.write(body)
+print('  - phase6_exploratory_analysis.html exported')
+
 "
 
 echo ""
@@ -58,7 +82,7 @@ echo "=== Step 3: Deploy ONLY results folder (no frontend rebuild) ==="
 rsync -avz \
   -e "ssh -i ~/.ssh/id_jelastic -p 3022" \
   frontend/public/results/ \
-  191875-10200@gate.jpe.infomaniak.com:/var/www/webroot/ROOT/results/
+  10200@gate.jpc.infomaniak.com:/var/www/webroot/ROOT/results/
 
 echo ""
 echo "=== Done! ==="
@@ -66,4 +90,7 @@ echo "Analysis reports updated (frontend unchanged):"
 echo "  - Phase 1: https://chat-study.ailights.org/results/phase1_descriptive_statistics.html"
 echo "  - Phase 2: https://chat-study.ailights.org/results/phase2_chi_square_analysis.html"
 echo "  - Phase 3: https://chat-study.ailights.org/results/phase3_logistic_regression.html"
+echo "  - Phase 4: https://chat-study.ailights.org/results/phase4_effect_analysis.html"
+echo "  - Phase 5: https://chat-study.ailights.org/results/phase5_manipulation_checks.html"
+echo "  - Phase 6: https://chat-study.ailights.org/results/phase6_exploratory_analysis.html"
 echo "  - Measurement Plan: https://chat-study.ailights.org/results/MEASUREMENT_PLAN.html"
