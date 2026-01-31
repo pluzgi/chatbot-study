@@ -2,7 +2,7 @@
 
 ## What You're Building
 
-A multi-language Swiss voting chatbot on **ailights.org/ballot-chat** that:
+A multi-language Swiss voting chatbot on **chat-study.ailights.org** that:
 1. Uses Apertus-70B to answer questions about Swiss ballots
 2. Tests 4 experimental conditions (transparency × control)
 3. Measures willingness to donate data (simulated, not actual)
@@ -113,7 +113,7 @@ psql -h host -U user -d voting_assistant -f schema.sql
 
 ## URLs After Deployment
 
-- **Study:** https://ailights.org/ballot-chat
+- **Study:** https://chat-study.ailights.org
 - **Backend:** https://api.ailights.org (or .jelastic.infomaniak.com)
 - **Python:** Internal only (called by Node.js)
 
@@ -121,7 +121,7 @@ psql -h host -U user -d voting_assistant -f schema.sql
 
 ## Testing Checklist
 
-- [ ] Visit ailights.org/ballot-chat
+- [ ] Visit chat-study.ailights.org
 - [ ] Select language → Start study
 - [ ] Chat works (2+ questions)
 - [ ] Donation modal appears (correct variant)

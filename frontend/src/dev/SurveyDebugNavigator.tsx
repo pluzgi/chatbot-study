@@ -373,47 +373,47 @@ const Step3Documentation: React.FC<{ isOpen: boolean; onToggle: () => void }> = 
               <thead>
                 <tr>
                   <th className="w-20"></th>
-                  <th className="text-center py-1 px-2 font-bold text-gray-700 border-b-2 border-gray-300">C0<br/><span className="font-normal text-gray-500">Low Control<br/>(Binary Choice)</span></th>
-                  <th className="text-center py-1 px-2 font-bold text-gray-700 border-b-2 border-gray-300">C1<br/><span className="font-normal text-gray-500">High Control<br/>(Granular Dashboard)</span></th>
+                  <th className="text-center py-1 px-2 font-bold text-black border-b-2 border-gray-300">Low Control (C0)<br/><span className="font-normal text-black">(Binary Choice)</span></th>
+                  <th className="text-center py-1 px-2 font-bold text-black border-b-2 border-gray-300">High Control (C1)<br/><span className="font-normal text-black">(Granular Dashboard)</span></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="py-1 pr-2 font-bold text-gray-700 border-r-2 border-gray-300 align-top">T0<br/><span className="font-normal text-gray-500">Low<br/>Transparency</span></td>
+                  <td className="py-1 pr-2 font-bold text-black border-r-2 border-gray-300 align-top">Low Transparency (T0)</td>
                   <td className="p-2 border border-gray-200 bg-gray-50 align-top">
-                    <div className="font-bold text-gray-800">A — Baseline</div>
-                    <div className="text-gray-600 mt-1">
-                      <div>DNL: ❌</div>
+                    <div className="font-bold text-black">A — Baseline</div>
+                    <div className="text-black mt-1">
+                      <div>Data Nutrition Label: ❌</div>
                       <div>Dashboard: ❌</div>
                     </div>
-                    <div className="mt-1 font-medium">🔴 Risk: Highest</div>
+                    <div className="mt-1 font-medium text-black">🔴 Risk: Highest</div>
                   </td>
                   <td className="p-2 border border-gray-200 bg-green-50 align-top">
-                    <div className="font-bold text-gray-800">C — Agency</div>
-                    <div className="text-gray-600 mt-1">
-                      <div>DNL: ❌</div>
+                    <div className="font-bold text-black">C — Agency</div>
+                    <div className="text-black mt-1">
+                      <div>Data Nutrition Label: ❌</div>
                       <div>Dashboard: ✅</div>
                     </div>
-                    <div className="mt-1 font-medium">🟡 Risk: Medium</div>
+                    <div className="mt-1 font-medium text-black">🟡 Risk: Medium</div>
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-1 pr-2 font-bold text-gray-700 border-r-2 border-gray-300 align-top">T1<br/><span className="font-normal text-gray-500">High<br/>Transparency</span></td>
+                  <td className="py-1 pr-2 font-bold text-black border-r-2 border-gray-300 align-top">High Transparency (T1)</td>
                   <td className="p-2 border border-gray-200 bg-blue-50 align-top">
-                    <div className="font-bold text-gray-800">B — Transparency</div>
-                    <div className="text-gray-600 mt-1">
-                      <div>DNL: ✅</div>
+                    <div className="font-bold text-black">B — Transparency</div>
+                    <div className="text-black mt-1">
+                      <div>Data Nutrition Label: ✅</div>
                       <div>Dashboard: ❌</div>
                     </div>
-                    <div className="mt-1 font-medium">🟡 Risk: Medium</div>
+                    <div className="mt-1 font-medium text-black">🟡 Risk: Medium</div>
                   </td>
                   <td className="p-2 border border-gray-200 bg-purple-50 align-top">
-                    <div className="font-bold text-gray-800">D — Trustworthy AI</div>
-                    <div className="text-gray-600 mt-1">
-                      <div>DNL: ✅</div>
+                    <div className="font-bold text-black">D — Trustworthy AI</div>
+                    <div className="text-black mt-1">
+                      <div>Data Nutrition Label: ✅</div>
                       <div>Dashboard: ✅</div>
                     </div>
-                    <div className="mt-1 font-medium">🟢 Risk: Lowest</div>
+                    <div className="mt-1 font-medium text-black">🟢 Risk: Lowest</div>
                   </td>
                 </tr>
               </tbody>

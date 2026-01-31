@@ -103,7 +103,7 @@ VITE_API_ENDPOINT=https://your-backend.jelastic.infomaniak.com/api
 2. Upload all 20 files in correct folder structure
 3. Set `VITE_API_ENDPOINT` in Lovable settings
 4. Test all 4 experimental conditions
-5. Deploy to `ailights.org/ballot-chat`
+5. Deploy to `chat-study.ailights.org`
 
 ---
 
