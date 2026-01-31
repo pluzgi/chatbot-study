@@ -77,7 +77,7 @@ echo "=== Step 3: Deploy to Jelastic ==="
 rsync -avz --delete \
   -e "ssh -i ~/.ssh/id_jelastic -p 3022" \
   dist/ \
-  10200@gate.jpc.infomaniak.com:/var/www/webroot/ROOT/
+  10200@gate.jpe.infomaniak.com:/var/www/webroot/ROOT/
 
 echo ""
 echo "=== Done! ==="

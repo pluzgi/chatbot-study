@@ -82,7 +82,7 @@ echo "=== Step 3: Deploy ONLY results folder (no frontend rebuild) ==="
 rsync -avz \
   -e "ssh -i ~/.ssh/id_jelastic -p 3022" \
   frontend/public/results/ \
-  10200@gate.jpc.infomaniak.com:/var/www/webroot/ROOT/results/
+  10200@gate.jpe.infomaniak.com:/var/www/webroot/ROOT/results/
 
 echo ""
 echo "=== Done! ==="

@@ -1,285 +1,185 @@
-# Documentation Package - Swiss Ballot Chatbot
+# Swiss Ballot Chatbot Study
 
-## 📦 What's Included
+A research prototype for studying trust factors in civic AI, specifically examining what makes citizens willing to donate data to train open-source AI models.
 
-**6 focused technical documents** (67KB total) for building your thesis prototype:
+## Project Overview
 
----
+This project implements a 2x2 factorial experimental design to study the effects of transparency and user control on data donation behavior in a Swiss voting information chatbot context.
 
-## 📄 Files Overview
+### Research Design
 
-### **[00_START_HERE.md](computer:///mnt/user-data/outputs/00_START_HERE.md)** (5KB)
-**Read this first!**
-- Quick overview of what you're building
-- Setup steps (4 phases)
-- Key decisions summary
-- Testing checklist
-- Research hypotheses
+**Hypotheses:**
+- H1: Data Nutrition Label increases donation (transparency)
+- H2: Granular Dashboard increases donation (control)
+- H3: Combined effect is synergistic
 
----
+**Experimental Conditions:**
+| Condition | Transparency | Control | Shows DNL | Shows Dashboard |
+|-----------|--------------|---------|-----------|-----------------|
+| A         | Low          | Low     | No        | No              |
+| B         | High         | Low     | Yes       | No              |
+| C         | Low          | High    | No        | Yes             |
+| D         | High         | High    | Yes       | Yes             |
 
-### **[01_ARCHITECTURE.md](computer:///mnt/user-data/outputs/01_ARCHITECTURE.md)** (3KB)
-**System design**
-- Architecture diagram
-- Technology stack
-- Data flow
-- Experimental design (2×2 factorial)
-- Multi-language approach
-- Data collection (simulated)
+**Sample:** N=200 (50 per condition) across 4 languages (DE/FR/IT/EN)
 
----
+## Project Structure
 
-### **[02_BACKEND.md](computer:///mnt/user-data/outputs/02_BACKEND.md)** (13KB)
-**Complete backend implementation**
-- Python microservice (Flask wrapper for your existing code)
-- Node.js backend (Express + services)
-- Database schema (PostgreSQL)
-- All API endpoints with complete code
-- Deployment instructions
+```
+chatbot-study/
+├── frontend/          # React + TypeScript + Vite frontend
+├── backend/           # Node.js + Express API server
+├── python-service/    # Flask wrapper for Swiss voting tools
+├── database/          # PostgreSQL schema and migrations
+├── analysis/          # Statistical analysis scripts (Jupyter notebooks)
+├── ai-testing/        # AI persona testing framework
+├── docs/              # Technical documentation
+├── scripts/           # Deployment and utility scripts
+└── servers/           # Server configurations
+```
 
-**Key files provided:**
-- `swiss_voting_api.py` - Wraps your existing tools
-- `src/services/apertus.service.js` - Apertus integration
-- `src/services/ballot.service.js` - Calls Python service
-- `src/services/experiment.service.js` - Random assignment
-- `src/routes/*.js` - API endpoints
-- SQL schema
-
----
-
-### **[03_FRONTEND.md](computer:///mnt/user-data/outputs/03_FRONTEND.md)** (20KB)
-**Complete React implementation**
-- Full project structure
-- All components with complete code
-- Hooks for chat and experiment
-- Multi-language setup (i18next)
-- 4 experimental conditions (A/B/C/D)
-- Lovable deployment
-
-**Key components provided:**
-- `ChatInterface.tsx` - Main chat UI
-- `DonationModal.tsx` - Experimental conditions
-- `DataNutritionLabel.tsx` - Transparency condition
-- `GranularDashboard.tsx` - Control condition
-- `PostTaskSurvey.tsx` - Manipulation checks
-- `Debriefing.tsx` - Study conclusion
-- `LanguageSelector.tsx` - Language picker
-
----
-
-### **[04_DEPLOYMENT.md](computer:///mnt/user-data/outputs/04_DEPLOYMENT.md)** (7KB)
-**Step-by-step deployment**
-- Infomaniak Jelastic setup
-- Python service deployment
-- Node.js backend deployment
-- PostgreSQL configuration
-- Lovable deployment to ailights.org/ballot-chat
-- Testing checklist
-- Troubleshooting guide
-- Monitoring queries
-
----
-
-### **[05_TRANSLATIONS.md](computer:///mnt/user-data/outputs/05_TRANSLATIONS.md)** (19KB)
-**Complete translation files**
-- German (de.json)
-- French (fr.json)
-- Italian (it.json)
-- English (en.json)
-
-All UI strings translated and ready to copy-paste.
-
----
-
-## 🚀 How to Use This Documentation
-
-### Phase 1: Understanding (1 hour)
-1. Read **00_START_HERE.md** - Get the big picture
-2. Skim **01_ARCHITECTURE.md** - Understand the system
-3. Review your existing code compatibility
-
-### Phase 2: Backend (2-3 days)
-1. Follow **02_BACKEND.md** step-by-step
-2. Create Flask wrapper for your Python tools
-3. Build Node.js backend
-4. Set up database
-5. Deploy to Infomaniak
-
-### Phase 3: Frontend (3-4 days)
-1. Follow **03_FRONTEND.md**
-2. Copy all components to Lovable
-3. Use **05_TRANSLATIONS.md** for i18n files
-4. Test locally
-5. Deploy to ailights.org/ballot-chat
-
-### Phase 4: Testing & Launch
-1. Use **04_DEPLOYMENT.md** testing checklist
-2. Test all 4 conditions
-3. Test all 4 languages
-4. Pilot with 10-20 users
-5. Launch study
-
----
-
-## 🎯 Key Features
-
-### What Makes This Special
-
-✅ **Reuses your existing code** - Your swiss_voting_tools.py stays intact  
-✅ **Multi-language** - Full DE/FR/IT/EN support  
-✅ **Production-ready code** - Copy-paste and deploy  
-✅ **Experimental design** - 2×2 factorial built-in  
-✅ **Data collection** - Simulated donation for ethics  
-✅ **Domain-specific** - Configured for ailights.org  
-
----
-
-## 📊 What Gets Built
-
-### Frontend (ailights.org/ballot-chat)
-- Landing page with language selector
-- Chat interface powered by Apertus-70B
-- 4 experimental conditions:
-  - A: Baseline (generic text + binary)
-  - B: Transparency (DNL + binary)
-  - C: Agency (generic text + dashboard)
-  - D: Trustworthy AI (DNL + dashboard)
-- Post-task survey
-- Debriefing screen
-
-### Backend (Infomaniak Jelastic)
-- Python microservice (your existing voting tools)
-- Node.js API server
-- PostgreSQL database
-- Apertus-70B integration
-
-### Data Collected
-- Participant condition (A/B/C/D)
-- Language preference
-- Donation decision (donate/decline)
-- Configuration choices (if applicable)
-- Survey responses (transparency/control/trust)
-
----
-
-## 🔧 Technical Stack
+## Tech Stack
 
 **Frontend:**
-- React + TypeScript (Lovable)
-- react-i18next (multi-language)
-- TailwindCSS (styling)
+- React 18 + TypeScript
+- Vite (build tool)
+- TailwindCSS
+- react-i18next (multi-language: DE/FR/IT/EN)
 
 **Backend:**
 - Node.js + Express
-- Python + Flask (your existing code wrapper)
-- PostgreSQL
+- PostgreSQL (database)
+- Axios, UUID, CORS
+
+**Python Service:**
+- Flask + Flask-CORS
+- Pandas, BeautifulSoup4, pdfplumber
+- Swiss voting data tools
 
 **AI:**
-- Apertus-70B (Infomaniak API)
+- Apertus (Swiss open-source LLM by EPFL/ETH/CSCS)
+- Infomaniak API
 
 **Hosting:**
 - Frontend: Lovable → ailights.org
 - Backend: Infomaniak Jelastic
 - Database: Infomaniak PostgreSQL
 
----
+## Quick Start
 
-## 📈 Research Design
+### Prerequisites
+- Node.js 18+
+- Python 3.10+
+- PostgreSQL
 
-**Hypotheses:**
-- H1: Data Nutrition Label increases donation
-- H2: Granular Dashboard increases donation  
-- H3: Combined effect is synergistic
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-**Sample:**
-- Target: N=200 (50 per condition)
-- Languages: DE (~60%), FR (~25%), IT (~8%), EN (~7%)
+### Backend
+```bash
+cd backend
+cp .env.example .env  # Configure environment variables
+npm install
+npm run dev
+```
 
-**Analysis:**
-- Logistic regression
-- Odds ratios with 95% CI
-- Control for language
+### Python Service
+```bash
+cd python-service
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python swiss_voting_api.py
+```
 
----
+### Testing
+```bash
+# Local testing
+./test-locally.sh
 
-## ✅ What's Different from Original Docs
+# Production testing
+./test-production.sh
+```
 
-### Simplified:
-- ❌ No timelines, budgets, checklists
-- ❌ No project management overhead
-- ❌ No repetitive explanations
+## Documentation
 
-### Enhanced:
-- ✅ Integrated multi-language throughout
-- ✅ Code reuse strategy for your existing tools
-- ✅ Specific to your domain (ailights.org)
-- ✅ Complete code (not pseudo-code)
-- ✅ All translation files ready
+### Core Documentation (`docs/`)
 
-### Focused:
-- Just technical implementation
-- Step-by-step guides
-- Production-ready code
-- Clear examples
+| File | Description |
+|------|-------------|
+| [00_START_HERE.md](docs/00_START_HERE.md) | Quick overview, setup phases, key decisions |
+| [01_ARCHITECTURE.md](docs/01_ARCHITECTURE.md) | System design, data flow, experimental design |
+| [02_BACKEND.md](docs/02_BACKEND.md) | Backend implementation, API endpoints, database schema |
+| [03_FRONTEND.md](docs/03_FRONTEND.md) | React components, hooks, experimental conditions |
+| [04_DEPLOYMENT.md](docs/04_DEPLOYMENT.md) | Deployment guide for Infomaniak Jelastic |
+| [05_TRANSLATIONS.md](docs/05_TRANSLATIONS.md) | Complete translation files (DE/FR/IT/EN) |
+| [05_USER_JOURNEY.md](docs/05_USER_JOURNEY.md) | Complete participant flow, all screens and questions |
+| [ai-user-research-concept.md](docs/ai-user-research-concept.md) | AI user research methodology |
 
----
+### Reference Data (`docs/`)
 
-## 🆘 Need Help?
+| Folder | Contents |
+|--------|----------|
+| [Infomaniak/](docs/Infomaniak/) | API documentation, available models |
+| [Swissvotes/](docs/Swissvotes/) | Swissvotes dataset, codebook, sources |
 
-**For specific implementation:**
-- Backend questions → See 02_BACKEND.md
-- Frontend questions → See 03_FRONTEND.md
-- Deployment issues → See 04_DEPLOYMENT.md
-- Translation questions → See 05_TRANSLATIONS.md
+### Component Documentation
 
-**For architecture/design:**
-- System overview → See 01_ARCHITECTURE.md
-- Quick reference → See 00_START_HERE.md
+| File | Description |
+|------|-------------|
+| [frontend/FRONTEND_README.md](frontend/FRONTEND_README.md) | Frontend-specific documentation |
+| [frontend/DEVELOPMENT.md](frontend/DEVELOPMENT.md) | Frontend development guide |
+| [database/CONFIG_SCHEMA.md](database/CONFIG_SCHEMA.md) | Database schema documentation |
+| [analysis/MEASUREMENT_PLAN.md](analysis/MEASUREMENT_PLAN.md) | Statistical analysis plan |
+| [ai-testing/README.md](ai-testing/README.md) | AI testing framework documentation |
 
-**Technical support:**
-- Infomaniak: support@infomaniak.com
-- Apertus API: Contact via Infomaniak
+## Analysis
 
----
+The `analysis/` folder contains Jupyter notebooks for statistical analysis:
 
-## 📁 All Files Ready to Download
+- `phase1_descriptive_statistics.ipynb` - Descriptive statistics
+- `phase2_chi_square_analysis.ipynb` - Chi-square analysis
+- `phase3_logistic_regression.ipynb` - Logistic regression (primary analysis)
 
-All 6 markdown files are in `/mnt/user-data/outputs/`:
+## Scripts
 
-1. ✅ 00_START_HERE.md
-2. ✅ 01_ARCHITECTURE.md
-3. ✅ 02_BACKEND.md
-4. ✅ 03_FRONTEND.md
-5. ✅ 04_DEPLOYMENT.md
-6. ✅ 05_TRANSLATIONS.md
+| Script | Purpose |
+|--------|---------|
+| `scripts/deploy-frontend.sh` | Deploy frontend to production |
+| `scripts/deploy-analysis-only.sh` | Deploy analysis files only |
+| `scripts/test-locally.sh` | Run local tests |
+| `scripts/test-production.sh` | Run production tests |
 
-**Total size:** 67KB  
-**Ready to build!** 🚀
+## Environment Variables
 
----
+### Backend (`.env`)
+```
+DATABASE_URL=postgresql://...
+APERTUS_API_KEY=...
+PYTHON_SERVICE_URL=http://localhost:5000
+```
 
-## 💡 Pro Tips
+### Frontend (`.env.production`)
+```
+VITE_API_URL=https://your-backend-url
+```
 
-1. **Start small** - Get Python wrapper working first
-2. **Test incrementally** - Don't build everything then test
-3. **Use your existing code** - Your swiss_voting_tools are perfect
-4. **Multi-language matters** - Essential for Swiss research
-5. **Pilot thoroughly** - 10-20 people before full launch
-6. **Monitor balance** - Check condition distribution daily
+## Research Context
 
----
-
-## 🎓 Research Context
-
-This prototype supports your bachelor thesis research:
+This prototype supports bachelor thesis research:
 - **Topic:** Trust factors in civic AI
 - **Question:** What makes citizens willing to donate data?
-- **Method:** 2×2 experimental design (transparency × control)
+- **Method:** 2x2 experimental design (transparency x control)
 - **Context:** Swiss voting information chatbot
-- **N:** 200 participants across 4 languages
+- **Institution:** Digital Business University of Applied Sciences
+- **Supervisor:** Prof. Daniel Ambach
 
-Your findings will contribute to civic AI design and Swiss AI sovereignty.
+## Contact
 
----
-
-**Good luck with your implementation!** 🇨🇭🤖
+- Sabine Wildemann
+- Email: hello@ailights.org
+- Institution: DBU Digital Business University of Applied Sciences
