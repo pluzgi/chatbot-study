@@ -1,0 +1,23 @@
+# Serve React frontend from frontend/dist
+DirectoryIndex frontend/dist/index.html
+
+RewriteEngine On
+RewriteBase /
+
+# Serve existing files directly from frontend/dist
+RewriteCond %{REQUEST_URI} !^/frontend/dist
+RewriteCond %{DOCUMENT_ROOT}/frontend/dist%{REQUEST_URI} -f
+RewriteRule ^(.*)$ frontend/dist/$1 [L]
+
+# Serve existing directories
+RewriteCond %{REQUEST_URI} !^/frontend/dist
+RewriteCond %{DOCUMENT_ROOT}/frontend/dist%{REQUEST_URI} -d
+RewriteRule ^(.*)$ frontend/dist/$1 [L]
+
+# Root request serves index.html
+RewriteRule ^$ frontend/dist/index.html [L]
+
+# SPA fallback - all other requests to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ frontend/dist/index.html [L]
