@@ -8,7 +8,7 @@ __pycache__/
 *.so
 *.egg
 *.egg-info/
-dist/
+# dist/ - removed to allow frontend/dist to be deployed
 build/
 
 # Swissvotes cached data (regenerated on startup)
