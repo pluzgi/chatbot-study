@@ -1,5 +1,5 @@
 # Serve React frontend from frontend/dist
-DirectoryIndex frontend/dist/index.html
+DirectoryIndex index.html
 
 RewriteEngine On
 RewriteBase /
