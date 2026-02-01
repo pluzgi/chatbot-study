@@ -137,13 +137,22 @@ python swiss_voting_api.py
 | [analysis/MEASUREMENT_PLAN.md](analysis/MEASUREMENT_PLAN.md) | Statistical analysis plan |
 | [ai-testing/README.md](ai-testing/README.md) | AI testing framework documentation |
 
+## Live Study
+
+**Study URL:** https://chat-study.ailights.org/
+
+**Survey Navigator (debug mode):** https://chat-study.ailights.org/?debug=survey&key=apertus
+
 ## Analysis
 
 The `analysis/` folder contains Jupyter notebooks for statistical analysis:
 
-- `phase1_descriptive_statistics.ipynb` - Descriptive statistics
-- `phase2_chi_square_analysis.ipynb` - Chi-square analysis
-- `phase3_logistic_regression.ipynb` - Logistic regression (primary analysis)
+- `phase1_descriptive_statistics.ipynb` - Sample characteristics and response distributions
+- `phase2_chi_square_analysis.ipynb` - Chi-square tests for donation rates across conditions
+- `phase3_logistic_regression.ipynb` - Logistic regression models (primary hypothesis testing)
+- `phase4_effect_analysis.ipynb` - Effect sizes and confidence intervals
+- `phase5_manipulation_checks.ipynb` - Validation of experimental manipulations
+- `phase6_exploratory_analysis.ipynb` - Exploratory and secondary analyses
 
 ## Scripts
 
