@@ -12,7 +12,8 @@ This script verifies that experimental manipulations worked as intended:
 Methods:
     - Independent samples t-test (if normality holds)
     - Mann-Whitney U test (if non-normal)
-    - Cohen's d effect size with 95% CI
+    - Cohen's d effect size with 95% CI (for t-test)
+    - Rank-biserial r effect size with 95% CI (for Mann-Whitney U)
 
 Author: Chatbot Study Analysis Pipeline
 Date: January 2025
@@ -84,11 +85,12 @@ def cohens_d(group1: np.ndarray, group2: np.ndarray) -> Tuple[float, str, float,
     return d, interpretation, ci_lower, ci_upper
 
 
-def rank_biserial_r(U: float, n1: int, n2: int) -> Tuple[float, str]:
+def rank_biserial_r(U: float, n1: int, n2: int) -> Tuple[float, str, float, float]:
     """
-    Calculate rank-biserial correlation from Mann-Whitney U.
+    Calculate rank-biserial correlation from Mann-Whitney U with 95% CI.
 
     r = 1 - (2U)/(n1*n2)
+    CI via Fisher z-transformation.
 
     Args:
         U: Mann-Whitney U statistic
@@ -96,9 +98,21 @@ def rank_biserial_r(U: float, n1: int, n2: int) -> Tuple[float, str]:
         n2: Size of second group
 
     Returns:
-        Tuple of (r, interpretation)
+        Tuple of (r, interpretation, ci_lower, ci_upper)
     """
-    r = 1 - (2 * U) / (n1 * n2)
+    # scipy.mannwhitneyu(x, y) returns U for x: large U = x dominates y
+    # r = 2U/(n1*n2) - 1 gives positive r when first group has higher values
+    r = (2 * U) / (n1 * n2) - 1
+
+    # 95% CI via Fisher z-transformation
+    # Clamp r to avoid arctanh domain errors
+    r_clamped = np.clip(r, -0.9999, 0.9999)
+    z = np.arctanh(r_clamped)
+    se_z = 1.0 / np.sqrt(n1 + n2 - 3)
+    z_lo = z - 1.96 * se_z
+    z_hi = z + 1.96 * se_z
+    ci_lower = np.tanh(z_lo)
+    ci_upper = np.tanh(z_hi)
 
     abs_r = abs(r)
     if abs_r < 0.1:
@@ -110,7 +124,7 @@ def rank_biserial_r(U: float, n1: int, n2: int) -> Tuple[float, str]:
     else:
         interpretation = "large"
 
-    return r, interpretation
+    return r, interpretation, ci_lower, ci_upper
 
 
 def check_normality(data: np.ndarray, alpha: float = 0.05) -> Tuple[bool, float, float]:
@@ -185,6 +199,16 @@ def check_mc_transparency(df: pd.DataFrame) -> Dict:
         print(f"t({df_t}) = {t_stat:.3f}, p = {p_value:.4f}")
         test_type = 't-test'
         test_stat = t_stat
+
+        # Effect size: Cohen's d (matches parametric test)
+        d, d_interp, ci_lo, ci_hi = cohens_d(mc_t_t1, mc_t_t0)
+        print(f"\nEffect size: Cohen's d = {d:.3f} ({d_interp})")
+        print(f"95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]")
+        effect_size = d
+        effect_interp = d_interp
+        effect_ci_lo = ci_lo
+        effect_ci_hi = ci_hi
+        effect_metric = "Cohen's d"
     else:
         U, p_value = stats.mannwhitneyu(mc_t_t1, mc_t_t0, alternative='two-sided')
         print(f"Test: Mann-Whitney U (non-parametric)")
@@ -192,10 +216,15 @@ def check_mc_transparency(df: pd.DataFrame) -> Dict:
         test_type = 'Mann-Whitney U'
         test_stat = U
 
-    # Effect size
-    d, d_interp, ci_lo, ci_hi = cohens_d(mc_t_t1, mc_t_t0)
-    print(f"\nEffect size: Cohen's d = {d:.3f} ({d_interp})")
-    print(f"95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]")
+        # Effect size: rank-biserial r (matches non-parametric test)
+        r, r_interp, ci_lo, ci_hi = rank_biserial_r(U, len(mc_t_t1), len(mc_t_t0))
+        print(f"\nEffect size: rank-biserial r = {r:.3f} ({r_interp})")
+        print(f"95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]")
+        effect_size = r
+        effect_interp = r_interp
+        effect_ci_lo = ci_lo
+        effect_ci_hi = ci_hi
+        effect_metric = "rank-biserial r"
 
     # Interpretation
     print(f"\n--- Interpretation ---")
@@ -225,10 +254,11 @@ def check_mc_transparency(df: pd.DataFrame) -> Dict:
         'test': test_type,
         'test_stat': test_stat,
         'p_value': p_value,
-        'cohens_d': d,
-        'd_interpretation': d_interp,
-        'd_ci_lower': ci_lo,
-        'd_ci_upper': ci_hi,
+        'effect_size': effect_size,
+        'effect_metric': effect_metric,
+        'effect_interpretation': effect_interp,
+        'effect_ci_lower': effect_ci_lo,
+        'effect_ci_upper': effect_ci_hi,
         'result': result
     }
 
@@ -282,6 +312,16 @@ def check_mc_control(df: pd.DataFrame) -> Dict:
         print(f"t({df_c}) = {t_stat:.3f}, p = {p_value:.4f}")
         test_type = 't-test'
         test_stat = t_stat
+
+        # Effect size: Cohen's d (matches parametric test)
+        d, d_interp, ci_lo, ci_hi = cohens_d(mc_c_c1, mc_c_c0)
+        print(f"\nEffect size: Cohen's d = {d:.3f} ({d_interp})")
+        print(f"95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]")
+        effect_size = d
+        effect_interp = d_interp
+        effect_ci_lo = ci_lo
+        effect_ci_hi = ci_hi
+        effect_metric = "Cohen's d"
     else:
         U, p_value = stats.mannwhitneyu(mc_c_c1, mc_c_c0, alternative='two-sided')
         print(f"Test: Mann-Whitney U (non-parametric)")
@@ -289,10 +329,15 @@ def check_mc_control(df: pd.DataFrame) -> Dict:
         test_type = 'Mann-Whitney U'
         test_stat = U
 
-    # Effect size
-    d, d_interp, ci_lo, ci_hi = cohens_d(mc_c_c1, mc_c_c0)
-    print(f"\nEffect size: Cohen's d = {d:.3f} ({d_interp})")
-    print(f"95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]")
+        # Effect size: rank-biserial r (matches non-parametric test)
+        r, r_interp, ci_lo, ci_hi = rank_biserial_r(U, len(mc_c_c1), len(mc_c_c0))
+        print(f"\nEffect size: rank-biserial r = {r:.3f} ({r_interp})")
+        print(f"95% CI: [{ci_lo:.3f}, {ci_hi:.3f}]")
+        effect_size = r
+        effect_interp = r_interp
+        effect_ci_lo = ci_lo
+        effect_ci_hi = ci_hi
+        effect_metric = "rank-biserial r"
 
     # Interpretation
     print(f"\n--- Interpretation ---")
@@ -322,10 +367,11 @@ def check_mc_control(df: pd.DataFrame) -> Dict:
         'test': test_type,
         'test_stat': test_stat,
         'p_value': p_value,
-        'cohens_d': d,
-        'd_interpretation': d_interp,
-        'd_ci_lower': ci_lo,
-        'd_ci_upper': ci_hi,
+        'effect_size': effect_size,
+        'effect_metric': effect_metric,
+        'effect_interpretation': effect_interp,
+        'effect_ci_lower': effect_ci_lo,
+        'effect_ci_upper': effect_ci_hi,
         'result': result
     }
 
