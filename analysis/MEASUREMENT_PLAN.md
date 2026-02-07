@@ -43,7 +43,7 @@ This study examines whether transparency about data usage and having more detail
 | **1. Descriptive** | Sample overview, donation rates, demographics | Wilson CI, frequencies |
 | **2. Chi-Square** | Bivariate tests of T and C effects | χ², Cramér's V, Bonferroni |
 | **3. Logistic Regression** | Main hypothesis tests (H1, H2, H3) | OR, AIC, LR tests, Cohen's d, φ |
-| **4. Effect Analysis** | Predicted probabilities, simple effects | Marginal effects, interaction plots |
+| **4. Effect Analysis** | Simple effects, marginal effects | Marginal effects, interaction plots |
 | **5. Manipulation Checks** | Verify T and C manipulations worked | t-test/Mann-Whitney, Cohen's d |
 | **6. Exploratory** | Dashboard preferences, qualitative themes | Frequencies, thematic coding |
 
@@ -140,7 +140,7 @@ This study examines whether transparency about data usage and having more detail
 - **Overall model test**: model Wald χ² (or equivalent omnibus test) with p-value.
 - **Model comparisons**: Likelihood Ratio Tests (Δdeviance) for nested models (M1→M3, M3→M4, M4→M5), reporting Δχ², Δdf, p, plus ΔAIC.
 - **Model summary table**: All models with T/C/T×C significance indicators (✓ = p < .05)
-- **Visualization**: predicted donation probabilities for A/B/C/D from Model 4 (and Model 5 as robustness) with 95% CI.
+- **Visualization**: interaction plot of donation rates by condition with 95% CI.
 
 ---
 
@@ -149,17 +149,14 @@ This study examines whether transparency about data usage and having more detail
 | Analysis | Purpose |
 |----------|---------|
 | Marginal effects at means | Probability changes per IV |
-| Predicted probabilities per condition | Visualize interaction |
 | Simple effects (if interaction significant) | T effect within C0/C1; C effect within T0/T1 |
-| Predicted probabilities for A/B/C/D from Model 4 | Standardized condition-level interpretation |
 
 ### Phase 4 outputs
-- Predicted probabilities of donation for each condition A/B/C/D (from Model 4; optionally also Model 5 as robustness) with 95% CI.
 - Marginal effects (Δ probability) for T and C (and for the interaction if significant)
 - If T×C significant: simple effects table
   - Effect of T within C0 and within C1
   - Effect of C within T0 and within T1
-- Visualization: interaction plot / bar chart of predicted probabilities for A/B/C/D with CI.
+- Visualization: interaction plot / bar chart of donation rates for A/B/C/D with CI.
 
 ---
 
@@ -303,8 +300,8 @@ If T×C significant:
 - Simple effects of C at T=0 and T=1
 
 Always:
-- Predicted probabilities for A/B/C/D (Model 4; optionally Model 5 as robustness)
-- Visualization: predicted probabilities by condition + 95% CI
+- Marginal effects for T and C
+- Visualization: donation rates by condition + 95% CI
 
 ### Step 6: Phase 5 — Manipulation Checks
 - Compare `mc_transparency` between T0 vs T1 (t-test if approx normal; otherwise Mann–Whitney U)

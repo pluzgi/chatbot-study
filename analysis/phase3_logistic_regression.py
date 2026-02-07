@@ -330,10 +330,17 @@ def prepare_covariates(df: pd.DataFrame) -> pd.DataFrame:
     df_covariates['gender_coded'] = df_covariates['gender'].map(gender_map)
     df_covariates['gender_coded'] = df_covariates['gender_coded'].fillna(0.5)
 
-    # Education: Ordinal coding
-    edu_order = ['no-formal', 'primary', 'secondary', 'vocational',
-                  'bachelor', 'master', 'doctorate']
-    edu_map = {edu: i for i, edu in enumerate(edu_order)}
+    # Education: Ordinal coding (matches survey display order exactly)
+    # PostTaskSurvey.tsx lines 515-523
+    edu_map = {
+        'mandatory': 0,
+        'matura': 1,
+        'vocational': 2,
+        'higher-vocational': 3,
+        'applied-sciences': 4,
+        'university': 5,
+        'prefer-not-say': None
+    }
     df_covariates['education_ordinal'] = df_covariates['education'].map(edu_map)
     df_covariates['education_ordinal'] = df_covariates['education_ordinal'].fillna(
         df_covariates['education_ordinal'].median()
