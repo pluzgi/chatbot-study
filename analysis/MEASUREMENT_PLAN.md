@@ -3,7 +3,7 @@
 **Swiss Ballot Chatbot Study**
 **2x2 Factorial Design: Transparency (T0/T1) x Control (C0/C1)**
 
-*Last updated: January 31, 2026*
+*Last updated: February 7, 2026*
 
 **Study Survey:** [https://chat-study.ailights.org/](https://chat-study.ailights.org/)
 
