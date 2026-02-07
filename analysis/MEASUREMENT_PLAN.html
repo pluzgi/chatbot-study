@@ -1,234 +1,174 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-<title>MEASUREMENT_PLAN.md</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-
-<style>
-/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-body {
-	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
-	font-size: 16px;
-	padding: 40px 100px;
-	line-height: 26px;
-	word-wrap: break-word;
-	max-width: 1000px;
-}
-
-#code-csp-warning {
-	position: fixed;
-	top: 0;
-	right: 0;
-	color: white;
-	margin: 16px;
-	text-align: center;
-	font-size: 12px;
-	font-family: sans-serif;
-	background-color:#444444;
-	cursor: pointer;
-	padding: 6px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
-}
-
-#code-csp-warning:hover {
-	text-decoration: none;
-	background-color:#007acc;
-	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
-}
-
-body.scrollBeyondLastLine {
-	margin-bottom: calc(100vh - 22px);
-}
-
-body.showEditorSelection .code-line {
-	position: relative;
-}
-
-body.showEditorSelection .code-active-line:before,
-body.showEditorSelection .code-line:hover:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: -12px;
-	height: 100%;
-}
-
-body.showEditorSelection li.code-active-line:before,
-body.showEditorSelection li.code-line:hover:before {
-	left: -30px;
-}
-
-.vscode-light.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.15);
-}
-
-.vscode-light.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.40);
-}
-
-.vscode-light.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-dark.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.4);
-}
-
-.vscode-dark.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.60);
-}
-
-.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-high-contrast.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 160, 0, 0.7);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 160, 0, 1);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus {
-	outline: 1px solid -webkit-focus-ring-color;
-	outline-offset: -1px;
-}
-
-hr {
-	border: 0;
-	height: 2px;
-	border-bottom: 2px solid;
-}
-
-h1 {
-	padding-bottom: 0.3em;
-	line-height: 1.2;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-h1, h2, h3 {
-	font-weight: bold;
-}
-
-table {
-	border-collapse: collapse;
-	width: auto;
-	max-width: 100%;
-}
-
-table > thead > tr > th {
-	text-align: left;
-	border-bottom: 1px solid;
-}
-
-table > thead > tr > th,
-table > thead > tr > td,
-table > tbody > tr > th,
-table > tbody > tr > td {
-	padding: 5px 10px;
-}
-
-table > tbody > tr + tr > td {
-	border-top: 1px solid;
-}
-
-blockquote {
-	margin: 0 7px 0 5px;
-	padding: 0 16px 0 10px;
-	border-left-width: 5px;
-	border-left-style: solid;
-}
-
-code {
-	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-	font-size: 1em;
-	line-height: 1.357em;
-}
-
-body.wordWrap pre {
-	white-space: pre-wrap;
-}
-
-pre:not(.hljs),
-pre.hljs code > div {
-	padding: 16px;
-	border-radius: 3px;
-	overflow: auto;
-}
-
-pre code {
-	color: var(--vscode-editor-foreground);
-	tab-size: 4;
-}
-
-/** Theming */
-
-.vscode-light pre {
-	background-color: rgba(220, 220, 220, 0.4);
-}
-
-.vscode-dark pre {
-	background-color: rgba(10, 10, 10, 0.4);
-}
-
-.vscode-high-contrast pre {
-	background-color: rgb(0, 0, 0);
-}
-
-.vscode-high-contrast h1 {
-	border-color: rgb(0, 0, 0);
-}
-
-.vscode-light table > thead > tr > th {
-	border-color: rgba(0, 0, 0, 0.69);
-}
-
-.vscode-dark table > thead > tr > th {
-	border-color: rgba(255, 255, 255, 0.69);
-}
-
-.vscode-light h1,
-.vscode-light hr,
-.vscode-light table > tbody > tr + tr > td {
-	border-color: rgba(0, 0, 0, 0.18);
-}
-
-.vscode-dark h1,
-.vscode-dark hr,
-.vscode-dark table > tbody > tr + tr > td {
-	border-color: rgba(255, 255, 255, 0.18);
-}
-
-</style>
-</head><body class="vscode-body vscode-light">
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>MEASUREMENT_PLAN</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
 <h1 id="measurement-analysis-plan">Measurement &amp; Analysis Plan</h1>
 <p><strong>Swiss Ballot Chatbot Study</strong> <strong>2x2 Factorial
 Design: Transparency (T0/T1) x Control (C0/C1)</strong></p>
@@ -700,23 +640,34 @@ behavior (C1 only: Conditions C &amp; D)</h3>
 (scope/purpose/storage/retention) within C and within D</li>
 <li>Compare <strong>C vs D</strong> distributions for each dashboard
 variable (χ² + Cramér’s V)</li>
-<li>Optional: cluster analysis of dashboard preference profiles (one-hot
-encoding)</li>
+<li>Top configuration profiles (most common
+scope|purpose|storage|retention combinations)</li>
 </ul>
 <h3 id="b.-q14-open-text-what-mattered-most">6B. Q14 Open Text (“What
 mattered most…”)</h3>
 <p><strong>Goal</strong>: explain <em>reasons</em> behind donate/decline
 and how they differ across experimental conditions.</p>
-<p><strong>Method</strong>: - Short <strong>theme codebook</strong>
-(multi-label coding allowed). - Typical themes aligned with your study:
-clarity/transparency, control/choice, anonymity/risk, purpose (academic
-vs commercial), storage/sovereignty, retention, institutional trust,
-general privacy stance.</p>
-<p><strong>Required outputs</strong>: 1. Theme frequencies by condition
-(A/B/C/D) 2. Theme frequencies by donate vs decline 3. Condition
-contrasts explicitly reported: A vs B, A vs C, C vs D, B vs D (theme %
-deltas) 4. 5 short representative quotes (anonymized, selected from the
-most frequent themes)</p>
+<p><strong>Method</strong>: Deterministic multilingual keyword-based
+content analysis (reproducible). - <strong>Codebook</strong>: 10 themes
+derived inductively from reading all responses, with keywords in DE, FR,
+and EN (the three main participant languages). -
+<strong>Coding</strong>: Case-insensitive substring matching. Each
+response can match multiple themes (multi-label). No LLM or manual coder
+judgment involved — fully reproducible from codebook. -
+<strong>Themes</strong>: research_support, improve_ai,
+non_personal_data, anonymity, trust_institution, civic_democratic,
+control_choice, data_purpose, data_storage_security, indifference.</p>
+<p><strong>Required outputs</strong>: 1. Coverage statistics (% of
+responses matched by codebook, mean themes per response) 2. Overall
+theme frequencies (% of respondents) 3. Theme frequencies by condition
+(A/B/C/D) — bar chart + table 4. Theme frequencies by donation decision
+(donate vs decline) 5. Condition contrasts: A vs B, A vs C, C vs D, B vs
+D (theme % point differences ≥ 5 pp) 6. Representative quotes (one per
+theme, with condition and donation status)</p>
+<p><strong>Reproducibility artifacts</strong>: -
+<code>phase6_theme_codebook.csv</code> — full codebook with all keywords
+per language - <code>phase6_q14_response_coding_human.csv</code> —
+per-response theme assignments</p>
 <hr />
 <h2 id="concrete-testing-protocol-with-ai-test-users-n1000">Concrete
 Testing Protocol with AI Test Users (N=1000)</h2>
@@ -815,15 +766,18 @@ normal; otherwise Mann–Whitney U)</li>
 </ul>
 <p><strong>Outputs</strong>: group means/SD, test statistic + p, effect
 size (Cohen’s d or nonparametric effect size), plot with CI.</p>
-<h3 id="step-7-phase-6-exploratory-checks-pipeline-completeness">Step 7:
-Phase 6 — Exploratory Checks (pipeline completeness)</h3>
+<h3 id="step-7-phase-6-exploratory-analysis">Step 7: Phase 6 —
+Exploratory Analysis</h3>
 <p><strong>Dashboard (C1 only)</strong>: - Frequency tables per
 dashboard variable (C vs D) - Chi²(C vs D) for each dashboard variable +
-effect size</p>
-<p><strong>Q14 free text</strong>: - Theme frequencies by condition
-(A/B/C/D) - Theme frequencies by donate vs decline - Condition
-contrasts: A vs B, A vs C, C vs D, B vs D - 5 short representative
-quotes</p>
+Cramér’s V - Top configuration profiles</p>
+<p><strong>Q14 free text</strong> (multilingual keyword-based content
+analysis): - Apply 10-theme codebook (DE/FR/EN keywords) to all
+responses - Report coverage statistics and overall theme frequencies -
+Theme frequencies by condition (A/B/C/D) — table + bar chart - Theme
+frequencies by donate vs decline - Condition contrasts: A vs B, A vs C,
+C vs D, B vs D (≥ 5 pp differences) - Representative quotes (one per
+theme)</p>
 <hr />
 <h2 id="expected-output-table-structure">Expected Output Table
 Structure</h2>
@@ -888,8 +842,8 @@ generate theme tables + 5 quotes</li>
 </ul>
 <hr />
 <h2 id="effect-size-reference">Effect Size Reference</h2>
-<h3 id="cohens-d-for-group-mean-differences">Cohen’s d (for group mean
-differences)</h3>
+<h3 id="cohens-d-for-group-mean-differences-used-with-t-test">Cohen’s d
+(for group mean differences — used with t-test)</h3>
 <table>
 <thead>
 <tr>
@@ -916,6 +870,38 @@ differences)</h3>
 </tr>
 </tbody>
 </table>
+<h3
+id="rank-biserial-r-for-rank-based-comparisons-used-with-mann-whitney-u">Rank-biserial
+r (for rank-based comparisons — used with Mann-Whitney U)</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>r</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 0.1</td>
+<td>Negligible</td>
+</tr>
+<tr>
+<td>0.1 – 0.3</td>
+<td>Small</td>
+</tr>
+<tr>
+<td>0.3 – 0.5</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>≥ 0.5</td>
+<td>Large</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: The effect size metric matches the statistical test:
+Cohen’s d with t-test (parametric), rank-biserial r with Mann-Whitney U
+(non-parametric).</em></p>
 <h3 id="phi-coefficient-φ-for-22-tables">Phi coefficient φ (for 2×2
 tables)</h3>
 <table>
@@ -973,4 +959,5 @@ tables)</h3>
 </tbody>
 </table>
 <p><em>Note: For 2×2 tables, Cramér’s V = |φ| (Phi coefficient)</em></p>
-</body></html>
+</body>
+</html>
