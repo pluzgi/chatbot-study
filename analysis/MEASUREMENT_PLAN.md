@@ -184,21 +184,28 @@ For each manipulation check comparison (MC-T and MC-C):
 ### 6A. Dashboard behavior (C1 only: Conditions C & D)
 - Frequency analysis of each dashboard variable (scope/purpose/storage/retention) within C and within D
 - Compare **C vs D** distributions for each dashboard variable (χ² + Cramér's V)
-- Optional: cluster analysis of dashboard preference profiles (one-hot encoding)
+- Top configuration profiles (most common scope|purpose|storage|retention combinations)
 
 ### 6B. Q14 Open Text ("What mattered most…")
 
 **Goal**: explain *reasons* behind donate/decline and how they differ across experimental conditions.
 
-**Method**:
-- Short **theme codebook** (multi-label coding allowed).
-- Typical themes aligned with your study: clarity/transparency, control/choice, anonymity/risk, purpose (academic vs commercial), storage/sovereignty, retention, institutional trust, general privacy stance.
+**Method**: Deterministic multilingual keyword-based content analysis (reproducible).
+- **Codebook**: 10 themes derived inductively from reading all responses, with keywords in DE, FR, and EN (the three main participant languages).
+- **Coding**: Case-insensitive substring matching. Each response can match multiple themes (multi-label). No LLM or manual coder judgment involved — fully reproducible from codebook.
+- **Themes**: research_support, improve_ai, non_personal_data, anonymity, trust_institution, civic_democratic, control_choice, data_purpose, data_storage_security, indifference.
 
 **Required outputs**:
-1. Theme frequencies by condition (A/B/C/D)
-2. Theme frequencies by donate vs decline
-3. Condition contrasts explicitly reported: A vs B, A vs C, C vs D, B vs D (theme % deltas)
-4. 5 short representative quotes (anonymized, selected from the most frequent themes)
+1. Coverage statistics (% of responses matched by codebook, mean themes per response)
+2. Overall theme frequencies (% of respondents)
+3. Theme frequencies by condition (A/B/C/D) — bar chart + table
+4. Theme frequencies by donation decision (donate vs decline)
+5. Condition contrasts: A vs B, A vs C, C vs D, B vs D (theme % point differences ≥ 5 pp)
+6. Representative quotes (one per theme, with condition and donation status)
+
+**Reproducibility artifacts**:
+- `phase6_theme_codebook.csv` — full codebook with all keywords per language
+- `phase6_q14_response_coding_human.csv` — per-response theme assignments
 
 ---
 
@@ -305,17 +312,20 @@ Always:
 
 **Outputs**: group means/SD, test statistic + p, effect size (Cohen's d or nonparametric effect size), plot with CI.
 
-### Step 7: Phase 6 — Exploratory Checks (pipeline completeness)
+### Step 7: Phase 6 — Exploratory Analysis
 
 **Dashboard (C1 only)**:
 - Frequency tables per dashboard variable (C vs D)
-- Chi²(C vs D) for each dashboard variable + effect size
+- Chi²(C vs D) for each dashboard variable + Cramér's V
+- Top configuration profiles
 
-**Q14 free text**:
-- Theme frequencies by condition (A/B/C/D)
+**Q14 free text** (multilingual keyword-based content analysis):
+- Apply 10-theme codebook (DE/FR/EN keywords) to all responses
+- Report coverage statistics and overall theme frequencies
+- Theme frequencies by condition (A/B/C/D) — table + bar chart
 - Theme frequencies by donate vs decline
-- Condition contrasts: A vs B, A vs C, C vs D, B vs D
-- 5 short representative quotes
+- Condition contrasts: A vs B, A vs C, C vs D, B vs D (≥ 5 pp differences)
+- Representative quotes (one per theme)
 
 ---
 
@@ -344,13 +354,23 @@ Always:
 
 ## Effect Size Reference
 
-### Cohen's d (for group mean differences)
+### Cohen's d (for group mean differences — used with t-test)
 | |d| | Interpretation |
 |-----|----------------|
 | < 0.2 | Negligible |
 | 0.2 – 0.5 | Small |
 | 0.5 – 0.8 | Medium |
 | ≥ 0.8 | Large |
+
+### Rank-biserial r (for rank-based comparisons — used with Mann-Whitney U)
+| |r| | Interpretation |
+|-----|----------------|
+| < 0.1 | Negligible |
+| 0.1 – 0.3 | Small |
+| 0.3 – 0.5 | Medium |
+| ≥ 0.5 | Large |
+
+*Note: The effect size metric matches the statistical test: Cohen's d with t-test (parametric), rank-biserial r with Mann-Whitney U (non-parametric).*
 
 ### Phi coefficient φ (for 2×2 tables)
 | |φ| | Interpretation |

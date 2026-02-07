@@ -179,6 +179,83 @@ def load_participant_data(config: AnalysisConfig) -> pd.DataFrame:
     return df
 
 
+def clean_language_codes(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Standardize language codes for human participant data.
+
+    Converts variants like 'en-GB', 'en-US' to base codes: 'de', 'en', 'fr', 'it'.
+
+    Args:
+        df: DataFrame with 'language' and optionally 'primary_language' columns
+
+    Returns:
+        DataFrame with cleaned language codes
+    """
+    df = df.copy()
+
+    # Language mapping: variants → standard codes
+    language_map = {
+        'de': 'de',
+        'de-CH': 'de',
+        'de-DE': 'de',
+        'gsw': 'de',      # Swiss German (Alemannic)
+        'en': 'en',
+        'en-GB': 'en',
+        'en-US': 'en',
+        'en-AU': 'en',
+        'en-CH': 'en',    # English in Switzerland
+        'fr': 'fr',
+        'fr-CH': 'fr',
+        'fr-FR': 'fr',
+        'it': 'it',
+        'it-CH': 'it',
+        'it-IT': 'it',
+        'rm': 'rm',       # Romansh
+        'es': 'other',    # Spanish → other (not a study language)
+        'es-ES': 'other',
+        'pt': 'other',    # Portuguese → other
+        'pt-BR': 'other',
+    }
+
+    # Clean 'language' column (UI language from participants table)
+    if 'language' in df.columns:
+        original_langs = df['language'].unique()
+        df['language_original'] = df['language']  # Keep original for reference
+        df['language'] = df['language'].map(lambda x: language_map.get(x, x) if pd.notna(x) else x)
+        cleaned_langs = df['language'].unique()
+
+        # Report cleaning
+        unmapped = [l for l in original_langs if l not in language_map and pd.notna(l)]
+        if unmapped:
+            print(f"[WARNING] Unmapped language codes in 'language': {unmapped}")
+        print(f"[INFO] Language codes cleaned: {list(original_langs)} → {list(cleaned_langs)}")
+
+    # Clean 'primary_language' column (demographic survey response)
+    if 'primary_language' in df.columns:
+        # primary_language uses descriptive labels from survey, not ISO codes
+        # Map common variants to standard labels
+        primary_lang_map = {
+            'German / Swiss German': 'de',
+            'German': 'de',
+            'Swiss German': 'de',
+            'de': 'de',
+            'French': 'fr',
+            'fr': 'fr',
+            'Italian': 'it',
+            'it': 'it',
+            'English': 'en',
+            'en': 'en',
+            'Romansh': 'rm',
+            'rm': 'rm',
+            'Other': 'other',
+        }
+        df['primary_language'] = df['primary_language'].map(
+            lambda x: primary_lang_map.get(x, x) if pd.notna(x) else x
+        )
+
+    return df
+
+
 def prepare_variables(df: pd.DataFrame, config: AnalysisConfig) -> pd.DataFrame:
     """
     Create derived variables required for analysis.
@@ -201,6 +278,11 @@ def prepare_variables(df: pd.DataFrame, config: AnalysisConfig) -> pd.DataFrame:
     """
     df = df.copy()
 
+    # Clean language codes (important for human data with browser locale variants)
+    if not config.is_ai_participant:
+        df = clean_language_codes(df)
+        print("[INFO] Applied language code cleaning for human participants")
+
     # Create transparency and control level indicators from condition
     df['transparency_level'] = df['condition'].map(config.TRANSPARENCY_MAP)
     df['control_level'] = df['condition'].map(config.CONTROL_MAP)
@@ -218,10 +300,19 @@ def prepare_variables(df: pd.DataFrame, config: AnalysisConfig) -> pd.DataFrame:
     # out_risk = mean of OUT-RISK items
     df['out_risk'] = df[['risk_traceability', 'risk_misuse']].mean(axis=1)
 
-    # Attention check: mark as correct if answer matches expected
+    # Attention check: distinguish between missing (incomplete survey) and wrong answer
+    # attention_check_missing: True if NULL (participant didn't complete post-task survey)
+    df['attention_check_missing'] = df['attention_check'].isna()
+
+    # attention_check_correct: True only if answer matches expected (NULL = False)
     df['attention_check_correct'] = (
         df['attention_check'].str.lower() == config.ATTENTION_CHECK_CORRECT.lower()
     ).astype(int)
+
+    # attention_check_failed: True if answered but answered wrong (not NULL and not correct)
+    df['attention_check_failed'] = (
+        ~df['attention_check_missing'] & (df['attention_check_correct'] == 0)
+    )
 
     # Parse dashboard configuration JSON for conditions C/D
     def parse_dashboard_config(config_json):
@@ -244,7 +335,8 @@ def prepare_variables(df: pd.DataFrame, config: AnalysisConfig) -> pd.DataFrame:
     df['dashboard_retention'] = df['dashboard_parsed'].apply(lambda x: x.get('retention'))
 
     print("[INFO] Created derived variables: transparency_level, control_level, T_x_C, "
-          "mc_transparency, mc_control, out_risk, attention_check_correct, dashboard fields")
+          "mc_transparency, mc_control, out_risk, attention_check_correct, "
+          "attention_check_missing, attention_check_failed, dashboard fields")
 
     return df
 
@@ -258,7 +350,8 @@ def compute_sample_flow(df: pd.DataFrame) -> Dict:
     Compute sample flow statistics and apply exclusion criteria.
 
     Exclusion criteria:
-        1. Failed attention check (attention_check_correct = 0)
+        1a. Incomplete survey (missing attention check response)
+        1b. Failed attention check (wrong answer)
         2. Missing condition
         3. Missing donation_decision
 
@@ -270,7 +363,8 @@ def compute_sample_flow(df: pd.DataFrame) -> Dict:
     """
     results = {
         'initial_n': len(df),
-        'excluded_attention': 0,
+        'excluded_incomplete_survey': 0,
+        'excluded_failed_attention': 0,
         'excluded_missing_condition': 0,
         'excluded_missing_donation': 0,
         'final_n': 0,
@@ -280,9 +374,14 @@ def compute_sample_flow(df: pd.DataFrame) -> Dict:
     # Track exclusions step by step
     df_filtered = df.copy()
 
-    # Step 1: Exclude failed attention checks
-    failed_attention = df_filtered['attention_check_correct'] == 0
-    results['excluded_attention'] = failed_attention.sum()
+    # Step 1a: Exclude incomplete surveys (missing attention check = never completed post-task survey)
+    incomplete_survey = df_filtered['attention_check_missing']
+    results['excluded_incomplete_survey'] = incomplete_survey.sum()
+    df_filtered = df_filtered[~incomplete_survey]
+
+    # Step 1b: Exclude failed attention checks (answered but answered wrong)
+    failed_attention = df_filtered['attention_check_failed']
+    results['excluded_failed_attention'] = failed_attention.sum()
     df_filtered = df_filtered[~failed_attention]
 
     # Step 2: Exclude missing condition
@@ -303,7 +402,8 @@ def compute_sample_flow(df: pd.DataFrame) -> Dict:
     print("PHASE 1.1: SAMPLE FLOW & EXCLUSIONS")
     print("="*60)
     print(f"Initial N:                        {results['initial_n']:>6}")
-    print(f"Excluded (failed attention):      {results['excluded_attention']:>6}")
+    print(f"Excluded (incomplete survey):     {results['excluded_incomplete_survey']:>6}")
+    print(f"Excluded (failed attention):      {results['excluded_failed_attention']:>6}")
     print(f"Excluded (missing condition):     {results['excluded_missing_condition']:>6}")
     print(f"Excluded (missing donation):      {results['excluded_missing_donation']:>6}")
     print("-"*60)
@@ -322,13 +422,20 @@ def format_sample_flow_table(results: Dict) -> pd.DataFrame:
     Returns:
         DataFrame formatted for output
     """
+    n_after_incomplete = results['initial_n'] - results['excluded_incomplete_survey']
+    n_after_attention = n_after_incomplete - results['excluded_failed_attention']
+    n_after_condition = n_after_attention - results['excluded_missing_condition']
+
     data = [
         {'Stage': 'Initial N', 'N': results['initial_n'], 'Excluded': '-'},
-        {'Stage': 'After attention check exclusion',
-         'N': results['initial_n'] - results['excluded_attention'],
-         'Excluded': results['excluded_attention']},
+        {'Stage': 'After incomplete survey exclusion',
+         'N': n_after_incomplete,
+         'Excluded': results['excluded_incomplete_survey']},
+        {'Stage': 'After failed attention check exclusion',
+         'N': n_after_attention,
+         'Excluded': results['excluded_failed_attention']},
         {'Stage': 'After missing condition exclusion',
-         'N': results['initial_n'] - results['excluded_attention'] - results['excluded_missing_condition'],
+         'N': n_after_condition,
          'Excluded': results['excluded_missing_condition']},
         {'Stage': 'After missing donation exclusion (Final)',
          'N': results['final_n'],
