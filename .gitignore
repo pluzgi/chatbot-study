@@ -32,5 +32,9 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
 # Analysis output (regenerated from notebooks)
 analysis/output/
+output/
