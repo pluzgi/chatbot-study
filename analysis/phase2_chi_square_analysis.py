@@ -33,7 +33,7 @@ from dataclasses import dataclass
 # Import from Phase 1
 from phase1_descriptive_statistics import (
     AnalysisConfig,
-    get_db_connection,
+    # get_db_connection,  # commented out: CSV-based loading replaces DB access
     load_participant_data,
     prepare_variables,
     compute_sample_flow,

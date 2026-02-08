@@ -32,8 +32,6 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
-from dotenv import load_dotenv
-from sqlalchemy import create_engine
 
 # =============================================================================
 # CONFIGURATION
@@ -64,34 +62,55 @@ class AnalysisConfig:
     output_dir: str = './output/phase1'
 
 
-def get_db_connection():
-    """
-    Establish database connection using SQLAlchemy engine.
-
-    Uses the same .env file structure as the backend:
-        DATABASE_HOST, DATABASE_PORT, DATABASE_NAME,
-        DATABASE_USER, DATABASE_PASSWORD
-
-    Returns:
-        SQLAlchemy engine object (compatible with pandas)
-    """
-    # Load environment variables from backend .env file
-    backend_env_path = os.path.join(
-        os.path.dirname(__file__),
-        '../backend/.env'
-    )
-    load_dotenv(backend_env_path)
-
-    # Build SQLAlchemy connection string
-    host = os.getenv('DATABASE_HOST', 'localhost')
-    port = os.getenv('DATABASE_PORT', '5432')
-    database = os.getenv('DATABASE_NAME', 'chatbot_study')
-    user = os.getenv('DATABASE_USER', 'admin')
-    password = os.getenv('DATABASE_PASSWORD', '')
-
-    connection_string = f"postgresql://{user}:{password}@{host}:{port}/{database}"
-    engine = create_engine(connection_string)
-    return engine
+# =============================================================================
+# DATA SOURCE
+# =============================================================================
+# The original analysis connected directly to a PostgreSQL database hosted on
+# Infomaniak Jelastic. For reproducibility without database access, participant
+# data was exported to CSV with PII removed (emails, session IDs, timestamps).
+# The database connection code is preserved below (commented out) to document
+# the original data pipeline.
+#
+# --- Original database connection (requires credentials in backend/.env) ---
+#
+# from dotenv import load_dotenv
+# from sqlalchemy import create_engine
+#
+# def get_db_connection():
+#     backend_env_path = os.path.join(os.path.dirname(__file__), '../backend/.env')
+#     load_dotenv(backend_env_path)
+#     host = os.getenv('DATABASE_HOST', 'localhost')
+#     port = os.getenv('DATABASE_PORT', '5432')
+#     database = os.getenv('DATABASE_NAME', 'chatbot_study')
+#     user = os.getenv('DATABASE_USER', 'admin')
+#     password = os.getenv('DATABASE_PASSWORD', '')
+#     connection_string = f"postgresql://{user}:{password}@{host}:{port}/{database}"
+#     engine = create_engine(connection_string)
+#     return engine
+#
+# --- Original SQL query (joined participants + post_task_measures) ---
+#
+# query = """
+#     SELECT
+#         p.id AS participant_id, p.session_id, p.condition, p.language,
+#         p.current_phase, p.is_ai_participant,
+#         CASE WHEN p.donation_decision = 'donate' THEN 1
+#              WHEN p.donation_decision = 'decline' THEN 0
+#              ELSE NULL END AS donation_decision,
+#         p.donation_config, p.created_at, p.completed_at, p.decision_at,
+#         ptm.transparency1, ptm.transparency2, ptm.control1, ptm.control2,
+#         ptm.risk_traceability, ptm.risk_misuse, ptm.trust1,
+#         ptm.attention_check, ptm.age, ptm.gender, ptm.primary_language,
+#         ptm.education, ptm.eligible_to_vote_ch, ptm.open_feedback
+#     FROM participants p
+#     LEFT JOIN post_task_measures ptm ON p.id = ptm.participant_id
+#     WHERE p.is_ai_participant = FALSE
+#     ORDER BY p.created_at
+# """
+# engine = get_db_connection()
+# df = pd.read_sql(query, engine)
+# engine.dispose()
+# =============================================================================
 
 
 # =============================================================================
@@ -100,10 +119,12 @@ def get_db_connection():
 
 def load_participant_data(config: AnalysisConfig) -> pd.DataFrame:
     """
-    Load participant data from database.
+    Load participant data from anonymized CSV export.
 
-    Joins participants table with post_task_measures to get all required
-    variables for analysis.
+    The CSV was exported from the original PostgreSQL database with PII removed:
+    - session_id replaced with sequential numeric IDs
+    - email addresses removed
+    - timestamps (created_at, completed_at, decision_at) removed
 
     Args:
         config: Analysis configuration (determines AI vs human participants)
@@ -111,70 +132,22 @@ def load_participant_data(config: AnalysisConfig) -> pd.DataFrame:
     Returns:
         DataFrame with all participant data
     """
-    # Query to load all relevant data
-    # Filter by is_ai_participant based on config
-    query = f"""
-    SELECT
-        -- Core identifiers
-        p.id AS participant_id,
-        p.session_id,
-        p.condition,
-        p.language,
-        p.current_phase,
-        p.is_ai_participant,
+    data_dir = os.path.join(os.path.dirname(__file__), 'data')
 
-        -- Donation decision (convert to binary)
-        CASE
-            WHEN p.donation_decision = 'donate' THEN 1
-            WHEN p.donation_decision = 'decline' THEN 0
-            ELSE NULL
-        END AS donation_decision,
+    if config.is_ai_participant:
+        csv_path = os.path.join(data_dir, 'participants_ai_clean.csv')
+    else:
+        csv_path = os.path.join(data_dir, 'participants_human_clean.csv')
 
-        -- Dashboard configuration (conditions C/D only)
-        p.donation_config,
+    if not os.path.exists(csv_path):
+        raise FileNotFoundError(
+            f"Data file not found: {csv_path}\n"
+            f"Expected anonymized CSV export in analysis/data/"
+        )
 
-        -- Timestamps
-        p.created_at,
-        p.completed_at,
-        p.decision_at,
+    df = pd.read_csv(csv_path)
 
-        -- Post-task measures: Manipulation checks (MC-T, MC-C)
-        ptm.transparency1,  -- MC-T item 1
-        ptm.transparency2,  -- MC-T item 2
-        ptm.control1,       -- MC-C item 1
-        ptm.control2,       -- MC-C item 2
-
-        -- Risk perception (OUT-RISK)
-        ptm.risk_traceability,  -- OUT-RISK item 1
-        ptm.risk_misuse,        -- OUT-RISK item 2
-
-        -- Trust (OUT-TRUST)
-        ptm.trust1,
-
-        -- Attention check
-        ptm.attention_check,
-
-        -- Demographics
-        ptm.age,
-        ptm.gender,
-        ptm.primary_language,
-        ptm.education,
-        ptm.eligible_to_vote_ch,
-
-        -- Open feedback (Q14)
-        ptm.open_feedback
-
-    FROM participants p
-    LEFT JOIN post_task_measures ptm ON p.id = ptm.participant_id
-    WHERE p.is_ai_participant = {'TRUE' if config.is_ai_participant else 'FALSE'}
-    ORDER BY p.created_at
-    """
-
-    engine = get_db_connection()
-    df = pd.read_sql(query, engine)
-    engine.dispose()
-
-    print(f"[INFO] Loaded {len(df)} {'AI' if config.is_ai_participant else 'human'} participants from database")
+    print(f"[INFO] Loaded {len(df)} {'AI' if config.is_ai_participant else 'human'} participants from {os.path.basename(csv_path)}")
 
     return df
 
@@ -316,13 +289,19 @@ def prepare_variables(df: pd.DataFrame, config: AnalysisConfig) -> pd.DataFrame:
 
     # Parse dashboard configuration JSON for conditions C/D
     def parse_dashboard_config(config_json):
-        """Extract dashboard selections from JSON configuration."""
+        """Extract dashboard selections from JSON or Python dict string."""
         if pd.isna(config_json) or config_json is None:
             return {}
         if isinstance(config_json, str):
             try:
                 return json.loads(config_json)
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, ValueError):
+                pass
+            # CSV export stores Python dict syntax (single quotes)
+            try:
+                import ast
+                return ast.literal_eval(config_json)
+            except (ValueError, SyntaxError):
                 return {}
         return config_json if isinstance(config_json, dict) else {}
 
@@ -772,15 +751,14 @@ def compute_dashboard_frequencies(df: pd.DataFrame) -> Dict[str, pd.DataFrame]:
     results = {}
     dashboard_vars = ['dashboard_scope', 'dashboard_purpose', 'dashboard_storage', 'dashboard_retention']
 
-    # Filter to conditions C and D only (control = 1)
-    # AND only participants who donated (they have dashboard selections)
-    df_cd = df[(df['condition'].isin(['C', 'D'])) & (df['donation_decision'] == 1)].copy()
+    # Filter to conditions C and D only (control = 1), all participants
+    df_cd = df[df['condition'].isin(['C', 'D'])].copy()
 
     if len(df_cd) == 0:
-        print("No participants in conditions C or D who donated")
+        print("No participants in conditions C or D")
         return results
 
-    print(f"Note: Dashboard analysis includes only donors (C: n={len(df_cd[df_cd['condition']=='C'])}, D: n={len(df_cd[df_cd['condition']=='D'])})")
+    print(f"Dashboard analysis: all C1 participants (C: n={len(df_cd[df_cd['condition']=='C'])}, D: n={len(df_cd[df_cd['condition']=='D'])})")
 
     for var in dashboard_vars:
         if var not in df.columns:

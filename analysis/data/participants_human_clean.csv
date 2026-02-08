@@ -1,0 +1,309 @@
+participant_id,condition,language,current_phase,donation_decision,donation_config,transparency1,transparency2,control1,control2,risk_traceability,risk_misuse,trust1,attention_check,age,gender,primary_language,education,eligible_to_vote_ch,open_feedback
+1,B,de-DE,complete,1.0,,6.0,6.0,6.0,6.0,2.0,2.0,2.0,voting,35-44,female,de,applied-sciences,not-eligible,
+2,C,de-DE,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,4.0,5.0,5.0,2.0,voting,45-54,prefer-not-say,de,university,not-eligible,
+3,D,de-DE,complete,1.0,"{'scope': 'questions-only', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,4.0,6.0,5.0,1.0,4.0,6.0,voting,45-54,male,de,university,eligible,Unterstütze die Informationsbeschaffung zu Abstimmungen
+4,A,de,complete,1.0,,2.0,1.0,1.0,1.0,2.0,2.0,4.0,voting,35-44,female,de,university,not-eligible,
+5,D,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",2.0,3.0,6.0,6.0,1.0,2.0,4.0,voting,45-54,male,de,university,eligible,
+6,A,de-DE,chatbot,,,,,,,,,,,,,,,,
+7,C,de-DE,chatbot,,,,,,,,,,,,,,,,
+8,B,de,complete,1.0,,6.0,5.0,4.0,4.0,3.0,2.0,6.0,voting,35-44,male,de,university,eligible,
+9,A,en-GB,chatbot,,,,,,,,,,,,,,,,
+10,D,en-US,chatbot,,,,,,,,,,,,,,,,
+11,B,de-DE,chatbot,,,,,,,,,,,,,,,,
+12,C,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,4.0,4.0,6.0,2.0,1.0,6.0,voting,35-44,male,de,university,eligible,
+13,B,de-DE,complete,1.0,,6.0,6.0,2.0,6.0,1.0,1.0,6.0,voting,55-64,male,de,applied-sciences,eligible,Datenspende hilft der Forschung und am Ende uns allen!
+14,A,de,complete,1.0,,5.0,5.0,6.0,6.0,1.0,1.0,4.0,voting,45-54,male,de,university,eligible,"Nützts nüt, so schads nüt."
+15,D,de,chatbot,,,,,,,,,,,,,,,,
+16,C,en-GB,chatbot,,,,,,,,,,,,,,,,
+17,B,en,chatbot,,,,,,,,,,,,,,,,
+18,C,en,consent,,,,,,,,,,,,,,,,
+19,A,en,consent,,,,,,,,,,,,,,,,
+20,D,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss-or-eu', 'retention': 'indefinite'}",5.0,5.0,5.0,5.0,5.0,5.0,5.0,voting,25-34,male,it,university,eligible,I think it is important to help research of open source models
+21,B,en-GB,complete,1.0,,6.0,6.0,6.0,6.0,1.0,1.0,6.0,voting,45-54,female,en,university,not-eligible,Progress in ai and data protection processes 
+22,A,de,complete,1.0,,6.0,6.0,6.0,6.0,1.0,1.0,6.0,voting,55-64,male,de,university,eligible,Qualität eines souveränen Chatbots in Bezug auf die Schweiz
+23,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",5.0,6.0,5.0,5.0,3.0,2.0,6.0,voting,35-44,female,other,university,not-eligible,
+24,C,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,5.0,2.0,3.0,4.0,voting,45-54,non-binary,de,university,not-eligible,
+25,D,en-US,chatbot,,,,,,,,,,,,,,,,
+26,A,en-GB,consent,,,,,,,,,,,,,,,,
+27,B,en-US,complete,1.0,,5.0,5.0,5.0,5.0,5.0,5.0,5.0,voting,35-44,female,other,university,not-eligible,
+28,C,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,4.0,4.0,1.0,voting,35-44,female,de,university,not-eligible,The chat was not important / didn't contain information that I consider to be of personal nature. So the donation choices didn't matter to me.
+29,D,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,6.0,6.0,6.0,1.0,2.0,5.0,voting,45-54,female,de,university,eligible,my indifference about data and opinions that i anyway share on social media
+30,B,de-DE,complete,1.0,,4.0,3.0,4.0,3.0,4.0,4.0,6.0,voting,35-44,prefer-not-say,de,university,not-eligible,
+31,C,de-DE,chatbot,,,,,,,,,,,,,,,,
+32,A,en-US,chatbot,,,,,,,,,,,,,,,,
+33,C,en-US,consent,,,,,,,,,,,,,,,,
+34,B,de,complete,1.0,,4.0,4.0,4.0,4.0,2.0,2.0,3.0,voting,35-44,female,de,applied-sciences,eligible,"ich würde lieber etwas sagen, was ich vom chat halte. ich bin sehr besorgt! "
+35,A,de-DE,chatbot,,,,,,,,,,,,,,,,
+36,D,de,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'indefinite'}",5.0,5.0,5.0,5.0,2.0,4.0,5.0,voting,45-54,male,de,university,eligible,
+37,D,en-CH,consent,,,,,,,,,,,,,,,,
+38,A,de,complete,1.0,,4.0,2.0,6.0,6.0,1.0,1.0,6.0,voting,45-54,male,de,university,eligible,"- Persönlicher Kontakt zu Studiendurchführenden
+- Ich unterstütze ein sinnvolles Projekt
+- Mir wurde eine einfache Wahlmöglichkeit gegeben"
+39,B,en-US,complete,1.0,,5.0,4.0,3.0,3.0,4.0,5.0,2.0,voting,45-54,male,de,vocational,not-eligible,
+40,C,de-DE,complete,1.0,"{'scope': 'topics-only', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': '1year'}",4.0,4.0,4.0,4.0,2.0,2.0,5.0,voting,18-24,male,de,vocational,eligible,
+41,B,en-GB,complete,1.0,,2.0,2.0,2.0,5.0,2.0,5.0,5.0,voting,25-34,male,fr,university,eligible,That it is handled by institutions that I trust. But I found the documentation about the usage of my data very sparse. I'm not 100% sure I would have donated my conversation if it were a true donation.
+42,A,de-CH,complete,0.0,,6.0,3.0,1.0,1.0,6.0,6.0,1.0,voting,45-54,non-binary,de,university,not-eligible,
+43,C,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'indefinite'}",4.0,5.0,4.0,5.0,3.0,4.0,3.0,voting,18-24,male,de,university,eligible,
+44,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': '1year'}",5.0,5.0,5.0,5.0,3.0,2.0,3.0,voting,45-54,female,en,university,eligible,"The fact that I could choose how my data was being used, i.e. for academic or commercial use, and the retention period for my donated data"
+45,D,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,6.0,4.0,4.0,6.0,6.0,6.0,voting,55-64,female,de,university,eligible,Forschungszwecke
+46,B,en-GB,chatbot,,,,,,,,,,,,,,,,
+47,A,en-GB,complete,1.0,,3.0,2.0,3.0,5.0,2.0,2.0,6.0,voting,35-44,female,de,university,not-eligible,"I think what matters for data donation is that you 1) can opt out 2) let people know they help you improve the system 3) let people know their data is not published and by default anonymized (no personal data stored at all with the questions) 4) emphasize what part is used ( the first questions, all follow up questions, then metadata  …)"
+48,C,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,4.0,6.0,3.0,5.0,6.0,6.0,voting,25-34,male,de,university,eligible,"The entity using the data, ie. who will be using it.
+Exp. I trust the researchers integrity and desicion making so I am ok with giving up some control.
+If it was an entity I did not trust the same I want more control."
+49,D,de-DE,complete,0.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",4.0,5.0,3.0,4.0,6.0,6.0,4.0,voting,35-44,male,de,university,not-eligible,Unklarheit ob es um die Interaktion in dieser Umfrage oder um die Bereitschaft zum Datenteilen im Allgemeinen geht.
+50,C,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': '6months'}",6.0,6.0,6.0,6.0,2.0,5.0,5.0,voting,45-54,male,de,university,eligible,"Verbesserung von Instrumenten, die die freie demokratische Willensbildung fördern."
+51,B,en-US,complete,1.0,,6.0,6.0,6.0,6.0,4.0,4.0,5.0,voting,45-54,male,en,university,not-eligible,This thing is inevitable so better help it develop in a good direction
+52,A,en-US,complete,1.0,,4.0,6.0,6.0,6.0,1.0,5.0,5.0,voting,25-34,male,de,applied-sciences,eligible,
+53,C,en-US,chatbot,,,,,,,,,,,,,,,,
+54,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,4.0,5.0,5.0,5.0,5.0,4.0,voting,45-54,prefer-not-say,de,prefer-not-say,eligible,
+55,A,en-US,chatbot,,,,,,,,,,,,,,,,
+56,B,en,complete,1.0,,6.0,6.0,6.0,6.0,4.0,1.0,4.0,voting,35-44,male,other,university,not-eligible,Improving the quality of Swiss AI models for national sovereignty
+57,C,fr,chatbot,,,,,,,,,,,,,,,,
+58,A,de-CH,complete,1.0,,6.0,6.0,5.0,5.0,1.0,2.0,5.0,voting,35-44,female,de,applied-sciences,eligible,
+59,D,en-GB,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,1.0,1.0,6.0,voting,25-34,female,it,university,not-eligible,"Contribute to make a good
+Use of AI tools. I can see the value for civic use. "
+60,B,en-GB,complete,1.0,,5.0,4.0,4.0,4.0,2.0,1.0,5.0,voting,55-64,male,de,applied-sciences,eligible,The questions I asked do not reveal anything about myself nor could be misused for any purposes 
+61,A,fr-CH,complete,1.0,,6.0,6.0,6.0,6.0,6.0,5.0,6.0,voting,35-44,female,fr,university,eligible,Améliorer chatbot et Apertus pour une Suisse souveraine de ses data's et indépendante en technologie AI
+62,B,en-GB,chatbot,,,,,,,,,,,,,,,,
+63,C,en-US,chatbot,,,,,,,,,,,,,,,,
+64,D,de,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,6.0,5.0,6.0,1.0,1.0,4.0,voting,45-54,female,de,university,eligible,Transparenz über die Verwendung.
+65,A,de-DE,complete,0.0,,1.0,1.0,1.0,2.0,5.0,4.0,1.0,voting,25-34,male,de,university,eligible,
+66,C,en-US,chatbot,,,,,,,,,,,,,,,,
+67,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,6.0,6.0,6.0,4.0,4.0,4.0,voting,45-54,male,de,university,eligible,
+68,B,en-GB,complete,1.0,,6.0,6.0,6.0,6.0,2.0,2.0,5.0,voting,45-54,male,de,university,eligible,
+69,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': '1year'}",5.0,6.0,5.0,4.0,2.0,1.0,3.0,voting,35-44,female,fr,university,not-eligible,
+70,B,de,complete,1.0,,6.0,6.0,6.0,6.0,2.0,2.0,5.0,voting,65+,female,de,university,eligible,"KI hat grosses Potential, es wäre sehr schade (und nicht gescheit), dies nicht für demokratische Zwecke einzusetzen.  Voraussetzung für die Nutzung ist aber, dass dies unter verlässlicher Kontrolle von vertrauenswürdigen Organisationen, Menschen und Daten geschieht - soweit dies möglich ist."
+71,A,de-DE,complete,1.0,,5.0,6.0,4.0,5.0,5.0,5.0,6.0,voting,45-54,male,de,applied-sciences,eligible,Vertrauen in die Seriosität der Forschungs-Institutionen und damit die Einbettung dieser Arbeit.
+72,C,en-US,chatbot,,,,,,,,,,,,,,,,
+73,C,en-US,chatbot,,,,,,,,,,,,,,,,
+74,A,en-US,complete,1.0,,6.0,6.0,6.0,6.0,4.0,4.0,1.0,voting,18-24,male,fr,mandatory,eligible,
+75,B,de-DE,complete,1.0,,5.0,5.0,4.0,4.0,2.0,3.0,4.0,voting,25-34,female,de,applied-sciences,eligible,Das es sich um Forschung zu Volksabstimmungen an öffentlichen Universitäten handelt – keine privatwirtschaftliches Unternehmen
+76,D,en,chatbot,,,,,,,,,,,,,,,,
+77,A,en-GB,complete,1.0,,2.0,3.0,3.0,5.0,1.0,1.0,4.0,voting,25-34,female,it,university,eligible,I trust research :)
+78,C,fr-FR,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': '1year'}",4.0,4.0,3.0,5.0,3.0,3.0,4.0,voting,18-24,male,fr,university,not-eligible,"Le fait que les données soient anonymisées, que je puisse choisir le temps et le lieu de stockage de celles-ci et que mes données servent pour une étude :) "
+79,D,en,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",4.0,2.0,5.0,5.0,1.0,5.0,4.0,voting,45-54,male,fr,university,eligible," - who i can donate my data to
+- where may data are being stored
+- if my data are anonymised
+- if i can delete my data afterwards "
+80,B,de-DE,chatbot,,,,,,,,,,,,,,,,
+81,B,en-GB,complete,1.0,,2.0,2.0,6.0,6.0,3.0,4.0,5.0,voting,35-44,female,de,university,eligible,I would love an eays way through LLMs to understand the ballot decisions and form my decision based on uninfluenced and objective data.
+82,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'no-preference', 'retention': '1year'}",6.0,6.0,5.0,4.0,2.0,2.0,4.0,voting,25-34,female,de,university,eligible,
+83,A,de-DE,complete,0.0,,6.0,6.0,5.0,4.0,2.0,5.0,5.0,voting,45-54,male,de,higher-vocational,eligible,Für sinnvolle AI-Applikationen wie diese gebe ich meine Daten gerne. Zumal diese nicht sehr persönlich sind. 
+84,C,de-DE,chatbot,,,,,,,,,,,,,,,,
+85,B,en-US,complete,1.0,,6.0,6.0,5.0,6.0,1.0,1.0,4.0,voting,45-54,male,other,university,eligible,
+86,C,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",2.0,4.0,5.0,5.0,5.0,4.0,3.0,voting,25-34,male,de,university,eligible,whether it was anonymised or not
+87,D,en-AU,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",5.0,4.0,5.0,5.0,5.0,4.0,4.0,voting,35-44,female,en,university,not-eligible,
+88,A,en-US,chatbot,,,,,,,,,,,,,,,,
+89,B,en-US,complete,1.0,,6.0,6.0,6.0,6.0,1.0,1.0,3.0,voting,25-34,male,de,university,eligible,Them asking and me feeling like I am making a contribution.
+90,D,en-US,chatbot,,,,,,,,,,,,,,,,
+91,C,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': '1year'}",5.0,5.0,5.0,5.0,2.0,3.0,3.0,voting,35-44,male,fr,applied-sciences,eligible,"I was surprised and liked the fact I could choose not to give my data for commercial purposes.
+What was missing is the brand from whom those questions come from.
+I'd of course trust more that my choices are implemented correctly if this would be a federal bureau asking than a private company"
+92,A,de-DE,survey,1.0,,,,,,,,,,,,,,,
+93,A,en-GB,survey,1.0,,,,,,,,,,,,,,,
+94,B,de-DE,complete,1.0,,6.0,3.0,2.0,2.0,1.0,2.0,5.0,voting,45-54,male,de,applied-sciences,eligible,
+95,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,4.0,3.0,5.0,5.0,6.0,6.0,voting,35-44,male,de,university,eligible,
+96,C,en-US,chatbot,,,,,,,,,,,,,,,,
+97,A,en-US,chatbot,,,,,,,,,,,,,,,,
+98,D,de,complete,1.0,"{'scope': 'questions-only', 'purpose': 'commercial', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,4.0,5.0,5.0,3.0,4.0,6.0,voting,55-64,female,de,applied-sciences,eligible,
+99,B,de,complete,1.0,,5.0,5.0,5.0,6.0,4.0,4.0,3.0,voting,45-54,female,de,applied-sciences,eligible,Meine Fragen waren sehr allgemein gehalten und haben absolut keine persönlichen Daten von mir beinhaltet.
+100,C,fr-FR,chatbot,,,,,,,,,,,,,,,,
+101,C,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': '1year'}",5.0,4.0,3.0,4.0,4.0,3.0,6.0,voting,18-24,female,de,matura,eligible,Möchte einer sinnvollen Entwicklung beitragen
+102,B,en-US,chatbot,,,,,,,,,,,,,,,,
+103,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': '1year'}",4.0,3.0,5.0,5.0,4.0,4.0,3.0,voting,35-44,female,de,university,eligible,Das ich den zweck bestimmen konnte
+104,A,en-GB,complete,1.0,,5.0,5.0,5.0,5.0,4.0,4.0,4.0,voting,25-34,female,de,university,eligible,it's not sensitive data... the questions were very general. It's for research. 
+105,D,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",5.0,4.0,5.0,5.0,2.0,3.0,5.0,voting,25-34,male,other,university,not-sure,
+106,C,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,3.0,6.0,1.0,1.0,5.0,voting,55-64,male,de,applied-sciences,eligible,"Dass meine Fragen sehr offen und neutral waren :-)
+Viel Glück"
+107,B,es-ES,chatbot,,,,,,,,,,,,,,,,
+108,A,es-ES,survey,1.0,,,,,,,,,,,,,,,
+109,B,de-CH,chatbot,,,,,,,,,,,,,,,,
+110,A,en-GB,complete,0.0,,4.0,4.0,3.0,3.0,4.0,4.0,5.0,voting,45-54,male,de,applied-sciences,eligible,
+111,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,1.0,2.0,6.0,voting,25-34,female,de,university,not-eligible,link came from a trustworthy source; purpose is research 
+112,C,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': '1year'}",6.0,5.0,5.0,5.0,4.0,3.0,4.0,voting,25-34,male,de,university,eligible,"I think I'd be more inclined to give data, if I actually knew which institutions would analyse them (e.g. I generally trust swiss universities)."
+113,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",6.0,5.0,4.0,6.0,2.0,2.0,5.0,voting,55-64,male,de,university,eligible,"Ich unterstütze (fast) jede Initiative, die die Demokratiefähigkeit der Schweizer Gesellschaft stützt oder steigert. Verlässliche, ausgewogene Information ist die wichtigste Ressource im politischen Prozess. Ein guter Bot kann die Befähigung steigern, sich schnell  und gut zu informieren. Die heutigen Wahlunterlagen sind, diplomatisch ausgedrückt, leider nicht zielgruppengerecht.."
+114,A,en-US,survey,1.0,,,,,,,,,,,,,,,
+115,B,de,complete,1.0,,5.0,4.0,4.0,4.0,2.0,4.0,2.0,voting,55-64,male,de,prefer-not-say,eligible,"Fair erscheinende Nutzungsinformation
+Wenig kritische Daten, die ich eingegeben habe"
+116,C,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': '1year'}",4.0,4.0,5.0,4.0,4.0,6.0,4.0,voting,25-34,female,de,university,eligible,
+117,D,de-DE,complete,0.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,6.0,3.0,6.0,4.0,5.0,3.0,voting,55-64,female,de,higher-vocational,eligible,
+118,C,de,chatbot,,,,,,,,,,,,,,,,
+119,A,en-US,chatbot,,,,,,,,,,,,,,,,
+120,B,en-US,complete,1.0,,4.0,3.0,2.0,4.0,2.0,3.0,4.0,voting,25-34,male,fr,university,not-eligible,Science
+121,D,en-US,chatbot,,,,,,,,,,,,,,,,
+122,A,en-US,complete,1.0,,2.0,2.0,2.0,2.0,1.0,1.0,4.0,voting,45-54,female,en,university,eligible,"Nothing personal in there anyhow. BTW the chatbot was pretty bad--offered misinformation, did not answer questions etc."
+123,C,de-DE,complete,0.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,3.0,5.0,4.0,voting,55-64,female,de,applied-sciences,eligible,
+124,B,de-DE,consent,,,,,,,,,,,,,,,,
+125,D,de-DE,chatbot,,,,,,,,,,,,,,,,
+126,C,de,chatbot,,,,,,,,,,,,,,,,
+127,B,de-CH,complete,0.0,,5.0,6.0,2.0,3.0,5.0,6.0,1.0,voting,55-64,female,de,matura,eligible,"Dass auch hinterfragen der Antworten in Betracht genommen werden. Eigentlich wollte ich Antworten über den EU-Vertrag, aber er antwortet auf eine andere Abstimmung. "
+128,A,de-CH,chatbot,,,,,,,,,,,,,,,,
+129,A,en-US,complete,1.0,,5.0,4.0,2.0,3.0,2.0,2.0,3.0,voting,25-34,male,it,university,not-eligible,
+130,C,en-US,chatbot,,,,,,,,,,,,,,,,
+131,B,en-US,complete,1.0,,6.0,6.0,6.0,6.0,6.0,6.0,1.0,dontremember,45-54,male,de,prefer-not-say,eligible,Did you store it or not?
+132,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",4.0,3.0,6.0,6.0,4.0,4.0,3.0,voting,35-44,female,en,university,eligible,
+133,D,de,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",3.0,5.0,2.0,5.0,5.0,2.0,6.0,voting,35-44,female,de,vocational,eligible,"Der Inhalt der Daten (keine Exponation, keine persönlichen Details und nicht beruhend auf meinem Wissen (nur zum Testen, irgendwas gefragt).
+Die Quelle/Erklärung des Hostings bei Infomaniak und Apertus als LLM; also Open Source und in der Schweiz/EU datenschutzkonform von vertrauenswerter Quelle (aiLights). --> natürlich kann man das auch schreiben und dann under the hood OpenAI APIs ansprechen oder über Agent-Systems weiterführende Verarbeitung tätigen, die der Aussage nicht entspricht."
+134,B,en,chatbot,,,,,,,,,,,,,,,,
+135,A,en-GB,complete,1.0,,5.0,5.0,6.0,6.0,1.0,2.0,3.0,voting,35-44,male,de,university,eligible,
+136,C,fr-FR,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'indefinite'}",6.0,6.0,6.0,6.0,6.0,6.0,4.0,voting,45-54,male,fr,university,not-eligible,Pour améliorer le processus de machin learning chez Apertus.
+137,B,fr,complete,1.0,,4.0,4.0,4.0,5.0,5.0,5.0,4.0,voting,45-54,female,fr,university,eligible,ma connaissance des initiateurs et de l'environnement technologique utilisé
+138,A,en-US,complete,1.0,,5.0,5.0,1.0,5.0,2.0,1.0,1.0,voting,35-44,male,de,university,not-eligible,of course you can have the data from the chat. this is some random sit - i'd avoid dumping anything (too) personal or potentially damaging to me like the devil avoids holy water. 
+139,C,de,chatbot,,,,,,,,,,,,,,,,
+140,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,6.0,6.0,6.0,4.0,3.0,2.0,voting,45-54,male,de,university,eligible,Forschung supporten
+141,C,de-DE,chatbot,,,,,,,,,,,,,,,,
+142,D,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': '1year'}",4.0,4.0,5.0,5.0,4.0,5.0,4.0,voting,35-44,male,de,university,eligible,the choice and the options. Propably preferred again a full transparency on what info is shared (all questions / Anwers)
+143,B,de-DE,complete,1.0,,5.0,4.0,4.0,5.0,3.0,5.0,6.0,voting,45-54,female,de,university,eligible,
+144,A,it,chatbot,,,,,,,,,,,,,,,,
+145,D,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",3.0,2.0,2.0,3.0,3.0,4.0,6.0,voting,25-34,male,de,university,eligible,i want to support research
+146,A,en-US,complete,1.0,,6.0,5.0,6.0,5.0,2.0,1.0,6.0,voting,35-44,male,de,university,eligible,"Trust, anonymity but also a sense of ""for the broader good"""
+147,C,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",4.0,3.0,2.0,5.0,1.0,4.0,5.0,voting,25-34,male,de,university,eligible,"Meine Fragen waren allgemein genug, dass ich nicht erwarte, dass dies auf mich zurückzuführen wäre."
+148,B,de-CH,complete,1.0,,6.0,6.0,6.0,6.0,1.0,1.0,6.0,voting,45-54,male,de,applied-sciences,eligible,"anonymisierte Daten
+ich habe keine persönlichkeitsrelevanten Fragen formuliert"
+149,C,en-US,complete,0.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,6.0,6.0,6.0,1.0,1.0,6.0,voting,35-44,male,de,university,not-eligible,
+150,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': '6months'}",5.0,6.0,5.0,5.0,5.0,1.0,6.0,voting,25-34,female,de,applied-sciences,eligible,
+151,A,en-US,complete,1.0,,5.0,4.0,5.0,5.0,2.0,4.0,6.0,voting,35-44,male,de,university,eligible,
+152,B,en-GB,complete,0.0,,6.0,6.0,6.0,6.0,6.0,6.0,6.0,immigration,18-24,female,other,mandatory,eligible,How it would affect me. If it would be good or bad for me
+153,D,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,2.0,4.0,3.0,2.0,5.0,4.0,voting,18-24,male,en,matura,not-eligible,
+154,B,en,survey,1.0,,,,,,,,,,,,,,,
+155,C,en-US,chatbot,,,,,,,,,,,,,,,,
+156,A,gsw,chatbot,,,,,,,,,,,,,,,,
+157,A,en-US,complete,1.0,,2.0,2.0,4.0,3.0,2.0,2.0,2.0,voting,18-24,male,fr,university,eligible,
+158,C,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",4.0,6.0,3.0,5.0,1.0,1.0,3.0,voting,18-24,male,en,university,eligible,
+159,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': '1year'}",5.0,5.0,5.0,5.0,6.0,6.0,1.0,voting,65+,male,de,university,eligible,Beitrag zur Verbesserung des Chatbots
+160,B,de-DE,chatbot,,,,,,,,,,,,,,,,
+161,A,en-US,complete,0.0,,3.0,3.0,3.0,3.0,3.0,3.0,3.0,dontremember,65+,prefer-not-say,other,prefer-not-say,not-sure,Test TestingTime
+162,C,de-DE,chatbot,,,,,,,,,,,,,,,,
+163,B,de-DE,complete,1.0,,6.0,6.0,6.0,6.0,5.0,6.0,6.0,voting,35-44,male,de,higher-vocational,eligible,
+164,D,de-DE,chatbot,,,,,,,,,,,,,,,,
+165,C,de-DE,chatbot,,,,,,,,,,,,,,,,
+166,A,en-US,complete,0.0,,3.0,3.0,3.0,3.0,3.0,3.0,3.0,dontremember,35-44,other,other,prefer-not-say,not-sure,Test TestingTime
+167,B,en-US,complete,0.0,,5.0,4.0,5.0,5.0,5.0,5.0,5.0,immigration,18-24,female,de,mandatory,eligible,Test
+168,D,en-US,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'indefinite'}",3.0,3.0,3.0,3.0,3.0,3.0,3.0,dontremember,65+,prefer-not-say,other,prefer-not-say,not-sure,Test TestingTime
+169,A,en-GB,complete,1.0,,6.0,6.0,6.0,6.0,4.0,4.0,4.0,voting,35-44,female,de,university,eligible,
+170,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': '6months'}",5.0,5.0,6.0,6.0,4.0,6.0,4.0,voting,25-34,female,de,higher-vocational,eligible,"Ich dachte mir, dass ich ja nichts mega persönliches weitergebe und auch hoffe, dass ich vertrauen kann, dass nichts dummes gemacht wird. Aber vielleicht bin ich auch zu naiv und weiss gar nicht, was mit solchen Daten gemacht werden könnte.
+Ich hoffe immer, dass alle im besten Interesse aller handeln :p"
+171,B,de-DE,complete,0.0,,3.0,3.0,4.0,3.0,4.0,3.0,4.0,voting,45-54,female,de,applied-sciences,eligible,
+172,D,de-CH,survey,1.0,"{'scope': 'questions-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",,,,,,,,,,,,,,
+173,B,de-CH,complete,1.0,,2.0,2.0,5.0,5.0,4.0,5.0,6.0,voting,35-44,male,de,university,eligible,"Es waren allgemeine Fragen, keine persönlichen Inhalte."
+174,C,de,chatbot,,,,,,,,,,,,,,,,
+175,A,de-DE,complete,1.0,,3.0,3.0,4.0,4.0,3.0,3.0,4.0,voting,35-44,male,de,university,eligible,Das Wissen dass es von der EPFL gemacht wird.
+176,D,de-CH,consent,,,,,,,,,,,,,,,,
+177,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss', 'retention': '1year'}",6.0,6.0,5.0,5.0,2.0,2.0,5.0,voting,35-44,male,de,applied-sciences,eligible,"Ich finde es ein interessantes Tool, was zukünftig helfen kann Informationen zu Abstimmungen für mehr Leute einfach zur Verfügung zu stellen."
+178,D,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,5.0,5.0,5.0,2.0,voting,35-44,female,de,university,eligible,
+179,A,de-CH,complete,1.0,,5.0,5.0,5.0,5.0,1.0,1.0,5.0,voting,55-64,female,de,vocational,eligible,
+180,B,de-DE,complete,1.0,,6.0,6.0,5.0,6.0,1.0,3.0,5.0,voting,45-54,male,de,applied-sciences,eligible,
+181,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss-or-eu', 'retention': '1year'}",6.0,6.0,3.0,5.0,2.0,5.0,5.0,voting,35-44,male,de,applied-sciences,eligible,Für qualifiziertere und kompetente AI
+182,B,fr-CH,complete,1.0,,6.0,6.0,5.0,5.0,4.0,4.0,5.0,voting,35-44,female,fr,higher-vocational,not-eligible,Anonyme 
+183,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,5.0,5.0,5.0,3.0,3.0,2.0,voting,25-34,female,de,vocational,eligible,"Das keine persönlichen Daten von mir weitergegeben werden, alles andere ist ok."
+184,A,fr-FR,chatbot,,,,,,,,,,,,,,,,
+185,C,de-CH,consent,,,,,,,,,,,,,,,,
+186,B,de-CH,complete,1.0,,4.0,4.0,3.0,4.0,4.0,4.0,4.0,voting,35-44,male,de,vocational,eligible,das verantwortungsvoll mit den danten umgegangen wird
+187,A,de-DE,complete,1.0,,4.0,4.0,5.0,5.0,4.0,4.0,4.0,voting,35-44,male,de,vocational,eligible,"Meine Fragen, wenn sie spezifischer oder persönlicher wären, würde ich sie vielleicht nicht spenden."
+188,D,de,chatbot,,,,,,,,,,,,,,,,
+189,A,de-DE,complete,1.0,,5.0,5.0,3.0,4.0,3.0,4.0,4.0,voting,35-44,male,de,vocational,eligible,
+190,B,de-CH,complete,1.0,,6.0,6.0,3.0,2.0,2.0,5.0,4.0,voting,25-34,female,de,applied-sciences,eligible,"Da stand etwas von ETH - das ist vertrauenswürdig auf den ersten Blick. Plus Fragen die da gestellt werden in dem Kontext sind ja nicht unbedingt persönlich, daher okay zum spenden, dass der Bot lernt."
+191,C,de-CH,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,6.0,5.0,6.0,4.0,4.0,2.0,voting,35-44,female,de,applied-sciences,eligible,
+192,D,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,4.0,5.0,5.0,5.0,5.0,4.0,voting,45-54,female,de,vocational,eligible,
+193,C,en-GB,complete,0.0,"{'scope': 'questions-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,4.0,4.0,5.0,5.0,5.0,4.0,voting,18-24,female,en,matura,not-eligible,
+194,B,de,complete,1.0,,5.0,5.0,5.0,4.0,2.0,4.0,5.0,voting,65+,male,de,applied-sciences,eligible,egal
+195,A,de,complete,0.0,,4.0,3.0,4.0,4.0,5.0,5.0,4.0,voting,35-44,female,de,vocational,eligible,
+196,D,de-DE,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,6.0,6.0,1.0,2.0,4.0,voting,35-44,male,de,university,eligible,Akademisch und/oder komerzieller Nutzen.
+197,A,de-DE,complete,1.0,,3.0,2.0,4.0,4.0,5.0,4.0,4.0,voting,35-44,female,de,higher-vocational,eligible,wahlmöglichkeit
+198,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,5.0,2.0,2.0,4.0,voting,25-34,male,de,vocational,eligible,
+199,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,3.0,4.0,4.0,1.0,2.0,4.0,voting,35-44,female,de,university,eligible,"Dass keine persönlichen Daten bei der Datenspende weitergegeben werden. Es war klar, dass die Fragen nur dazu dienen den Chat-Boot zu trainieren und besser zu machen und das nur in Fragen die die Volksabstimmungen betrifft."
+200,B,fr-FR,complete,0.0,,1.0,1.0,3.0,3.0,6.0,5.0,1.0,voting,45-54,female,fr,vocational,eligible,
+201,C,de-DE,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,5.0,4.0,3.0,6.0,voting,35-44,female,de,vocational,eligible,
+202,A,de,complete,1.0,,5.0,5.0,3.0,5.0,1.0,2.0,5.0,voting,35-44,male,de,university,eligible,
+203,B,de-DE,complete,1.0,,5.0,5.0,6.0,6.0,2.0,2.0,6.0,voting,35-44,female,de,higher-vocational,eligible,Anonymisiert.
+204,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",5.0,6.0,5.0,6.0,2.0,3.0,5.0,voting,55-64,male,de,vocational,eligible,Ich sah keine Gefahr für einen Missbrauch meiner Daten.
+205,B,de-DE,complete,1.0,,3.0,4.0,1.0,1.0,1.0,4.0,3.0,voting,55-64,male,de,vocational,eligible,
+206,A,fr-CH,complete,1.0,,5.0,6.0,5.0,6.0,3.0,2.0,4.0,voting,35-44,male,fr,higher-vocational,eligible,
+207,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,6.0,1.0,2.0,5.0,voting,35-44,female,de,vocational,eligible,"Für gewisse studien
+Nur in der schweiz"
+208,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,6.0,6.0,6.0,voting,35-44,female,de,university,not-eligible,
+209,A,de-DE,complete,1.0,,3.0,4.0,3.0,3.0,2.0,4.0,4.0,voting,35-44,male,de,vocational,eligible,"Auch wenn die Daten anonym sind, kann man die nicht gegen mich verwenden. Zu wenig Inhalt."
+210,D,de,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': '1year'}",5.0,5.0,4.0,4.0,4.0,5.0,5.0,voting,65+,male,de,applied-sciences,eligible,Die Forschung zu unterstützen.
+211,B,fr-FR,chatbot,,,,,,,,,,,,,,,,
+212,C,de,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': '6months'}",6.0,6.0,5.0,5.0,6.0,4.0,5.0,voting,25-34,female,de,matura,eligible,Dass ich überhaupt die Entscheidung über die Verwendung meiner Daten habe. 
+213,A,de-DE,complete,1.0,,5.0,6.0,3.0,4.0,1.0,1.0,6.0,voting,45-54,female,de,higher-vocational,eligible,"es ist wichtig, viele fragen zu sammeln, um genügend oder zufriedenstellend antwort zu erhalten via chatbot."
+214,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,5.0,2.0,3.0,4.0,voting,35-44,male,de,vocational,eligible, 
+215,B,de-DE,complete,0.0,,5.0,5.0,3.0,3.0,6.0,6.0,2.0,voting,65+,female,de,university,eligible,Vertrauen
+216,C,fr,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,5.0,4.0,3.0,4.0,voting,45-54,female,other,university,not-sure,Discret 
+217,B,de-DE,complete,1.0,,4.0,4.0,4.0,2.0,5.0,2.0,3.0,voting,35-44,female,de,vocational,eligible,"es geht um ein schweizer chatbot und darum, dass dieser zuverlässiger wird. wirkt vertrauenswürdiger als ein chatbot z.b. aus den usa oder anderen ländern."
+218,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'indefinite'}",5.0,5.0,5.0,5.0,2.0,2.0,4.0,voting,35-44,female,de,applied-sciences,eligible,Weiterentwicklung des Bots
+219,A,en-GB,complete,1.0,,4.0,6.0,5.0,5.0,6.0,2.0,4.0,voting,25-34,female,de,higher-vocational,eligible,"It wasn't personal at all, so I didn't mind sharing it."
+220,C,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,4.0,5.0,4.0,6.0,1.0,voting,25-34,male,de,matura,eligible,
+221,A,de-DE,complete,1.0,,6.0,6.0,6.0,6.0,4.0,5.0,6.0,voting,55-64,female,de,university,eligible,"Neue Technologien fördern, damit sie nicht am Menschen vorbei programmiert werden."
+222,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,6.0,6.0,6.0,voting,35-44,female,de,matura,eligible,Das Leute darauf positive Errungenschaften haben.
+223,B,de-DE,complete,1.0,,4.0,5.0,4.0,5.0,3.0,2.0,5.0,voting,55-64,male,de,higher-vocational,eligible,
+224,C,de,complete,1.0,"{'scope': 'questions-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,5.0,5.0,5.0,4.0,voting,55-64,female,de,applied-sciences,eligible,Die Antwort war sehr hilfreich zum Ausfüllen des Stimmmaterials.
+225,D,de-DE,complete,1.0,"{'scope': 'questions-only', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'indefinite'}",6.0,6.0,6.0,5.0,2.0,2.0,4.0,voting,35-44,female,de,applied-sciences,eligible,
+226,C,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': '1year'}",3.0,5.0,6.0,3.0,1.0,1.0,6.0,voting,25-34,female,de,matura,not-eligible,"Das ich beeinflussen konnte was, wie und Wieland genutzt wird"
+227,B,fr-CH,complete,1.0,,5.0,2.0,3.0,4.0,2.0,2.0,4.0,voting,35-44,female,fr,university,eligible,"Tant mieux si mes questions peuvent aider quelqu'un, je m'en fiche de les partager"
+228,A,de-CH,complete,1.0,,5.0,5.0,5.0,5.0,4.0,5.0,5.0,voting,25-34,female,de,vocational,not-eligible,Anonymität 
+229,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,1.0,4.0,6.0,voting,35-44,female,de,university,eligible,
+230,B,de,complete,1.0,,6.0,6.0,6.0,6.0,4.0,3.0,6.0,voting,25-34,female,de,higher-vocational,eligible,
+231,A,de-CH,complete,1.0,,5.0,6.0,6.0,6.0,1.0,4.0,6.0,voting,45-54,male,other,university,eligible,Um die Entwicklung von KI zu unterstützen 
+232,C,de-CH,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,5.0,5.0,4.0,tax,35-44,female,de,vocational,eligible,
+233,B,de-CH,complete,1.0,,4.0,4.0,3.0,4.0,5.0,2.0,5.0,voting,35-44,female,de,higher-vocational,eligible,"Ich wollte helfen, das ""System"" besser zu machen. Es hat Lücken, oder zumindest viele Dinge die für mich schwer nachvollziehbar sind. Hätte gehofft etwas positives zu machen. Jedoch vertraue ich nicht grundsätzlich meine Meinungsdaten an. Bin eher skeptisch"
+234,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",3.0,2.0,2.0,4.0,2.0,4.0,5.0,voting,35-44,female,de,university,eligible,"bin selbst wissenschaftlerin und weiss, wie wertvoll es ist, rückmeldungen zu bekommen"
+235,A,de,complete,1.0,,3.0,3.0,4.0,3.0,1.0,1.0,5.0,voting,55-64,female,de,higher-vocational,not-eligible,"Um die Chatbot Antworten zu verbessern
+"
+236,D,de-CH,complete,1.0,"{'scope': 'questions-only', 'purpose': 'commercial', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",5.0,5.0,6.0,5.0,1.0,2.0,6.0,voting,25-34,female,de,vocational,eligible,Dass es nicht auf mich zurückgeführt werden kann.
+237,D,fr-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,4.0,4.0,1.0,1.0,4.0,voting,25-34,female,fr,applied-sciences,eligible,
+238,B,de-DE,consent,,,,,,,,,,,,,,,,
+239,C,de-DE,complete,1.0,"{'scope': 'questions-only', 'purpose': 'commercial', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,6.0,4.0,5.0,3.0,4.0,6.0,voting,35-44,female,de,university,not-eligible,Optimization des tools
+240,A,de-CH,complete,1.0,,5.0,5.0,5.0,5.0,2.0,2.0,4.0,voting,35-44,male,de,vocational,eligible,Anonymität 
+241,C,de-CH,complete,1.0,"{'scope': 'questions-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,5.0,3.0,4.0,5.0,5.0,3.0,voting,25-34,female,de,vocational,eligible,
+242,A,de,complete,1.0,,2.0,2.0,2.0,5.0,2.0,2.0,5.0,voting,25-34,male,de,university,eligible,die daten waren nicht auf mich persönlich bezogen oder konnten nicht mit mir in verbindung gebracht werden
+243,D,de-DE,consent,,,,,,,,,,,,,,,,
+244,B,de-DE,chatbot,,,,,,,,,,,,,,,,
+245,C,de-CH,complete,1.0,"{'scope': 'questions-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,5.0,5.0,6.0,5.0,4.0,5.0,voting,45-54,female,de,matura,not-eligible,Wahlmöglichkeiten zu haben und bewusst zu entscheiden 
+246,D,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,5.0,6.0,6.0,2.0,2.0,6.0,voting,18-24,female,de,matura,eligible,
+247,A,fr-FR,chatbot,,,,,,,,,,,,,,,,
+248,B,de,complete,1.0,,6.0,6.0,6.0,6.0,1.0,1.0,6.0,voting,45-54,female,de,vocational,eligible,"Daten für KI Chat müssen geliefert werden, damit eine gute Antwort und weniger Fehlerhaftes im Netz landet, was vielleicht verherende Auswirkungen auf die Menschen hätte. Chatbot brauch sinnvolle Fakten. Das Experiment war spannend ;-)"
+249,D,de-DE,chatbot,,,,,,,,,,,,,,,,
+250,A,de-CH,complete,1.0,,3.0,5.0,6.0,5.0,2.0,3.0,4.0,voting,35-44,female,de,higher-vocational,eligible,
+251,C,en-GB,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",5.0,5.0,6.0,6.0,1.0,1.0,4.0,voting,25-34,female,en,university,eligible,the fact that I even got a choice.
+252,B,de-DE,chatbot,,,,,,,,,,,,,,,,
+253,C,gsw,chatbot,,,,,,,,,,,,,,,,
+254,A,de-CH,complete,1.0,,5.0,5.0,5.0,5.0,1.0,1.0,6.0,voting,45-54,male,de,university,eligible,Um die Entwicklung von KI zu unterstützen 
+255,B,de-DE,chatbot,,,,,,,,,,,,,,,,
+256,D,de,complete,0.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,3.0,3.0,4.0,5.0,5.0,3.0,voting,65+,female,de,vocational,eligible,ANONYMISIERT
+257,C,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,5.0,5.0,5.0,3.0,3.0,5.0,voting,35-44,female,de,vocational,eligible,Das man am Schliss eine Wahl hat was mit den Daten passiert. Und gegebenenfalls auch ablehnen könnte. Sowie bei den Cookies die man immer auf Webseiten antrifft. 
+258,A,de-CH,complete,1.0,,5.0,5.0,5.0,4.0,5.0,4.0,4.0,voting,35-44,female,de,vocational,eligible,Um KI-Systeme verbessern zu können.
+259,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",5.0,5.0,5.0,5.0,3.0,4.0,4.0,voting,65+,male,de,vocational,eligible,Weiterentwicklung chatbot
+260,B,de-DE,complete,1.0,,5.0,5.0,5.0,4.0,2.0,2.0,4.0,voting,35-44,male,de,matura,not-eligible,Datenschutz
+261,B,gsw,complete,1.0,,4.0,6.0,4.0,5.0,3.0,3.0,5.0,voting,35-44,male,de,vocational,eligible,Anonymisiert
+262,A,en-US,chatbot,,,,,,,,,,,,,,,,
+263,D,de-DE,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,2.0,2.0,6.0,voting,35-44,female,de,higher-vocational,eligible,
+264,C,de-DE,survey,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'swiss', 'retention': '6months'}",,,,,,,,,,,,,,
+265,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",5.0,5.0,4.0,5.0,4.0,3.0,5.0,voting,65+,female,de,university,eligible,Wissenschaftliche Auswertung
+266,A,fr-FR,complete,1.0,,3.0,3.0,2.0,1.0,4.0,3.0,4.0,voting,35-44,female,fr,university,not-eligible,
+267,D,de,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': '6months'}",5.0,5.0,4.0,5.0,5.0,3.0,6.0,voting,25-34,male,de,vocational,eligible,"Sicherheit über die Dauer, Ort und Art de Verwendung/Speicherung"
+268,B,de-DE,complete,1.0,,4.0,6.0,2.0,5.0,1.0,1.0,4.0,voting,35-44,male,de,university,eligible,Es sprach kein Grund dagegen
+269,B,de-CH,complete,1.0,,5.0,5.0,3.0,2.0,3.0,5.0,5.0,voting,35-44,female,de,higher-vocational,eligible,
+270,A,de,complete,1.0,,6.0,6.0,5.0,5.0,1.0,1.0,5.0,voting,35-44,female,de,higher-vocational,eligible,beitrag für einen guten zweck 
+271,C,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",2.0,1.0,2.0,2.0,2.0,3.0,4.0,voting,35-44,female,de,university,eligible,
+272,D,de-CH,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",6.0,4.0,5.0,5.0,2.0,2.0,6.0,voting,65+,female,de,higher-vocational,eligible,Infos zu Abstimmungen für alle zugänglich machen
+273,D,de-DE,chatbot,,,,,,,,,,,,,,,,
+274,C,fr-FR,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss-or-eu', 'retention': 'until-fulfilled'}",6.0,6.0,6.0,6.0,2.0,3.0,5.0,voting,18-24,female,fr,university,eligible,Le fait qu’elles soient sécurisées et que j’aie le contrôle dessus 
+275,A,de-CH,complete,1.0,,6.0,6.0,5.0,5.0,1.0,1.0,5.0,voting,25-34,female,de,applied-sciences,eligible,
+276,B,de-DE,complete,1.0,,5.0,5.0,4.0,4.0,4.0,4.0,4.0,voting,35-44,female,de,vocational,eligible,Anonymität
+277,A,de,complete,1.0,,5.0,5.0,5.0,5.0,4.0,2.0,5.0,voting,18-24,female,de,higher-vocational,eligible,
+278,D,de-DE,complete,1.0,"{'scope': 'questions-only', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",5.0,5.0,1.0,1.0,5.0,6.0,6.0,voting,35-44,female,de,vocational,eligible,"Sie werden so oder so im Netz irgendwo gespeichert, also spielt es keine Rolle ob ich die weiter gebe oder nicht."
+279,B,de-DE,complete,0.0,,5.0,5.0,3.0,3.0,5.0,6.0,5.0,voting,45-54,male,de,vocational,not-eligible,
+280,C,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': '6months'}",5.0,6.0,3.0,5.0,6.0,4.0,2.0,voting,45-54,female,de,university,eligible,
+281,D,de-CH,complete,1.0,"{'scope': 'questions-only', 'purpose': 'commercial', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",4.0,5.0,3.0,4.0,5.0,4.0,4.0,voting,35-44,female,de,vocational,eligible,
+282,B,de-DE,complete,1.0,,5.0,5.0,4.0,6.0,4.0,2.0,4.0,voting,25-34,female,de,higher-vocational,eligible,
+283,A,de-CH,complete,1.0,,6.0,6.0,6.0,3.0,2.0,1.0,5.0,voting,35-44,male,de,university,eligible,Anonymität
+284,C,en-US,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'no-preference', 'retention': 'until-fulfilled'}",5.0,6.0,6.0,6.0,1.0,1.0,5.0,voting,35-44,male,de,applied-sciences,not-eligible,
+285,C,de-CH,complete,1.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': '6months'}",5.0,4.0,5.0,5.0,4.0,5.0,5.0,voting,25-34,female,de,applied-sciences,eligible,Das es geheim bleibt
+286,B,de-DE,complete,1.0,,2.0,3.0,2.0,3.0,2.0,1.0,4.0,voting,25-34,female,de,university,eligible,Professionalität und Vertrauenswürdigkeit waren wichtig.
+287,A,de-DE,complete,1.0,,5.0,5.0,5.0,5.0,4.0,3.0,5.0,voting,55-64,male,de,applied-sciences,eligible,da es ausgewogene Fragen sind
+288,D,de-DE,complete,0.0,"{'scope': 'topics-only', 'purpose': 'academic', 'storage': 'swiss', 'retention': '6months'}",4.0,4.0,4.0,4.0,2.0,3.0,3.0,voting,45-54,female,de,vocational,eligible,
+289,A,fr,chatbot,,,,,,,,,,,,,,,,
+290,D,de-DE,complete,1.0,"{'scope': 'full', 'purpose': 'academic', 'storage': 'swiss', 'retention': 'until-fulfilled'}",4.0,4.0,4.0,4.0,5.0,4.0,4.0,voting,25-34,female,de,applied-sciences,eligible,
+291,B,de-CH,complete,1.0,,6.0,5.0,4.0,4.0,5.0,5.0,5.0,voting,25-34,female,de,vocational,eligible,/
