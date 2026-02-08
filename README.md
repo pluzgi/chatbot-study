@@ -131,7 +131,6 @@ python swiss_voting_api.py
 
 | File | Description |
 |------|-------------|
-| [frontend/FRONTEND_README.md](frontend/FRONTEND_README.md) | Frontend-specific documentation |
 | [frontend/DEVELOPMENT.md](frontend/DEVELOPMENT.md) | Frontend development guide |
 | [database/CONFIG_SCHEMA.md](database/CONFIG_SCHEMA.md) | Database schema documentation |
 | [analysis/MEASUREMENT_PLAN.md](analysis/MEASUREMENT_PLAN.md) | Statistical analysis plan |
@@ -158,8 +157,6 @@ The `analysis/` folder contains Jupyter notebooks for statistical analysis:
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/deploy-frontend.sh` | Deploy frontend to production |
-| `scripts/deploy-analysis-only.sh` | Deploy analysis files only |
 | `scripts/test-locally.sh` | Run local tests |
 | `scripts/test-production.sh` | Run production tests |
 
