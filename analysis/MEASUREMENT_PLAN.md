@@ -328,12 +328,12 @@ Always:
 
 ## Expected Output Table Structure
 
-| Condition | N | Donation Rate | 95% CI | Predicted Prob (Model 4) |
-|-----------|---|---------------|--------|--------------------------|
-| A (T0C0) | ~250 | X% | [X-Y] | X |
-| B (T1C0) | ~250 | X% | [X-Y] | X |
-| C (T0C1) | ~250 | X% | [X-Y] | X |
-| D (T1C1) | ~250 | X% | [X-Y] | X |
+| Condition | N | Donation Rate | 95% CI |
+|-----------|---|---------------|--------|
+| A (T0C0) | ~250 | X% | [X-Y] |
+| B (T1C0) | ~250 | X% | [X-Y] |
+| C (T0C1) | ~250 | X% | [X-Y] |
+| D (T1C1) | ~250 | X% | [X-Y] |
 
 ---
 
