@@ -21,7 +21,7 @@ This project implements a 2x2 factorial experimental design to study the effects
 | C         | Low          | High    | No        | Yes             |
 | D         | High         | High    | Yes       | Yes             |
 
-**Sample:** N=200 (50 per condition) across 4 languages (DE/FR/IT/EN)
+**Sample:** N=205 (final analytic sample, 50 per condition target) across 4 languages (DE/FR/IT/EN)
 
 ## Project Structure
 
@@ -61,7 +61,7 @@ chatbot-study/
 - Infomaniak API
 
 **Hosting:**
-- Frontend: Lovable → ailights.org
+- Frontend: Infomaniak Jelastic (chat-study.ailights.org)
 - Backend: Infomaniak Jelastic
 - Database: Infomaniak PostgreSQL
 
@@ -138,6 +138,8 @@ python swiss_voting_api.py
 
 ## Live Study
 
+> **Note:** The live URLs below were active during the data collection period (January–February 2026) and may no longer be available. All analysis results are preserved as HTML files in `frontend/dist/results/` and can be viewed locally by opening them in a browser.
+
 **Study URL:** https://chat-study.ailights.org/
 
 **Survey Navigator (debug mode):** https://chat-study.ailights.org/?debug=survey&key=apertus
@@ -152,6 +154,9 @@ The `analysis/` folder contains Jupyter notebooks for statistical analysis:
 - `phase4_effect_analysis.ipynb` - Effect sizes and confidence intervals
 - `phase5_manipulation_checks.ipynb` - Validation of experimental manipulations
 - `phase6_exploratory_analysis.ipynb` - Exploratory and secondary analyses
+- `phase7_bayesian_robustness.ipynb` - Bayesian robustness checks (Bayes Factors)
+
+Pre-rendered HTML versions of all notebooks are available in `frontend/dist/results/` for viewing without running the code.
 
 ## Scripts
 
@@ -182,7 +187,7 @@ This prototype supports bachelor thesis research:
 - **Method:** 2x2 experimental design (transparency x control)
 - **Context:** Swiss voting information chatbot
 - **Institution:** Digital Business University of Applied Sciences
-- **Supervisor:** Prof. Daniel Ambach
+- **Supervisors:** Prof. Daniel Ambach, Prof. David Lubeck
 
 ## Contact
 

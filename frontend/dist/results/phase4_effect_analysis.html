@@ -7532,24 +7532,19 @@ a.anchor-link {
 <td>Probability changes per IV</td>
 </tr>
 <tr>
-<td>Predicted probabilities per condition</td>
-<td>Visualize interaction</td>
-</tr>
-<tr>
 <td>Simple effects (if interaction significant)</td>
 <td>T effect within C0/C1; C effect within T0/T1</td>
-</tr>
-<tr>
-<td>Predicted probabilities for A/B/C/D from Model 4</td>
-<td>Standardized condition-level interpretation</td>
 </tr>
 </tbody>
 </table>
 <h2 id="Outputs">Outputs<a class="anchor-link" href="#Outputs">¶</a></h2><ul>
-<li>Predicted probabilities of donation for each condition A/B/C/D (from Model 4; optionally Model 5 as robustness) with 95% CI</li>
 <li>Marginal effects (Δ probability) for T and C (and for the interaction if significant)</li>
-<li>If T×C significant: simple effects table</li>
-<li>Visualization: interaction plot / bar chart of predicted probabilities for A/B/C/D with CI</li>
+<li>If T×C significant: simple effects table<ul>
+<li>Effect of T within C0 and within C1</li>
+<li>Effect of C within T0 and within T1</li>
+</ul>
+</li>
+<li>Visualization: interaction plot / bar chart of donation rates for A/B/C/D with CI</li>
 </ul>
 </div>
 </div>
@@ -8655,11 +8650,10 @@ H3 (Synergistic effect): NOT SUPPORTED
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Phase-4-Complete">Phase 4 Complete<a class="anchor-link" href="#Phase-4-Complete">¶</a></h2><p>The deeper effect analysis is complete. Key outputs:</p>
 <ol>
-<li><strong>Predicted probabilities</strong> for conditions A/B/C/D with 95% CI</li>
 <li><strong>Average marginal effects</strong> for Transparency and Control</li>
-<li><strong>Simple effects analysis</strong> - T effect within C levels, C effect within T levels</li>
-<li><strong>Interaction interpretation</strong> - synergistic, antagonistic, or additive</li>
-<li><strong>Visualizations</strong> - predicted probabilities, interaction plot, simple effects comparison</li>
+<li><strong>Simple effects analysis</strong> — T effect within C levels, C effect within T levels</li>
+<li><strong>Interaction interpretation</strong> — synergistic, antagonistic, or additive</li>
+<li><strong>Visualizations</strong> — donation rates by condition, interaction plot, simple effects comparison</li>
 </ol>
 </div>
 </div>
