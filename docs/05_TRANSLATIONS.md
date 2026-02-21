@@ -530,24 +530,3 @@ he english    "subtitle": "Powered by Apertus 🇨🇭",
 }
 ```
 
----
-
-## Usage
-
-Copy each file to your Lovable project:
-```
-src/i18n/locales/de.json
-src/i18n/locales/fr.json
-src/i18n/locales/it.json
-src/i18n/locales/en.json
-```
-
-Import in your components:
-```typescript
-import { useTranslation } from 'react-i18next';
-
-const MyComponent = () => {
-  const { t } = useTranslation();
-  return <h1>{t('chat.title')}</h1>;
-};
-```

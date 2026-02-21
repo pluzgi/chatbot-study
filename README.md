@@ -1,10 +1,10 @@
-# Swiss Ballot Chatbot Study
+# Trust by Context, Not by Design?
 
-A research prototype for studying trust factors in civic AI, specifically examining what makes citizens willing to donate data to train open-source AI models.
+A Quantitative Study of Data Donation Willingness for Open-Source Civic AI in Switzerland
 
 ## Project Overview
 
-This project implements a 2x2 factorial experimental design to study the effects of transparency and user control on data donation behavior in a Swiss voting information chatbot context.
+This project implements a 2x2 factorial experimental design to study the effects of transparency and user control on data donation behavior in a Swiss ballot information chatbot context.
 
 ### Research Design
 
@@ -21,7 +21,7 @@ This project implements a 2x2 factorial experimental design to study the effects
 | C         | Low          | High    | No        | Yes             |
 | D         | High         | High    | Yes       | Yes             |
 
-**Sample:** N=205 (final analytic sample, 50 per condition target) across 4 languages (DE/FR/IT/EN)
+**Sample:** N=205 (final analytic sample) across 4 languages (DE/FR/IT/EN)
 
 ## Project Structure
 
@@ -182,7 +182,6 @@ VITE_API_URL=https://your-backend-url
 ## Research Context
 
 This prototype supports bachelor thesis research:
-- **Topic:** Trust factors in civic AI
 - **Question:** What makes citizens willing to donate data?
 - **Method:** 2x2 experimental design (transparency x control)
 - **Context:** Swiss voting information chatbot
