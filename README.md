@@ -96,15 +96,6 @@ pip install -r requirements.txt
 python swiss_voting_api.py
 ```
 
-### Testing
-```bash
-# Local testing
-./test-locally.sh
-
-# Production testing
-./test-production.sh
-```
-
 ## Documentation
 
 ### Core Documentation (`docs/`)
