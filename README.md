@@ -158,33 +158,13 @@ The `analysis/` folder contains Jupyter notebooks for statistical analysis:
 
 Pre-rendered HTML versions of all notebooks are available in `frontend/dist/results/` for viewing without running the code.
 
-## Scripts
-
-| Script | Purpose |
-|--------|---------|
-| `scripts/test-locally.sh` | Run local tests |
-| `scripts/test-production.sh` | Run production tests |
-
-## Environment Variables
-
-### Backend (`.env`)
-```
-DATABASE_URL=postgresql://...
-APERTUS_API_KEY=...
-PYTHON_SERVICE_URL=http://localhost:5000
-```
-
-### Frontend (`.env.production`)
-```
-VITE_API_URL=https://your-backend-url
-```
-
 ## Research Context
 
-This prototype supports bachelor thesis research:
+This prototype supports the bachelor thesis:
+- **Title:** Trust by Context, Not by Design? A Quantitative Study of Data Donation Willingness for Open-Source Civic AI in Switzerland
 - **Question:** What makes citizens willing to donate data?
 - **Method:** 2x2 experimental design (transparency x control)
-- **Context:** Swiss voting information chatbot
+- **Context:** Swiss ballot information chatbot
 - **Institution:** Digital Business University of Applied Sciences
 - **Supervisors:** Prof. Daniel Ambach, Prof. David Lubeck
 
