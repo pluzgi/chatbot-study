@@ -102,7 +102,6 @@ python swiss_voting_api.py
 
 | File | Description |
 |------|-------------|
-| [00_START_HERE.md](docs/00_START_HERE.md) | Quick overview, setup phases, key decisions |
 | [01_ARCHITECTURE.md](docs/01_ARCHITECTURE.md) | System design, data flow, experimental design |
 | [02_BACKEND.md](docs/02_BACKEND.md) | Backend implementation, API endpoints, database schema |
 | [03_FRONTEND.md](docs/03_FRONTEND.md) | React components, hooks, experimental conditions |
